@@ -8,6 +8,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         int c = 0;
+        ++c;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
