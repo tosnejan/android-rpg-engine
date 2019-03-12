@@ -1,14 +1,19 @@
 package meletos.rpg_game;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
+/**
+ * The main surface of the game
+ * SurfaceHolder.Callback -- enables to catch events
+ */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-
+    private FirstCharacter firstCharacter;
     private MainThread thread;
 
     public GameView(Context context) {
@@ -26,11 +31,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             Paint paint = new Paint();
             paint.setColor(Color.rgb(250, 0, 0));
             canvas.drawRect(100, 100, 200, 200, paint);
+            firstCharacter.draw(canvas);
+
         }
     }
 
+    /**
+     * the main game function - called per every loop
+     */
     public void update() {
-
+        //firstCharacter.update(10, 10);
     }
 
     @Override
@@ -39,13 +49,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     @Override
+    /**
+     * starts up the thread
+     */
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
-
+        firstCharacter = new FirstCharacter(10, 20, BitmapFactory.decodeResource(getResources(),R.drawable.classicrpgsheet));
     }
 
     @Override
+    /**
+     * destroys the surface -- might take more attempts, hence the while loop
+     */
     public void surfaceDestroyed(SurfaceHolder holder) {
         boolean retry = true;
         while (retry) {

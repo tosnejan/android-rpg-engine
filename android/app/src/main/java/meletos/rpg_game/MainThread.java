@@ -26,7 +26,7 @@ public class MainThread extends Thread {
     public void run() {
         while (running) {
             canvas = null;
-
+            // tries to lock canvas to draw on and catch exception if not successful
             try {
                 // locks the canvas so that only one thread can draw onto it
                 canvas = this.surfaceHolder.lockCanvas();
