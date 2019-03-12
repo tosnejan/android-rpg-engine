@@ -3,6 +3,9 @@ package meletos.rpg_game;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
+/**
+ * Class that creates the thread for the GUI to run on
+ */
 public class MainThread extends Thread {
     private SurfaceHolder surfaceHolder;
     private GameView gameView;
@@ -25,6 +28,7 @@ public class MainThread extends Thread {
             canvas = null;
 
             try {
+                // locks the canvas so that only one thread can draw onto it
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized(surfaceHolder) {
                     this.gameView.update();
