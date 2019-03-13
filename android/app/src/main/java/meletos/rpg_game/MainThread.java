@@ -39,7 +39,7 @@ public class MainThread extends Thread {
                     try {
                         surfaceHolder.unlockCanvasAndPost(canvas);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.printStackTrace(); // pak logovat do souboru
                     }
                 }
             }
