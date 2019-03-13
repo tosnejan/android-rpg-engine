@@ -28,9 +28,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         if (canvas != null) {
             canvas.drawColor(Color.WHITE);
-            Paint paint = new Paint();
-            paint.setColor(Color.rgb(250, 0, 0));
-            canvas.drawRect(100, 100, 200, 200, paint);
+            //Paint paint = new Paint();
+            //paint.setColor(Color.rgb(250, 0, 0));
+            //canvas.drawRect(100, 100, 200, 200, paint);
+            //paint.setColor(Color.rgb(0, 250, 0));
+            //canvas.drawRect(1720, 880, 1920, 1080, paint);
             firstCharacter.draw(canvas);
 
         }
@@ -40,7 +42,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * the main game function - called per every loop
      */
     public void update() {
-        //firstCharacter.update(10, 10);
+        firstCharacter.update(10, 10);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
-        firstCharacter = new FirstCharacter(10, 20, BitmapFactory.decodeResource(getResources(),R.drawable.classicrpgsheet));
+        firstCharacter = new FirstCharacter(10, 20, BitmapFactory.decodeResource(getResources(),R.drawable.coin));
     }
 
     @Override
