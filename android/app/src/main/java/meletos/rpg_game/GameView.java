@@ -1,6 +1,7 @@
 package meletos.rpg_game;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,7 +14,10 @@ import android.view.SurfaceHolder;
  * SurfaceHolder.Callback -- enables to catch events
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-    private FirstCharacter firstCharacter;
+    private GameHandler gameHandler;
+    private FatherCharacter[] characters = {new FirstCharacter(
+            10, 20, BitmapFactory.decodeResource(getResources(),R.drawable.coin))
+    };
     private MainThread thread;
 
     public GameView(Context context) {
@@ -21,6 +25,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
+
     }
 
     @Override
@@ -33,7 +38,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             //canvas.drawRect(100, 100, 200, 200, paint);
             //paint.setColor(Color.rgb(0, 250, 0));
             //canvas.drawRect(1720, 880, 1920, 1080, paint);
-            firstCharacter.draw(canvas);
+            gameHandler.drawGame(canvas);
 
         }
     }
@@ -42,7 +47,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * the main game function - called per every loop
      */
     public void update() {
-        firstCharacter.update(10, 10);
+
+        gameHandler.updateGame();
     }
 
     @Override
@@ -57,7 +63,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
-        firstCharacter = new FirstCharacter(10, 20, BitmapFactory.decodeResource(getResources(),R.drawable.coin));
+        //firstCharacter = new FirstCharacter(10, 20, BitmapFactory.decodeResource(getResources(),R.drawable.coin));
+
+        /*Tyhle veci tam pak samozrejme nebudou - budeme to brat ze souboru s mapou*/
+        int[][] testArray = new int[Resources.getSystem().getDisplayMetrics().widthPixels][Resources.getSystem().getDisplayMetrics().heightPixels];
+        for (int i = 0; i < Resources.getSystem().getDisplayMetrics().widthPixels; i++) {
+            for (int j = 0; j < Resources.getSystem().getDisplayMetrics().heightPixels; j++) {
+                testArray[i][j] = 0;
+            }
+        }
+        gameHandler = new GameHandler(characters, testArray);
     }
 
     @Override
