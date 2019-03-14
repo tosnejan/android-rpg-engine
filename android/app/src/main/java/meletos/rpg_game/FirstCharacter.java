@@ -35,13 +35,17 @@ public class FirstCharacter {
         }
         if (x + image.getWidth() >= screenWidth) {
             isGoingRight = false;
-        } else if (x == 0) {
+            x = screenWidth - image.getWidth();
+        } else if (x <= 0) {
             isGoingRight = true;
+            x = 0;
         }
         if (y + image.getHeight() >= screenHeight) {
             isGoingDown = false;
-        } else if (y == 0) {
+            y = screenHeight - image.getHeight();
+        } else if (y <= 0) {
             isGoingDown = true;
+            y = 0;
         }
     }
 }
