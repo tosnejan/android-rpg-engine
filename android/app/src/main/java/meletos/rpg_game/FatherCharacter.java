@@ -12,7 +12,7 @@ import android.graphics.Canvas;
 public abstract class FatherCharacter {
     private Bitmap image;
     private int x, y;
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private boolean isGoingRight = true;
     private boolean isGoingDown = false;
