@@ -9,6 +9,11 @@ import android.graphics.Paint;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
+import java.io.IOException;
+
+import meletos.rpg_game.file_io.LevelGenerator;
+import meletos.rpg_game.file_io.LevelInterpreter;
+
 /**
  * The main surface of the game
  * SurfaceHolder.Callback -- enables to catch events
@@ -20,11 +25,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     };
     private MainThread thread;
 
-    public GameView(Context context) {
+    public GameView(Context context) throws IOException {
         super(context);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
+        //LevelGenerator.generateAndSaveLevel(characters, "../../../assets/lvl/attempt.json"); doesnt work yet :D
+        //characters = null;
+        //characters = LevelInterpreter.getLevel("raw/attempt.json");
 
     }
 
