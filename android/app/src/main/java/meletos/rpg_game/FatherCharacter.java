@@ -16,8 +16,8 @@ public abstract class FatherCharacter {
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private boolean isGoingRight = true;
     private boolean isGoingDown = false;
-    private int xSpeed = 5; // maybe we should put speed into constructor?
-    private int ySpeed = 5;
+    private int xSpeed = 25; // maybe we should put speed into constructor?
+    private int ySpeed = 15;
     private int imgHeigth;
     private int imgWidth;
     private GameHandler gameHandler; // the boss
