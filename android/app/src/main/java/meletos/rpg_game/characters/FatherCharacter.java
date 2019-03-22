@@ -1,14 +1,7 @@
 package meletos.rpg_game.characters;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
 import meletos.rpg_game.Directions;
 import meletos.rpg_game.GameHandler;
 
@@ -66,47 +59,38 @@ public abstract class FatherCharacter {
         direction = newDirection;
         switch (direction) {
             case LEFT:
-                xSpeed = xSpeedConstant;
-                ySpeed = 0;
-                System.out.println("left");
-                break;
-            case RIGHT:
                 xSpeed = (-1)*xSpeedConstant;
                 ySpeed = 0;
-                System.out.println("right");
+                break;
+            case RIGHT:
+                xSpeed = xSpeedConstant;
+                ySpeed = 0;
                 break;
             case UP:
                 xSpeed = 0;
                 ySpeed = ySpeedConstant;
-                System.out.println("up");
                 break;
             case DOWN:
                 xSpeed = 0;
                 ySpeed = (-1)*ySpeedConstant;
-                System.out.println("down");
                 break;
             case UPLEFT:
-                xSpeed = xSpeedConstant;
-                ySpeed = ySpeedConstant;
-                System.out.println("upleft");
-                break;
-            case UPRIGHT:
                 xSpeed = (-1)*xSpeedConstant;
                 ySpeed = ySpeedConstant;
-                System.out.println("upright");
+                break;
+            case UPRIGHT:
+                xSpeed = xSpeedConstant;
+                ySpeed = ySpeedConstant;
                 break;
             case DOWNLEFT:
                 xSpeed = (-1)*xSpeedConstant;
                 ySpeed = (-1)*ySpeedConstant;
-                System.out.println("downleft");
                 break;
             case DOWNRIGHT:
                 xSpeed = xSpeedConstant;
                 ySpeed = (-1)*ySpeedConstant;
-                System.out.println("downright");
                 break;
         }
-        System.out.println("xSpeed " + xSpeed +  " ySpeed " + ySpeed);
     }
 
     /**

@@ -24,10 +24,5 @@ public class RandomWalker extends FatherCharacter {
         }
 
         updateXY();
-        System.out.println("---------------");
-        System.out.println(direction);
-        System.out.println("X coordinate: " + x + " Y coordinate: " + y);
-        System.out.println("xSpeed " + xSpeed +  " ySpeed " + ySpeed);
-        System.out.println("---------------");
     }
 }

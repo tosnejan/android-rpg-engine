@@ -20,8 +20,6 @@ public class BouncingCharacter extends FatherCharacter {
 
     @Override
     public void update () {
-        String threadName = Thread.currentThread().getName();
-        System.out.println(threadName);
         if (isGoingRight){
             x += xSpeed;
         } else {

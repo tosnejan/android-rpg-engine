@@ -8,12 +8,13 @@ import meletos.rpg_game.characters.FatherCharacter;
 /**
  * Class used to check whether the characters are updating properly
  */
-public class GameHandler implements Runnable {
+public class GameHandler {
     private FatherCharacter[] characters;
     private int[][] mapMatrix; // matrix of the map availability
     private final int available = 0; // constant defining whether a pixel is available
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private boolean isGamePaused = false;
 
     public GameHandler(FatherCharacter[] characters, int[][] mapMatrix) {
         this.characters = characters;
@@ -31,12 +32,19 @@ public class GameHandler implements Runnable {
     }
 
     public void drawGame (Canvas canvas) {
+        //String threadName = Thread.currentThread().getName();
+        //System.out.println("This is view logic here on thread: " + threadName);
         for (FatherCharacter character: characters) {
             character.draw(canvas);
         }
     }
 
     public void updateGame () {
+        if (isGamePaused) {
+            return;
+        }
+        //String threadName = Thread.currentThread().getName();
+        //System.out.println("This is game logic here on thread: " + threadName);
         for (FatherCharacter character: characters) {
             character.update();
         }
@@ -64,6 +72,11 @@ public class GameHandler implements Runnable {
         return false;
     }
 
+    /**
+     * Sets character on a new course after it hits some wall
+     * -- is quite ugly at the moment :D
+     * @param character
+     */
     public void setDirections(FatherCharacter character) {
         int x = character.getX();
         int y = character.getY();
@@ -75,24 +88,19 @@ public class GameHandler implements Runnable {
         Directions finalDirection = Directions.UP;
 
         if (x + imgWidth >= screenWidth) {
-            //isGoingRight = false;
-            //character.updateDirectionSpeed(Directions.RIGHT);
             xDirection = Directions.RIGHT;
             finalDirection = xDirection;
             x = screenWidth - imgWidth;
         } else if (x <= 0) {
-            //isGoingRight = true;
             xDirection = Directions.LEFT;
             finalDirection = xDirection;
             x = 0;
         }
         if (y + imgHeight >= screenHeight) {
-            //isGoingDown = false;
             yDirection = Directions.DOWN;
             finalDirection = yDirection;
             y = screenHeight - imgHeight;
         } else if (y <= 0) {
-            //isGoingDown = true;
             yDirection = Directions.UP;
             finalDirection = yDirection;
             y = 0;
@@ -113,10 +121,13 @@ public class GameHandler implements Runnable {
         character.setY(y);
     }
 
-    @Override
-    public void run() {
-        //String threadName = Thread.currentThread().getName();
-        //System.out.println(threadName);
-        updateGame();
+    public void pauseGame() {
+        isGamePaused = true;
     }
+
+    public void resumeGame() {
+        isGamePaused = false;
+    }
+
+
 }
