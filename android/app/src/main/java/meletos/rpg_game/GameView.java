@@ -1,7 +1,6 @@
 package meletos.rpg_game;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,7 +9,6 @@ import android.view.SurfaceHolder;
 
 import meletos.rpg_game.characters.BouncingCharacter;
 import meletos.rpg_game.characters.FatherCharacter;
-import meletos.rpg_game.characters.FirstCharacter;
 import meletos.rpg_game.characters.RandomWalker;
 
 /**
