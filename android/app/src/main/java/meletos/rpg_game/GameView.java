@@ -5,14 +5,13 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
-import java.io.IOException;
-
-import meletos.rpg_game.file_io.LevelGenerator;
-import meletos.rpg_game.file_io.LevelInterpreter;
+import meletos.rpg_game.characters.BouncingCharacter;
+import meletos.rpg_game.characters.FatherCharacter;
+import meletos.rpg_game.characters.FirstCharacter;
+import meletos.rpg_game.characters.RandomWalker;
 
 /**
  * The main surface of the game
@@ -20,13 +19,17 @@ import meletos.rpg_game.file_io.LevelInterpreter;
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private GameHandler gameHandler;
-    private FatherCharacter[] characters = {new FirstCharacter(
-            10, 20, BitmapFactory.decodeResource(getResources(),R.drawable.coin))
+    private FatherCharacter[] characters =
+            {
+            new RandomWalker(100, 20, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
+            new RandomWalker(10, 20, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
+            new BouncingCharacter(0, 100, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
     };
     private MainThread thread;
 
     public GameView(Context context) {
         super(context);
+        gameHandler = new GameHandler(characters);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
@@ -55,8 +58,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * the main game function - called per every loop
      */
     public void update() {
-
-        gameHandler.updateGame();
+        //String threadName = Thread.currentThread().getName();
+        //System.out.println(threadName);
+        //gameHandler.updateGame();
+        new Thread(gameHandler).start(); // should be running in a new thread :D
     }
 
     @Override
@@ -70,17 +75,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
-        thread.start();
+        if (thread.getState() == Thread.State.NEW) {
+            thread.start();
+        }
+
+
         //firstCharacter = new FirstCharacter(10, 20, BitmapFactory.decodeResource(getResources(),R.drawable.coin));
 
-        /*Tyhle veci tam pak samozrejme nebudou - budeme to brat ze souboru s mapou*/
-        int[][] testArray = new int[Resources.getSystem().getDisplayMetrics().widthPixels][Resources.getSystem().getDisplayMetrics().heightPixels];
-        for (int i = 0; i < Resources.getSystem().getDisplayMetrics().widthPixels; i++) {
-            for (int j = 0; j < Resources.getSystem().getDisplayMetrics().heightPixels; j++) {
-                testArray[i][j] = 0;
-            }
-        }
-        gameHandler = new GameHandler(characters, testArray);
+
+
     }
 
     @Override

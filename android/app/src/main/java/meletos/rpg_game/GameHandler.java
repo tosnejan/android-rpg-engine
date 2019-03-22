@@ -3,10 +3,12 @@ package meletos.rpg_game;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 
+import meletos.rpg_game.characters.FatherCharacter;
+
 /**
  * Class used to check whether the characters are updating properly
  */
-public class GameHandler {
+public class GameHandler implements Runnable {
     private FatherCharacter[] characters;
     private int[][] mapMatrix; // matrix of the map availability
     private final int available = 0; // constant defining whether a pixel is available
@@ -16,6 +18,13 @@ public class GameHandler {
     public GameHandler(FatherCharacter[] characters, int[][] mapMatrix) {
         this.characters = characters;
         this.mapMatrix = mapMatrix;
+        for (FatherCharacter character: characters) {
+            character.setGameHandler(this); // let those characters know I'm the boss!
+        }
+    }
+
+    public GameHandler(FatherCharacter[] characters) {
+        this.characters = characters;
         for (FatherCharacter character: characters) {
             character.setGameHandler(this); // let those characters know I'm the boss!
         }
@@ -43,14 +52,71 @@ public class GameHandler {
      */
     public boolean isPositionAvailable (int x, int y, int imgWidth, int imgHeight) {
         if (
-            mapMatrix[y][x] == available &&
+            /*mapMatrix[y][x] == available &&*/
             x + imgWidth < screenWidth &&
-            y + imgHeight < screenHeight
+            y + imgHeight < screenHeight &&
+            x > 0 && y > 0
         ) {
             return true;
             /* mohla by pak vracet string s presnou specifikaci problemu aka "prekazka nalevo"
              nebo bychom to mohli rozdelit do vice fci mozna :D*/
         }
         return false;
+    }
+
+    public void setDirections(FatherCharacter character) {
+        int x = character.getX();
+        int y = character.getY();
+        int imgHeight = character.getImgHeigth();
+        int imgWidth = character.getImgWidth();
+
+        Directions yDirection = null;
+        Directions xDirection = null;
+        Directions finalDirection = Directions.UP;
+
+        if (x + imgWidth >= screenWidth) {
+            //isGoingRight = false;
+            //character.updateDirectionSpeed(Directions.RIGHT);
+            xDirection = Directions.RIGHT;
+            finalDirection = xDirection;
+            x = screenWidth - imgWidth;
+        } else if (x <= 0) {
+            //isGoingRight = true;
+            xDirection = Directions.LEFT;
+            finalDirection = xDirection;
+            x = 0;
+        }
+        if (y + imgHeight >= screenHeight) {
+            //isGoingDown = false;
+            yDirection = Directions.DOWN;
+            finalDirection = yDirection;
+            y = screenHeight - imgHeight;
+        } else if (y <= 0) {
+            //isGoingDown = true;
+            yDirection = Directions.UP;
+            finalDirection = yDirection;
+            y = 0;
+        }
+
+
+        if (xDirection == Directions.RIGHT && yDirection == Directions.UP) {
+            finalDirection = Directions.UPRIGHT;
+        } else if (xDirection == Directions.RIGHT && yDirection == Directions.DOWN) {
+            finalDirection = Directions.DOWNRIGHT;
+        } else if (xDirection == Directions.LEFT && yDirection == Directions.UP) {
+            finalDirection = Directions.UPLEFT;
+        } else if (xDirection == Directions.LEFT && yDirection == Directions.DOWN) {
+            finalDirection = Directions.DOWNLEFT;
+        }
+        character.updateDirectionSpeed(finalDirection);
+        character.setX(x);
+        character.setY(y);
+    }
+
+    @Override
+    public void run() {
+        //String threadName = Thread.currentThread().getName();
+        //System.out.println(threadName);
+        updateGame();
     }
 }

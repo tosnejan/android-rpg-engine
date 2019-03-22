@@ -1,14 +1,12 @@
 package meletos.rpg_game.file_io;
 
-import com.google.common.io.Files;
 import com.google.gson.Gson;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import meletos.rpg_game.FatherCharacter;
+import meletos.rpg_game.characters.FatherCharacter;
 
 /**
  * should save an array of characters into a json -- doesnt work yet probably :D

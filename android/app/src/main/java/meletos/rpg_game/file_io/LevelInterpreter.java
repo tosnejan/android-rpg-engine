@@ -3,13 +3,11 @@ package meletos.rpg_game.file_io;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 
-import meletos.rpg_game.FatherCharacter;
+import meletos.rpg_game.characters.FatherCharacter;
 
 /**
  * Will be used to load the objects from the level file
@@ -21,9 +19,11 @@ public abstract class LevelInterpreter {
     public static FatherCharacter[] getLevel (String filename) {
         String gs = readFromFile(filename);
         Gson gson = new Gson();
-        Type fatherType = new TypeToken<FatherCharacter[]>() {}.getType();
-        FatherCharacter[] gameObjects;
-        gameObjects = gson.fromJson(gs, fatherType);
+        //Type fatherType = new TypeToken<FatherCharacter[]>() {}.getType();
+        FatherCharacter[] gameObjects = new FatherCharacter[1]; // just to get it to shut up
+        //gameObjects = gson.fromJson(gs, fatherType);
+        String[] project_specifications = gson.fromJson(gs, String[].class); // decodes the json array into a normal array
+
         return gameObjects;
     }
 
