@@ -8,10 +8,14 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
+import java.util.ArrayList;
+
 import meletos.rpg_game.characters.BouncingCharacter;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Follower;
 import meletos.rpg_game.characters.RandomWalker;
+import meletos.rpg_game.navigation.Button;
+import meletos.rpg_game.navigation.NavigationArrows;
 
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_UP;
@@ -31,6 +35,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
     private GameThread gameThread;
+    private Button exampleButton;
+    private NavigationArrows navigationArrows;
+
+    private ArrayList<Button> buttons;
 
     public GameView(Context context) {
         super(context);
@@ -39,6 +47,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         gameThread = new GameThread(gameHandler);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
+        exampleButton = new Button(1000, 100, BitmapFactory.decodeResource(getResources(),R.drawable.coin));
+        navigationArrows = new NavigationArrows(this);
         //LevelGenerator.generateAndSaveLevel(characters, "../../../assets/lvl/attempt.json"); doesnt work yet :D
         //characters = LevelInterpreter.getLevel("raw/attempt.json");
 
@@ -50,6 +60,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             super.draw(canvas);
             canvas.drawColor(Color.WHITE);
             gameHandler.drawGame(canvas);
+            //navigationArrows.draw(canvas);
+            exampleButton.draw(canvas);
         }
     }
 
@@ -98,7 +110,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == ACTION_DOWN) {
-            gameHandler.pauseGame();
+            //gameHandler.pauseGame();
+            if (exampleButton.isTouched((int)event.getX(), (int)event.getY())) {
+
+                gameHandler.pauseGame();
+            }
         }
         if (event.getAction() == ACTION_UP) {
             gameHandler.resumeGame();

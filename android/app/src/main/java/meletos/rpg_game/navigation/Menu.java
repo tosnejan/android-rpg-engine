@@ -1,4 +1,4 @@
-package meletos.rpg_game;
+package meletos.rpg_game.navigation;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

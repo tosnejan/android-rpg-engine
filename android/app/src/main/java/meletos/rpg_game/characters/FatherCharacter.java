@@ -4,16 +4,15 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import meletos.rpg_game.Directions;
 import meletos.rpg_game.GameHandler;
+import meletos.rpg_game.Sprite;
 
 /**
  * This character should be the father of all the other characters.
  * This should allow us to group them into an array of type FatherCharacter[]
  * -- all of them will have function update - implementing their own strategy
  */
-public abstract class FatherCharacter {
+public abstract class FatherCharacter extends Sprite {
     protected Directions direction;
-    protected Bitmap image;
-    protected int x, y;
 
     protected int xSpeedConstant = 10;
     protected int ySpeedConstant = 10;
@@ -22,17 +21,12 @@ public abstract class FatherCharacter {
     protected int xSpeed = xSpeedConstant;
     protected int ySpeed = ySpeedConstant;
 
-    protected int imgHeigth;
-    protected int imgWidth;
+
     protected GameHandler gameHandler; // the boss
 
     public FatherCharacter(int x, int y, Bitmap image) {
-        this.image = image;
-        this.x = x;
-        this.y = y;
+        super(x, y, image);
         this.direction = Directions.UP;
-        imgHeigth = image.getHeight();
-        imgWidth = image.getWidth();
     }
 
     /**
@@ -43,10 +37,9 @@ public abstract class FatherCharacter {
         this.gameHandler = gameHandler;
     }
 
-    public void draw(Canvas canvas) {
-        canvas.drawBitmap(image, x, y, null);
-    }
-
+    /**
+     * Main game logic method
+     */
     public void update () {
 
     }
