@@ -32,7 +32,7 @@ public class Follower extends FatherCharacter {
             }
             y += followVector[1]/200.0;
         } else {
-            x+= followVector[0]/200.0;
+            x += followVector[0]/200.0;
         }
     }
 }
