@@ -59,29 +59,33 @@ public abstract class FatherCharacter extends Sprite {
                 xSpeed = xSpeedConstant;
                 ySpeed = 0;
                 break;
-            case UP:
-                xSpeed = 0;
-                ySpeed = ySpeedConstant;
-                break;
             case DOWN:
                 xSpeed = 0;
+                ySpeed = ySpeedConstant;
+                break;
+            case UP:
+                xSpeed = 0;
                 ySpeed = (-1)*ySpeedConstant;
-                break;
-            case UPLEFT:
-                xSpeed = (-1)*xSpeedConstant;
-                ySpeed = ySpeedConstant;
-                break;
-            case UPRIGHT:
-                xSpeed = xSpeedConstant;
-                ySpeed = ySpeedConstant;
                 break;
             case DOWNLEFT:
                 xSpeed = (-1)*xSpeedConstant;
-                ySpeed = (-1)*ySpeedConstant;
+                ySpeed = ySpeedConstant;
                 break;
             case DOWNRIGHT:
                 xSpeed = xSpeedConstant;
+                ySpeed = ySpeedConstant;
+                break;
+            case UPLEFT:
+                xSpeed = (-1)*xSpeedConstant;
                 ySpeed = (-1)*ySpeedConstant;
+                break;
+            case UPRIGHT:
+                xSpeed = xSpeedConstant;
+                ySpeed = (-1)*ySpeedConstant;
+                break;
+            case NONE:
+                xSpeed = 0;
+                ySpeed = 0;
                 break;
         }
     }

@@ -97,11 +97,11 @@ public class GameHandler {
             x = 0;
         }
         if (y + imgHeight >= screenHeight) {
-            yDirection = Directions.DOWN;
+            yDirection = Directions.UP;
             finalDirection = yDirection;
             y = screenHeight - imgHeight;
         } else if (y <= 0) {
-            yDirection = Directions.UP;
+            yDirection = Directions.DOWN;
             finalDirection = yDirection;
             y = 0;
         }

@@ -13,8 +13,10 @@ import java.util.ArrayList;
 import meletos.rpg_game.characters.BouncingCharacter;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Follower;
+import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
 import meletos.rpg_game.navigation.Button;
+import meletos.rpg_game.navigation.JoyStick;
 import meletos.rpg_game.navigation.NavigationArrows;
 
 import static android.view.MotionEvent.ACTION_DOWN;
@@ -30,18 +32,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             {
             new RandomWalker(100, 20, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
             new Follower(500, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
-            new BouncingCharacter(500, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin))
+            new BouncingCharacter(500, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
+            new Hero(700, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin))
     };
 
     private MainThread thread;
     private GameThread gameThread;
     private Button exampleButton;
     private NavigationArrows navigationArrows;
-
+    JoyStick js = new JoyStick(BitmapFactory.decodeResource(getResources(),R.drawable.circle),BitmapFactory.decodeResource(getResources(),R.drawable.ring));
+    Hero hero = (Hero)characters[3];
     private ArrayList<Button> buttons;
 
     public GameView(Context context) {
         super(context);
+        hero.setJoystick(js);
         gameHandler = new GameHandler(characters);
         getHolder().addCallback(this);
         gameThread = new GameThread(gameHandler);
@@ -62,6 +67,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             gameHandler.drawGame(canvas);
             //navigationArrows.draw(canvas);
             exampleButton.draw(canvas);
+            js.draw(canvas);
+            System.out.println(js.getDirection());
         }
     }
 
@@ -114,13 +121,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             if (exampleButton.isTouched((int)event.getX(), (int)event.getY())) {
 
                 gameHandler.pauseGame();
+            } else {
+                js.setUsed(true);
+                js.setBase(event.getX(), event.getY());
             }
         }
         if (event.getAction() == ACTION_UP) {
+            js.setUsed(false);
             gameHandler.resumeGame();
         }
-        System.out.println("x: " + event.getX());
-        System.out.println("y: " + event.getY());
+        if (js.used) {
+            js.setPos(event.getX(), event.getY());
+        }
+        /*System.out.println("x: " + event.getX());
+        System.out.println("y: " + event.getY());*/
         return true;
     }
 
