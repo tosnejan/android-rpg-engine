@@ -36,7 +36,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             new Hero(700, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin))
     };
 
-    private MainThread thread;
+    private MainThread viewThread;
     private GameThread gameThread;
     private Button exampleButton;
     private NavigationArrows navigationArrows;
@@ -50,7 +50,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         gameHandler = new GameHandler(characters);
         getHolder().addCallback(this);
         gameThread = new GameThread(gameHandler);
-        thread = new MainThread(getHolder(), this);
+        viewThread = new MainThread(getHolder(), this);
         setFocusable(true);
         exampleButton = new Button(1000, 100, BitmapFactory.decodeResource(getResources(),R.drawable.coin));
         navigationArrows = new NavigationArrows(this);
@@ -65,7 +65,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             super.draw(canvas);
             canvas.drawColor(Color.WHITE);
             gameHandler.drawGame(canvas);
-            //navigationArrows.draw(canvas);
             exampleButton.draw(canvas);
             js.draw(canvas);
             System.out.println(js.getDirection());
@@ -74,39 +73,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
     }
 
     @Override
-    /**
-     * starts up the thread
-     */
     public void surfaceCreated(SurfaceHolder holder) {
-        //thread.setRunning(true);
-
-        //thread.start();
-
-        //gameThread.start();
-
     }
 
     @Override
-    /**
-     * destroys the surface -- might take more attempts, hence the while loop
-     */
     public void surfaceDestroyed(SurfaceHolder holder) {
-        /*boolean retry = true;
-        while (retry) {
-            try {
-                //thread.setRunning(false);
-                //thread.join();
-                gameThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            retry = false;
-        }
-        gameThread = null;*/
     }
 
     /**
@@ -117,9 +91,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == ACTION_DOWN) {
-            //gameHandler.pauseGame();
             if (exampleButton.isTouched((int)event.getX(), (int)event.getY())) {
-
                 gameHandler.pauseGame();
             } else {
                 js.setUsed(true);
@@ -133,56 +105,50 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (js.used) {
             js.setPos(event.getX(), event.getY());
         }
-        /*System.out.println("x: " + event.getX());
-        System.out.println("y: " + event.getY());*/
         return true;
     }
 
+    /**
+     * Starts up the threads when game is created.
+     */
     public void onCreate() {
-        thread.setRunning(true);
-
-        thread.start();
-
+        viewThread.setRunning(true);
+        viewThread.start();
         gameThread.start();
     }
 
+    /**
+     * Called when user exits the game by pressing home button
+     */
     public void onPause () {
-        /*boolean retry = true;
-        while (retry) {
-            try {
-                thread.setRunning(false);
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            retry = false;
-        }
-        thread = null;*/
         gameHandler.pauseGame();
     }
 
+    /**
+     * resumes the game when user navigates back
+     */
     public void onResume () {
-        /*thread = new MainThread(getHolder(), this);
-        thread.setRunning(true);
-        thread.start();
-        gameThread.start();*/
         gameHandler.resumeGame();
     }
 
+    /**
+     * Called upon pressing the back button or generally when system wants to kill the app
+     * It kills he threads.
+     */
     public void onDestroy () {
         boolean retry = true;
         while (retry) {
             try {
-                thread.setRunning(false);
+                viewThread.setRunning(false);
                 gameThread.setRunning(false);
-                thread.join();
+                viewThread.join();
                 gameThread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             retry = false;
         }
-        thread = null;
+        viewThread = null;
         gameThread = null;
     }
 }

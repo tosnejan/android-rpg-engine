@@ -38,6 +38,9 @@ public class MainActivity extends Activity {
         gameView.onDestroy();
     }
 
+    /**
+     * Displays dialog upon user trying to kill the app.
+     */
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
