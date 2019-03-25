@@ -95,7 +95,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * destroys the surface -- might take more attempts, hence the while loop
      */
     public void surfaceDestroyed(SurfaceHolder holder) {
-        boolean retry = true;
+        /*boolean retry = true;
         while (retry) {
             try {
                 //thread.setRunning(false);
@@ -106,7 +106,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
             retry = false;
         }
-        gameThread = null;
+        gameThread = null;*/
     }
 
     /**
@@ -138,8 +138,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return true;
     }
 
+    public void onCreate() {
+        thread.setRunning(true);
+
+        thread.start();
+
+        gameThread.start();
+    }
+
     public void onPause () {
-        boolean retry = true;
+        /*boolean retry = true;
         while (retry) {
             try {
                 thread.setRunning(false);
@@ -149,14 +157,32 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
             retry = false;
         }
-        thread = null;
+        thread = null;*/
+        gameHandler.pauseGame();
     }
 
     public void onResume () {
-        thread = new MainThread(getHolder(), this);
+        /*thread = new MainThread(getHolder(), this);
         thread.setRunning(true);
         thread.start();
-        gameThread.start();
+        gameThread.start();*/
+        gameHandler.resumeGame();
+    }
 
+    public void onDestroy () {
+        boolean retry = true;
+        while (retry) {
+            try {
+                thread.setRunning(false);
+                gameThread.setRunning(false);
+                thread.join();
+                gameThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            retry = false;
+        }
+        thread = null;
+        gameThread = null;
     }
 }

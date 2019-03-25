@@ -8,7 +8,7 @@ import android.view.View;
 import meletos.rpg_game.R;
 
 /**
- * not ready at all :D
+ * not ready at all :D -- wont be needed at all :D
  */
 public class NavigationArrows  implements ButtonContainer {
     private int x, y;

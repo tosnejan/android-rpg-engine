@@ -7,7 +7,7 @@ import meletos.rpg_game.Directions;
 import meletos.rpg_game.Sprite;
 
 /**
- * Not ready at all. :D
+ * Works pretty well :D Also, the code is so much simpler than the one we saw :D
  */
 public class JoyStick {
 

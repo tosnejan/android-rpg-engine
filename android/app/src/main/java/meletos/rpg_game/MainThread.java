@@ -29,12 +29,14 @@ public class MainThread extends Thread {
             // tries to lock canvas to draw on and catch exception if not successful
             try {
                 // locks the canvas so that only one thread can draw onto it
+
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized(surfaceHolder) {
                     this.gameView.draw(canvas);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                break;
             } finally {
                 if (canvas != null) {
                     try {

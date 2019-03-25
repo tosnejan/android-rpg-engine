@@ -1,9 +1,19 @@
 package meletos.rpg_game.characters;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+
 import meletos.rpg_game.Directions;
 import meletos.rpg_game.GameHandler;
+import meletos.rpg_game.R;
 import meletos.rpg_game.Sprite;
 
 /**
@@ -12,8 +22,16 @@ import meletos.rpg_game.Sprite;
  * -- all of them will have function update - implementing their own strategy
  */
 public abstract class FatherCharacter extends Sprite {
-    protected Directions direction;
+    /**
+     * A proposal -- lets use this construct for animations :D
+     */
+    protected  ArrayList<Bitmap> images;
+    int idx = 0;
+    private boolean animation = false;
+    private int animationSpeed = 0;
+    private final int ANIM_SPEED = 10; // sets after how many calls to draw does the image animate
 
+    protected Directions direction;
     protected int xSpeedConstant = 10;
     protected int ySpeedConstant = 10;
 
@@ -21,12 +39,57 @@ public abstract class FatherCharacter extends Sprite {
     protected int xSpeed = xSpeedConstant;
     protected int ySpeed = ySpeedConstant;
 
-
     protected GameHandler gameHandler; // the boss
 
     public FatherCharacter(int x, int y, Bitmap image) {
         super(x, y, image);
         this.direction = Directions.UP;
+    }
+
+    public FatherCharacter(int x, int y, String assetsFolder, Context context) {
+        super(x, y);
+        this.direction = Directions.UP;
+        getImages(assetsFolder, context);
+        animation = true;
+    }
+
+    /**
+     * SHould work like this: gets name of the folder containing animation images.
+     * Loads them all so it can animate the character
+     * @param assetsFolder
+     * @param context
+     */
+    private void getImages (String assetsFolder, Context context) {
+        AssetManager am = context.getAssets();
+        String[] files = new String[0];
+        try {
+            files = am.list("images");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        InputStream istr = null;
+        images = new ArrayList<>();
+
+        for (String file : files) {
+            images.add(BitmapFactory.decodeFile(file));
+        }
+    }
+
+    @Override
+    public void draw (Canvas canvas) {
+        if (animation) {
+            if (idx == images.size()) {
+                idx = 0;
+            }
+            canvas.drawBitmap(images.get(idx), x, y, null);
+            if (animationSpeed == ANIM_SPEED) {
+                animationSpeed = 0;
+                ++idx;
+            }
+            ++animationSpeed;
+        } else {
+            super.draw(canvas);
+        }
     }
 
     /**

@@ -20,6 +20,16 @@ public abstract class Sprite {
     }
 
     /**
+     * Used for father character class and its descendants
+     * @param x
+     * @param y
+     */
+    public Sprite (int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
      * we should probably move this method to the view class -- or not? :D
      * @param canvas
      */
