@@ -67,7 +67,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             gameHandler.drawGame(canvas);
             exampleButton.draw(canvas);
             js.draw(canvas);
-            System.out.println(js.getDirection());
         }
     }
 
