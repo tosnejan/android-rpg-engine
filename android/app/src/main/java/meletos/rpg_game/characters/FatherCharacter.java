@@ -5,15 +5,14 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import meletos.rpg_game.Directions;
 import meletos.rpg_game.GameHandler;
-import meletos.rpg_game.R;
 import meletos.rpg_game.Sprite;
 
 /**
@@ -21,7 +20,8 @@ import meletos.rpg_game.Sprite;
  * This should allow us to group them into an array of type FatherCharacter[]
  * -- all of them will have function update - implementing their own strategy
  */
-public abstract class FatherCharacter extends Sprite {
+public abstract class FatherCharacter extends Sprite implements Serializable {
+
     /**
      * A proposal -- lets use this construct for animations :D
      */
@@ -30,6 +30,8 @@ public abstract class FatherCharacter extends Sprite {
     private boolean animation = false;
     private int animationSpeed = 0;
     private final int ANIM_SPEED = 10; // sets after how many calls to draw does the image animate
+    // lets the animation know whether the character is moving -- if not, animation stops
+    protected boolean isMoving = true;
 
     protected Directions direction;
     protected int xSpeedConstant = 10;
@@ -54,7 +56,7 @@ public abstract class FatherCharacter extends Sprite {
     }
 
     /**
-     * SHould work like this: gets name of the folder containing animation images.
+     * Should work like this: gets name of the folder containing animation images.
      * Loads them all so it can animate the character
      * @param assetsFolder
      * @param context
@@ -82,7 +84,7 @@ public abstract class FatherCharacter extends Sprite {
                 idx = 0;
             }
             canvas.drawBitmap(images.get(idx), x, y, null);
-            if (animationSpeed == ANIM_SPEED) {
+            if (animationSpeed == ANIM_SPEED && isMoving) { //animates, if the character is moving
                 animationSpeed = 0;
                 ++idx;
             }
@@ -104,7 +106,7 @@ public abstract class FatherCharacter extends Sprite {
      * Main game logic method
      */
     public void update () {
-
+        // has to be implemented in individual characters!!
     }
 
     /**
@@ -185,7 +187,7 @@ public abstract class FatherCharacter extends Sprite {
         this.y = y;
     }
 
-    public int getImgHeigth() {
+    public int getImgHeight() {
         return imgHeigth;
     }
 

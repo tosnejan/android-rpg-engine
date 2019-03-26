@@ -3,12 +3,14 @@ package meletos.rpg_game;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 
+import java.io.Serializable;
+
 import meletos.rpg_game.characters.FatherCharacter;
 
 /**
  * Class used to check whether the characters are updating properly
  */
-public class GameHandler {
+public class GameHandler implements Serializable {
     private FatherCharacter[] characters;
     private int[][] mapMatrix; // matrix of the map availability
     private final int available = 0; // constant defining whether a pixel is available
@@ -80,7 +82,7 @@ public class GameHandler {
     public void setDirections(FatherCharacter character) {
         int x = character.getX();
         int y = character.getY();
-        int imgHeight = character.getImgHeigth();
+        int imgHeight = character.getImgHeight();
         int imgWidth = character.getImgWidth();
 
         Directions yDirection = null;

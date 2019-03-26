@@ -1,5 +1,6 @@
 package meletos.rpg_game.characters;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 /**
@@ -14,6 +15,13 @@ public class Follower extends FatherCharacter {
         super(x, y, image);
         followVector[0] = followX - this.x;
         followVector[1] = followY - this.y;
+    }
+
+    public Follower (int x, int y, String assetsFolder, Context context) {
+        super(x, y, assetsFolder, context);
+        followVector[0] = followX - this.x;
+        followVector[1] = followY - this.y;
+
     }
 
     private void followPoint(int x, int y) {
