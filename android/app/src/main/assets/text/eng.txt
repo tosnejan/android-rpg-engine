@@ -1,0 +1,12 @@
+ID: 0
+No
+
+ID: 1
+Yes
+
+ID: 2
+Closing Game
+
+ID: 3
+Are you sure you want to close the game? All unsaved progress will be lost.
+

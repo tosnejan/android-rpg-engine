@@ -7,9 +7,13 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import meletos.rpg_game.text.Language;
+import meletos.rpg_game.text.Text;
+
 public class MainActivity extends Activity {
 
     private GameView gameView;
+    private Text text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +23,7 @@ public class MainActivity extends Activity {
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         gameView = new GameView(this);
         setContentView(gameView); // this starts the game canvas
+        text = new Text(Language.ENG,this);     // change this for default language
         gameView.onCreate();
     }
 
@@ -45,18 +50,16 @@ public class MainActivity extends Activity {
     public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Closing Game")
-                .setMessage("Are you sure you want to close the game? " +
-                        "All unsaved progress will be lost.")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                .setTitle(text.getText(2))
+                .setMessage(text.getText(3))
+                .setPositiveButton(text.getText(1), new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
                     }
-
                 })
-                .setNegativeButton("No", null)
+                .setNegativeButton(text.getText(0), null)
                 .show();
     }
 }
