@@ -1,11 +1,11 @@
-ID: 0
+ï»¿ID: 0
 Ne
 
 ID: 1
 Ano
 
 ID: 2
-Ukonèování hry
+UkonÄovÃ¡nÃ­ hry
 
 ID: 3
-Jste si jist, e chcete ukonèit tuto hru? Veškerı neuloená obsah bude ztracen.
+Jste si jist, Å¾e chcete ukonÄit tuto hru? VeÅ¡kerÃ½ neuloÅ¾enÃ¡ obsah bude ztracen.

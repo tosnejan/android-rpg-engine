@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         gameView = new GameView(this);
         setContentView(gameView); // this starts the game canvas
-        text = new Text(Language.ENG,this);     // change this for default language
+        text = new Text(Language.CZE,this);     // change this for default language
         gameView.onCreate();
     }
 

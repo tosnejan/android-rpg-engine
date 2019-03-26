@@ -5,6 +5,7 @@ import android.content.Context;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public class Text {
 
@@ -25,7 +26,7 @@ public class Text {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(
-                    new InputStreamReader(context.getAssets().open(lang.filename)));
+                    new InputStreamReader(context.getAssets().open(lang.filename), StandardCharsets.UTF_8));
             String line;
             int ID = 0;
             while ((line = reader.readLine()) != null) {
