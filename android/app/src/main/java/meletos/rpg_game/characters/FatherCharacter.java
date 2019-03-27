@@ -194,4 +194,6 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     public int getImgWidth() {
         return imgWidth;
     }
+
+
 }

@@ -3,13 +3,17 @@ package meletos.rpg_game;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import java.util.Objects;
+
 /**
  * Class that describes anything that appears on screen
  */
 public abstract class Sprite {
+    protected PositionInformation positionInformation;
     protected int x, y;
-    protected Bitmap image;
     protected int imgHeigth, imgWidth;
+    protected Bitmap image;
+
 
     public Sprite(int x, int y, Bitmap image) {
         this.image = image;
@@ -17,6 +21,7 @@ public abstract class Sprite {
         this.y = y;
         imgHeigth = image.getHeight();
         imgWidth = image.getWidth();
+        this.positionInformation = new PositionInformation(x, y, image.getHeight(), image.getWidth());
     }
 
     /**
@@ -27,6 +32,23 @@ public abstract class Sprite {
     public Sprite (int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public PositionInformation getPositionInformation() {
+        return positionInformation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Sprite sprite = (Sprite) o;
+        return Objects.equals(positionInformation, sprite.positionInformation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(positionInformation);
     }
 
     /**

@@ -123,6 +123,25 @@ public class GameHandler implements Serializable {
         character.setY(y);
     }
 
+
+    // TODO
+    public Directions collisionDetector (FatherCharacter currCharacter, PositionInformation newPosition) {
+        ;
+        for (FatherCharacter character : characters) {
+            if (currCharacter.getPositionInformation().equals(character.getPositionInformation())) {
+                continue; // probably is the same character
+            }
+            PositionInformation otherPositionInfo = character.getPositionInformation();
+
+            Directions result = newPosition.collidesWith(otherPositionInfo);
+            if (result != Directions.NONE) {
+                System.out.println(result);
+                return result;
+            }
+        }
+        return Directions.NONE;
+    }
+
     public void pauseGame() {
         isGamePaused = true;
     }

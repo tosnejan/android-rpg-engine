@@ -33,7 +33,7 @@ import static android.view.MotionEvent.ACTION_UP;
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private GameHandler gameHandler;
-    
+
     private MainThread viewThread;
     private GameThread gameThread;
     private Button exampleButton;
@@ -45,8 +45,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super(context);
         FatherCharacter[] characters =
                 {
-                        new RandomWalker(100, 20, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
-                        new Follower(500, 100, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
+                        new RandomWalker(100, 200, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
+                        new RandomWalker(500, 1000, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
                         new BouncingCharacter(500, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
                         new Hero(700, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin))
                 };

@@ -3,6 +3,7 @@ package meletos.rpg_game.characters;
 import android.graphics.Bitmap;
 
 import meletos.rpg_game.Directions;
+import meletos.rpg_game.PositionInformation;
 
 public class RandomWalker extends FatherCharacter {
     private int steps;
@@ -22,6 +23,11 @@ public class RandomWalker extends FatherCharacter {
         if (!gameHandler.isPositionAvailable(x + xSpeed, y + ySpeed, imgWidth, imgHeigth)) {
             gameHandler.setDirections(this);
         }
+        //Directions collisionDirection = gameHandler.collisionDetector(this, new PositionInformation(x + xSpeed, y + ySpeed, imgWidth, imgHeigth));
+
+        //if (collisionDirection != Directions.NONE) {
+        //    updateDirectionSpeed(collisionDirection);
+        //}
 
         updateXY();
     }
