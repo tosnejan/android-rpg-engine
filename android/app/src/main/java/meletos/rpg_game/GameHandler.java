@@ -1,6 +1,9 @@
 package meletos.rpg_game;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import java.io.Serializable;
@@ -17,17 +20,23 @@ public class GameHandler implements Serializable {
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private boolean isGamePaused = false;
+    private Context context;
+    private Bitmap map;
 
-    public GameHandler(FatherCharacter[] characters, int[][] mapMatrix) {
+    public GameHandler(FatherCharacter[] characters, Context context, int[][] mapMatrix) {
         this.characters = characters;
         this.mapMatrix = mapMatrix;
+        this.context = context;
+        map = BitmapFactory.decodeResource(context.getResources(),R.drawable.testing_map);
         for (FatherCharacter character: characters) {
             character.setGameHandler(this); // let those characters know I'm the boss!
         }
     }
 
-    public GameHandler(FatherCharacter[] characters) {
+    public GameHandler(FatherCharacter[] characters, Context context) {
         this.characters = characters;
+        this.context = context;
+        map = BitmapFactory.decodeResource(context.getResources(),R.drawable.testing_map);
         for (FatherCharacter character: characters) {
             character.setGameHandler(this); // let those characters know I'm the boss!
         }
@@ -36,6 +45,7 @@ public class GameHandler implements Serializable {
     public void drawGame (Canvas canvas) {
         //String threadName = Thread.currentThread().getName();
         //System.out.println("This is view logic here on thread: " + threadName);
+        canvas.drawBitmap(map, 0, 0, null);
         for (FatherCharacter character: characters) {
             character.draw(canvas);
         }

@@ -52,7 +52,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 };
         hero = (Hero) characters[3];
         hero.setJoystick(js);
-        gameHandler = new GameHandler(characters);
+        gameHandler = new GameHandler(characters, context);
 
         //LevelHandler lvlHandler = new LevelHandler("first_file", context);
         //lvlHandler.serialiseLevel(gameHandler);
