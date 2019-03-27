@@ -14,6 +14,10 @@ public class PositionInformation {
     public PositionInformation(int x, int y, int imgHeigth, int imgWidth) {
         this.imgHeigth = imgHeigth;
         this.imgWidth = imgWidth;
+        updatePositionInformation(x, y);
+    }
+    
+    public updatePositionInformation (int x, int y) {
         upperLeftCorner = new Coordinates(x, y);
         upperRightCorner = new Coordinates(x + imgWidth, y);
         lowerLeftCorner = new Coordinates(x, y + imgHeigth);
