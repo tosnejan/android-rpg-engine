@@ -30,8 +30,8 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     protected  ArrayList<Bitmap> images;
     int idx = 0;
     protected boolean animation = false;
-    private int animationSpeed = 0;
-    private final int ANIM_SPEED = 10; // sets after how many calls to draw does the image animate
+    protected int animationSpeed = 0;
+    protected final int ANIM_SPEED = 10; // sets after how many calls to draw does the image animate
     // lets the animation know whether the character is moving -- if not, animation stops
     protected boolean isMoving = false;
 

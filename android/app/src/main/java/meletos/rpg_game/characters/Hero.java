@@ -2,6 +2,7 @@ package meletos.rpg_game.characters;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 
 import java.util.Locale;
 
@@ -29,41 +30,6 @@ public class Hero extends FatherCharacter {
      * @param direction
      */
     public void heroicMove (Directions direction) {
-        if (animation) {
-            if (idx == 3) idx = 0;
-            int i = 0;
-            switch (direction) {
-                case NONE:
-                    i = 7;
-                    break;
-                case UP:
-                    i = idx;
-                    break;
-                case DOWN:
-                    i = idx + 6;
-                    break;
-                case DOWNLEFT:
-                    i = idx + 9;
-                    break;
-                case LEFT:
-                    i = idx + 9;
-                    break;
-                case UPLEFT:
-                    i = idx + 9;
-                    break;
-                case DOWNRIGHT:
-                    i = idx + 3;
-                    break;
-                case RIGHT:
-                    i = idx + 3;
-                    break;
-                case UPRIGHT:
-                    i = idx + 3;
-                    break;
-            }
-            image = images.get(i);
-            ++idx;
-        }
         /*
         if (animation) {
             if (idx == images.size()) {
@@ -100,5 +66,53 @@ public class Hero extends FatherCharacter {
     @Override
     public void update(){
         heroicMove(js.getDirection());
+    }
+
+    @Override
+    public void draw(Canvas canvas){
+        if (animation) {
+            if (animationSpeed == ANIM_SPEED) {
+                animationSpeed = 0;
+                int i;
+                ++idx;
+                if (idx == 4) idx = 0;
+                if (idx == 3) i = -2;
+                else i = 0;
+                switch (direction) {
+                    case NONE:
+                        i = 7;
+                        idx = 0;
+                        break;
+                    case UP:
+                        i += idx;
+                        break;
+                    case DOWN:
+                        i += idx + 6;
+                        break;
+                    case DOWNLEFT:
+                        i += idx + 9;
+                        break;
+                    case LEFT:
+                        i += idx + 9;
+                        break;
+                    case UPLEFT:
+                        i += idx + 9;
+                        break;
+                    case DOWNRIGHT:
+                        i += idx + 3;
+                        break;
+                    case RIGHT:
+                        i += idx + 3;
+                        break;
+                    case UPRIGHT:
+                        i += idx + 3;
+                        break;
+                }
+                image = images.get(i);
+            } else {
+                ++animationSpeed;
+            }
+        }
+        super.draw(canvas);
     }
 }
