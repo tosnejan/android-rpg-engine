@@ -10,9 +10,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import meletos.rpg_game.Directions;
 import meletos.rpg_game.GameHandler;
+import meletos.rpg_game.PositionInformation;
 import meletos.rpg_game.Sprite;
 
 /**
@@ -27,11 +29,11 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
      */
     protected  ArrayList<Bitmap> images;
     int idx = 0;
-    private boolean animation = false;
+    protected boolean animation = false;
     private int animationSpeed = 0;
     private final int ANIM_SPEED = 10; // sets after how many calls to draw does the image animate
     // lets the animation know whether the character is moving -- if not, animation stops
-    protected boolean isMoving = true;
+    protected boolean isMoving = false;
 
     protected Directions direction;
     protected int xSpeedConstant = 10;
@@ -53,6 +55,10 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
         this.direction = Directions.UP;
         getImages(assetsFolder, context);
         animation = true;
+        image = images.get(7);
+        imgHeigth = image.getHeight();
+        imgWidth = image.getWidth();
+        this.positionInformation = new PositionInformation(x, y, image.getHeight(), image.getWidth());
     }
 
     public FatherCharacter(int x, int y) {
@@ -68,37 +74,29 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
      */
     private void getImages (String assetsFolder, Context context) {
         AssetManager am = context.getAssets();
-        String[] files = new String[0];
+        /*String[] files = new String[0];
         try {
-            files = am.list("images");
+            files = am.list(assetsFolder);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        InputStream istr = null;
+        }*/
         images = new ArrayList<>();
+        Bitmap temp;
 
-        for (String file : files) {
-            images.add(BitmapFactory.decodeFile(file));
+        for (int i = 1; i < 13; i++) {
+            String fileName = String.format(Locale.US,"%s/%s.png", assetsFolder, i);
+            try {
+                temp = BitmapFactory.decodeStream(am.open(fileName));
+                images.add(Bitmap.createScaledBitmap(temp, 96, 108, true));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public void draw (Canvas canvas) {
-        if (animation) {
-            if (idx == images.size()) {
-                idx = 0;
-            }
-            canvas.drawBitmap(images.get(idx), positionInformation.mainCoord.x,
-                    positionInformation.mainCoord.y, null
-            );
-            if (animationSpeed == ANIM_SPEED && isMoving) { //animates, if the character is moving
-                animationSpeed = 0;
-                ++idx;
-            }
-            ++animationSpeed;
-        } else {
-            super.draw(canvas);
-        }
+        super.draw(canvas);
     }
 
     /**

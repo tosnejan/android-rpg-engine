@@ -28,6 +28,7 @@ public class GameHandler implements Serializable {
         this.mapMatrix = mapMatrix;
         this.context = context;
         map = BitmapFactory.decodeResource(context.getResources(),R.drawable.testing_map);
+        map = Bitmap.createScaledBitmap(map, 1920, 1080, true);
         for (FatherCharacter character: characters) {
             character.setGameHandler(this); // let those characters know I'm the boss!
         }
@@ -37,6 +38,7 @@ public class GameHandler implements Serializable {
         this.characters = characters;
         this.context = context;
         map = BitmapFactory.decodeResource(context.getResources(),R.drawable.testing_map);
+        map = Bitmap.createScaledBitmap(map, 1920, 1080, true);
         for (FatherCharacter character: characters) {
             character.setGameHandler(this); // let those characters know I'm the boss!
         }
