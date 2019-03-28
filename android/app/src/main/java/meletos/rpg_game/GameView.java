@@ -8,6 +8,9 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -47,10 +50,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 {
                         new RandomWalker(100, 200, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
                         new RandomWalker(500, 1000, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
-                        new BouncingCharacter(500, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
-                        new Hero(700, 800, BitmapFactory.decodeResource(getResources(),R.drawable.characters_warrior_m_1))
+                        //new BouncingCharacter(500, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
+                        new Hero(1000, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin))
                 };
-        hero = (Hero) characters[3];
+        hero = (Hero) characters[2];
         hero.setJoystick(js);
         gameHandler = new GameHandler(characters, context);
 
@@ -64,6 +67,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         setFocusable(true);
         exampleButton = new Button(1000, 100, BitmapFactory.decodeResource(getResources(),R.drawable.coin));
 
+        //Gson gs = new Gson();
+        //String res = gs.toJson(gameHandler);
+        //GameHandler gH = new GsonBuilder().create().fromJson(res, GameHandler.class);
+        //System.out.println(res);
     }
 
     @Override

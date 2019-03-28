@@ -55,6 +55,11 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
         animation = true;
     }
 
+    public FatherCharacter(int x, int y) {
+        super(x, y);
+        animation = true;
+    }
+
     /**
      * Should work like this: gets name of the folder containing animation images.
      * Loads them all so it can animate the character
@@ -83,7 +88,9 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
             if (idx == images.size()) {
                 idx = 0;
             }
-            canvas.drawBitmap(images.get(idx), x, y, null);
+            canvas.drawBitmap(images.get(idx), positionInformation.mainCoord.x,
+                    positionInformation.mainCoord.y, null
+            );
             if (animationSpeed == ANIM_SPEED && isMoving) { //animates, if the character is moving
                 animationSpeed = 0;
                 ++idx;
@@ -159,16 +166,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
      * Method for updating x and y
      */
     protected void updateXY () {
-        x += xSpeed;
-        y += ySpeed;
-    }
-
-    public Directions getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Directions direction) {
-        this.direction = direction;
+        positionInformation.addSpeed(xSpeed, ySpeed);
     }
 
     public int getX() {
@@ -186,14 +184,4 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     public void setY(int y) {
         this.y = y;
     }
-
-    public int getImgHeight() {
-        return imgHeigth;
-    }
-
-    public int getImgWidth() {
-        return imgWidth;
-    }
-
-
 }

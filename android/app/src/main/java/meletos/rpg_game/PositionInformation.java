@@ -1,12 +1,10 @@
 package meletos.rpg_game;
 
-import android.graphics.Path;
-
 import java.util.Objects;
 
 public class PositionInformation {
     public int imgHeigth, imgWidth;
-    public Coordinates upperLeftCorner;
+    public Coordinates mainCoord; // upper left corner
     public Coordinates upperRightCorner;
     public Coordinates lowerLeftCorner;
     public Coordinates lowerRightCorner;
@@ -17,16 +15,16 @@ public class PositionInformation {
         updatePositionInformation(x, y);
     }
     
-    public updatePositionInformation (int x, int y) {
-        upperLeftCorner = new Coordinates(x, y);
+    public void updatePositionInformation (int x, int y) {
+        mainCoord = new Coordinates(x, y);
         upperRightCorner = new Coordinates(x + imgWidth, y);
         lowerLeftCorner = new Coordinates(x, y + imgHeigth);
         lowerRightCorner = new Coordinates(upperRightCorner.x, lowerLeftCorner.y);
     }
 
     public boolean isCoordinateInside (Coordinates coordinate) {
-        return (coordinate.x >= upperLeftCorner.x && coordinate.x <= lowerRightCorner.x)
-            && (coordinate.y >= upperLeftCorner.y && coordinate.y <= lowerRightCorner.y);
+        return (coordinate.x >= mainCoord.x && coordinate.x <= lowerRightCorner.x)
+            && (coordinate.y >= mainCoord.y && coordinate.y <= lowerRightCorner.y);
     }
 
     @Override
@@ -34,7 +32,7 @@ public class PositionInformation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PositionInformation that = (PositionInformation) o;
-        return upperLeftCorner.equals(that.upperLeftCorner) &&
+        return mainCoord.equals(that.mainCoord) &&
                upperRightCorner.equals(that.upperRightCorner) &&
                 lowerLeftCorner.equals(that.lowerLeftCorner) &&
                 lowerRightCorner.equals(that.lowerRightCorner);
@@ -42,11 +40,11 @@ public class PositionInformation {
 
     @Override
     public int hashCode() {
-        return Objects.hash(upperLeftCorner, upperRightCorner, lowerLeftCorner, lowerRightCorner);
+        return Objects.hash(mainCoord, upperRightCorner, lowerLeftCorner, lowerRightCorner);
     }
 
     public boolean collisionCheck (PositionInformation other) {
-        return this.isCoordinateInside(other.upperLeftCorner) || this.isCoordinateInside(other.lowerLeftCorner)
+        return this.isCoordinateInside(other.mainCoord) || this.isCoordinateInside(other.lowerLeftCorner)
                 || this.isCoordinateInside(other.lowerRightCorner) || this.isCoordinateInside(other.upperRightCorner);
     }
 
@@ -56,12 +54,16 @@ public class PositionInformation {
      * @return
      */
     public Directions collidesWith (PositionInformation other) {
-        if (this.isCoordinateInside(other.upperLeftCorner) || this.isCoordinateInside(other.upperRightCorner)) {
+        if (this.isCoordinateInside(other.mainCoord) || this.isCoordinateInside(other.upperRightCorner)) {
             return Directions.UP;
         }
         if (this.isCoordinateInside(other.lowerLeftCorner) || this.isCoordinateInside(other.lowerRightCorner)) {
             return Directions.DOWN;
         }
         return Directions.NONE;
+    }
+
+    public void addSpeed (int xSpeed, int ySpeed) {
+        updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y + ySpeed);
     }
 }

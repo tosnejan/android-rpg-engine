@@ -2,6 +2,7 @@ package meletos.rpg_game.navigation;
 
 import android.graphics.Bitmap;
 
+import meletos.rpg_game.Coordinates;
 import meletos.rpg_game.Sprite;
 
 public class Button extends Sprite {
@@ -14,9 +15,8 @@ public class Button extends Sprite {
     }
 
     public boolean isTouched(int x, int y) {
-        if (x >= this.x && x <= otherX &&
-            y >= this.y && y <= otherY
-        ) {
+        Coordinates touchCoord = new Coordinates(x, y);
+        if (positionInformation.isCoordinateInside(touchCoord)) {
             onTouch();
             return true;
         }

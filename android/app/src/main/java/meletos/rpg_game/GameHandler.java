@@ -55,8 +55,6 @@ public class GameHandler implements Serializable {
         if (isGamePaused) {
             return;
         }
-        //String threadName = Thread.currentThread().getName();
-        //System.out.println("This is game logic here on thread: " + threadName);
         for (FatherCharacter character: characters) {
             character.update();
         }
@@ -87,35 +85,26 @@ public class GameHandler implements Serializable {
     /**
      * Sets character on a new course after it hits some wall
      * -- is quite ugly at the moment :D
-     * @param character
+     * @param p
      */
-    public void setDirections(FatherCharacter character) {
-        int x = character.getX();
-        int y = character.getY();
-        int imgHeight = character.getImgHeight();
-        int imgWidth = character.getImgWidth();
+    public Directions suggestDirections(PositionInformation p) {
+        Directions yDirection = Directions.NONE;
+        Directions xDirection = Directions.NONE;
+        Directions finalDirection = Directions.NONE;
 
-        Directions yDirection = null;
-        Directions xDirection = null;
-        Directions finalDirection = Directions.UP;
-
-        if (x + imgWidth >= screenWidth) {
-            xDirection = Directions.RIGHT;
-            finalDirection = xDirection;
-            x = screenWidth - imgWidth;
-        } else if (x <= 0) {
+        if (p.upperRightCorner.x >= screenWidth) {
             xDirection = Directions.LEFT;
             finalDirection = xDirection;
-            x = 0;
+        } else if (p.mainCoord.x <= 0) {
+            xDirection = Directions.RIGHT;
+            finalDirection = xDirection;
         }
-        if (y + imgHeight >= screenHeight) {
+        if (p.lowerRightCorner.y >= screenHeight) {
             yDirection = Directions.UP;
             finalDirection = yDirection;
-            y = screenHeight - imgHeight;
-        } else if (y <= 0) {
+        } else if (p.mainCoord.y <= 0) {
             yDirection = Directions.DOWN;
             finalDirection = yDirection;
-            y = 0;
         }
 
 
@@ -128,17 +117,19 @@ public class GameHandler implements Serializable {
         } else if (xDirection == Directions.LEFT && yDirection == Directions.DOWN) {
             finalDirection = Directions.DOWNLEFT;
         }
-        character.updateDirectionSpeed(finalDirection);
-        character.setX(x);
-        character.setY(y);
+        return finalDirection;
     }
 
+    /**
+     * Collision detector typu easy
+     * @param currPosition
+     * @param newPosition
+     * @return
+     */
+    public Directions collisionDetector (PositionInformation currPosition, PositionInformation newPosition) {
 
-    // TODO
-    public Directions collisionDetector (FatherCharacter currCharacter, PositionInformation newPosition) {
-        ;
         for (FatherCharacter character : characters) {
-            if (currCharacter.getPositionInformation().equals(character.getPositionInformation())) {
+            if (currPosition.equals(character.getPositionInformation())) {
                 continue; // probably is the same character
             }
             PositionInformation otherPositionInfo = character.getPositionInformation();
