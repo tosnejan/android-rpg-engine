@@ -10,7 +10,7 @@ import meletos.rpg_game.navigation.JoyStick;
  */
 public class Hero extends FatherCharacter {
 
-    JoyStick js;
+    private JoyStick js;
 
     public Hero(int x, int y, Bitmap image) {
         super(x, y, image);

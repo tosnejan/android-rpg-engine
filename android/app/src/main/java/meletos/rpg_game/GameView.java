@@ -48,7 +48,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         new RandomWalker(100, 200, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
                         new RandomWalker(500, 1000, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
                         new BouncingCharacter(500, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
-                        new Hero(700, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin))
+                        new Hero(700, 800, BitmapFactory.decodeResource(getResources(),R.drawable.characters_warrior_m_1))
                 };
         hero = (Hero) characters[3];
         hero.setJoystick(js);
