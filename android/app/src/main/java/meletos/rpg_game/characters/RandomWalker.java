@@ -12,6 +12,10 @@ public class RandomWalker extends FatherCharacter {
         steps = 0;
     }
 
+    public RandomWalker(int x, int y) {
+        super(x, y);
+    }
+
     @Override
     public void update() {
         ++steps;
@@ -20,14 +24,23 @@ public class RandomWalker extends FatherCharacter {
             steps = 0;
         }
 
-        if (!gameHandler.isPositionAvailable(x + xSpeed, y + ySpeed, imgWidth, imgHeigth)) {
-            gameHandler.setDirections(this);
-        }
-        //Directions collisionDirection = gameHandler.collisionDetector(this, new PositionInformation(x + xSpeed, y + ySpeed, imgWidth, imgHeigth));
+        Directions suggestedDirection = gameHandler.suggestDirections( positionInformation);
 
-        //if (collisionDirection != Directions.NONE) {
-        //    updateDirectionSpeed(collisionDirection);
-        //}
+        if (suggestedDirection != Directions.NONE) {
+            updateDirectionSpeed(suggestedDirection);
+        }
+
+        suggestedDirection = gameHandler.collisionDetector(
+                positionInformation, new PositionInformation(
+                        positionInformation.mainCoord.x + xSpeed,
+                        positionInformation.mainCoord.y + ySpeed,
+                        imgHeigth, imgWidth
+                )
+        );
+
+        if (suggestedDirection != Directions.NONE) {
+            updateDirectionSpeed(suggestedDirection);
+        }
 
         updateXY();
     }

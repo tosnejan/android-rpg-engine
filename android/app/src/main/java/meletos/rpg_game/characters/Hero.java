@@ -3,6 +3,7 @@ package meletos.rpg_game.characters;
 import android.graphics.Bitmap;
 
 import meletos.rpg_game.Directions;
+import meletos.rpg_game.PositionInformation;
 import meletos.rpg_game.navigation.JoyStick;
 
 /**
@@ -24,7 +25,15 @@ public class Hero extends FatherCharacter {
      */
     public void heroicMove (Directions direction) {
         updateDirectionSpeed(direction);
-        if (gameHandler.isPositionAvailable(x + xSpeed, y + ySpeed, imgWidth, imgHeigth)) {
+
+        PositionInformation newPosition = new PositionInformation(
+                positionInformation.mainCoord.x + xSpeed,
+                positionInformation.mainCoord.y + ySpeed, imgHeigth, imgWidth
+        );
+        if (
+                gameHandler.suggestDirections(newPosition) == Directions.NONE &&
+                gameHandler.collisionDetector(positionInformation, newPosition ) == Directions.NONE
+        ) {
             updateXY();
         }
     }
