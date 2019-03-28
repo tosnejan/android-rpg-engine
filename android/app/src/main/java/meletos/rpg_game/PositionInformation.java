@@ -63,7 +63,13 @@ public class PositionInformation {
         return Directions.NONE;
     }
 
-    public void addSpeed (int xSpeed, int ySpeed) {
-        updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y + ySpeed);
+    public void addSpeed (int xSpeed, int ySpeed, GameHandler gameHandler) {
+        if (gameHandler.isPositionAvailable(mainCoord.x + xSpeed,mainCoord.y + ySpeed,imgWidth,imgHeigth)){
+            updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y + ySpeed);
+        } else if (gameHandler.isPositionAvailable(mainCoord.x,mainCoord.y + ySpeed,imgWidth,imgHeigth)){
+            updatePositionInformation(mainCoord.x, mainCoord.y + ySpeed);
+        }else if (gameHandler.isPositionAvailable(mainCoord.x+ xSpeed,mainCoord.y,imgWidth,imgHeigth)){
+            updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y);
+        }
     }
 }

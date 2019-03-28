@@ -1,12 +1,18 @@
 package meletos.rpg_game;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 import meletos.rpg_game.characters.FatherCharacter;
 
@@ -22,25 +28,72 @@ public class GameHandler implements Serializable {
     private boolean isGamePaused = false;
     private Context context;
     private Bitmap map;
+    private int xShift = 0;
+    private int yShift = 0;
+    private int mapScale = 5;
 
-    public GameHandler(FatherCharacter[] characters, Context context, int[][] mapMatrix) {
+    public GameHandler (FatherCharacter[] characters, Context context, int[][] mapMatrix) {
         this.characters = characters;
         this.mapMatrix = mapMatrix;
         this.context = context;
-        map = BitmapFactory.decodeResource(context.getResources(),R.drawable.testing_map);
-        map = Bitmap.createScaledBitmap(map, 1920, 1080, true);
+        loadMap("testing_map");
         for (FatherCharacter character: characters) {
             character.setGameHandler(this); // let those characters know I'm the boss!
         }
     }
 
-    public GameHandler(FatherCharacter[] characters, Context context) {
+    public GameHandler (FatherCharacter[] characters, Context context) {
         this.characters = characters;
         this.context = context;
-        map = BitmapFactory.decodeResource(context.getResources(),R.drawable.testing_map);
-        map = Bitmap.createScaledBitmap(map, 1920, 1080, true);
+        loadMap("testing_map");
         for (FatherCharacter character: characters) {
             character.setGameHandler(this); // let those characters know I'm the boss!
+        }
+    }
+
+    public void loadMap (String fileName) {
+        AssetManager am = context.getAssets();
+        String path = String.format("maps/%s.png",fileName);
+        int width = 0;
+        int height = 0;
+        try {
+            map = BitmapFactory.decodeStream(am.open(path));
+            width = map.getWidth();
+            height = map.getHeight();
+            map = Bitmap.createScaledBitmap(map, width*mapScale, height*mapScale, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        path = String.format("maps/%s.txt",fileName);
+        BufferedReader reader = null;
+        int i = 0;
+        int j = 0;
+        mapMatrix = new int[height][width];
+        try {
+            reader = new BufferedReader(
+                    new InputStreamReader(context.getAssets().open(path), StandardCharsets.UTF_8));
+            String line;
+            String[] split;
+            int ID = 0;
+            while ((line = reader.readLine()) != null) {
+                split = line.split("[ ]+");
+                for (String num : split) {
+                    mapMatrix[j][i] = Integer.parseInt(num);
+                    ++i;
+                }
+                i = 0;
+                ++j;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -71,12 +124,23 @@ public class GameHandler implements Serializable {
      * @return
      */
     public boolean isPositionAvailable (int x, int y, int imgWidth, int imgHeight) {
+        x = (x + xShift)/mapScale;
+        y = (y + yShift)/mapScale;
+        imgWidth = imgWidth/mapScale;
+        imgHeight = imgHeight/mapScale;
         if (
-            /*mapMatrix[y][x] == available &&*/
             x + imgWidth < screenWidth &&
             y + imgHeight < screenHeight &&
-            x > 0 && y > 0
+            x >= 0 && y >= 0
         ) {
+            for (int i = y; i < y + imgHeight; i++) {
+                for (int j = x; j < x + imgWidth; j++) {
+                    if(mapMatrix[i][j] != available){
+                        return false;
+                    }
+                }
+
+            }
             return true;
             /* mohla by pak vracet string s presnou specifikaci problemu aka "prekazka nalevo"
              nebo bychom to mohli rozdelit do vice fci mozna :D*/
@@ -138,7 +202,6 @@ public class GameHandler implements Serializable {
 
             Directions result = newPosition.collidesWith(otherPositionInfo);
             if (result != Directions.NONE) {
-                System.out.println(result);
                 return result;
             }
         }

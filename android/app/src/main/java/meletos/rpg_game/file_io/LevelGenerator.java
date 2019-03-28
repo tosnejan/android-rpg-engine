@@ -37,7 +37,6 @@ public class LevelGenerator {
         File[] files = directory.listFiles();
         for (File file : files) {
             if (file.toString() == filename) {
-                System.out.println(file.toString());
                 this.file = file;
             }
         }

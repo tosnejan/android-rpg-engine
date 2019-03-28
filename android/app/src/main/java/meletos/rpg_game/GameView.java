@@ -40,7 +40,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread viewThread;
     private GameThread gameThread;
     private Button exampleButton;
-    JoyStick js = new JoyStick(BitmapFactory.decodeResource(getResources(),R.drawable.circle),BitmapFactory.decodeResource(getResources(),R.drawable.ring));
+    JoyStick js = new JoyStick(BitmapFactory.decodeResource(getResources(),R.drawable.circle),
+            BitmapFactory.decodeResource(getResources(),R.drawable.ring));
     Hero hero;
     private ArrayList<Button> buttons;
 
@@ -48,12 +49,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super(context);
         FatherCharacter[] characters =
                 {
-                        new RandomWalker(100, 200, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
-                        new RandomWalker(500, 1000, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
-                        //new BouncingCharacter(500, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin)),
-                        new Hero(1000, 800, "characters/warrior_m", context)
+                        new Hero(100, 500, "characters/warrior_m", context),
+                        new RandomWalker(100, 800, "characters/ninja_m", context),
+                        new RandomWalker(500, 1000, "characters/townfolk1_f", context),
+                        //new BouncingCharacter(500, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin))
                 };
-        hero = (Hero) characters[2];
+        hero = (Hero) characters[0];
         hero.setJoystick(js);
         gameHandler = new GameHandler(characters, context);
 
@@ -65,7 +66,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         gameThread = new GameThread(gameHandler);
         viewThread = new MainThread(getHolder(), this);
         setFocusable(true);
-        exampleButton = new Button(1000, 100, BitmapFactory.decodeResource(getResources(),R.drawable.coin));
+        //exampleButton = new Button(1000, 100, BitmapFactory.decodeResource(getResources(),R.drawable.coin));
 
         //Gson gs = new Gson();
         //String res = gs.toJson(gameHandler);
@@ -79,7 +80,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             super.draw(canvas);
             canvas.drawColor(Color.WHITE);
             gameHandler.drawGame(canvas);
-            exampleButton.draw(canvas);
+            //exampleButton.draw(canvas);
             js.draw(canvas);
         }
     }
@@ -92,16 +93,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == ACTION_DOWN) {
-            if (exampleButton.isTouched((int)event.getX(), (int)event.getY())) {
+            /*if (exampleButton.isTouched((int)event.getX(), (int)event.getY())) {
                 gameHandler.pauseGame();
             } else {
                 js.setUsed(true);
                 js.setBase(event.getX(), event.getY());
-            }
+            }*/
+            js.setUsed(true);
+            js.setBase(event.getX(), event.getY());
         }
         if (event.getAction() == ACTION_UP) {
             js.setUsed(false);
-            gameHandler.resumeGame();
+            //gameHandler.resumeGame();
         }
         if (js.used) {
             js.setPos(event.getX(), event.getY());

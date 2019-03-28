@@ -28,7 +28,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
      * A proposal -- lets use this construct for animations :D
      */
     protected  ArrayList<Bitmap> images;
-    int idx = 0;
+    protected int idx = 0;
     protected boolean animation = false;
     protected int animationSpeed = 0;
     protected final int ANIM_SPEED = 10; // sets after how many calls to draw does the image animate
@@ -58,7 +58,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
         image = images.get(7);
         imgHeigth = image.getHeight();
         imgWidth = image.getWidth();
-        this.positionInformation = new PositionInformation(x, y, image.getHeight(), image.getWidth());
+        positionInformation = new PositionInformation(x, y, image.getHeight(), image.getWidth());
     }
 
     public FatherCharacter(int x, int y) {
@@ -96,6 +96,49 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
 
     @Override
     public void draw (Canvas canvas) {
+        if (animation) {
+            if (animationSpeed == ANIM_SPEED) {
+                animationSpeed = 0;
+                int i;
+                ++idx;
+                if (idx == 4) idx = 0;
+                if (idx == 3) i = -2;
+                else i = 0;
+                switch (direction) {
+                    case NONE:
+                        i = 7;
+                        idx = 0;
+                        break;
+                    case UP:
+                        i += idx;
+                        break;
+                    case DOWN:
+                        i += idx + 6;
+                        break;
+                    case DOWNLEFT:
+                        i += idx + 9;
+                        break;
+                    case LEFT:
+                        i += idx + 9;
+                        break;
+                    case UPLEFT:
+                        i += idx + 9;
+                        break;
+                    case DOWNRIGHT:
+                        i += idx + 3;
+                        break;
+                    case RIGHT:
+                        i += idx + 3;
+                        break;
+                    case UPRIGHT:
+                        i += idx + 3;
+                        break;
+                }
+                image = images.get(i);
+            } else {
+                ++animationSpeed;
+            }
+        }
         super.draw(canvas);
     }
 
@@ -138,20 +181,20 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
                 ySpeed = (-1)*ySpeedConstant;
                 break;
             case DOWNLEFT:
-                xSpeed = (-1)*xSpeedConstant;
-                ySpeed = ySpeedConstant;
+                xSpeed = (-3)*xSpeedConstant/4;
+                ySpeed = 3*ySpeedConstant/4;
                 break;
             case DOWNRIGHT:
-                xSpeed = xSpeedConstant;
-                ySpeed = ySpeedConstant;
+                xSpeed = 3*xSpeedConstant/4;
+                ySpeed = 3*ySpeedConstant/4;
                 break;
             case UPLEFT:
-                xSpeed = (-1)*xSpeedConstant;
-                ySpeed = (-1)*ySpeedConstant;
+                xSpeed = (-3)*xSpeedConstant/4;
+                ySpeed = (-3)*ySpeedConstant/4;
                 break;
             case UPRIGHT:
-                xSpeed = xSpeedConstant;
-                ySpeed = (-1)*ySpeedConstant;
+                xSpeed = 3*xSpeedConstant/4;
+                ySpeed = (-3)*ySpeedConstant/4;
                 break;
             case NONE:
                 xSpeed = 0;
@@ -164,7 +207,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
      * Method for updating x and y
      */
     protected void updateXY () {
-        positionInformation.addSpeed(xSpeed, ySpeed);
+        positionInformation.addSpeed(xSpeed, ySpeed, gameHandler);
     }
 
     public int getX() {

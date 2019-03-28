@@ -1,5 +1,6 @@
 package meletos.rpg_game.characters;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import meletos.rpg_game.Directions;
@@ -10,10 +11,22 @@ public class RandomWalker extends FatherCharacter {
     public RandomWalker(int x, int y, Bitmap image) {
         super(x, y, image);
         steps = 0;
+        xSpeedConstant = 5;
+        ySpeedConstant = 5;
+    }
+
+    public RandomWalker(int x, int y, String assetsFolder, Context context) {
+        super(x, y, assetsFolder, context);
+        steps = 0;
+        xSpeedConstant = 5;
+        ySpeedConstant = 5;
     }
 
     public RandomWalker(int x, int y) {
         super(x, y);
+        steps = 0;
+        xSpeedConstant = 5;
+        ySpeedConstant = 5;
     }
 
     @Override
