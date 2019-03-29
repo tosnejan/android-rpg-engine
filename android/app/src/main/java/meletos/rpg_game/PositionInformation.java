@@ -54,11 +54,23 @@ public class PositionInformation {
      * @return
      */
     public Directions collidesWith (PositionInformation other) {
-        if (this.isCoordinateInside(other.mainCoord) || this.isCoordinateInside(other.upperRightCorner)) {
+        if (this.isCoordinateInside(other.mainCoord) && this.isCoordinateInside(other.upperRightCorner)) {
             return Directions.UP;
         }
-        if (this.isCoordinateInside(other.lowerLeftCorner) || this.isCoordinateInside(other.lowerRightCorner)) {
+        if (this.isCoordinateInside(other.mainCoord)) {
+            return Directions.UPLEFT;
+        }
+        if (this.isCoordinateInside(other.upperRightCorner)) {
+            return Directions.UPRIGHT;
+        }
+        if (this.isCoordinateInside(other.lowerLeftCorner) && this.isCoordinateInside(other.lowerRightCorner)) {
             return Directions.DOWN;
+        }
+        if (this.isCoordinateInside(other.lowerLeftCorner)) {
+            return Directions.DOWNLEFT;
+        }
+        if (this.isCoordinateInside(other.lowerRightCorner)) {
+            return Directions.DOWNRIGHT;
         }
         return Directions.NONE;
     }
@@ -68,7 +80,7 @@ public class PositionInformation {
             updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y + ySpeed);
         } else if (gameHandler.isPositionAvailable(mainCoord.x,mainCoord.y + ySpeed,imgWidth,imgHeigth)){
             updatePositionInformation(mainCoord.x, mainCoord.y + ySpeed);
-        }else if (gameHandler.isPositionAvailable(mainCoord.x+ xSpeed,mainCoord.y,imgWidth,imgHeigth)){
+        } else if (gameHandler.isPositionAvailable(mainCoord.x + xSpeed,mainCoord.y,imgWidth,imgHeigth)){
             updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y);
         }
     }

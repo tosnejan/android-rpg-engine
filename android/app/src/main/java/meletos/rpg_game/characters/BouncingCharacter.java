@@ -4,8 +4,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 
 public class BouncingCharacter extends FatherCharacter {
-
-
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private boolean isGoingRight = true;

@@ -139,11 +139,8 @@ public class GameHandler implements Serializable {
                         return false;
                     }
                 }
-
             }
             return true;
-            /* mohla by pak vracet string s presnou specifikaci problemu aka "prekazka nalevo"
-             nebo bychom to mohli rozdelit do vice fci mozna :D*/
         }
         return false;
     }
