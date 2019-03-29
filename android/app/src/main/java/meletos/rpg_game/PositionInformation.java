@@ -84,4 +84,17 @@ public class PositionInformation {
             updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y);
         }
     }
+    public void heroAddSpeed (int xSpeed, int ySpeed, GameHandler gh) {
+        if (gh.isPositionAvailable(mainCoord.x + xSpeed,mainCoord.y + ySpeed,imgWidth,imgHeigth)){
+            if (gh.moveMapByX(mainCoord.x,xSpeed,imgWidth));
+                updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y);
+            if (gh.moveMapByY(mainCoord.y,ySpeed,imgHeigth));
+                updatePositionInformation(mainCoord.x , mainCoord.y + ySpeed);
+        } else if (gh.isPositionAvailable(mainCoord.x,mainCoord.y + ySpeed,imgWidth,imgHeigth)){
+            if (gh.moveMapByY(mainCoord.y,ySpeed,imgHeigth))updatePositionInformation(mainCoord.x , mainCoord.y + ySpeed);
+        } else if (gh.isPositionAvailable(mainCoord.x + xSpeed,mainCoord.y,imgWidth,imgHeigth)){
+            if (gh.moveMapByX(mainCoord.x,xSpeed,imgWidth))
+                updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y);
+        }
+    }
 }

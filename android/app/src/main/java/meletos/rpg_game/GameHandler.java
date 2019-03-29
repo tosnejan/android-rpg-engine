@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
-import java.util.Locale;
 
 import meletos.rpg_game.characters.FatherCharacter;
 
@@ -22,6 +21,8 @@ import meletos.rpg_game.characters.FatherCharacter;
 public class GameHandler implements Serializable {
     private FatherCharacter[] characters;
     private int[][] mapMatrix; // matrix of the map availability
+    private int mapWidth;
+    private int mapHeight;
     private final int available = 0; // constant defining whether a pixel is available
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -54,13 +55,13 @@ public class GameHandler implements Serializable {
     public void loadMap (String fileName) {
         AssetManager am = context.getAssets();
         String path = String.format("maps/%s.png",fileName);
-        int width = 0;
-        int height = 0;
+        mapWidth = 0;
+        mapHeight = 0;
         try {
             map = BitmapFactory.decodeStream(am.open(path));
-            width = map.getWidth();
-            height = map.getHeight();
-            map = Bitmap.createScaledBitmap(map, width*mapScale, height*mapScale, true);
+            mapWidth = map.getWidth() * mapScale;
+            mapHeight = map.getHeight() * mapScale;
+            map = Bitmap.createScaledBitmap(map, mapWidth, mapHeight, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,7 +69,7 @@ public class GameHandler implements Serializable {
         BufferedReader reader = null;
         int i = 0;
         int j = 0;
-        mapMatrix = new int[height][width];
+        mapMatrix = new int[mapHeight][mapWidth];
         try {
             reader = new BufferedReader(
                     new InputStreamReader(context.getAssets().open(path), StandardCharsets.UTF_8));
@@ -100,7 +101,7 @@ public class GameHandler implements Serializable {
     public void drawGame (Canvas canvas) {
         //String threadName = Thread.currentThread().getName();
         //System.out.println("This is view logic here on thread: " + threadName);
-        canvas.drawBitmap(map, 0, 0, null);
+        canvas.drawBitmap(map, xShift, yShift, null);
         for (FatherCharacter character: characters) {
             character.draw(canvas);
         }
@@ -124,14 +125,14 @@ public class GameHandler implements Serializable {
      * @return
      */
     public boolean isPositionAvailable (int x, int y, int imgWidth, int imgHeight) {
-        x = (x + xShift)/mapScale;
-        y = (y + yShift)/mapScale;
+        x = (x)/mapScale;
+        y = (y)/mapScale;
         imgWidth = imgWidth/mapScale;
         imgHeight = imgHeight/mapScale;
         if (
-            x + imgWidth < screenWidth &&
-            y + imgHeight < screenHeight &&
-            x >= 0 && y >= 0
+                x + imgWidth < mapWidth/mapScale &&
+                        y + imgHeight < mapHeight/mapScale &&
+                        x >= 0 && y >= 0
         ) {
             for (int i = y; i < y + imgHeight; i++) {
                 for (int j = x; j < x + imgWidth; j++) {
@@ -143,8 +144,84 @@ public class GameHandler implements Serializable {
             return true;
         }
         return false;
+        /*
+        if (x + imgWidth > mapWidth/mapScale) x = mapWidth/mapScale - imgWidth;
+        if (y + imgHeight > mapHeight/mapScale) y = mapHeight/mapScale - imgHeight;
+        if (x < 0) x = 0;
+        if (y < 0) y = 0;
+        for (int i = y; i < y + imgHeight; i++) {
+            for (int j = x; j < x + imgWidth; j++) {
+                if(mapMatrix[i][j] != available){
+                    return false;
+                }
+            }
+        }
+        return true;*/
     }
 
+    public int getxShift() {
+        return xShift;
+    }
+
+    public int getyShift() {
+        return yShift;
+    }
+
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
+    }
+
+    public boolean moveMapByX(int x, int xSpeed, int imgWidth) {
+        int newX = xShift - xSpeed;
+        boolean ret = false;
+        if (x + newX < (screenWidth - imgWidth)/2 && xShift == 0) {
+            ret = true;
+        } else if (x + newX > (screenWidth - imgWidth)/2 && xShift == screenWidth - mapWidth) {
+            ret = true;
+        } else if ( newX <= 0 && newX >= screenWidth - mapWidth){
+            xShift = newX;
+            ret = true;
+        } else if (newX > 0){
+            xShift = 0;
+            ret = true;
+        } else if (newX < screenWidth - mapWidth){
+            xShift = screenWidth - mapWidth;
+            ret = true;
+        }
+        return ret;
+    }
+
+    public boolean moveMapByY(int y, int ySpeed, int imgHeight) {
+        int newY = yShift - ySpeed;
+        boolean ret = false;
+        if (y + newY < (screenHeight - imgHeight)/2 && yShift == 0) {
+            ret = true;
+        }else if (y + newY > (screenHeight - imgHeight)/2 && yShift == screenHeight - mapHeight) {
+            ret = true;
+        }else if ( newY <= 0 && newY >= screenHeight - mapHeight){
+            yShift = newY;
+            ret = true;
+        }else if (newY > 0){
+            yShift = 0;
+            ret = true;
+        } else if (newY < screenHeight - mapHeight){
+            yShift = screenHeight - mapHeight;
+            ret = true;
+        }
+            return ret;
+    }
     /**
      * Sets character on a new course after it hits some wall
      * -- is quite ugly at the moment :D
@@ -212,6 +289,5 @@ public class GameHandler implements Serializable {
     public void resumeGame() {
         isGamePaused = false;
     }
-
 
 }

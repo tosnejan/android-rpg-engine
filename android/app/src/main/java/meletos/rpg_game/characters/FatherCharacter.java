@@ -137,7 +137,9 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
                 ++animationSpeed;
             }
         }
-        super.draw(canvas);
+        canvas.drawBitmap(image, positionInformation.mainCoord.x + gameHandler.getxShift(),
+                positionInformation.mainCoord.y + gameHandler.getyShift(), null
+        );
     }
 
     /**
