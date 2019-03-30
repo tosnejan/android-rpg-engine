@@ -8,4 +8,19 @@ ID: 2
 Ukončování hry
 
 ID: 3
-Jste si jist, že chcete ukončit tuto hru? Veškerý neuložená obsah bude ztracen.
+Jste si jist/a, že chcete ukončit tuto hru? Veškerý neuložený obsah bude ztracen.
+
+ID: 4
+Nová hra
+
+ID: 5
+Načíst hru
+
+ID: 6
+Nastavení
+
+ID: 7
+Ukončit
+
+ID: 8
+Návrat

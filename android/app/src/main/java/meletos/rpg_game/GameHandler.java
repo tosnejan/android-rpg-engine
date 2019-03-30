@@ -20,6 +20,7 @@ import meletos.rpg_game.characters.FatherCharacter;
  */
 public class GameHandler implements Serializable {
     private FatherCharacter[] characters;
+    private GameView gameView;
     private int[][] mapMatrix; // matrix of the map availability
     private int mapWidth;
     private int mapHeight;
@@ -33,7 +34,7 @@ public class GameHandler implements Serializable {
     private int yShift = 0;
     private int mapScale = 5;
 
-    public GameHandler (FatherCharacter[] characters, Context context, int[][] mapMatrix) {
+    /*public GameHandler (FatherCharacter[] characters, Context context, int[][] mapMatrix) {
         this.characters = characters;
         this.mapMatrix = mapMatrix;
         this.context = context;
@@ -41,11 +42,12 @@ public class GameHandler implements Serializable {
         for (FatherCharacter character: characters) {
             character.setGameHandler(this); // let those characters know I'm the boss!
         }
-    }
+    }*/
 
-    public GameHandler (FatherCharacter[] characters, Context context) {
+    public GameHandler (FatherCharacter[] characters, Context context, GameView gameView) {
         this.characters = characters;
         this.context = context;
+        this.gameView = gameView;
         loadMap("testing_map");
         for (FatherCharacter character: characters) {
             character.setGameHandler(this); // let those characters know I'm the boss!
@@ -290,4 +292,7 @@ public class GameHandler implements Serializable {
         isGamePaused = false;
     }
 
+    public boolean isGamePaused() {
+        return isGamePaused;
+    }
 }

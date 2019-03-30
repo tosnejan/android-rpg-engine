@@ -21,9 +21,9 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); // this makes the app go fullscreen
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        gameView = new GameView(this);
+        text = new Text(Language.CZE,this);// change this for default language
+        gameView = new GameView(this, text);
         setContentView(gameView); // this starts the game canvas
-        text = new Text(Language.CZE,this);     // change this for default language
         gameView.onCreate();
     }
 
@@ -48,18 +48,21 @@ public class MainActivity extends Activity {
      */
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle(text.getText(2))
-                .setMessage(text.getText(3))
-                .setPositiveButton(text.getText(1), new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                })
-                .setNegativeButton(text.getText(0), null)
-                .show();
+        if (gameView.getState() == State.MAIN_MENU) {
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle(text.getText(2))
+                    .setMessage(text.getText(3))
+                    .setPositiveButton(text.getText(1), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(text.getText(0), null)
+                    .show();
+        } else {
+            gameView.setState(State.MENU);
+        }
     }
 }

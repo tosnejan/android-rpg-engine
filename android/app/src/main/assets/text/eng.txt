@@ -10,3 +10,17 @@ Closing Game
 ID: 3
 Are you sure you want to close the game? All unsaved progress will be lost.
 
+ID: 4
+New game
+
+ID: 5
+Load game
+
+ID: 6
+Settings
+
+ID: 7
+Quit
+
+ID: 8
+Resume

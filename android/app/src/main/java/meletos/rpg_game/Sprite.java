@@ -56,8 +56,9 @@ public abstract class Sprite {
      * @param canvas
      */
     public void draw(Canvas canvas) {
+        if(image != null){
         canvas.drawBitmap(image,
-                positionInformation.mainCoord.x, positionInformation.mainCoord.y, null
-        );
+                positionInformation.mainCoord.x, positionInformation.mainCoord.y, null);
+        }
     }
 }

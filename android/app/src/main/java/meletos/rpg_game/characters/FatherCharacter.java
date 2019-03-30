@@ -94,7 +94,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
 
     @Override
     public void draw (Canvas canvas) {
-        if (animation) {
+        if (animation && !gameHandler.isGamePaused()) {
             if (animationSpeed == ANIM_SPEED) {
                 animationSpeed = 0;
                 int i;

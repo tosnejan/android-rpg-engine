@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 public class Text {
 
     private Language lang;
-    private String[] text = new String[4];
+    private String[] text = new String[9];
     private Context context;
 
     public Text(Context context) {
@@ -53,6 +53,7 @@ public class Text {
 
     public void setLang(Language lang){
         this.lang = lang;
+        load();
     }
 
     public String getText(int ID){

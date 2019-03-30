@@ -14,14 +14,15 @@ import meletos.rpg_game.GameView;
 import meletos.rpg_game.State;
 import meletos.rpg_game.text.Text;
 
-public class Menu {
+public class MainMenu {
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private Bitmap image;
+    private Bitmap background;
     private Bitmap buttonImage;
     private GameView gameView;
     private Context context;
-    private MenuStates state = MenuStates.MAIN;
+    private MainMenuStates state = MainMenuStates.MAIN;
     private MenuButton[] buttons = new MenuButton[4];
     private Text text;
     private GameHandler gameHandler;
@@ -29,7 +30,7 @@ public class Menu {
     private int x;
     private int y;
 
-    public Menu(GameView gameView, Context context, Text text, GameHandler gameHandler) {
+    public MainMenu(GameView gameView, Context context, Text text, GameHandler gameHandler) {
         this.gameView = gameView;
         this.context = context;
         this.text = text;
@@ -45,12 +46,15 @@ public class Menu {
             x = (screenWidth - image.getWidth())/2;
             y = (screenHeight - image.getHeight())/2;
             buttonImage = BitmapFactory.decodeStream(am.open("menu/button.png"));
+            background = BitmapFactory.decodeStream(am.open("menu/background.png"));
+            background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void draw(Canvas canvas){
+        canvas.drawBitmap(background, 0, 0, null);
         switch (state) {
             case MAIN:
                 canvas.drawBitmap(image, x, y, null);
@@ -63,6 +67,8 @@ public class Menu {
                 break;
             case LOAD:
                 canvas.drawBitmap(image, x, y, null);
+                break;
+            case CHOOSE_PLAYER:
                 break;
         }
     }
@@ -79,6 +85,8 @@ public class Menu {
             case SETTINGS:
                 break;
             case LOAD:
+                break;
+            case CHOOSE_PLAYER:
                 break;
         }
     }
@@ -111,12 +119,14 @@ public class Menu {
                 break;
             case LOAD:
                 break;
+            case CHOOSE_PLAYER:
+                break;
         }
     }
 
     private void createButtons() {
         int buttonX = (screenWidth - buttonImage.getWidth())/2;
-        buttons[0] = new MenuButton(buttonX, y + 105, buttonImage, text, 8);
+        buttons[0] = new MenuButton(buttonX, y + 105, buttonImage, text, 4);
         buttons[1] = new MenuButton(buttonX, y + 310, buttonImage, text, 5);
         buttons[2] = new MenuButton(buttonX, y + 515, buttonImage, text, 6);
         buttons[3] = new MenuButton(buttonX, y + 720, buttonImage, text, 7);
