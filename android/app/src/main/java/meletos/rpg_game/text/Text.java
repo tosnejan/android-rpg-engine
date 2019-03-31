@@ -1,6 +1,7 @@
 package meletos.rpg_game.text;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.SparseArray;
 
 import java.io.BufferedReader;
@@ -16,7 +17,7 @@ public class Text {
     private Context context;
 
     public Text(Context context) {
-        this(Language.ENG, context);
+        this.context = context;
     }
 
     public Text(Language lang, Context context) {
@@ -28,7 +29,7 @@ public class Text {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(
-                    new InputStreamReader(context.getAssets().open(lang.filename), StandardCharsets.UTF_8));
+                    new InputStreamReader(context.getAssets().open(lang.getFilename()), StandardCharsets.UTF_8));
             String line;
             int ID = 0;
             while ((line = reader.readLine()) != null) {
@@ -56,6 +57,19 @@ public class Text {
 
     public void setLang(Language lang){
         this.lang = lang;
+        load();
+    }
+
+    public Language getLang() {
+        return lang;
+    }
+
+    public void changeLang(Language lang){
+        this.lang = lang;
+        SharedPreferences settings = context.getSharedPreferences("settings", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("language", lang.getID());
+        editor.apply();
         load();
     }
 

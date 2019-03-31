@@ -71,10 +71,10 @@ public class MenuButton extends Button {
         }
     }
 
-    public void changeImage(boolean isClicked){
+    public void changeImage(boolean isClicked, int yShift){
         if (isClicked){
             image = imageClicked;
-            yClick = 10;
+            yClick = yShift;
         } else {
             image = imageUnclicked;
             yClick = 0;

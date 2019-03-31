@@ -27,3 +27,9 @@ Save game
 
 ID: 9
 Main menu
+
+ID: 10
+ENG
+
+ID: 11
+CZE

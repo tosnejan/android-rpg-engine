@@ -27,3 +27,9 @@ Uložit hru
 
 ID: 9
 Hlavní menu
+
+ID: 10
+ENG
+
+ID: 11
+CZE

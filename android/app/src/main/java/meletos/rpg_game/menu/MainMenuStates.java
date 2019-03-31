@@ -1,4 +1,4 @@
-package meletos.rpg_game.navigation;
+package meletos.rpg_game.menu;
 
 public enum MainMenuStates {
     MAIN, SETTINGS, LOAD, CHOOSE_PLAYER

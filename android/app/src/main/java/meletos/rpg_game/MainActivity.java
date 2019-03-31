@@ -3,6 +3,7 @@ package meletos.rpg_game;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -21,7 +22,8 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); // this makes the app go fullscreen
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        text = new Text(Language.CZE,this);// change this for default language
+        SharedPreferences settings = getSharedPreferences("settings", 0);
+        text = new Text(this);// change this for default language
         gameView = new GameView(this, text);
         setContentView(gameView); // this starts the game canvas
         gameView.onCreate();

@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
+import meletos.rpg_game.menu.Settings;
 import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.JoyStick;
-import meletos.rpg_game.navigation.MainMenu;
-import meletos.rpg_game.navigation.Menu;
+import meletos.rpg_game.menu.MainMenu;
+import meletos.rpg_game.menu.Menu;
+import meletos.rpg_game.sound.Sound;
 import meletos.rpg_game.text.Text;
 
 import static android.view.MotionEvent.ACTION_DOWN;
@@ -28,7 +30,7 @@ import static android.view.MotionEvent.ACTION_UP;
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private GameHandler gameHandler;
-
+    private Settings settings;
     private MainThread viewThread;
     private GameThread gameThread;
     private Button exampleButton;
@@ -40,6 +42,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainMenu mainMenu;
     private Menu menu;
     private Text text;
+    private Sound sound;
 
     public GameView(Context context, Text text) {
         super(context);
@@ -53,9 +56,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 };
         hero = (Hero) characters[0];
         hero.setJoystick(js);
+        sound = new Sound();
+        settings = new Settings(text, sound, context);
         gameHandler = new GameHandler(characters, context, this);
-        mainMenu = new MainMenu(this, context, text, gameHandler);
-        menu = new Menu(this, context, text, gameHandler);
+        mainMenu = new MainMenu(gameHandler, this, context, text, settings);
+        menu = new Menu(gameHandler, this, context, text, settings);
 
         //LevelHandler lvlHandler = new LevelHandler("first_file", context);
         //lvlHandler.serialiseLevel(gameHandler);
