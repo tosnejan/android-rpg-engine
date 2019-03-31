@@ -14,13 +14,14 @@ import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 
 import meletos.rpg_game.characters.FatherCharacter;
+import meletos.rpg_game.characters.Hero;
+import meletos.rpg_game.navigation.JoyStick;
 
 /**
  * Class used to check whether the characters are updating properly
  */
-public class GameHandler implements Serializable {
+public class GameHandler {
     private FatherCharacter[] characters;
-    private GameView gameView;
     private int[][] mapMatrix; // matrix of the map availability
     private int mapWidth;
     private int mapHeight;
@@ -33,25 +34,21 @@ public class GameHandler implements Serializable {
     private int xShift = 0;
     private int yShift = 0;
     private int mapScale = 5;
+    private Hero hero;
+    private GameView gameView;
 
-    /*public GameHandler (FatherCharacter[] characters, Context context, int[][] mapMatrix) {
+    public GameHandler (FatherCharacter[] characters, Context context) {
         this.characters = characters;
-        this.mapMatrix = mapMatrix;
         this.context = context;
-        loadMap("testing_map");
         for (FatherCharacter character: characters) {
-            character.setGameHandler(this); // let those characters know I'm the boss!
+            if (character.setGameHandler(this)) { // let those characters know I'm the boss!
+                hero = (Hero)character; // if true, the character is hero
+            }
         }
-    }*/
+    }
 
-    public GameHandler (FatherCharacter[] characters, Context context, GameView gameView) {
-        this.characters = characters;
-        this.context = context;
+    public void setGameView(GameView gameView) {
         this.gameView = gameView;
-        loadMap("testing_map");
-        for (FatherCharacter character: characters) {
-            character.setGameHandler(this); // let those characters know I'm the boss!
-        }
     }
 
     public void loadMap (String fileName) {
@@ -101,8 +98,6 @@ public class GameHandler implements Serializable {
     }
 
     public void drawGame (Canvas canvas) {
-        //String threadName = Thread.currentThread().getName();
-        //System.out.println("This is view logic here on thread: " + threadName);
         canvas.drawBitmap(map, xShift, yShift, null);
         for (FatherCharacter character: characters) {
             character.draw(canvas);
@@ -294,5 +289,9 @@ public class GameHandler implements Serializable {
 
     public boolean isGamePaused() {
         return isGamePaused;
+    }
+
+    public void setJoystickToHero (JoyStick js) {
+        hero.setJoystick(js);
     }
 }

@@ -8,11 +8,23 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import meletos.rpg_game.characters.BouncingCharacter;
 import meletos.rpg_game.characters.FatherCharacter;
+import meletos.rpg_game.characters.Follower;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
+import meletos.rpg_game.file_io.LevelGenerator;
+import meletos.rpg_game.file_io.LevelHandler;
+import meletos.rpg_game.file_io.UnsupportedTypeException;
 import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.JoyStick;
 import meletos.rpg_game.navigation.MainMenu;
@@ -34,7 +46,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Button exampleButton;
     JoyStick js = new JoyStick(BitmapFactory.decodeResource(getResources(),R.drawable.circle),
             BitmapFactory.decodeResource(getResources(),R.drawable.ring));
-    Hero hero;
     private ArrayList<Button> buttons;
     private State state = State.MAIN_MENU;
     private MainMenu mainMenu;
@@ -43,35 +54,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public GameView(Context context, Text text) {
         super(context);
-        this.text = text;
-        FatherCharacter[] characters =
-                {
-                        new Hero(100, 500, "characters/warrior_m", context),
-                        new RandomWalker(100, 800, "characters/ninja_m", context),
-                        new RandomWalker(500, 1000, "characters/townfolk1_f", context),
-                        //new BouncingCharacter(500, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin))
-                };
-        hero = (Hero) characters[0];
-        hero.setJoystick(js);
-        gameHandler = new GameHandler(characters, context, this);
+        LevelGenerator lvlGenerator = new LevelGenerator(context, "lvl/first_lvl.json");
+        try {
+            gameHandler = lvlGenerator.buildLevel();
+        } catch (UnsupportedTypeException e) {
+            e.printStackTrace();
+        }
+
+        gameHandler.setGameView(this);
+        gameHandler.setJoystickToHero(js);
+
         mainMenu = new MainMenu(this, context, text, gameHandler);
         menu = new Menu(this, context, text, gameHandler);
-
-        //LevelHandler lvlHandler = new LevelHandler("first_file", context);
-        //lvlHandler.serialiseLevel(gameHandler);
-        //gameHandler = lvlHandler.deserialiseLevel();
 
         getHolder().addCallback(this);
         gameHandler.pauseGame();
         gameThread = new GameThread(gameHandler);
         viewThread = new MainThread(getHolder(), this);
         setFocusable(true);
-        //exampleButton = new Button(1000, 100, BitmapFactory.decodeResource(getResources(),R.drawable.coin));
-
-        //Gson gs = new Gson();
-        //String res = gs.toJson(gameHandler);
-        //GameHandler gH = new GsonBuilder().create().fromJson(res, GameHandler.class);
-        //System.out.println(res);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             super.draw(canvas);
             if (state == State.MAIN_MENU){
                 mainMenu.draw(canvas);
-            //} else if(state == State.FIGHT) {
+                //} else if(state == State.FIGHT) {
             } else {
                 canvas.drawColor(Color.WHITE);
                 gameHandler.drawGame(canvas);
@@ -131,7 +131,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     //gameHandler.resumeGame();
                 }
                 if (js.used) {
-                js.setPos(event.getX(), event.getY());
+                    js.setPos(event.getX(), event.getY());
                 }
                 break;
             case MENU:

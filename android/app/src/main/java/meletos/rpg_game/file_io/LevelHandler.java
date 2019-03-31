@@ -1,3 +1,7 @@
+/**
+ * Proposed level structure:
+ */
+
 package meletos.rpg_game.file_io;
 
 import android.content.Context;

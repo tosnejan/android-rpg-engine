@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 
 import meletos.rpg_game.Directions;
+import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.PositionInformation;
 import meletos.rpg_game.navigation.JoyStick;
 
@@ -66,5 +67,16 @@ public class Hero extends FatherCharacter {
 
         }*/
 
+    }
+
+    /**
+     * Lets the character know the gamehandler
+     * Hero returns true
+     * @param gameHandler
+     */
+    @Override
+    public boolean setGameHandler(GameHandler gameHandler) {
+        this.gameHandler = gameHandler;
+        return true;
     }
 }
