@@ -212,8 +212,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void setState(State state) {
         this.state = state;
-        if (state == State.MENU) {
+        if (state != State.MAP) {
             gameHandler.pauseGame();
+        } else {
+            gameHandler.resumeGame();
         }
     }
 }

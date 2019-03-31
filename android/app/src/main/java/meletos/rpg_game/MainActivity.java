@@ -61,6 +61,8 @@ public class MainActivity extends Activity {
                     })
                     .setNegativeButton(text.getText(0), null)
                     .show();
+        } else if (gameView.getState() == State.MENU){
+            gameView.setState(State.MAP);
         } else {
             gameView.setState(State.MENU);
         }

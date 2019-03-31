@@ -1,16 +1,18 @@
 package meletos.rpg_game.text;
 
 import android.content.Context;
+import android.util.SparseArray;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
+
 public class Text {
 
     private Language lang;
-    private String[] text = new String[9];
+    private SparseArray<String> text = new SparseArray<>();
     private Context context;
 
     public Text(Context context) {
@@ -30,11 +32,12 @@ public class Text {
             String line;
             int ID = 0;
             while ((line = reader.readLine()) != null) {
+                if (line.startsWith("\uFEFF"))line = line.substring(1); //skip first character
                 if (!line.equals("")) {
                     if (line.startsWith("ID:")) {
                         ID = Integer.parseInt(line.substring(4));
                     } else {
-                        text[ID] = line;
+                        text.append(ID,line);
                     }
                 }
             }
@@ -57,6 +60,6 @@ public class Text {
     }
 
     public String getText(int ID){
-        return text[ID];
+        return text.get(ID, "KeyNotFound");
     }
 }
