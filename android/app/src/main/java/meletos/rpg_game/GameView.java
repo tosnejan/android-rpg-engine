@@ -1,20 +1,25 @@
 package meletos.rpg_game;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.os.Environment;
 import android.view.MotionEvent;
+import android.view.PixelCopy;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import meletos.rpg_game.characters.BouncingCharacter;
@@ -216,6 +221,36 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             gameHandler.pauseGame();
         } else {
             gameHandler.resumeGame();
+        }
+    }
+
+    /**
+     * Doesnt work yet - the writing file doesnt -- will have to implement runtime permissions
+     * @param filename
+     */
+    public void takeScreenshot (String filename) {
+        this.setDrawingCacheEnabled(true);
+        this.buildDrawingCache(true);
+        Bitmap b = Bitmap.createBitmap(this.getDrawingCache());
+        this.setDrawingCacheEnabled(false);
+
+        String path = Environment.getExternalStorageDirectory().toString() + "/" + filename;
+        OutputStream out = null;
+        try {
+            File imageFile = new File(path);
+            out = new FileOutputStream(imageFile);
+            b.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

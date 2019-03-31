@@ -37,13 +37,13 @@ public class RandomWalker extends FatherCharacter {
             steps = 0;
         }
 
-        Directions suggestedDirection = gameHandler.suggestDirections( positionInformation);
+        //Directions suggestedDirection = gameHandler.suggestDirections( positionInformation);
 
-        if (suggestedDirection != Directions.NONE) {
-            updateDirectionSpeed(suggestedDirection);
-        }
+        //if (suggestedDirection != Directions.NONE) {
+            //updateDirectionSpeed(suggestedDirection);
+        //}
 
-        suggestedDirection = gameHandler.collisionDetector(
+        Directions suggestedDirection = gameHandler.collisionDetector(
                 positionInformation, new PositionInformation(
                         positionInformation.mainCoord.x + xSpeed,
                         positionInformation.mainCoord.y + ySpeed,
@@ -55,6 +55,11 @@ public class RandomWalker extends FatherCharacter {
             updateDirectionSpeed(suggestedDirection);
         }
 
-        updateXY();
+        if (gameHandler.isPositionAvailable(
+                positionInformation.mainCoord.x,
+                positionInformation.mainCoord.y,
+                imgWidth, imgHeigth)) {
+            updateXY();
+        }
     }
 }
