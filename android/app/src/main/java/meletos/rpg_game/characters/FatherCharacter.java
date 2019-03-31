@@ -40,6 +40,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     /* ALWAYS CHANGE THROUGH updateDirectionSpeed() METHOD*/
     protected int xSpeed = xSpeedConstant;
     protected int ySpeed = ySpeedConstant;
+    private String assetsFolder;
 
     protected GameHandler gameHandler; // the boss
 
@@ -58,6 +59,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     public FatherCharacter(int x, int y, String assetsFolder, Context context) {
         super(x, y);
         this.direction = Directions.UP;
+        this.assetsFolder = assetsFolder;
         getImages(assetsFolder, context);
         animation = true;
         image = images.get(7);
@@ -220,7 +222,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     }
 
     public int getX() {
-        return x;
+        return positionInformation.mainCoord.x;
     }
 
     public void setX(int x) {
@@ -228,10 +230,14 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     }
 
     public int getY() {
-        return y;
+        return positionInformation.mainCoord.y;
     }
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public String getAssetsFolder () {
+        return assetsFolder;
     }
 }

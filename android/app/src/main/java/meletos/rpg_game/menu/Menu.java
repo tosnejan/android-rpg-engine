@@ -136,6 +136,7 @@ public class Menu {
                 if (!buttons[clickedButton].isTouched(x, y)) clickedButton = -1;
                 switch (clickedButton){
                     case 0:
+                        gameHandler.saveGameState();
                         clickedButton = -1;
                         break;
                     case 1:

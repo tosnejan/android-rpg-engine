@@ -1,46 +1,44 @@
 package meletos.rpg_game.characters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import meletos.rpg_game.Coordinates;
 
 /**
  * This character follows points in space by taking the xpath and then the y path
+ * Work in progress
  */
 public class Follower extends FatherCharacter {
-    private int followX = 0;
-    private int followY = 0;
-    private int[] followVector = new int[2];
+    private Coordinates[] followCoord;
+    private int idx = 0; // used to choose points to follow
+    private double[] followVector = new double[2];
+    Coordinates followedPoint;
 
-    public Follower(int x, int y, Bitmap image) {
-        super(x, y, image);
-        followVector[0] = followX - this.x;
-        followVector[1] = followY - this.y;
-    }
-
-    public Follower (int x, int y, String assetsFolder, Context context) {
+    public Follower (int x, int y, String assetsFolder, Context context, Coordinates[] followCoord) {
         super(x, y, assetsFolder, context);
-        followVector[0] = followX - this.x;
-        followVector[1] = followY - this.y;
+        this.followCoord = followCoord;
+        followedPoint = followCoord[idx];
 
-    }
-
-    private void followPoint(int x, int y) {
-        this.followX = x;
-        this.followY = y;
-        followVector[0] = followX - this.x;
-        followVector[1] = followY - this.y;
     }
 
     @Override
     public void update() {
-
-        if (x < followX + 10 && x > followX - 10) {
-            if (y < followY + 10 && y > followY - 10) {
-                return;
+        if (positionInformation.isCoordinateInside(followedPoint)) {
+            ++idx;
+            if (idx == followCoord.length) {
+                idx = 0;
             }
-            y += followVector[1]/200.0;
-        } else {
-            x += followVector[0]/200.0;
+            followedPoint = followCoord[idx];
+            followVector[0] = followedPoint.x - positionInformation.mainCoord.x;
+            followVector[1] = followedPoint.y - positionInformation.mainCoord.y;
+            followVector = normaliseFollowVector(followVector);
         }
+        positionInformation.addSpeed((int)Math.round(followVector[0]), (int)Math.round(followVector[0]), gameHandler);
+    }
+
+    private double[] normaliseFollowVector (double[] followVector) {
+        double vectorLength = Math.sqrt(Math.pow(followVector[0], 2) + Math.pow(followVector[1], 2));
+        followVector[0] = followVector[0]*xSpeed/vectorLength;
+        followVector[1] = followVector[1]*ySpeed/vectorLength;
+        return followVector;
     }
 }

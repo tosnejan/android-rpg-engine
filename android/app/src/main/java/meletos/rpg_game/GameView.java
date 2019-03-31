@@ -234,7 +234,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     /**
-     * Doesnt work yet - the writing file doesnt -- will have to implement runtime permissions
+     * Takes screenshot and saves it
      * @param filename
      */
     public void takeScreenshot (String filename) {

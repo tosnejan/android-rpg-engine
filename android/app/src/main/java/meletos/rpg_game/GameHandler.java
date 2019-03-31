@@ -6,15 +6,31 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.os.Environment;
+import android.util.Xml;
+
+import com.google.common.base.Utf8;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Hero;
+import meletos.rpg_game.file_io.LevelRepresentation;
 import meletos.rpg_game.navigation.JoyStick;
 
 /**
@@ -36,10 +52,13 @@ public class GameHandler {
     private int mapScale = 5;
     private Hero hero;
     private GameView gameView;
+    private String mapSource;
+    private String lvlName;
 
-    public GameHandler (FatherCharacter[] characters, Context context) {
+    public GameHandler (FatherCharacter[] characters, Context context, String lvlName) {
         this.characters = characters;
         this.context = context;
+        this.lvlName = lvlName;
         for (FatherCharacter character: characters) {
             if (character.setGameHandler(this)) { // let those characters know I'm the boss!
                 hero = (Hero)character; // if true, the character is hero
@@ -52,6 +71,7 @@ public class GameHandler {
     }
 
     public void loadMap (String fileName) {
+        mapSource = fileName;
         AssetManager am = context.getAssets();
         String path = String.format("maps/%s.png",fileName);
         mapWidth = 0;
@@ -294,4 +314,55 @@ public class GameHandler {
     public void setJoystickToHero (JoyStick js) {
         hero.setJoystick(js);
     }
+
+    /**
+     * Saves the current game state -- runs in a new thread
+     */
+    public void saveGameState() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LevelRepresentation lr = new LevelRepresentation();
+                for (FatherCharacter character : characters) {
+                    lr.createCharacterHashmap(character.getClass().getSimpleName(), character.getX(), character.getY(), character.getAssetsFolder());
+                }
+                lr.setMapSource(mapSource);
+                lr.setLvlName(lvlName);
+
+                GsonBuilder gsonBuilder = new GsonBuilder();
+                gsonBuilder.registerTypeAdapter(Double.class, new JsonSerializer<Double>() {
+
+                    public JsonElement serialize(Double src, Type typeOfSrc,
+                                                 JsonSerializationContext context) {
+                        Integer value = (int) Math.round(src);
+                        return new JsonPrimitive(value);
+                    }
+                });
+                Gson gs = gsonBuilder.create();
+                String json = gs.toJson(lr);
+                String path = Environment.getExternalStorageDirectory().toString() + "/rpg_game_data/saves/" + lr.getLvlName() + ".json";
+                FileWriter out = null;
+                try {
+                    File saveFile = new File(path);
+                    if (!saveFile.exists()) {
+                        saveFile.getParentFile().mkdirs();
+                    }
+                    out = new FileWriter(saveFile);
+                    out.write(json);
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (out != null) {
+                            out.close();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).run();
+    }
 }
+

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+import meletos.rpg_game.Coordinates;
+
 /**
  * Wrapper class holding all the information about a level
  * Gets serialised into a file
@@ -39,6 +41,21 @@ public class LevelRepresentation implements Serializable {
         character.put("xCoord", x);
         character.put("yCoord", y);
         character.put("assetsFolder", assetsFolder);
+        addCharacter(character);
+    }
+
+    public void createCharacterHashmap (
+            String charType,
+            int x, int y,
+            String assetsFolder,
+            Coordinates[] followCoord
+    ) {
+        HashMap character = new HashMap();
+        character.put("charType", charType);
+        character.put("xCoord", x);
+        character.put("yCoord", y);
+        character.put("assetsFolder", assetsFolder);
+        character.put("followCoord", followCoord);
         addCharacter(character);
     }
 

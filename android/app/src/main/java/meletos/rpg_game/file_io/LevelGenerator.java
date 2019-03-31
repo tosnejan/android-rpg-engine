@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+import meletos.rpg_game.Coordinates;
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Follower;
@@ -49,7 +50,7 @@ public class LevelGenerator {
             characters.add(buildCharacter(characterHash));
         }
         FatherCharacter[] fatherCharacters = new FatherCharacter[characters.size()];
-        GameHandler gh = new GameHandler(characters.toArray(fatherCharacters), context);
+        GameHandler gh = new GameHandler(characters.toArray(fatherCharacters), context, levelRepresentation.getLvlName());
         gh.loadMap(levelRepresentation.getMapSource());
         return gh; //TODO
     }
@@ -71,7 +72,8 @@ public class LevelGenerator {
                 case "RandomWalker":
                     return new RandomWalker(x, y, assetsFolder, context);
                 case "Follower":
-                    return new Follower(x, y, assetsFolder, context);
+                    Coordinates[] coord = (Coordinates[])characterHash.get("followCoord");
+                    return new Follower(x, y, assetsFolder, context, coord);
                 default:
                     throw new UnsupportedTypeException();
             }
