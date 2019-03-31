@@ -62,12 +62,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Menu menu;
     private Text text;
     private Sound sound;
+    private boolean isInLevel;
 
     public GameView(Context context, Text text) {
         super(context);
         LevelGenerator lvlGenerator = new LevelGenerator(context, "lvl/first_lvl.json");
         try {
-            gameHandler = lvlGenerator.buildLevel();
+            gameHandler = lvlGenerator.buildLevel(false);
         } catch (UnsupportedTypeException e) {
             e.printStackTrace();
         }
@@ -85,6 +86,29 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         gameThread = new GameThread(gameHandler);
         viewThread = new MainThread(getHolder(), this);
         setFocusable(true);
+    }
+
+    /**
+     * Work in progress -- will do the level loading and switching
+     * @param fileName
+     * @param userSave
+     */
+    public void loadLevel (String fileName, boolean userSave) {
+        try {
+            LevelGenerator lvlGenerator = new LevelGenerator(getContext(), "lvl/first_lvl.json");
+            gameHandler = lvlGenerator.buildLevel(userSave);
+        } catch (UnsupportedTypeException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Another work in progress - should be triggered
+     * upon entering the menu and leaving the app
+     */
+    public void exitLevel () {
+        gameHandler.pauseGame();
+        gameHandler.saveGameState(); //TODO
     }
 
     @Override
