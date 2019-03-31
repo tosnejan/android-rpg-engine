@@ -96,10 +96,10 @@ public class MainMenu {
             case MAIN:
                 for (int i = 0; i < buttons.length; i++) {
                     if (buttons[i].isTouched(x, y)) {
-                        if (i != clickedButton) {
-                            clickedButton = -1;
-                        }
+                        if (i != this.clickedButton) clickedButton = -1;
+                        break;
                     }
+                    if(i == buttons.length - 1) clickedButton = -1;
                 }
                 switch (clickedButton){
                     case 0:
