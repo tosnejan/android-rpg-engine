@@ -1,10 +1,14 @@
 package meletos.rpg_game;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -27,6 +31,7 @@ public class MainActivity extends Activity {
         gameView = new GameView(this, text);
         setContentView(gameView); // this starts the game canvas
         gameView.onCreate();
+        checkPermissions();
     }
 
     @Override
@@ -35,11 +40,13 @@ public class MainActivity extends Activity {
         gameView.onPause();
     }
 
+    @Override
     protected void onResume () {
         super.onResume();
         gameView.onResume();
     }
 
+    @Override
     protected void onDestroy () {
         super.onDestroy();
         gameView.onDestroy();
@@ -67,6 +74,44 @@ public class MainActivity extends Activity {
             gameView.setState(State.MAP);
         } else {
             gameView.setState(State.MENU);
+        }
+    }
+
+    /**
+     * Checks if the app is permitted to use the devices storage.
+     * Upon result is triggered the onRequestPermissionsResult
+     */
+    public void checkPermissions () {
+        if (
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100
+            );
+        }
+    }
+
+    /**
+     * Stops the game if permissions are not given
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[]
+                                                   grantResults) {
+        switch (requestCode) {
+            case 100: {
+
+                if (grantResults.length == 0
+                        || grantResults[0] !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    finish(); // finishes the game if permissions are not granted
+                }
+                return;
+            }
         }
     }
 }

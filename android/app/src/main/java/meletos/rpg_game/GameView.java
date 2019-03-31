@@ -1,11 +1,14 @@
 package meletos.rpg_game;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.PixelCopy;
 import android.view.SurfaceView;
@@ -120,6 +123,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             case MAIN_MENU:
                 if (event.getAction() == ACTION_DOWN) {
                     mainMenu.touchDown((int)event.getX(), (int)event.getY());
+                    takeScreenshot("file.jpg");
                 }
                 if (event.getAction() == ACTION_UP) {
                     mainMenu.touchUp((int)event.getX(), (int)event.getY());
@@ -234,15 +238,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * @param filename
      */
     public void takeScreenshot (String filename) {
-        this.setDrawingCacheEnabled(true);
-        this.buildDrawingCache(true);
-        Bitmap b = Bitmap.createBitmap(this.getDrawingCache());
-        this.setDrawingCacheEnabled(false);
+        Bitmap b = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas screenShot = new Canvas(b);
+        draw(screenShot);
 
-        String path = Environment.getExternalStorageDirectory().toString() + "/" + filename;
+        String path = Environment.getExternalStorageDirectory().toString() + "/rpg_game_data/" + filename;
         OutputStream out = null;
         try {
             File imageFile = new File(path);
+            if (!imageFile.exists()) {
+                imageFile.getParentFile().mkdirs();
+            }
             out = new FileOutputStream(imageFile);
             b.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.flush();
