@@ -69,7 +69,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             e.printStackTrace();
         }
 
-        sound = new Sound();
+        sound = new Sound(context);
         settings = new Settings(text, sound, context);
         gameHandler.setGameView(this);
         gameHandler.setJoystickToHero(js);

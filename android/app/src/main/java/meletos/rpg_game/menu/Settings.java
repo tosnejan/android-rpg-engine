@@ -12,6 +12,8 @@ import java.io.IOException;
 
 import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.MenuButton;
+import meletos.rpg_game.navigation.Slider;
+import meletos.rpg_game.navigation.xSlider;
 import meletos.rpg_game.sound.Sound;
 import meletos.rpg_game.text.Language;
 import meletos.rpg_game.text.Text;
@@ -26,6 +28,9 @@ public class Settings {
     private Bitmap frame;
     private Bitmap buttonImage;
     private Bitmap buttonImageClicked;
+    private Bitmap sliderImage;
+    private Bitmap slider_thing;
+    private xSlider slider;
     private int frameWidth;
     private int frameHeight;
     private int x;
@@ -42,6 +47,7 @@ public class Settings {
         load();
         loadImages();
         createButtons();
+        slider.setValue(sound.getVolume());
     }
 
     public void load() {
@@ -62,6 +68,10 @@ public class Settings {
             buttonImage = Bitmap.createScaledBitmap(buttonImage, (int)(frameWidth/1.3), (int)(frameHeight/7.6), true);
             buttonImageClicked = BitmapFactory.decodeStream(am.open("menu/button_clicked.png"));
             buttonImageClicked = Bitmap.createScaledBitmap(buttonImageClicked, (int)(frameWidth/1.3), (int)(frameHeight/7.6), true);
+            sliderImage = BitmapFactory.decodeStream(am.open("menu/slider.png"));
+            sliderImage = Bitmap.createScaledBitmap(sliderImage, (int)(6*frameWidth/10), (int)(frameHeight/18), true);
+            slider_thing = BitmapFactory.decodeStream(am.open("menu/slider_thing.png"));
+            slider_thing = Bitmap.createScaledBitmap(slider_thing, (int)(frameWidth/10), (int)(frameHeight/8), true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,14 +88,15 @@ public class Settings {
         buttons[1] = new MenuButton(x + frameWidth - buttonImage.getWidth() - frameWidth/8, buttonY, buttonImage, buttonImageClicked, text, 11);
         if (text.getLang() == Language.ENG){
             buttons[0].changeImage(true, 0);
-        } else { buttons[1].changeImage(true, 0);
-        }
+        } else { buttons[1].changeImage(true, 0); }
+        slider = new xSlider(x + 2*frameWidth/10,buttonY + Yspace,sliderImage,slider_thing,text,13,10);
     }
 
     public void draw(Canvas canvas) {
         for (Button button:buttons) {
             button.draw(canvas);
         }
+        slider.draw(canvas);
     }
 
     public void touchDown(int x, int y) {
@@ -95,18 +106,25 @@ public class Settings {
                 buttons[i].changeImage(true, 10);
             }
         }
+        if (slider.isTouched(x,y)) sound.setVolume(slider.getValue());
     }
 
     public boolean touchUp(int x, int y) {
         boolean ret = false;
         if (clickedButton != -1) {
-            buttons[clickedButton].changeImage(false, 10);
+            buttons[2].changeImage(false, 10);
             if (!buttons[clickedButton].isTouched(x, y)) clickedButton = -1;
             switch (clickedButton) {
                 case 0:
+                    buttons[0].changeImage(true, 0);
+                    buttons[1].changeImage(false, 0);
+                    text.changeLang(Language.ENG);
                     clickedButton = -1;
                     break;
                 case 1:
+                    buttons[0].changeImage(false, 0);
+                    buttons[1].changeImage(true, 0);
+                    text.changeLang(Language.CZE);
                     clickedButton = -1;
                     break;
                 case 2:
