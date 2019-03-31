@@ -23,4 +23,7 @@ ID: 7
 Ukončit
 
 ID: 8
-Návrat
+Uložit hru
+
+ID: 9
+Hlavní menu

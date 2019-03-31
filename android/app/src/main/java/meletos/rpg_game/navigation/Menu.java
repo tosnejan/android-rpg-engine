@@ -11,18 +11,25 @@ import java.io.IOException;
 
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.GameView;
+import meletos.rpg_game.PositionInformation;
 import meletos.rpg_game.State;
 import meletos.rpg_game.text.Text;
 
 public class Menu {
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private Bitmap image;
+    private Bitmap frame;
     private Bitmap buttonImage;
+    private Bitmap buttonImageClicked;
+    private Bitmap xButtonImage;
+    private Bitmap xbuttonImageClicked;
+    private int frameWidth;
+    private int frameHeight;
+    private PositionInformation positionInformation;
     private GameView gameView;
     private Context context;
     private MenuStates state = MenuStates.MAIN;
-    private MenuButton[] buttons = new MenuButton[4];
+    private MenuButton[] buttons = new MenuButton[6];
     private Text text;
     private GameHandler gameHandler;
     private int clickedButton = -1;
@@ -36,15 +43,26 @@ public class Menu {
         this.gameHandler = gameHandler;
         loadImages();
         createButtons();
+        positionInformation = new PositionInformation(x, y, frameHeight,frameWidth);
     }
 
     private void loadImages(){
         AssetManager am = context.getAssets();
         try {
-            image = BitmapFactory.decodeStream(am.open("menu/frame.png"));
-            x = (screenWidth - image.getWidth())/2;
-            y = (screenHeight - image.getHeight())/2;
+            frame = BitmapFactory.decodeStream(am.open("menu/frame.png"));
+            frame = Bitmap.createScaledBitmap(frame, (int)(screenWidth/2.75), (int)(screenHeight/1.15), true);
+            frameWidth = frame.getWidth();
+            frameHeight = frame.getHeight();
+            x = (screenWidth - frameWidth)/2;
+            y = (screenHeight - frameHeight)/2;
             buttonImage = BitmapFactory.decodeStream(am.open("menu/button.png"));
+            buttonImage = Bitmap.createScaledBitmap(buttonImage, (int)(frameWidth/1.3), (int)(frameHeight/7.6), true);
+            buttonImageClicked = BitmapFactory.decodeStream(am.open("menu/button_clicked.png"));
+            buttonImageClicked = Bitmap.createScaledBitmap(buttonImageClicked, (int)(frameWidth/1.3), (int)(frameHeight/7.6), true);
+            xButtonImage = BitmapFactory.decodeStream(am.open("menu/x_button_round.png"));
+            xButtonImage = Bitmap.createScaledBitmap(xButtonImage, (int)(frameWidth/6.7), (int)(frameWidth/6.7), true);
+            xbuttonImageClicked = BitmapFactory.decodeStream(am.open("menu/x_button_round_clicked.png"));
+            xbuttonImageClicked = Bitmap.createScaledBitmap(xbuttonImageClicked, (int)(frameWidth/6.7), (int)(frameWidth/6.7), true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,16 +71,16 @@ public class Menu {
     public void draw(Canvas canvas){
         switch (state) {
             case MAIN:
-                canvas.drawBitmap(image, x, y, null);
+                canvas.drawBitmap(frame, x, y, null);
                 for (Button button:buttons) {
                     button.draw(canvas);
                 }
                 break;
             case SETTINGS:
-                canvas.drawBitmap(image, x, y, null);
+                canvas.drawBitmap(frame, x, y, null);
                 break;
             case LOAD:
-                canvas.drawBitmap(image, x, y, null);
+                canvas.drawBitmap(frame, x, y, null);
                 break;
         }
     }
@@ -73,6 +91,7 @@ public class Menu {
                 for (int i = 0; i < buttons.length; i++) {
                     if (buttons[i].isTouched(x, y)) {
                         clickedButton = i;
+                        buttons[i].changeImage(true);
                     }
                 }
                 break;
@@ -86,6 +105,7 @@ public class Menu {
     public void touchUp(int x, int y) {
         switch (state) {
             case MAIN:
+                if (clickedButton != -1) buttons[clickedButton].changeImage(false);
                 for (int i = 0; i < buttons.length; i++) {
                     if (buttons[i].isTouched(x, y)) {
                         if (i != this.clickedButton) clickedButton = -1;
@@ -95,15 +115,19 @@ public class Menu {
                 }
                 switch (clickedButton){
                     case 0:
-                        clickedButton = -1;
-                        gameView.setState(State.MAP);
-                        gameHandler.resumeGame();
                         break;
                     case 1:
                         break;
                     case 2:
                         break;
                     case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        clickedButton = -1;
+                        gameView.setState(State.MAP);
+                        gameHandler.resumeGame();
                         break;
                 }
                 break;
@@ -116,9 +140,13 @@ public class Menu {
 
     private void createButtons() {
         int buttonX = (screenWidth - buttonImage.getWidth())/2;
-        buttons[0] = new MenuButton(buttonX, y + 105, buttonImage, text, 8);
-        buttons[1] = new MenuButton(buttonX, y + 310, buttonImage, text, 5);
-        buttons[2] = new MenuButton(buttonX, y + 515, buttonImage, text, 6);
-        buttons[3] = new MenuButton(buttonX, y + 720, buttonImage, text, 7);
+        int buttonY = (y + frameHeight/11);
+        int Yspace = (buttonImage.getHeight() + frameHeight/25);
+        buttons[0] = new MenuButton(buttonX, buttonY, buttonImage, buttonImageClicked, text, 8);
+        buttons[1] = new MenuButton(buttonX, buttonY + Yspace, buttonImage, buttonImageClicked, text, 5);
+        buttons[2] = new MenuButton(buttonX, buttonY + Yspace*2, buttonImage, buttonImageClicked, text, 6);
+        buttons[3] = new MenuButton(buttonX, buttonY + Yspace*3, buttonImage, buttonImageClicked, text, 9);
+        buttons[4] = new MenuButton(buttonX, buttonY + Yspace*4, buttonImage, buttonImageClicked, text, 7);
+        buttons[5] = new MenuButton(x + frameWidth - 2*xButtonImage.getWidth()/3, y - xButtonImage.getHeight()/3, xButtonImage, xbuttonImageClicked, text, -1);
     }
 }

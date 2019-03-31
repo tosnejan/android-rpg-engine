@@ -23,4 +23,7 @@ ID: 7
 Quit
 
 ID: 8
-Resume
+Save game
+
+ID: 9
+Main menu
