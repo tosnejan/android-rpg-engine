@@ -12,14 +12,17 @@ public class PositionInformation {
     public PositionInformation(int x, int y, int imgHeigth, int imgWidth) {
         this.imgHeigth = imgHeigth;
         this.imgWidth = imgWidth;
-        updatePositionInformation(x, y);
-    }
-    
-    public void updatePositionInformation (int x, int y) {
         mainCoord = new Coordinates(x, y);
         upperRightCorner = new Coordinates(x + imgWidth, y);
         lowerLeftCorner = new Coordinates(x, y + imgHeigth);
         lowerRightCorner = new Coordinates(upperRightCorner.x, lowerLeftCorner.y);
+    }
+    
+    public void updatePositionInformation (int x, int y) {
+        mainCoord.updateCoordinates(x, y);
+        upperRightCorner.updateCoordinates(x + imgWidth, y);
+        lowerLeftCorner.updateCoordinates(x, y + imgHeigth);
+        lowerRightCorner.updateCoordinates(upperRightCorner.x, lowerLeftCorner.y);
     }
 
     public boolean isCoordinateInside (Coordinates coordinate) {

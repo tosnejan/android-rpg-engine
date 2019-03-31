@@ -48,6 +48,13 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
         this.direction = Directions.UP;
     }
 
+    /**
+     * The constructor for animated character
+     * @param x
+     * @param y
+     * @param assetsFolder
+     * @param context
+     */
     public FatherCharacter(int x, int y, String assetsFolder, Context context) {
         super(x, y);
         this.direction = Directions.UP;
@@ -144,10 +151,12 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
 
     /**
      * Lets the character know the gamehandler
+     * Is boolean, because it is used by the hero to let the game handler know it is hero
      * @param gameHandler
      */
-    public void setGameHandler(GameHandler gameHandler) {
+    public boolean setGameHandler(GameHandler gameHandler) {
         this.gameHandler = gameHandler;
+        return false;
     }
 
     /**

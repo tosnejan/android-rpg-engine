@@ -1,19 +1,36 @@
 package meletos.rpg_game;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.os.Environment;
 import android.view.MotionEvent;
+import android.view.PixelCopy;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
+import meletos.rpg_game.characters.BouncingCharacter;
 import meletos.rpg_game.characters.FatherCharacter;
+import meletos.rpg_game.characters.Follower;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
 import meletos.rpg_game.menu.Settings;
+import meletos.rpg_game.file_io.LevelGenerator;
+import meletos.rpg_game.file_io.LevelHandler;
+import meletos.rpg_game.file_io.UnsupportedTypeException;
 import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.JoyStick;
 import meletos.rpg_game.menu.MainMenu;
@@ -36,7 +53,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Button exampleButton;
     JoyStick js = new JoyStick(BitmapFactory.decodeResource(getResources(),R.drawable.circle),
             BitmapFactory.decodeResource(getResources(),R.drawable.ring));
-    Hero hero;
     private ArrayList<Button> buttons;
     private State state = State.MAIN_MENU;
     private MainMenu mainMenu;
@@ -46,37 +62,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public GameView(Context context, Text text) {
         super(context);
-        this.text = text;
-        FatherCharacter[] characters =
-                {
-                        new Hero(100, 500, "characters/warrior_m", context),
-                        new RandomWalker(100, 800, "characters/ninja_m", context),
-                        new RandomWalker(500, 1000, "characters/townfolk1_f", context),
-                        //new BouncingCharacter(500, 800, BitmapFactory.decodeResource(getResources(),R.drawable.coin))
-                };
-        hero = (Hero) characters[0];
-        hero.setJoystick(js);
+        LevelGenerator lvlGenerator = new LevelGenerator(context, "lvl/first_lvl.json");
+        try {
+            gameHandler = lvlGenerator.buildLevel();
+        } catch (UnsupportedTypeException e) {
+            e.printStackTrace();
+        }
+
         sound = new Sound();
         settings = new Settings(text, sound, context);
-        gameHandler = new GameHandler(characters, context, this);
+        gameHandler.setGameView(this);
+        gameHandler.setJoystickToHero(js);
+
         mainMenu = new MainMenu(gameHandler, this, context, text, settings);
         menu = new Menu(gameHandler, this, context, text, settings);
-
-        //LevelHandler lvlHandler = new LevelHandler("first_file", context);
-        //lvlHandler.serialiseLevel(gameHandler);
-        //gameHandler = lvlHandler.deserialiseLevel();
 
         getHolder().addCallback(this);
         gameHandler.pauseGame();
         gameThread = new GameThread(gameHandler);
         viewThread = new MainThread(getHolder(), this);
         setFocusable(true);
-        //exampleButton = new Button(1000, 100, BitmapFactory.decodeResource(getResources(),R.drawable.coin));
-
-        //Gson gs = new Gson();
-        //String res = gs.toJson(gameHandler);
-        //GameHandler gH = new GsonBuilder().create().fromJson(res, GameHandler.class);
-        //System.out.println(res);
     }
 
     @Override
@@ -85,7 +90,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             super.draw(canvas);
             if (state == State.MAIN_MENU){
                 mainMenu.draw(canvas);
-            //} else if(state == State.FIGHT) {
+                //} else if(state == State.FIGHT) {
             } else {
                 canvas.drawColor(Color.WHITE);
                 gameHandler.drawGame(canvas);
@@ -136,7 +141,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     //gameHandler.resumeGame();
                 }
                 if (js.used) {
-                js.setPos(event.getX(), event.getY());
+                    js.setPos(event.getX(), event.getY());
                 }
                 break;
             case MENU:
@@ -221,6 +226,36 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             gameHandler.pauseGame();
         } else {
             gameHandler.resumeGame();
+        }
+    }
+
+    /**
+     * Doesnt work yet - the writing file doesnt -- will have to implement runtime permissions
+     * @param filename
+     */
+    public void takeScreenshot (String filename) {
+        this.setDrawingCacheEnabled(true);
+        this.buildDrawingCache(true);
+        Bitmap b = Bitmap.createBitmap(this.getDrawingCache());
+        this.setDrawingCacheEnabled(false);
+
+        String path = Environment.getExternalStorageDirectory().toString() + "/" + filename;
+        OutputStream out = null;
+        try {
+            File imageFile = new File(path);
+            out = new FileOutputStream(imageFile);
+            b.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
