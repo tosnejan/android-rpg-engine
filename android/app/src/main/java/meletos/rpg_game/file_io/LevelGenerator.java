@@ -1,6 +1,7 @@
 package meletos.rpg_game.file_io;
 
 import android.content.Context;
+import android.os.Environment;
 
 import com.google.gson.GsonBuilder;
 
@@ -30,19 +31,16 @@ public class LevelGenerator {
     private File file;
     private LevelRepresentation levelRepresentation;
     private String json;
+    private boolean userSave;
 
 
     public LevelGenerator(Context context, String filePath) {
         this.context = context;
         this.filePath = filePath;
-
     }
 
-    public void serialiseLevel (GameHandler gameHandler) {
-        // probably will be in another class
-    }
-
-    public GameHandler buildLevel () throws UnsupportedTypeException {
+    public GameHandler buildLevel (boolean userSave) throws UnsupportedTypeException {
+        this.userSave = userSave;
         ArrayList<FatherCharacter> characters = new ArrayList<>();
         loadFromJson();
         ArrayList<HashMap> charStrings = levelRepresentation.getCharacters();
@@ -94,11 +92,22 @@ public class LevelGenerator {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(
-                    new InputStreamReader(context.getAssets().open(filePath), StandardCharsets.UTF_8));
+            if (userSave) {
+                reader = new BufferedReader(
+                    new InputStreamReader(
+                        new FileInputStream(
+                            Environment.getExternalStorageDirectory().toString()
+                                + "/rpg_game_data/" + filePath
+                        ),
+                        StandardCharsets.UTF_8
+                    )
+                );
+            } else {
+                reader = new BufferedReader(
+                        new InputStreamReader(context.getAssets().open(filePath), StandardCharsets.UTF_8));
+            }
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
                 sb.append(line);
             }
         } catch (IOException e) {
