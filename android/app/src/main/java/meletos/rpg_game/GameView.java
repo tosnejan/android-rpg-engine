@@ -1,39 +1,25 @@
 package meletos.rpg_game;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
-import android.view.PixelCopy;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-import meletos.rpg_game.characters.BouncingCharacter;
-import meletos.rpg_game.characters.FatherCharacter;
-import meletos.rpg_game.characters.Follower;
-import meletos.rpg_game.characters.Hero;
-import meletos.rpg_game.characters.RandomWalker;
-import meletos.rpg_game.itineary.InventoryGUI;
+import meletos.rpg_game.itinerary.InventoryGUI;
+import meletos.rpg_game.itinerary.Itinerary;
 import meletos.rpg_game.menu.Settings;
 import meletos.rpg_game.file_io.LevelGenerator;
-import meletos.rpg_game.file_io.LevelHandler;
 import meletos.rpg_game.file_io.UnsupportedTypeException;
 import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.JoyStick;
@@ -65,6 +51,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Sound sound;
     private InventoryGUI inventory;
     private boolean isInLevel;
+    private Itinerary itinerary;
 
     public GameView(Context context, Text text) {
         super(context);
@@ -74,7 +61,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         } catch (UnsupportedTypeException e) {
             e.printStackTrace();
         }
-
+        itinerary = Itinerary.load(context, text, "itinerary/items.json");
         sound = new Sound(context);
         settings = new Settings(text, sound, context);
         gameHandler.setGameView(this);
@@ -84,7 +71,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         menu = new Menu(gameHandler, this, context, text, settings);
 
         getHolder().addCallback(this);
-        inventory = new InventoryGUI(this,context,gameHandler,text);
+        inventory = new InventoryGUI(this,context,gameHandler,text,itinerary);
         gameHandler.pauseGame();
         gameThread = new GameThread(gameHandler);
         viewThread = new MainThread(getHolder(), this);
@@ -93,8 +80,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     /**
      * Work in progress -- will do the level loading and switching
-     * @param fileName
-     * @param userSave
+     * @param fileName name of file to read
+     * @param userSave <code>true</code> if loading userSave
+     *                 <code>false</code> if loading level
      */
     public void loadLevel (String fileName, boolean userSave) {
         try {
@@ -134,6 +122,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         menu.draw(canvas);
                         break;
                     case INVENTORY:
+                        inventory.draw(canvas);
                         break;
                 }
             }

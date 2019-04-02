@@ -1,4 +1,4 @@
-package meletos.rpg_game.itineary;
+package meletos.rpg_game.itinerary;
 
 public enum InventoryStates {
     SLEEPING, SHOWN

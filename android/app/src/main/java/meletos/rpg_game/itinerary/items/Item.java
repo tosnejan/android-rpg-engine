@@ -1,12 +1,13 @@
-package meletos.rpg_game.itineary.items;
+package meletos.rpg_game.itinerary.items;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import java.util.HashMap;
+
 import meletos.rpg_game.text.Text;
 
 public abstract class Item {
-    private String description;
     private Text text;
     private Bitmap image;
     private int ID;
@@ -27,4 +28,10 @@ public abstract class Item {
     public String getName(){
         return text.getItemName(ID);
     }
+
+    public int getID() {
+        return ID;
+    }
+
+    public abstract boolean isEquipable();
 }

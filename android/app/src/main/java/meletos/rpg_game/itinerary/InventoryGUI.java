@@ -1,4 +1,4 @@
-package meletos.rpg_game.itineary;
+package meletos.rpg_game.itinerary;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -29,12 +29,14 @@ public class InventoryGUI {
     private GameView gameView;
     private Context context;
     private GameHandler gameHandler;
+    private Itinerary itinerary;
     private InventoryStates state = InventoryStates.SLEEPING;
 
-    public InventoryGUI(GameView gameView, Context context, GameHandler gameHandler, Text text) {
+    public InventoryGUI(GameView gameView, Context context, GameHandler gameHandler, Text text, Itinerary itinerary) {
         this.gameView = gameView;
         this.context = context;
         this.gameHandler = gameHandler;
+        this.itinerary = itinerary;
         this.text = text;
         load();
     }
@@ -54,7 +56,8 @@ public class InventoryGUI {
         if (gameView.getState() == State.MAP){
             button.draw(canvas);
         } else {
-
+            itinerary.getItem(1).draw(200,100,canvas);
+            itinerary.getItem(2).draw(200+screenWidth/10,100,canvas);
         }
     }
 
