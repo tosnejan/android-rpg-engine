@@ -1,14 +1,17 @@
 package meletos.rpg_game.text;
 
 public enum Language {
-    ENG("text/eng.txt",0), CZE("text/cze.txt",1);
+    ENG("text/eng/gui.txt", "text/eng/items.txt", 0),
+    CZE("text/cze/gui.txt", "text/cze/items.txt", 1);
 
-    private final String filename;
+    private final String gui;
+    private final String items;
     private final int ID;
     private static final Language[] values = Language.values();
 
-    Language(String filename, int ID) {
-        this.filename = filename;
+    Language(String gui, String items, int ID) {
+        this.gui = gui;
+        this.items = items;
         this.ID = ID;
     }
 
@@ -23,7 +26,11 @@ public enum Language {
         return ID;
     }
 
-    public String getFilename() {
-        return filename;
+    public String getGui() {
+        return gui;
+    }
+
+    public String getItems() {
+        return items;
     }
 }

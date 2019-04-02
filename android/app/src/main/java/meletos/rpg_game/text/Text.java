@@ -14,6 +14,7 @@ public class Text {
 
     private Language lang;
     private SparseArray<String> text = new SparseArray<>();
+    private SparseArray<String> itemNames = new SparseArray<>();
     private Context context;
 
     public Text(Context context) {
@@ -29,7 +30,7 @@ public class Text {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(
-                    new InputStreamReader(context.getAssets().open(lang.getFilename()), StandardCharsets.UTF_8));
+                    new InputStreamReader(context.getAssets().open(lang.getGui()), StandardCharsets.UTF_8));
             String line;
             int ID = 0;
             while ((line = reader.readLine()) != null) {
@@ -39,6 +40,19 @@ public class Text {
                         ID = Integer.parseInt(line.substring(4));
                     } else {
                         text.append(ID,line);
+                    }
+                }
+            }
+            reader = new BufferedReader(
+                    new InputStreamReader(context.getAssets().open(lang.getItems()), StandardCharsets.UTF_8));
+            ID = 0;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("\uFEFF"))line = line.substring(1); //skip first character
+                if (!line.equals("")) {
+                    if (line.startsWith("ID:")) {
+                        ID = Integer.parseInt(line.substring(4));
+                    } else {
+                        itemNames.append(ID,line);
                     }
                 }
             }
@@ -75,5 +89,9 @@ public class Text {
 
     public String getText(int ID){
         return text.get(ID, "KeyNotFound");
+    }
+
+    public String getItemName(int ID) {
+        return itemNames.get(ID, "KeyNotFound");
     }
 }

@@ -1,1 +1,24 @@
-{"lvlName":"exampleLvl","mapSource":"testing_map","characters":[{"charType":"Hero","assetsFolder":"characters/warrior_m","yCoord":500,"xCoord":100},{"charType":"RandomWalker","assetsFolder":"characters/ninja_m","yCoord":800,"xCoord":100},{"charType":"RandomWalker","assetsFolder":"characters/townfolk1_f","yCoord":1000,"xCoord":500}]}
+{
+  "lvlName": "exampleLvl",
+  "mapSource": "testing_map",
+  "characters": [
+    {
+      "charType": "Hero",
+      "assetsFolder": "characters/warrior_m",
+      "yCoord": 500,
+      "xCoord": 100
+    },
+    {
+      "charType": "RandomWalker",
+      "assetsFolder": "characters/ninja_m",
+      "yCoord": 800,
+      "xCoord": 100
+    },
+    {
+      "charType": "RandomWalker",
+      "assetsFolder": "characters/townfolk1_f",
+      "yCoord": 1000,
+      "xCoord": 500
+    }
+  ]
+}

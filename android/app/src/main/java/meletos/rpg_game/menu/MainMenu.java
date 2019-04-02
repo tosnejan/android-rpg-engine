@@ -34,7 +34,6 @@ public class MainMenu {
     private Context context;
     private MainMenuStates state = MainMenuStates.MAIN;
     private MenuButton[] buttons = new MenuButton[4];
-    private MenuButton[] settingsButtons = new MenuButton[3];
     private Text text;
     private GameHandler gameHandler;
     private int clickedButton = -1;

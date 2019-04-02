@@ -30,6 +30,7 @@ import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Follower;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
+import meletos.rpg_game.itineary.InventoryGUI;
 import meletos.rpg_game.menu.Settings;
 import meletos.rpg_game.file_io.LevelGenerator;
 import meletos.rpg_game.file_io.LevelHandler;
@@ -62,6 +63,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Menu menu;
     private Text text;
     private Sound sound;
+    private InventoryGUI inventory;
 
     public GameView(Context context, Text text) {
         super(context);
@@ -81,6 +83,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         menu = new Menu(gameHandler, this, context, text, settings);
 
         getHolder().addCallback(this);
+        inventory = new InventoryGUI(this,context,gameHandler,text);
         gameHandler.pauseGame();
         gameThread = new GameThread(gameHandler);
         viewThread = new MainThread(getHolder(), this);
@@ -100,6 +103,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 //exampleButton.draw(canvas);
                 switch (state) {
                     case MAP:
+                        inventory.draw(canvas);
                         js.draw(canvas);
                         break;
                     case MENU:
@@ -123,7 +127,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             case MAIN_MENU:
                 if (event.getAction() == ACTION_DOWN) {
                     mainMenu.touchDown((int)event.getX(), (int)event.getY());
-                    takeScreenshot("file.jpg");
                 }
                 if (event.getAction() == ACTION_UP) {
                     mainMenu.touchUp((int)event.getX(), (int)event.getY());
@@ -137,11 +140,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         js.setUsed(true);
                         js.setBase(event.getX(), event.getY());
                     }*/
-                    js.setUsed(true);
-                    js.setBase(event.getX(), event.getY());
+                    if (!inventory.buttonTouchedDown((int)event.getX(), (int)event.getY())) {
+                        js.setUsed(true);
+                        js.setBase(event.getX(), event.getY());
+                    }
                 }
                 if (event.getAction() == ACTION_UP) {
                     js.setUsed(false);
+                    inventory.buttonTouchedUp((int)event.getX(), (int)event.getY());
                     //gameHandler.resumeGame();
                 }
                 if (js.used) {

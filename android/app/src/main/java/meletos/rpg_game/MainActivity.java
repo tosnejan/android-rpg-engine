@@ -72,6 +72,8 @@ public class MainActivity extends Activity {
                     .show();
         } else if (gameView.getState() == State.MENU){
             gameView.setState(State.MAP);
+        } else if (gameView.getState() == State.INVENTORY){
+            gameView.setState(State.MAP);
         } else {
             gameView.setState(State.MENU);
         }
@@ -114,4 +116,5 @@ public class MainActivity extends Activity {
             }
         }
     }
+
 }

@@ -126,6 +126,7 @@ public class Menu {
         if (xButtonClicked) xButton.changeImage(false, 0);
         if (xButtonClicked && xButton.isTouched(x, y)){
             xButtonClicked = false;
+            state = MenuStates.MAIN;
             gameView.setState(State.MAP);
             gameHandler.resumeGame();
         }
@@ -137,6 +138,8 @@ public class Menu {
                 switch (clickedButton){
                     case 0:
                         gameHandler.saveGameState();
+                        gameView.setState(State.MAP);
+                        gameView.takeScreenshot("file.jpg");
                         clickedButton = -1;
                         break;
                     case 1:
@@ -176,6 +179,10 @@ public class Menu {
         buttons[3] = new MenuButton(buttonX, buttonY + Yspace*3, buttonImage, buttonImageClicked, text, 9);
         buttons[4] = new MenuButton(buttonX, buttonY + Yspace*4, buttonImage, buttonImageClicked, text, 7);
         xButton = new MenuButton(x + frameWidth - 2*xButtonImage.getWidth()/3, y - xButtonImage.getHeight()/3, xButtonImage, xbuttonImageClicked, text, -1);
+    }
+
+    public MenuStates getState() {
+        return state;
     }
 
     private void alert(){

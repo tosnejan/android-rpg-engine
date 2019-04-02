@@ -1,0 +1,3 @@
+ID: 0
+IMAGE: images/glamdring.png
+DMG: 10
