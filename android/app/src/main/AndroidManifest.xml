@@ -14,9 +14,11 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="sensorLandscape"></activity>
         <activity
             android:name=".SplashScreen"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
