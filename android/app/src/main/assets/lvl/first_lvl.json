@@ -1,6 +1,37 @@
 {
   "lvlName": "exampleLvl",
   "mapSource": "testing_map",
+  "inventory": [
+    [
+      1,
+      2,
+      -1,
+      -1,
+      -1
+    ],
+    [
+      1,
+      2,
+      -1,
+      -1,
+      -1
+    ],
+    [
+      1,
+      2,
+      -1,
+      -1,
+      -1
+    ]
+  ],
+  "equipped": {
+    "HELMET": -1,
+    "CHESTPLATE": -1,
+    "GLOVE": -1,
+    "TROUSERS": -1,
+    "SHOES": -1,
+    "SWORD": 1
+  },
   "characters": [
     {
       "charType": "Hero",

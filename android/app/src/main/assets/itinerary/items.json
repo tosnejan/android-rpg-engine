@@ -1,16 +1,16 @@
 {
   "items": [
     {
-      "type": "Equipable",
+      "type": "SWORD",
       "ID": 1,
       "path": "itinerary/images/glamdring.png",
       "DMG": 100
     },
     {
-      "type": "NonEquipable",
+      "type": "SWORD",
       "ID": 2,
-      "path": "itinerary/images/sword.png"
-
+      "path": "itinerary/images/sword.png",
+      "DMG": 50
     }
   ]
 }

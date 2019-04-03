@@ -121,7 +121,6 @@ public class MainMenu {
                     case 0:
                         clickedButton = -1;
                         gameView.setState(State.MAP);
-                        gameHandler.resumeGame();
                         break;
                     case 1:
                         clickedButton = -1;

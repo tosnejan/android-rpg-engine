@@ -31,6 +31,7 @@ import java.nio.charset.StandardCharsets;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.file_io.LevelRepresentation;
+import meletos.rpg_game.inventory.Inventory;
 import meletos.rpg_game.navigation.JoyStick;
 
 /**
@@ -54,6 +55,7 @@ public class GameHandler {
     private GameView gameView;
     private String mapSource;
     private String lvlName;
+    private Inventory inventory;
 
     public GameHandler (FatherCharacter[] characters, Context context, String lvlName) {
         this.characters = characters;
@@ -328,6 +330,8 @@ public class GameHandler {
                 }
                 lr.setMapSource(mapSource);
                 lr.setLvlName(lvlName);
+                lr.setInventory(inventory.getInventory());
+                lr.setEquipped(inventory.getEquipped());
 
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 gsonBuilder.registerTypeAdapter(Double.class, new JsonSerializer<Double>() {
@@ -363,6 +367,14 @@ public class GameHandler {
                 }
             }
         }).run();
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }
 

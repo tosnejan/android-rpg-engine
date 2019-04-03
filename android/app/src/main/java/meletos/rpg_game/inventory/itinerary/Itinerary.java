@@ -1,4 +1,4 @@
-package meletos.rpg_game.itinerary;
+package meletos.rpg_game.inventory.itinerary;
 
 import android.content.Context;
 import android.util.SparseArray;
@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-import meletos.rpg_game.itinerary.items.Item;
-import meletos.rpg_game.itinerary.items.ItineraryRepresentation;
 import meletos.rpg_game.text.Text;
 
 

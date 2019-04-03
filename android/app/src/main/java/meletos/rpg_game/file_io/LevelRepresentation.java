@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 import meletos.rpg_game.Coordinates;
+import meletos.rpg_game.inventory.itinerary.ItemType;
 
 /**
  * Wrapper class holding all the information about a level
@@ -14,6 +15,8 @@ import meletos.rpg_game.Coordinates;
 public class LevelRepresentation implements Serializable {
         private String lvlName;
         private String mapSource;
+        private int[][] inventory;
+        private HashMap<ItemType,Integer> equipped;
         private ArrayList<HashMap> characters;
 
         public LevelRepresentation () {
@@ -25,6 +28,14 @@ public class LevelRepresentation implements Serializable {
     }
     public void setMapSource (String mapSource) {
         this.mapSource = mapSource;
+    }
+
+    public void setInventory(int[][] inventory) {
+        this.inventory = inventory;
+    }
+
+    public void setEquipped(HashMap<ItemType, Integer> equipped) {
+        this.equipped = equipped;
     }
 
     private void addCharacter (HashMap character) {
@@ -88,5 +99,13 @@ public class LevelRepresentation implements Serializable {
 
     public String getMapSource() {
         return mapSource;
+    }
+
+    public int[][] getInventory() {
+        return inventory;
+    }
+
+    public HashMap<ItemType, Integer> getEquipped() {
+        return equipped;
     }
 }

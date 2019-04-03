@@ -1,4 +1,4 @@
-package meletos.rpg_game.itinerary.items;
+package meletos.rpg_game.inventory.itinerary;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -7,16 +7,26 @@ import java.util.HashMap;
 
 import meletos.rpg_game.text.Text;
 
-public abstract class Item {
+public class Item {
     private Text text;
     private Bitmap image;
     private int ID;
+    private ItemType type;
+    private HashMap<String, Integer> stats;
 
-
-    public Item(Bitmap image, Text text, int ID) {
+    public Item(Bitmap image, Text text, int ID, ItemType type, HashMap<String, Integer> stats) {
         this.image = image;
         this.text = text;
         this.ID = ID;
+        this.type = type;
+        this.stats = stats;
+    }
+
+    public Item(Text text, Bitmap image, int ID, ItemType type) {
+        this.text = text;
+        this.image = image;
+        this.ID = ID;
+        this.type = type;
     }
 
     public void draw(int x, int y, Canvas canvas){
@@ -33,5 +43,4 @@ public abstract class Item {
         return ID;
     }
 
-    public abstract boolean isEquipable();
 }

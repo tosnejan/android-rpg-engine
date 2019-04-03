@@ -128,7 +128,6 @@ public class Menu {
             xButtonClicked = false;
             state = MenuStates.MAIN;
             gameView.setState(State.MAP);
-            gameHandler.resumeGame();
         }
         switch (state) {
             case MAIN:

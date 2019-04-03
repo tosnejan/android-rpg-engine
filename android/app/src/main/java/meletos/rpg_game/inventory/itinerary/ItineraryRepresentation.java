@@ -1,17 +1,17 @@
-package meletos.rpg_game.itinerary.items;
+package meletos.rpg_game.inventory.itinerary;
 
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.util.SparseArray;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import meletos.rpg_game.text.Text;
 
@@ -35,25 +35,22 @@ public class ItineraryRepresentation implements Serializable {
     }
 
     private Item buildItem(HashMap hashItem, Context context, Text text){
-        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+        int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         AssetManager am = context.getAssets();
         Bitmap image;
         String path = (String)hashItem.get("path");
-        String type = (String)hashItem.get("type");
+        String typeString = (String)hashItem.get("type");
+        ItemType type = ItemType.valueOf(typeString.toUpperCase(Locale.ENGLISH));
         int ID;
         if (hashItem.containsKey("ID"))ID = (int) (double) hashItem.get("ID");
         else ID = 0;
         try {
             image = BitmapFactory.decodeStream(am.open(path != null ? path : "itinerary/images/noImageFound.png"));
-            image = Bitmap.createScaledBitmap(image, screenWidth/10, screenWidth/10, true);
-            switch (type != null ? type : "NonEquipable") {
-                case "Equipable":
-                    HashMap<String,Integer> stats = new HashMap<>();
-                    stats.put("DMG",(int)(double)hashItem.get("DMG"));
-                    return new Equipable(image, text, ID, stats);
-                case "NonEquipable":
-                    return new NonEquipable(image, text, ID);
-            }
+            image = Bitmap.createScaledBitmap(image, screenHeight/8, screenHeight/8, true);
+            HashMap<String,Integer> stats = new HashMap<>();
+            if (hashItem.containsKey("DMG")) stats.put("DMG",(int)(double)hashItem.get("DMG"));
+            if (hashItem.containsKey("INT")) stats.put("INT",(int)(double)hashItem.get("INT"));
+            return new Item(image, text, ID, type, stats);
         } catch (IOException e) {
             e.printStackTrace();
         }

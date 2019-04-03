@@ -13,7 +13,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 import meletos.rpg_game.Coordinates;
 import meletos.rpg_game.GameHandler;
@@ -21,6 +20,7 @@ import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Follower;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
+import meletos.rpg_game.inventory.Inventory;
 
 /**
  * should save an array of characters into a json -- doesnt work yet probably :D
@@ -47,9 +47,13 @@ public class LevelGenerator {
         for (HashMap characterHash: charStrings) {
             characters.add(buildCharacter(characterHash));
         }
+        int[][] inventory = levelRepresentation.getInventory();
+        HashMap equipped = levelRepresentation.getEquipped();
+        Inventory inv = new Inventory(inventory,equipped);
         FatherCharacter[] fatherCharacters = new FatherCharacter[characters.size()];
         GameHandler gh = new GameHandler(characters.toArray(fatherCharacters), context, levelRepresentation.getLvlName());
         gh.loadMap(levelRepresentation.getMapSource());
+        gh.setInventory(inv);
         return gh; //TODO
     }
 

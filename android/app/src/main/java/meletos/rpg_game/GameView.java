@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-import meletos.rpg_game.itinerary.InventoryGUI;
-import meletos.rpg_game.itinerary.Itinerary;
+import meletos.rpg_game.inventory.InventoryGUI;
+import meletos.rpg_game.inventory.itinerary.Itinerary;
 import meletos.rpg_game.menu.Settings;
 import meletos.rpg_game.file_io.LevelGenerator;
 import meletos.rpg_game.file_io.UnsupportedTypeException;
@@ -178,6 +178,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             case FIGHT:
                 break;
             case INVENTORY:
+                if (event.getAction() == ACTION_DOWN) {
+                    inventory.buttonTouchedDown((int)event.getX(), (int)event.getY());
+                }
+                if (event.getAction() == ACTION_UP) {
+                    inventory.buttonTouchedUp((int)event.getX(), (int)event.getY());
+                }
                 break;
         }
         return true;
