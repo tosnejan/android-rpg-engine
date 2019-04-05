@@ -1,5 +1,5 @@
 package meletos.rpg_game.inventory.itinerary;
 
 public enum ItemType {
-    HELMET, CHESTPLATE, GLOVE, TROUSERS, SHOES, SWORD, OTHER
+    HELMET, CHESTPLATE, TROUSERS, SHOES, WEAPON, SHIELD, NECKLACE, GLOVES, RING, BELT, OTHER
 }

@@ -35,6 +35,7 @@ public class ItineraryRepresentation implements Serializable {
     }
 
     private Item buildItem(HashMap hashItem, Context context, Text text){
+        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         AssetManager am = context.getAssets();
         Bitmap image;
@@ -46,14 +47,21 @@ public class ItineraryRepresentation implements Serializable {
         else ID = 0;
         try {
             image = BitmapFactory.decodeStream(am.open(path != null ? path : "itinerary/images/noImageFound.png"));
-            image = Bitmap.createScaledBitmap(image, screenHeight/8, screenHeight/8, true);
-            HashMap<String,Integer> stats = new HashMap<>();
-            if (hashItem.containsKey("DMG")) stats.put("DMG",(int)(double)hashItem.get("DMG"));
-            if (hashItem.containsKey("INT")) stats.put("INT",(int)(double)hashItem.get("INT"));
-            return new Item(image, text, ID, type, stats);
+            image = Bitmap.createScaledBitmap(image, screenWidth/16, (int)(screenHeight/9), true);
+
         } catch (IOException e) {
+            try {
+                image = BitmapFactory.decodeStream(am.open("itinerary/images/noImageFound.png"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                return null;
+            }
             e.printStackTrace();
         }
-        return null;
+        image = Bitmap.createScaledBitmap(image, screenWidth/16, (int)(screenHeight/9), true);
+        HashMap<String,Integer> stats = new HashMap<>();
+        if (hashItem.containsKey("DMG")) stats.put("DMG",(int)(double)hashItem.get("DMG"));
+        if (hashItem.containsKey("INT")) stats.put("INT",(int)(double)hashItem.get("INT"));
+        return new Item(image, text, ID, type, stats);
     }
 }

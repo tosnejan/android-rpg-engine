@@ -71,7 +71,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         menu = new Menu(gameHandler, this, context, text, settings);
 
         getHolder().addCallback(this);
-        inventory = new InventoryGUI(this,context,gameHandler,text,itinerary);
+        inventory = new InventoryGUI(this, context, gameHandler, text, itinerary);
         gameHandler.pauseGame();
         gameThread = new GameThread(gameHandler);
         viewThread = new MainThread(getHolder(), this);

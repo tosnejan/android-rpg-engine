@@ -49,7 +49,7 @@ public class LevelGenerator {
         }
         int[][] inventory = levelRepresentation.getInventory();
         HashMap equipped = levelRepresentation.getEquipped();
-        Inventory inv = new Inventory(inventory,equipped);
+        Inventory inv = new Inventory(inventory, equipped);
         FatherCharacter[] fatherCharacters = new FatherCharacter[characters.size()];
         GameHandler gh = new GameHandler(characters.toArray(fatherCharacters), context, levelRepresentation.getLvlName());
         gh.loadMap(levelRepresentation.getMapSource());

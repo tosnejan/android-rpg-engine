@@ -1,16 +1,70 @@
 {
   "items": [
     {
-      "type": "SWORD",
+      "type": "WEAPON",
       "ID": 1,
       "path": "itinerary/images/glamdring.png",
       "DMG": 100
     },
     {
-      "type": "SWORD",
+      "type": "WEAPON",
       "ID": 2,
       "path": "itinerary/images/sword.png",
       "DMG": 50
+    },
+    {
+      "type": "HELMET",
+      "ID": 3,
+      "path": "itinerary/images/pp_hlt_t_01.PNG",
+      "ARM": 10
+    },
+    {
+      "type": "CHESTPLATE",
+      "ID": 4,
+      "path": "itinerary/images/pp_arm_t_01.PNG",
+      "ARM": 30
+    },
+    {
+      "type": "TROUSERS",
+      "ID": 5,
+      "path": "itinerary/images/pp_pnc_t_01.PNG",
+      "ARM": 20
+    },
+    {
+      "type": "SHOES",
+      "ID": 6,
+      "path": "itinerary/images/pp_bts_t_01.PNG",
+      "ARM": 5
+    },
+    {
+      "type": "GLOVES",
+      "ID": 7,
+      "path": "itinerary/images/pp_gl_t_01.PNG",
+      "ARM": 5
+    },
+    {
+      "type": "BELT",
+      "ID": 8,
+      "path": "itinerary/images/pp_blt_t_01.PNG",
+      "ARM": 5
+    },
+    {
+      "type": "NECKLACE",
+      "ID": 9,
+      "path": "itinerary/images/nk_t_05.png",
+      "DMG": 10
+    },
+    {
+      "type": "RING",
+      "ID": 10,
+      "path": "itinerary/images/rn_t_01.png",
+      "ARM": 5
+    },
+    {
+      "type": "SHIELD",
+      "ID": 11,
+      "path": "itinerary/images/shield_t_01.png",
+      "ARM": 15
     }
   ]
 }
