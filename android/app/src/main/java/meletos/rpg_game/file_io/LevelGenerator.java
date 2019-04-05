@@ -77,7 +77,7 @@ public class LevelGenerator {
                     Coordinates[] coord = (Coordinates[])characterHash.get("followCoord");
                     return new Follower(x, y, assetsFolder, context, coord);
                 default:
-                    throw new UnsupportedTypeException();
+                    throw new UnsupportedTypeException("This character doesnt exist yet.");
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
