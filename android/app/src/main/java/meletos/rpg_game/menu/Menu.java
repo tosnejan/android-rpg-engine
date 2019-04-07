@@ -111,7 +111,6 @@ public class Menu {
                 }
                 break;
             case SETTINGS:
-
                 settings.touchDown(x, y);
                 break;
             case LOAD:
@@ -149,6 +148,7 @@ public class Menu {
                         state = MenuStates.SETTINGS;
                         break;
                     case 3:
+                        gameView.exitLevel();
                         gameView.setState(State.MAIN_MENU);
                         clickedButton = -1;
                         break;

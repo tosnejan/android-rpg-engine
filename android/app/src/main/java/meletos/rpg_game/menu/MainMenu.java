@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
 
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.GameView;
@@ -35,16 +36,15 @@ public class MainMenu {
     private MainMenuStates state = MainMenuStates.MAIN;
     private MenuButton[] buttons = new MenuButton[4];
     private Text text;
-    private GameHandler gameHandler;
+
     private int clickedButton = -1;
     private int x;
     private int y;
 
-    public MainMenu(GameHandler gameHandler, GameView gameView, Context context, Text text, Settings settings) {
+    public MainMenu(GameView gameView, Context context, Text text, Settings settings) {
         this.gameView = gameView;
         this.context = context;
         this.text = text;
-        this.gameHandler = gameHandler;
         this.settings = settings;
         loadImages();
         createButtons();
@@ -120,6 +120,7 @@ public class MainMenu {
                 switch (clickedButton){
                     case 0:
                         clickedButton = -1;
+                        gameView.loadLevel("lvl/first_lvl.json", false);
                         gameView.setState(State.MAP);
                         break;
                     case 1:

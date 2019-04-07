@@ -53,53 +53,66 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private boolean isInLevel;
     private Itinerary itinerary;
 
+    /**
+     * Starts up the game -- the main menu
+     * @param context
+     * @param text
+     */
     public GameView(Context context, Text text) {
         super(context);
-        LevelGenerator lvlGenerator = new LevelGenerator(context, "lvl/first_lvl.json");
-        try {
-            gameHandler = lvlGenerator.buildLevel(false);
-        } catch (UnsupportedTypeException e) {
-            e.printStackTrace();
-        }
+        this.text = text;
         itinerary = Itinerary.load(context, text, "itinerary/items.json");
         sound = new Sound(context);
         settings = new Settings(text, sound, context);
-        gameHandler.setGameView(this);
-        gameHandler.setJoystickToHero(js);
-
-        mainMenu = new MainMenu(gameHandler, this, context, text, settings);
-        menu = new Menu(gameHandler, this, context, text, settings);
-
+        mainMenu = new MainMenu(this, context, text, settings);
         getHolder().addCallback(this);
-        inventory = new InventoryGUI(this, context, gameHandler, text, itinerary);
-        gameHandler.pauseGame();
-        gameThread = new GameThread(gameHandler);
         viewThread = new MainThread(getHolder(), this);
         setFocusable(true);
     }
 
     /**
-     * Work in progress -- will do the level loading and switching
-     * @param fileName name of file to read
+     * Loads a specific level -- quite buggy at the moment
+     * @param filePath name and path of file to read
      * @param userSave <code>true</code> if loading userSave
      *                 <code>false</code> if loading level
      */
-    public void loadLevel (String fileName, boolean userSave) {
+    public void loadLevel (String filePath, boolean userSave) {
+
         try {
-            LevelGenerator lvlGenerator = new LevelGenerator(getContext(), "lvl/first_lvl.json");
+            LevelGenerator lvlGenerator = new LevelGenerator(getContext(), filePath);
             gameHandler = lvlGenerator.buildLevel(userSave);
         } catch (UnsupportedTypeException e) {
             e.printStackTrace();
         }
+        gameHandler.setGameView(this);
+        gameHandler.setJoystickToHero(js);
+        gameThread = new GameThread(gameHandler);
+        inventory = new InventoryGUI(this, getContext(), gameHandler, text, itinerary);
+        menu = new Menu(gameHandler, this, getContext(), text, settings);
+        gameThread.start();
     }
 
+
     /**
-     * Another work in progress - should be triggered
-     * upon entering the menu and leaving the app
+     * Is triggered
+     * when entering the menu and leaving the app
      */
     public void exitLevel () {
         gameHandler.pauseGame();
-        gameHandler.saveGameState(); //TODO
+        gameHandler.saveGameState();
+        state = State.MAIN_MENU;
+        boolean retry = true;
+        while (retry) {
+            try {
+                gameThread.setRunning(false);
+                gameThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            retry = false;
+        }
+        gameThread = null;
+        gameHandler = null;
     }
 
     @Override
@@ -110,9 +123,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 mainMenu.draw(canvas);
                 //} else if(state == State.FIGHT) {
             } else {
-                canvas.drawColor(Color.WHITE);
+                //canvas.drawColor(Color.WHITE);
                 gameHandler.drawGame(canvas);
-                //exampleButton.draw(canvas);
                 switch (state) {
                     case MAP:
                         inventory.draw(canvas);
@@ -130,7 +142,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     /**
-     * right now only demonstrating usage of touchevents -- pauses game on touch
+     * All the management of touch events
      * @param event
      * @return
      */
@@ -147,12 +159,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 break;
             case MAP:
                 if (event.getAction() == ACTION_DOWN) {
-                    /*if (exampleButton.isTouched((int)event.getX(), (int)event.getY())) {
-                        gameHandler.pauseGame();
-                    } else {
-                        js.setUsed(true);
-                        js.setBase(event.getX(), event.getY());
-                    }*/
                     if (!inventory.buttonTouchedDown((int)event.getX(), (int)event.getY())) {
                         js.setUsed(true);
                         js.setBase(event.getX(), event.getY());
@@ -195,21 +201,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void onCreate() {
         viewThread.setRunning(true);
         viewThread.start();
-        gameThread.start();
     }
 
     /**
      * Called when user exits the game by pressing home button
      */
     public void onPause () {
-        gameHandler.pauseGame();
+        if (state == State.MAP) gameHandler.pauseGame();
     }
 
     /**
      * resumes the game when user navigates back
      */
     public void onResume () {
-        gameHandler.resumeGame();
+        if (state == State.MAP) gameHandler.resumeGame();
+
     }
 
     /**
@@ -220,10 +226,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         boolean retry = true;
         while (retry) {
             try {
+                if (state == State.MAP || state == State.INVENTORY || state == State.MENU) {
+                    gameThread.setRunning(false);
+                    gameThread.join();
+                }
                 viewThread.setRunning(false);
-                gameThread.setRunning(false);
                 viewThread.join();
-                gameThread.join();
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -251,9 +260,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void setState(State state) {
         this.state = state;
-        if (state != State.MAP) {
+        if (state == State.INVENTORY || state == State.MENU) {
             gameHandler.pauseGame();
-        } else {
+        } else if (state == State.MAP) {
             gameHandler.resumeGame();
         }
     }

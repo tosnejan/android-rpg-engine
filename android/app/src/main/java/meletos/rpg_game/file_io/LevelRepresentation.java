@@ -12,12 +12,13 @@ import meletos.rpg_game.inventory.itinerary.ItemType;
  * Wrapper class holding all the information about a level
  * Gets serialised into a file
  */
-public class LevelRepresentation implements Serializable {
+public class LevelRepresentation {
         private String lvlName;
         private String mapSource;
         private int[][] inventory;
         private HashMap<ItemType,Integer> equipped;
         private ArrayList<HashMap> characters;
+        private Coordinates heroPosition;
 
         public LevelRepresentation () {
             characters = new ArrayList<>();
