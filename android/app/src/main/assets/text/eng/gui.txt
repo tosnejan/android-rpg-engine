@@ -36,3 +36,6 @@ CZE
 
 ID: 12
 Back
+
+ID: 13
+Equip

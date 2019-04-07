@@ -47,7 +47,7 @@ public class ItineraryRepresentation implements Serializable {
         else ID = 0;
         try {
             image = BitmapFactory.decodeStream(am.open(path != null ? path : "itinerary/images/noImageFound.png"));
-            image = Bitmap.createScaledBitmap(image, screenWidth/16, (int)(screenHeight/9), true);
+            image = Bitmap.createScaledBitmap(image, screenHeight / 9, (int)(screenHeight / 9), true);
 
         } catch (IOException e) {
             try {
@@ -58,7 +58,7 @@ public class ItineraryRepresentation implements Serializable {
             }
             e.printStackTrace();
         }
-        image = Bitmap.createScaledBitmap(image, screenWidth/16, (int)(screenHeight/9), true);
+        image = Bitmap.createScaledBitmap(image, screenHeight / 9, (int)(screenHeight/9), true);
         HashMap<String,Integer> stats = new HashMap<>();
         if (hashItem.containsKey("DMG")) stats.put("DMG",(int)(double)hashItem.get("DMG"));
         if (hashItem.containsKey("INT")) stats.put("INT",(int)(double)hashItem.get("INT"));

@@ -36,3 +36,6 @@ CZE
 
 ID: 12
 Zpět
+
+ID: 13
+Nasadit

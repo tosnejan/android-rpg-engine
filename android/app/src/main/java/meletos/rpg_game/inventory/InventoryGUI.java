@@ -12,6 +12,7 @@ import java.io.IOException;
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.GameView;
 import meletos.rpg_game.State;
+import meletos.rpg_game.inventory.itinerary.Item;
 import meletos.rpg_game.inventory.itinerary.ItemType;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
 import meletos.rpg_game.navigation.MenuButton;
@@ -20,18 +21,28 @@ import meletos.rpg_game.text.Text;
 public class InventoryGUI {
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private Bitmap background;
     private Bitmap frame;
-    private int frameX;
-    private int frameY;
+    private Bitmap grid;
+    private Bitmap equipped;
+    private int backgroundX;
+    private int backgroundY;
     private int gridX;
     private int gridY;
     private int equX;
     private int equY;
+    private int equDrawX;
+    private int selectedX = -1;
+    private int selectedY = -1;
+    private int newSelectedX = -1;
+    private int newSelectedY = -1;
     private boolean buttonTouched = false;
     private boolean xButtonTouched = false;
+    private boolean equButtonTouched = false;
     private Text text;
     private MenuButton button;
     private MenuButton xButton;
+    private MenuButton equButton;
     private GameView gameView;
     private Context context;
     private GameHandler gameHandler;
@@ -55,21 +66,33 @@ public class InventoryGUI {
         AssetManager am = context.getAssets();
         try {
             Bitmap image = BitmapFactory.decodeStream(am.open("inventory/bag.png"));
-            image = Bitmap.createScaledBitmap(image, (int) ( screenWidth / 10), (int) (screenWidth / 10), true);
+            image = Bitmap.createScaledBitmap(image, screenWidth / 10, screenWidth / 10, true);
             button = new MenuButton(screenWidth - image.getWidth(), 0, image, image, text, -1);
-            frame = BitmapFactory.decodeStream(am.open("inventory/inventory_v2.png"));
-            frame = Bitmap.createScaledBitmap(frame, screenWidth, screenHeight, true);
-            frameX = 0;     //(screenWidth - frameWidth)/2;
-            frameY = 0;     //(screenHeight - frameHeight)/2;
-            gridX = screenWidth / 16;
+            background = BitmapFactory.decodeStream(am.open("inventory/bg_01.png"));
+            background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, true);
+            equipped = BitmapFactory.decodeStream(am.open("inventory/equipped.png"));
+            equipped = Bitmap.createScaledBitmap(equipped, 16*screenHeight/27, 79*screenHeight/135, true);
+            grid = BitmapFactory.decodeStream(am.open("inventory/grid.png"));
+            grid = Bitmap.createScaledBitmap(grid, 143*screenHeight/135, 79*screenHeight/135, true);
+            frame = BitmapFactory.decodeStream(am.open("inventory/select.png"));
+            frame = Bitmap.createScaledBitmap(frame, (int)(screenHeight/67.5 + screenHeight/9), (int)(screenHeight/67.5 + screenHeight/9), true);
+            backgroundX = 0;     //(screenWidth - frameWidth)/2;
+            backgroundY = 0;     //(screenHeight - frameHeight)/2;
+            gridX = screenHeight / 9;
             gridY = screenHeight / 9;
-            equX = 11 * screenWidth / 16;
+            equX = screenWidth - equipped.getWidth() + screenHeight / 135;
             equY = screenHeight / 9;
-            /*Bitmap xButtonImage = BitmapFactory.decodeStream(am.open("menu/x_button_round.png"));
-            xButtonImage = Bitmap.createScaledBitmap(xButtonImage, (int)(frameWidth/6.7), (int)(frameWidth/6.7), true);
+            equDrawX = screenWidth - equipped.getWidth();
+            image = BitmapFactory.decodeStream(am.open("menu/button.png"));
+            image = Bitmap.createScaledBitmap(image, screenWidth/5, screenHeight/10, true);
+            Bitmap imageClicked = BitmapFactory.decodeStream(am.open("menu/button_clicked.png"));
+            imageClicked = Bitmap.createScaledBitmap(imageClicked, screenWidth/5, screenHeight/10, true);
+            equButton = new MenuButton(gridX + screenWidth/2 + screenWidth/30 - image.getWidth(), screenHeight - screenHeight/9 - image.getHeight(), image, imageClicked, text, 13);
+            Bitmap xButtonImage = BitmapFactory.decodeStream(am.open("menu/x_button_round.png"));
+            xButtonImage = Bitmap.createScaledBitmap(xButtonImage, screenHeight/11, screenHeight/11, true);
             Bitmap xbuttonImageClicked = BitmapFactory.decodeStream(am.open("menu/x_button_round_clicked.png"));
-            xbuttonImageClicked = Bitmap.createScaledBitmap(xbuttonImageClicked, (int)(frameWidth/6.7), (int)(frameWidth/6.7), true);
-            xButton = new MenuButton(frameX + frameWidth - 2*xButtonImage.getWidth()/3, frameY - xButtonImage.getHeight()/3, xButtonImage, xbuttonImageClicked, text, -1);*/
+            xbuttonImageClicked = Bitmap.createScaledBitmap(xbuttonImageClicked, screenHeight/10, screenHeight/10, true);
+            xButton = new MenuButton(screenWidth - 9*xButtonImage.getWidth()/8, xButtonImage.getHeight()/8, xButtonImage, xbuttonImageClicked, text, -1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,10 +102,23 @@ public class InventoryGUI {
         if (gameView.getState() == State.MAP){
             button.draw(canvas);
         } else {
-            canvas.drawBitmap(frame, frameX, frameY, null);
-            //xButton.draw(canvas);
+            canvas.drawBitmap(background, backgroundX, backgroundY, null);
+            canvas.drawBitmap(grid, 0, 0, null);
+            canvas.drawBitmap(equipped, equDrawX, 0, null);
+            xButton.draw(canvas);
             drawInventory(canvas);
             drawEquipped(canvas);
+            if (selectedY != -1 && selectedX != -1){
+                if (inventory.getInventoryItem(selectedY, selectedX) != -1) {
+                    canvas.drawBitmap(frame, gridX - screenHeight / 135 + (screenHeight / 9 + screenHeight / 135) * selectedX, gridY - screenHeight / 135 + (screenHeight / 9 + screenHeight / 135) * selectedY, null);
+                }
+                int ID = inventory.getInventoryItem(selectedY, selectedX);
+                if (ID != -1) {
+                    if (itinerary.getItem(ID).getType() != ItemType.OTHER) {
+                        equButton.draw(canvas);
+                    }
+                }
+            }
         }
     }
 
@@ -92,10 +128,16 @@ public class InventoryGUI {
             return true;
         } else {
             buttonTouched = false;
-            /*if (xButton.isTouched(x, y)){
+            if (xButton.isTouched(x, y)){
                 xButtonTouched = true;
                 xButton.changeImage(true, 0);
-            }*/
+            } else {
+                itemsTouchedDown(x, y);
+                if (equButton.isTouched(x, y)){
+                    equButtonTouched = true;
+                    equButton.changeImage(true, 10);
+                }
+            }
             return false;
         }
     }
@@ -106,12 +148,77 @@ public class InventoryGUI {
             inventory = gameHandler.getInventory();
         } else {
             buttonTouched = false;
-           /* if (xButtonTouched) xButton.changeImage(false, 0);
+            if (xButtonTouched) xButton.changeImage(false, 0);
             if (xButtonTouched && xButton.isTouched(x, y)){
                 xButtonTouched = false;
                 gameView.setState(State.MAP);
-            }*/
+            } else if (equButtonTouched){
+                equButtonTouched = false;
+                equButton.changeImage(false, 0);
+                if (equButton.isTouched(x, y) && selectedX != -1 && selectedY != -1){
+                    Item item = itinerary.getItem(inventory.getInventoryItem(selectedY, selectedX));
+                    if (item.getType() != ItemType.OTHER) {
+                        int ID = inventory.getEquipedItem(item.getType());
+                        inventory.setEquipedItem(item.getType(), item.getID());
+                        inventory.setInventoryItem(selectedY, selectedX, ID);
+                    }
+                }
+            } else {
+                if (itemsTouchedUp(x, y)){
+                    selectedX = newSelectedX;
+                    selectedY = newSelectedY;
+                    newSelectedX = -1;
+                    newSelectedY = -1;
+                }
+            }
         }
+    }
+
+    private void itemsTouchedDown(int x, int y) {
+        for (int row = 0; row < 4; row++) {
+            int up = (gridY + (screenHeight / 9 + screenHeight / 135) * row);
+            int down = up + screenHeight / 9;
+            if (up < y && y < down){
+                newSelectedY = row;
+                break;
+            } else {
+                newSelectedY = -1;
+            }
+        }
+        if (newSelectedY == -1) {
+            newSelectedX = -1;
+            return;
+        }
+        for (int column = 0; column < 8; column++) {
+            int left = gridX + (screenHeight / 9 + screenHeight / 135) * column;
+            int right = left + screenHeight / 9;
+            if (left < x && x < right){
+                newSelectedX = column;
+                return;
+            } else {
+                newSelectedX = -1;
+            }
+        }
+    }
+
+    private boolean itemsTouchedUp(int x, int y) {
+        for (int row = 0; row < 4; row++) {
+            int up = (gridY + (screenHeight / 9 + screenHeight / 135) * row);
+            int down = up + screenHeight / 9;
+            if (up < y && y < down){
+                if (newSelectedY == row){
+                    for (int column = 0; column < 8; column++) {
+                        int left = gridX + (screenHeight / 9 + screenHeight / 135) * column;
+                        int right = left + screenHeight / 9;
+                        if (left < x && x < right) {
+                            return newSelectedX == column;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        return false;
     }
 
     private void drawInventory(Canvas canvas){
@@ -119,7 +226,7 @@ public class InventoryGUI {
         for (int row = 0; row < 4; row++) {
             for (int column = 0; column < 8; column++) {
                 if (( ID = inventory.getInventoryItem(row, column)) != -1) {
-                    itinerary.getItem(ID).draw(gridX + (screenWidth / 16 + screenWidth / 240) * column, gridY + (screenHeight / 9 + screenHeight / 135) * row, canvas);
+                    itinerary.getItem(ID).draw(gridX + (screenHeight / 9 + screenHeight / 135) * column, gridY + (screenHeight / 9 + screenHeight / 135) * row, canvas);
                 }
             }
         }
@@ -133,32 +240,32 @@ public class InventoryGUI {
                     case HELMET:
                         itinerary.getItem(ID).draw(equX, equY, canvas);
                         break;
-                    case CHESTPLATE:
+                    case ARMOR:
                         itinerary.getItem(ID).draw(equX, gridY + screenHeight / 9 + screenHeight / 135, canvas);
                         break;
-                    case TROUSERS:
+                    case PANTS:
                         itinerary.getItem(ID).draw(equX, gridY + (screenHeight / 9 + screenHeight / 135) * 2, canvas);
                         break;
                     case SHOES:
                         itinerary.getItem(ID).draw(equX, gridY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
                         break;
                     case WEAPON:
-                        itinerary.getItem(ID).draw(equX + screenWidth / 16 + screenWidth / 240,  gridY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
+                        itinerary.getItem(ID).draw(equX + screenHeight / 9 + screenHeight / 135,  gridY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
                         break;
                     case SHIELD:
-                        itinerary.getItem(ID).draw(equX + (screenWidth / 16 + screenWidth / 240) * 2,  gridY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
+                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 2,  gridY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
                         break;
                     case NECKLACE:
-                        itinerary.getItem(ID).draw(equX + (screenWidth / 16 + screenWidth / 240) * 3,  gridY, canvas);
+                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 3,  gridY, canvas);
                         break;
                     case GLOVES:
-                        itinerary.getItem(ID).draw(equX + (screenWidth / 16 + screenWidth / 240) * 3,  gridY + screenHeight / 9 + screenHeight / 135, canvas);
+                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 3,  gridY + screenHeight / 9 + screenHeight / 135, canvas);
                         break;
                     case RING:
-                        itinerary.getItem(ID).draw(equX + (screenWidth / 16 + screenWidth / 240) * 3,  gridY + (screenHeight / 9 + screenHeight / 135) * 2, canvas);
+                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 3,  gridY + (screenHeight / 9 + screenHeight / 135) * 2, canvas);
                         break;
                     case BELT:
-                        itinerary.getItem(ID).draw(equX + (screenWidth / 16 + screenWidth / 240) * 3,  gridY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
+                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 3,  gridY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
                         break;
                 }
             }

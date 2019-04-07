@@ -3,67 +3,121 @@
     {
       "type": "WEAPON",
       "ID": 1,
-      "path": "itinerary/images/glamdring.png",
+      "path": "itinerary/images/weapons/glamdring.png",
       "DMG": 100
     },
     {
       "type": "WEAPON",
       "ID": 2,
-      "path": "itinerary/images/sword.png",
+      "path": "itinerary/images/weapons/sword.png",
       "DMG": 50
     },
     {
       "type": "HELMET",
       "ID": 3,
-      "path": "itinerary/images/pp_hlt_t_01.PNG",
+      "path": "itinerary/images/helmets/pp_hlt_t_01.PNG",
       "ARM": 10
     },
     {
-      "type": "CHESTPLATE",
+      "type": "ARMOR",
       "ID": 4,
-      "path": "itinerary/images/pp_arm_t_01.PNG",
+      "path": "itinerary/images/armor/pp_arm_t_01.PNG",
       "ARM": 30
     },
     {
-      "type": "TROUSERS",
+      "type": "PANTS",
       "ID": 5,
-      "path": "itinerary/images/pp_pnc_t_01.PNG",
+      "path": "itinerary/images/pants/pp_pnc_t_01.PNG",
       "ARM": 20
     },
     {
       "type": "SHOES",
       "ID": 6,
-      "path": "itinerary/images/pp_bts_t_01.PNG",
+      "path": "itinerary/images/shoes/pp_bts_t_01.PNG",
       "ARM": 5
     },
     {
       "type": "GLOVES",
       "ID": 7,
-      "path": "itinerary/images/pp_gl_t_01.PNG",
+      "path": "itinerary/images/gloves/pp_gl_t_01.PNG",
       "ARM": 5
     },
     {
       "type": "BELT",
       "ID": 8,
-      "path": "itinerary/images/pp_blt_t_01.PNG",
+      "path": "itinerary/images/belts/pp_blt_t_01.PNG",
       "ARM": 5
     },
     {
       "type": "NECKLACE",
       "ID": 9,
-      "path": "itinerary/images/nk_t_05.png",
+      "path": "itinerary/images/necklace/nk_t_05.png",
       "DMG": 10
     },
     {
       "type": "RING",
       "ID": 10,
-      "path": "itinerary/images/rn_t_01.png",
+      "path": "itinerary/images/rings/rn_t_01.png",
       "ARM": 5
     },
     {
       "type": "SHIELD",
       "ID": 11,
-      "path": "itinerary/images/shield_t_01.png",
+      "path": "itinerary/images/shields/shield_t_01.png",
+      "ARM": 15
+    },
+    {
+      "type": "HELMET",
+      "ID": 12,
+      "path": "itinerary/images/helmets/nnj_hlm_01_t.png",
+      "ARM": 10
+    },
+    {
+      "type": "ARMOR",
+      "ID": 13,
+      "path": "itinerary/images/armor/nnj_arm_01_t.png",
+      "ARM": 30
+    },
+    {
+      "type": "PANTS",
+      "ID": 14,
+      "path": "itinerary/images/pants/nnj_pn_01_t.png",
+      "ARM": 20
+    },
+    {
+      "type": "SHOES",
+      "ID": 15,
+      "path": "itinerary/images/shoes/nnj_bt_01_t.png",
+      "ARM": 5
+    },
+    {
+      "type": "GLOVES",
+      "ID": 16,
+      "path": "itinerary/images/gloves/nnj_gl_01_t.png",
+      "ARM": 5
+    },
+    {
+      "type": "BELT",
+      "ID": 17,
+      "path": "itinerary/images/belts/nnj_bl_01_t.png",
+      "ARM": 5
+    },
+    {
+      "type": "NECKLACE",
+      "ID": 18,
+      "path": "itinerary/images/necklace/necklace_4.PNG",
+      "DMG": 10
+    },
+    {
+      "type": "RING",
+      "ID": 19,
+      "path": "itinerary/images/rings/rings_1.PNG",
+      "ARM": 5
+    },
+    {
+      "type": "SHIELD",
+      "ID": 20,
+      "path": "itinerary/images/shields/30_ff_t.PNG",
       "ARM": 15
     }
   ]

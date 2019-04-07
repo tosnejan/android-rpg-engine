@@ -132,7 +132,7 @@ public class Menu {
         switch (state) {
             case MAIN:
                 if (clickedButton == -1) break;
-                buttons[clickedButton].changeImage(false, 10);
+                buttons[clickedButton].changeImage(false, 0);
                 if (!buttons[clickedButton].isTouched(x, y)) clickedButton = -1;
                 switch (clickedButton){
                     case 0:

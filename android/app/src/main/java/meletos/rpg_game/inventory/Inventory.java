@@ -25,7 +25,15 @@ public class Inventory {
         return inventory[row][column];
     }
 
+    public void setInventoryItem(int row, int column, int ID){
+        inventory[row][column] = ID;
+    }
+
     public int getEquipedItem(ItemType type){
         return equipped.get(type) != null ? equipped.get(type) : -1;
+    }
+
+    public void setEquipedItem(ItemType type, int ID){
+        equipped.put(type, ID);
     }
 }

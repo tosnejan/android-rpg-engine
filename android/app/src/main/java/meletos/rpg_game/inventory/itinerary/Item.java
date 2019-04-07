@@ -43,4 +43,7 @@ public class Item {
         return ID;
     }
 
+    public ItemType getType() {
+        return type;
+    }
 }

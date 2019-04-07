@@ -3,18 +3,18 @@
   "mapSource": "testing_map",
   "inventory": [
     [
-      -1,
-      -1,
-      -1,
-      -1,
-      -1,
-      -1,
-      -1,
-      -1
+      2,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
     ],
     [
-      -1,
-      -1,
+      19,
+      20,
       -1,
       -1,
       -1,
@@ -45,8 +45,8 @@
   ],
   "equipped": {
     "HELMET": 3,
-    "CHESTPLATE": 4,
-    "TROUSERS": 5,
+    "ARMOR": 4,
+    "PANTS": 5,
     "SHOES": 6,
     "WEAPON": 1,
     "SHIELD": 11,
