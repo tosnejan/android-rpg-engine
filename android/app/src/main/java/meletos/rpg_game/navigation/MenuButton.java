@@ -63,6 +63,7 @@ public class MenuButton extends Button {
                     paint);
         }
     }
+
     private void setOptimalTextSize(){
         while (bounds.width() > 9*imgWidth/10){
             textSize -= 1;
@@ -79,5 +80,9 @@ public class MenuButton extends Button {
             image = imageUnclicked;
             yClick = 0;
         }
+    }
+
+    public void changeTextID(int ID){
+        this.ID = ID;
     }
 }

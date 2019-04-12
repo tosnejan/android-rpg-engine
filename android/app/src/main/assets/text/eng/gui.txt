@@ -39,3 +39,6 @@ Back
 
 ID: 13
 Equip
+
+ID: 14
+Unequip

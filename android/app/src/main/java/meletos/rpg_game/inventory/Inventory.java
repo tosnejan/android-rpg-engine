@@ -36,4 +36,16 @@ public class Inventory {
     public void setEquipedItem(ItemType type, int ID){
         equipped.put(type, ID);
     }
+
+    public void unequipItem(ItemType type) {
+        for (int row = 0; row < inventory.length; row++) {
+            for (int column = 0; column < inventory[row].length; column++) {
+                if (inventory[row][column] == -1){
+                    inventory[row][column] = equipped.get(type);
+                    equipped.put(type, -1);
+                    return;
+                }
+            }
+        }
+    }
 }

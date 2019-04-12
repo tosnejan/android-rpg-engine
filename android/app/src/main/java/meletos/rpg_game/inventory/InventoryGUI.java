@@ -36,6 +36,8 @@ public class InventoryGUI {
     private int selectedY = -1;
     private int newSelectedX = -1;
     private int newSelectedY = -1;
+    private ItemType equSelected = null;
+    private ItemType newEquSelected = null;
     private boolean buttonTouched = false;
     private boolean xButtonTouched = false;
     private boolean equButtonTouched = false;
@@ -109,14 +111,20 @@ public class InventoryGUI {
             drawInventory(canvas);
             drawEquipped(canvas);
             if (selectedY != -1 && selectedX != -1){
-                if (inventory.getInventoryItem(selectedY, selectedX) != -1) {
+                int ID = inventory.getInventoryItem(selectedY, selectedX);
+                if (ID != -1) {
                     canvas.drawBitmap(frame, gridX - screenHeight / 135 + (screenHeight / 9 + screenHeight / 135) * selectedX, gridY - screenHeight / 135 + (screenHeight / 9 + screenHeight / 135) * selectedY, null);
                 }
-                int ID = inventory.getInventoryItem(selectedY, selectedX);
                 if (ID != -1) {
                     if (itinerary.getItem(ID).getType() != ItemType.OTHER) {
                         equButton.draw(canvas);
                     }
+                }
+            } else if (equSelected != null){
+                int ID = inventory.getEquipedItem(equSelected);
+                if (ID != -1) {
+                    drawEquippedFrame(canvas);
+                    equButton.draw(canvas);
                 }
             }
         }
@@ -126,13 +134,14 @@ public class InventoryGUI {
         if (button.isTouched(x, y) && gameView.getState() == State.MAP){
             buttonTouched = true;
             return true;
-        } else {
+        } else if (gameView.getState() == State.INVENTORY){
             buttonTouched = false;
             if (xButton.isTouched(x, y)){
                 xButtonTouched = true;
                 xButton.changeImage(true, 0);
             } else {
                 itemsTouchedDown(x, y);
+                equippedTouchedDown(x, y);
                 if (equButton.isTouched(x, y)){
                     equButtonTouched = true;
                     equButton.changeImage(true, 10);
@@ -140,13 +149,14 @@ public class InventoryGUI {
             }
             return false;
         }
+        return false;
     }
 
     public void buttonTouchedUp(int x, int y){
         if (buttonTouched && gameView.getState() == State.MAP && button.isTouched(x, y)){
             gameView.setState(State.INVENTORY);
             inventory = gameHandler.getInventory();
-        } else {
+        } else if (gameView.getState() == State.INVENTORY){
             buttonTouched = false;
             if (xButtonTouched) xButton.changeImage(false, 0);
             if (xButtonTouched && xButton.isTouched(x, y)){
@@ -155,12 +165,17 @@ public class InventoryGUI {
             } else if (equButtonTouched){
                 equButtonTouched = false;
                 equButton.changeImage(false, 0);
-                if (equButton.isTouched(x, y) && selectedX != -1 && selectedY != -1){
-                    Item item = itinerary.getItem(inventory.getInventoryItem(selectedY, selectedX));
-                    if (item.getType() != ItemType.OTHER) {
-                        int ID = inventory.getEquipedItem(item.getType());
-                        inventory.setEquipedItem(item.getType(), item.getID());
-                        inventory.setInventoryItem(selectedY, selectedX, ID);
+                if (equButton.isTouched(x, y)){
+                    if (selectedX != -1 && selectedY != -1) {
+                        Item item = itinerary.getItem(inventory.getInventoryItem(selectedY, selectedX));
+                        if (item.getType() != ItemType.OTHER) {
+                            int ID = inventory.getEquipedItem(item.getType());
+                            inventory.setEquipedItem(item.getType(), item.getID());
+                            inventory.setInventoryItem(selectedY, selectedX, ID);
+                        }
+                    } else  if (equSelected != null){
+                        inventory.unequipItem(equSelected);
+
                     }
                 }
             } else {
@@ -169,6 +184,17 @@ public class InventoryGUI {
                     selectedY = newSelectedY;
                     newSelectedX = -1;
                     newSelectedY = -1;
+                    equSelected = null;
+                    newEquSelected = null;
+                    equButton.changeTextID(13);
+                } else if (equippedTouchedUp(x, y)){
+                    equSelected = newEquSelected;
+                    newEquSelected = null;
+                    selectedX = -1;
+                    selectedY = -1;
+                    newSelectedX = -1;
+                    newSelectedY = -1;
+                    equButton.changeTextID(14);
                 }
             }
         }
@@ -221,6 +247,103 @@ public class InventoryGUI {
         return false;
     }
 
+    private void equippedTouchedDown(int x, int y) {
+        if (equX + screenHeight / 9 + screenHeight / 135 < x && x < equX + 2*screenHeight / 9 + screenHeight / 135){
+            if (equY + (screenHeight / 9 + screenHeight / 135) * 3 < y && y < equY + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9){
+                newEquSelected = ItemType.WEAPON;
+            }
+        } else if (equX + (screenHeight / 9 + screenHeight / 135) * 2 < x && x < equX + (screenHeight / 9 + screenHeight / 135) * 2 + screenHeight / 9){
+            if (equY + (screenHeight / 9 + screenHeight / 135) * 3 < y && y < equY + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9){
+                newEquSelected = ItemType.SHIELD;
+            }
+        } else if (equX < x && x < equX + screenHeight / 9){
+            if (equY < y && y < equY + screenHeight / 9){
+                newEquSelected = ItemType.HELMET;
+            } else if (equY + screenHeight / 9 + screenHeight / 135 < y && y < equY + 2*screenHeight / 9 + screenHeight / 135){
+                newEquSelected = ItemType.ARMOR;
+            } else if (equY + (screenHeight / 9 + screenHeight / 135) * 2 < y && y < equY + (screenHeight / 9 + screenHeight / 135) * 2 + screenHeight / 9){
+                newEquSelected = ItemType.PANTS;
+            } else if (equY + (screenHeight / 9 + screenHeight / 135) * 3 < y && y < equY + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9){
+                newEquSelected = ItemType.SHOES;
+            }
+        } else if (equX + (screenHeight / 9 + screenHeight / 135) * 3 < x && x < equX + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9){
+            if (equY < y && y < equY + screenHeight / 9){
+                newEquSelected = ItemType.NECKLACE;
+            } else if (equY + screenHeight / 9 + screenHeight / 135 < y && y < equY + 2*screenHeight / 9 + screenHeight / 135){
+                newEquSelected = ItemType.GLOVES;
+            } else if (equY + (screenHeight / 9 + screenHeight / 135) * 2 < y && y < equY + (screenHeight / 9 + screenHeight / 135) * 2 + screenHeight / 9){
+                newEquSelected = ItemType.RING;
+            } else if (equY + (screenHeight / 9 + screenHeight / 135) * 3 < y && y < equY + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9){
+                newEquSelected = ItemType.BELT;
+            }
+        } else {
+            newEquSelected = null;
+        }
+    }
+
+    private boolean equippedTouchedUp(int x, int y) {
+        if (newEquSelected != null){
+            switch (newEquSelected) {
+                case HELMET:
+                    return equX < x
+                            && x < equX + screenHeight / 9
+                            && equY < y
+                            && y < equY + screenHeight / 9;
+                case ARMOR:
+                    return equX < x
+                            && x < equX + screenHeight / 9
+                            && equY + screenHeight / 9 + screenHeight / 135 < y
+                            && y < equY + 2*screenHeight / 9 + screenHeight / 135;
+                case PANTS:
+                    return equX < x
+                            && x < equX + screenHeight / 9
+                            && equY + (screenHeight / 9 + screenHeight / 135) * 2 < y
+                            && y < equY + (screenHeight / 9 + screenHeight / 135) * 2 + screenHeight / 9;
+                case SHOES:
+                    return equX < x
+                            && x < equX + screenHeight / 9
+                            && equY + (screenHeight / 9 + screenHeight / 135) * 3 < y
+                            && y < equY + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9;
+                case WEAPON:
+                    return equX + screenHeight / 9 + screenHeight / 135 < x
+                            && x < equX + 2*screenHeight / 9 + screenHeight / 135
+                            && equY + (screenHeight / 9 + screenHeight / 135) * 3 < y
+                            && y < equY + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9;
+                case SHIELD:
+                    return equX + (screenHeight / 9 + screenHeight / 135) * 2 < x
+                            && x < equX + (screenHeight / 9 + screenHeight / 135) * 2 + screenHeight / 9
+                            && equY + (screenHeight / 9 + screenHeight / 135) * 3 < y
+                            && y < equY + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9;
+                case NECKLACE:
+                    return equX + (screenHeight / 9 + screenHeight / 135) * 3 < x
+                            && x < equX + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9
+                            && equY < y
+                            && y < equY + screenHeight / 9;
+                case GLOVES:
+                    return equX + (screenHeight / 9 + screenHeight / 135) * 3 < x
+                            && x < equX + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9
+                            && equY + screenHeight / 9 + screenHeight / 135 < y
+                            && y < equY + 2*screenHeight / 9 + screenHeight / 135;
+                case RING:
+                    return equX + (screenHeight / 9 + screenHeight / 135) * 3 < x
+                            && x < equX + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9
+                            && equY + (screenHeight / 9 + screenHeight / 135) * 2 < y
+                            && y < equY + (screenHeight / 9 + screenHeight / 135) * 2 + screenHeight / 9;
+                case BELT:
+                    return equX + (screenHeight / 9 + screenHeight / 135) * 3 < x
+                            && x < equX + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9
+                            && equY + (screenHeight / 9 + screenHeight / 135) * 3 < y
+                            && y < equY + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9;
+            }
+        } else {
+            return equX < x
+                    && x < equX + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9
+                    && equY < y
+                    && y < equY + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9;
+        }
+        return false;
+    }
+
     private void drawInventory(Canvas canvas){
         int ID;
         for (int row = 0; row < 4; row++) {
@@ -241,35 +364,72 @@ public class InventoryGUI {
                         itinerary.getItem(ID).draw(equX, equY, canvas);
                         break;
                     case ARMOR:
-                        itinerary.getItem(ID).draw(equX, gridY + screenHeight / 9 + screenHeight / 135, canvas);
+                        itinerary.getItem(ID).draw(equX, equY + screenHeight / 9 + screenHeight / 135, canvas);
                         break;
                     case PANTS:
-                        itinerary.getItem(ID).draw(equX, gridY + (screenHeight / 9 + screenHeight / 135) * 2, canvas);
+                        itinerary.getItem(ID).draw(equX, equY + (screenHeight / 9 + screenHeight / 135) * 2, canvas);
                         break;
                     case SHOES:
-                        itinerary.getItem(ID).draw(equX, gridY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
+                        itinerary.getItem(ID).draw(equX, equY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
                         break;
                     case WEAPON:
-                        itinerary.getItem(ID).draw(equX + screenHeight / 9 + screenHeight / 135,  gridY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
+                        itinerary.getItem(ID).draw(equX + screenHeight / 9 + screenHeight / 135,  equY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
                         break;
                     case SHIELD:
-                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 2,  gridY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
+                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 2,  equY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
                         break;
                     case NECKLACE:
-                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 3,  gridY, canvas);
+                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 3,  equY, canvas);
                         break;
                     case GLOVES:
-                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 3,  gridY + screenHeight / 9 + screenHeight / 135, canvas);
+                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 3,  equY + screenHeight / 9 + screenHeight / 135, canvas);
                         break;
                     case RING:
-                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 3,  gridY + (screenHeight / 9 + screenHeight / 135) * 2, canvas);
+                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 3,  equY + (screenHeight / 9 + screenHeight / 135) * 2, canvas);
                         break;
                     case BELT:
-                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 3,  gridY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
+                        itinerary.getItem(ID).draw(equX + (screenHeight / 9 + screenHeight / 135) * 3,  equY + (screenHeight / 9 + screenHeight / 135) * 3, canvas);
                         break;
                 }
             }
         }
+    }
 
+    private void drawEquippedFrame(Canvas canvas){
+        int ID = inventory.getEquipedItem(equSelected);
+        if (ID != -1){
+            switch (equSelected) {
+                case HELMET:
+                    canvas.drawBitmap(frame, equX - screenHeight / 135, equY - screenHeight / 135, null);
+                    break;
+                case ARMOR:
+                    canvas.drawBitmap(frame, equX - screenHeight / 135, equY + screenHeight / 9 + screenHeight / 135 - screenHeight / 135, null);
+                    break;
+                case PANTS:
+                    canvas.drawBitmap(frame, equX - screenHeight / 135, equY + (screenHeight / 9 + screenHeight / 135) * 2 - screenHeight / 135, null);
+                    break;
+                case SHOES:
+                    canvas.drawBitmap(frame, equX - screenHeight / 135, equY + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135, null);
+                    break;
+                case WEAPON:
+                    canvas.drawBitmap(frame, equX + screenHeight / 9 + screenHeight / 135 - screenHeight / 135,  equY + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135, null);
+                    break;
+                case SHIELD:
+                    canvas.drawBitmap(frame, equX + (screenHeight / 9 + screenHeight / 135) * 2 - screenHeight / 135,  equY + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135, null);
+                    break;
+                case NECKLACE:
+                    canvas.drawBitmap(frame, equX + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135,  equY - screenHeight / 135, null);
+                    break;
+                case GLOVES:
+                    canvas.drawBitmap(frame, equX + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135,  equY + screenHeight / 9 + screenHeight / 135 - screenHeight / 135, null);
+                    break;
+                case RING:
+                    canvas.drawBitmap(frame, equX + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135,  equY + (screenHeight / 9 + screenHeight / 135) * 2 - screenHeight / 135, null);
+                    break;
+                case BELT:
+                    canvas.drawBitmap(frame, equX + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135,  equY + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135, null);
+                    break;
+            }
+        }
     }
 }
