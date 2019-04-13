@@ -120,10 +120,11 @@ public class MainMenu {
                 switch (clickedButton){
                     case 0:
                         clickedButton = -1;
-                        gameView.loadLevel("lvl/first_lvl.json", false);
+                        gameView.loadLevel("lvl/second_lvl.json", false);
                         gameView.setState(State.MAP);
                         break;
                     case 1:
+                        // view load options
                         clickedButton = -1;
                         break;
                     case 2:

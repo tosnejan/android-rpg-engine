@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import meletos.rpg_game.characters.Follower;
 import meletos.rpg_game.inventory.InventoryGUI;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
 import meletos.rpg_game.menu.Settings;
@@ -53,6 +54,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private boolean isInLevel;
     private Itinerary itinerary;
 
+
     /**
      * Starts up the game -- the main menu
      * @param context
@@ -84,12 +86,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         } catch (UnsupportedTypeException e) {
             e.printStackTrace();
         }
+        gameHandler.pauseGame();
         gameHandler.setGameView(this);
         gameHandler.setJoystickToHero(js);
         gameThread = new GameThread(gameHandler);
         inventory = new InventoryGUI(this, getContext(), gameHandler, text, itinerary);
         menu = new Menu(gameHandler, this, getContext(), text, settings);
+
         gameThread.start();
+        gameHandler.resumeGame();
     }
 
 
@@ -123,7 +128,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 mainMenu.draw(canvas);
                 //} else if(state == State.FIGHT) {
             } else {
-                //canvas.drawColor(Color.WHITE);
                 gameHandler.drawGame(canvas);
                 switch (state) {
                     case MAP:

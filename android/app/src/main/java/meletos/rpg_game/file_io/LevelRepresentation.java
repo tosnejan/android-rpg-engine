@@ -10,19 +10,22 @@ import meletos.rpg_game.inventory.itinerary.ItemType;
 
 /**
  * Wrapper class holding all the information about a level
- * Gets serialised into a file
+ * Gets serialised into a json file
  */
 public class LevelRepresentation {
-        private String lvlName;
-        private String mapSource;
-        private int[][] inventory;
-        private HashMap<ItemType,Integer> equipped;
-        private ArrayList<HashMap> characters;
-        private Coordinates heroPosition;
+    private String lvlName;
+    private String mapSource;
+    private int[][] inventory;
+    private HashMap<ItemType,Integer> equipped;
+    private ArrayList<HashMap> characters;
+    private Coordinates heroPosition;
+    private String lvlText;
 
-        public LevelRepresentation () {
-            characters = new ArrayList<>();
-        }
+    // TODO -- save 'game script' - what should happen when
+
+    public LevelRepresentation () {
+        characters = new ArrayList<>();
+    }
 
     public void setLvlName(String lvlName) {
         this.lvlName = lvlName;

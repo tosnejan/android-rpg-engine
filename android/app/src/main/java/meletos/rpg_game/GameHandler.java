@@ -27,6 +27,9 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Hero;
@@ -38,26 +41,37 @@ import meletos.rpg_game.navigation.JoyStick;
  * Class used to check whether the characters are updating properly
  */
 public class GameHandler {
+    //characters
+    private Hero hero;
     private FatherCharacter[] characters;
+
+    //map info
+    private String mapSource;
+    private Bitmap map;
     private int[][] mapMatrix; // matrix of the map availability
     private int mapWidth;
     private int mapHeight;
     private final int available = 0; // constant defining whether a pixel is available
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private boolean isGamePaused = false;
-    private Context context;
-    private Bitmap map;
     private int xShift = 0;
     private int yShift = 0;
     private int mapScale = 5;
-    private Hero hero;
+
+    // screen info
+    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+
+
+    private boolean isGamePaused = false;
+    private Context context;
     private GameView gameView;
-    private String mapSource;
+
     private String lvlName;
     private Inventory inventory;
 
+    Timer timer; // will be used for timed time
+
     public GameHandler (FatherCharacter[] characters, Context context, String lvlName) {
+        timer = new Timer();
         this.characters = characters;
         this.context = context;
         this.lvlName = lvlName;
@@ -66,6 +80,14 @@ public class GameHandler {
                 hero = (Hero)character; // if true, the character is hero
             }
         }
+
+        TimerTask task = new TimerTask() {
+            public void run() {
+                System.out.println("Timed task!!!");
+            }
+        };
+
+        timer.schedule(task, 10000);
     }
 
     public void setGameView(GameView gameView) {
