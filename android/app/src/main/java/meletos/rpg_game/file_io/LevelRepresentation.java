@@ -3,6 +3,7 @@ package meletos.rpg_game.file_io;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import meletos.rpg_game.Coordinates;
@@ -10,7 +11,7 @@ import meletos.rpg_game.inventory.itinerary.ItemType;
 
 /**
  * Wrapper class holding all the information about a level
- * Gets serialised into a json file
+ * Gets serialised into a json file and retrieved from it.
  */
 public class LevelRepresentation {
     private String lvlName;
@@ -21,7 +22,12 @@ public class LevelRepresentation {
     private Coordinates heroPosition;
     private String lvlText;
 
-    // TODO -- save 'game script' - what should happen when
+    /**
+    *hashmap with double keys representing time, list of character
+    *hashmaps representing characters to be spawned at any given time
+     */
+    private HashMap<String, List<HashMap>> spawnStructure = null;
+
 
     public LevelRepresentation () {
         characters = new ArrayList<>();
@@ -46,6 +52,10 @@ public class LevelRepresentation {
         characters.add(character);
     }
 
+    private void addSpawnInstructions (double time, List<HashMap> charactersToSpawn) {
+        spawnStructure.put(Double.toString(time), charactersToSpawn);
+    }
+
     public void createCharacterHashmap (
             String charType,
             int x, int y,
@@ -59,6 +69,7 @@ public class LevelRepresentation {
         addCharacter(character);
     }
 
+    // for follower
     public void createCharacterHashmap (
             String charType,
             int x, int y,
@@ -111,5 +122,9 @@ public class LevelRepresentation {
 
     public HashMap<ItemType, Integer> getEquipped() {
         return equipped;
+    }
+
+    public HashMap<String, List<HashMap>> getSpawnStructure() {
+        return spawnStructure;
     }
 }

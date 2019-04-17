@@ -61,38 +61,22 @@
       "assetsFolder": "characters/warrior_m",
       "yCoord": 500,
       "xCoord": 100
-    },
-    {
-      "charType": "RandomWalker",
-      "assetsFolder": "characters/ninja_m",
-      "yCoord": 900,
-      "xCoord": 100
-    },
-    {
-      "charType": "RandomWalker",
-      "assetsFolder": "characters/townfolk1_f",
-      "yCoord": 100,
-      "xCoord": 500
-    },
-    {
-      "charType": "RandomWalker",
-      "assetsFolder": "characters/mage_f",
-      "yCoord": 170,
-      "xCoord": 510,
-      "followCoord": [
-        {"x":100,"y":200},
-        {"x":300,"y":400},
-        {"x":400,"y":500},
-        {"x":700,"y":600},
-        {"x":300,"y":400},
-        {"x":1000,"y":200}
-      ]
-    },
-    {
-      "charType": "RandomWalker",
-      "assetsFolder": "characters/warrior_m",
-      "yCoord": 1000,
-      "xCoord": 800
     }
-  ]
+  ],
+  "spawnStructure": {
+    "5000": [
+      {
+        "charType": "RandomWalker",
+        "assetsFolder": "characters/mage_m",
+        "yCoord": 1000,
+        "xCoord": 700
+      },
+      {
+        "charType": "RandomWalker",
+        "assetsFolder": "characters/ninja_m",
+        "yCoord": 160,
+        "xCoord": 1000
+      }
+    ]
+  }
 }

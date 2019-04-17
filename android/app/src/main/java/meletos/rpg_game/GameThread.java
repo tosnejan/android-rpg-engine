@@ -21,17 +21,16 @@ public class GameThread extends Thread {
      * The heart of the game logic
      */
     @Override
-    public void run() {
+    public synchronized void run() {
         while (running) {
-            synchronized (gameHandler) {
-                    gameHandler.updateGame();
-                try {
-                    sleep(10); // puts the thread asleep so it isnt too fast :D
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            gameHandler.updateGame();
+            try {
+                sleep(10); // puts the thread asleep so it isnt too fast :D
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
+
     }
 
     /**

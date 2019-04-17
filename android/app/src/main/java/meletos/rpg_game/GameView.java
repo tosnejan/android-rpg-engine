@@ -54,6 +54,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private InventoryGUI inventory;
     private boolean isInLevel;
     private Itinerary itinerary;
+    private Follower follower;
 
 
     /**
