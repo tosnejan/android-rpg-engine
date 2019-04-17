@@ -46,4 +46,8 @@ public class Item {
     public ItemType getType() {
         return type;
     }
+
+    public HashMap<String, Integer> getStats() {
+        return stats;
+    }
 }

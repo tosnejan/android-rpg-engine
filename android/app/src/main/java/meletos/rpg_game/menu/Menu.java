@@ -101,23 +101,23 @@ public class Menu {
             xButtonClicked = true;
             xButton.changeImage(true, 0);
         } else {
-        switch (state) {
-            case MAIN:
-                for (int i = 0; i < buttons.length; i++) {
-                    if (buttons[i].isTouched(x, y)) {
-                        clickedButton = i;
-                        buttons[i].changeImage(true, 10);
+            switch (state) {
+                case MAIN:
+                    for (int i = 0; i < buttons.length; i++) {
+                        if (buttons[i].isTouched(x, y)) {
+                            clickedButton = i;
+                            buttons[i].changeImage(true, 10);
+                        }
                     }
-                }
-                break;
-            case SETTINGS:
-                settings.touchDown(x, y);
-                break;
-            case LOAD:
-                break;
-            case SAVE:
-                break;
-        }
+                    break;
+                case SETTINGS:
+                    settings.touchDown(x, y);
+                    break;
+                case LOAD:
+                    break;
+                case SAVE:
+                    break;
+            }
         }
     }
 
@@ -182,6 +182,10 @@ public class Menu {
 
     public MenuStates getState() {
         return state;
+    }
+
+    public void setState(MenuStates state){
+        state = state;
     }
 
     private void alert(){

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import meletos.rpg_game.characters.Follower;
 import meletos.rpg_game.inventory.InventoryGUI;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
+import meletos.rpg_game.menu.MenuStates;
 import meletos.rpg_game.menu.Settings;
 import meletos.rpg_game.file_io.LevelGenerator;
 import meletos.rpg_game.file_io.UnsupportedTypeException;
@@ -263,12 +264,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void setState(State state) {
-        this.state = state;
         if (state == State.INVENTORY || state == State.MENU) {
             gameHandler.pauseGame();
-        } else if (state == State.MAP) {
+        } else if (state == State.MAP && this.state == State.MENU) {
+            gameHandler.resumeGame();
+            menu.setState(MenuStates.MAIN);
+        }else if (state == State.MAP) {
             gameHandler.resumeGame();
         }
+        this.state = state;
     }
 
     /**
