@@ -11,7 +11,7 @@ public class Follower extends FatherCharacter {
     private Coordinates[] followCoord;
     private int idx = 0; // used to choose points to follow
     private double[] followVector = new double[2];
-    Coordinates followedPoint;
+    private Coordinates followedPoint;
     private int xSpeed, ySpeed;
 
     public Follower (int x, int y, String assetsFolder, Context context, Coordinates[] followCoord) {
@@ -35,10 +35,15 @@ public class Follower extends FatherCharacter {
                 positionInformation.mainCoord.x <= followedPoint.x + 10 &&
                 positionInformation.mainCoord.x >= followedPoint.x - 10
         ) {
-            y += ySpeed;
+            System.out.println("Y direction");
+            positionInformation.addSpeed(0, ySpeed);
+            //y += ySpeed;
         } else {
-            x += xSpeed;
+            System.out.println("X direction");
+            positionInformation.addSpeed(xSpeed, 0);
+            //x += xSpeed;
         }
+        System.out.println(positionInformation.mainCoord);
     }
 
     private void setFollow () {

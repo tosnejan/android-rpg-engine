@@ -6,13 +6,14 @@ import android.os.Environment;
 import com.google.gson.GsonBuilder;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import meletos.rpg_game.Coordinates;
 import meletos.rpg_game.GameHandler;
@@ -21,14 +22,16 @@ import meletos.rpg_game.characters.Follower;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
 import meletos.rpg_game.inventory.Inventory;
+import meletos.rpg_game.spawning.SpawnDataEntry;
 
 /**
- * should save an array of characters into a json
+ * Generates a level from json by reading it into level representation and
+ * then building characters, spawns etc.
+ * A one function class -- buildLevel
  */
 public class LevelGenerator {
     private String filePath;
     private Context context;
-    private File file;
     private LevelRepresentation levelRepresentation;
     private String json;
     private boolean userSave;
@@ -39,24 +42,66 @@ public class LevelGenerator {
         this.filePath = filePath;
     }
 
+    /**
+     * Main function, builds level
+     * @param userSave
+     * @return
+     * @throws UnsupportedTypeException
+     */
     public GameHandler buildLevel (boolean userSave) throws UnsupportedTypeException {
         this.userSave = userSave;
         ArrayList<FatherCharacter> characters = new ArrayList<>();
-        loadFromJson();
+        extractLevelRepresentation();
         ArrayList<HashMap> charStrings = levelRepresentation.getCharacters();
         for (HashMap characterHash: charStrings) {
             characters.add(buildCharacter(characterHash));
         }
+        HashMap<String, List<HashMap>> spawnStructure = levelRepresentation.getSpawnStructure();
+        List<SpawnDataEntry> spawnInstructions;
+        if (spawnStructure != null) {
+            spawnInstructions = processSpawnStructure(spawnStructure);
+        } else {
+            spawnInstructions = null;
+        }
+
         int[][] inventory = levelRepresentation.getInventory();
         HashMap equipped = levelRepresentation.getEquipped();
         Inventory inv = new Inventory(inventory, equipped);
-        FatherCharacter[] fatherCharacters = new FatherCharacter[characters.size()];
-        GameHandler gh = new GameHandler(characters.toArray(fatherCharacters), context, levelRepresentation.getLvlName());
+        GameHandler gh = new GameHandler(characters, context, levelRepresentation.getLvlName(), spawnInstructions); // TODO -- make spawn instructions support
         gh.loadMap(levelRepresentation.getMapSource());
         gh.setInventory(inv);
         return gh;
     }
 
+    /**
+     * Transforms spawnStructure into full spawnInstructions used by the spawnHandler
+     * @param spawnStructure -- hashmap saved in LevelRepresentation
+     * @return
+     */
+    private List<SpawnDataEntry> processSpawnStructure(HashMap<String, List<HashMap>> spawnStructure) {
+        List<SpawnDataEntry> spawnInstructions = new LinkedList<>();
+        for (HashMap.Entry<String, List<HashMap>> entry : spawnStructure.entrySet()) {
+            Double time = Double.parseDouble(entry.getKey());
+            List<HashMap> chars = entry.getValue();
+            List<FatherCharacter> spawnCharacters = new LinkedList<>();
+            for (HashMap characterHashmap: chars) {
+                try {
+                    spawnCharacters.add(buildCharacter(characterHashmap));
+                } catch (UnsupportedTypeException e) {
+                    e.printStackTrace();
+                }
+            }
+            spawnInstructions.add(new SpawnDataEntry(spawnCharacters, time));
+        }
+        return spawnInstructions;
+    }
+
+    /**
+     * Function that constructs a character from characterHash.
+     * @param characterHash
+     * @return
+     * @throws UnsupportedTypeException
+     */
     private FatherCharacter buildCharacter (HashMap characterHash) throws UnsupportedTypeException {
         System.out.println(characterHash);
         System.out.println(characterHash.get("xCoord"));
@@ -91,11 +136,17 @@ public class LevelGenerator {
 
     }
 
-    private void loadFromJson () {
+    /**
+     * Converts loaded file from json into LevelRepresentation
+     */
+    private void extractLevelRepresentation() {
         loadFile();
         levelRepresentation = new GsonBuilder().create().fromJson(json, LevelRepresentation.class);
     }
 
+    /**
+     * Helper function, loads the file.
+     */
     private void loadFile () {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;

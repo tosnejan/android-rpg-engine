@@ -7,9 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Environment;
-import android.util.Xml;
 
-import com.google.common.base.Utf8;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -19,31 +17,33 @@ import com.google.gson.JsonSerializer;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Hero;
+import meletos.rpg_game.characters.RandomWalker;
 import meletos.rpg_game.file_io.LevelRepresentation;
 import meletos.rpg_game.inventory.Inventory;
 import meletos.rpg_game.navigation.JoyStick;
+import meletos.rpg_game.spawning.SpawnDataEntry;
+import meletos.rpg_game.spawning.SpawnHandler;
 
 /**
- * Class used to check whether the characters are updating properly
+ * Main logic class. Oversees the characters on the map.
  */
 public class GameHandler {
     //characters
     private Hero hero;
-    private FatherCharacter[] characters;
+    private List<FatherCharacter> characters;
+    private SpawnHandler spawnHandler;
 
     //map info
     private String mapSource;
@@ -62,16 +62,14 @@ public class GameHandler {
 
 
     private boolean isGamePaused = false;
-    private Context context;
+    public Context context;
     private GameView gameView;
 
     private String lvlName;
     private Inventory inventory;
 
-    Timer timer; // will be used for timed time
-
-    public GameHandler (FatherCharacter[] characters, Context context, String lvlName) {
-        timer = new Timer();
+    public GameHandler (List<FatherCharacter> characters, final Context context, String lvlName, List<SpawnDataEntry> spawnInstructions) {
+        spawnHandler = new SpawnHandler(spawnInstructions, this);
         this.characters = characters;
         this.context = context;
         this.lvlName = lvlName;
@@ -80,20 +78,16 @@ public class GameHandler {
                 hero = (Hero)character; // if true, the character is hero
             }
         }
-
-        TimerTask task = new TimerTask() {
-            public void run() {
-                System.out.println("Timed task!!!");
-            }
-        };
-
-        timer.schedule(task, 10000);
     }
 
     public void setGameView(GameView gameView) {
         this.gameView = gameView;
     }
 
+    /**
+     * Loads level map from a filename -- usually gets called from LevelGenerator
+     * @param fileName
+     */
     public void loadMap (String fileName) {
         mapSource = fileName;
         AssetManager am = context.getAssets();
@@ -141,13 +135,24 @@ public class GameHandler {
         }
     }
 
+    /**
+     * Draws characters and map. Called from gameview's draw
+     * @param canvas
+     */
     public void drawGame (Canvas canvas) {
+        // drawing map
         canvas.drawBitmap(map, xShift, yShift, null);
+
+        // drawing characters
         for (FatherCharacter character: characters) {
             character.draw(canvas);
         }
+
     }
 
+    /**
+     * Main logic function. Makes every character update
+     */
     public void updateGame () {
         if (isGamePaused) {
             return;
@@ -155,10 +160,11 @@ public class GameHandler {
         for (FatherCharacter character: characters) {
             character.update();
         }
+
     }
 
     /**
-     * Checks whether the position is available -- a sketch
+     * Checks whether the position is available
      * @param x
      * @param y
      * @param imgWidth
@@ -264,8 +270,7 @@ public class GameHandler {
             return ret;
     }
     /**
-     * Sets character on a new course after it hits some wall
-     * -- is quite ugly at the moment :D
+     * Maybe well make it deprecated :DD
      * @param p
      */
     public Directions suggestDirections(PositionInformation p) {
@@ -302,7 +307,7 @@ public class GameHandler {
     }
 
     /**
-     * Collision detector typu easy
+     * Collision detector -- works by edges of rectangles
      * @param currPosition
      * @param newPosition
      * @return
@@ -323,10 +328,16 @@ public class GameHandler {
         return Directions.NONE;
     }
 
+    /**
+     * Pauses game -- characters stop moving and interacting
+     */
     public void pauseGame() {
         isGamePaused = true;
     }
 
+    /**
+     * Resumes game -- characters start moving
+     */
     public void resumeGame() {
         isGamePaused = false;
     }
@@ -388,7 +399,7 @@ public class GameHandler {
                     }
                 }
             }
-        }).run();
+        }).start();
     }
 
     public void setInventory(Inventory inventory) {
@@ -397,6 +408,15 @@ public class GameHandler {
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    /**
+     * Inserts new character into GameHandler -- used for spawning
+     * @param character
+     */
+    public void insertCharacter (FatherCharacter character) {
+        characters.add(character);
+        character.setGameHandler(this);
     }
 }
 

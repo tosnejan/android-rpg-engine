@@ -87,6 +87,10 @@ public class PositionInformation {
             updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y);
         }
     }
+    // used by follower
+    public void addSpeed (int xSpeed, int ySpeed) {
+        updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y + ySpeed);
+    }
     public void heroAddSpeed (int xSpeed, int ySpeed, GameHandler gh) {
         if (gh.isPositionAvailable(mainCoord.x + xSpeed,mainCoord.y + ySpeed,imgWidth,imgHeigth)){
             if (gh.moveMapByX(mainCoord.x,xSpeed,imgWidth));
