@@ -185,7 +185,7 @@ public class Menu {
     }
 
     public void setState(MenuStates state){
-        state = state;
+        this.state = state;
     }
 
     private void alert(){
