@@ -88,6 +88,7 @@ public class Menu {
                 break;
             case SETTINGS:
                 canvas.drawBitmap(frame, x, y, null);
+                xButton.draw(canvas);
                 settings.draw(canvas);
                 break;
             case LOAD:

@@ -12,6 +12,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.GameView;
@@ -46,6 +47,8 @@ public class InventoryGUI {
     private boolean xButtonTouched = false;
     private boolean equButtonTouched = false;
     private Paint paint;
+    private int nameSize;
+    private int textSize;
     private Rect bounds = new Rect();
     private Text text;
     private MenuButton button;
@@ -99,14 +102,14 @@ public class InventoryGUI {
             Bitmap xButtonImage = BitmapFactory.decodeStream(am.open("menu/x_button_round.png"));
             xButtonImage = Bitmap.createScaledBitmap(xButtonImage, screenHeight/11, screenHeight/11, true);
             Bitmap xbuttonImageClicked = BitmapFactory.decodeStream(am.open("menu/x_button_round_clicked.png"));
-            xbuttonImageClicked = Bitmap.createScaledBitmap(xbuttonImageClicked, screenHeight/10, screenHeight/10, true);
+            xbuttonImageClicked = Bitmap.createScaledBitmap(xbuttonImageClicked, screenHeight/11, screenHeight/11, true);
             xButton = new MenuButton(screenWidth - 9*xButtonImage.getWidth()/8, xButtonImage.getHeight()/8, xButtonImage, xbuttonImageClicked, text, -1);
             paint = new Paint();
             paint.setTextAlign(Paint.Align.LEFT);
             paint.setColor(Color.BLACK);
             paint.setTypeface(Typeface.create("Arial", Typeface.ITALIC));
-            int textSize = (screenHeight - grid.getHeight())/8;
-            paint.setTextSize(textSize);
+            nameSize = (screenHeight - grid.getHeight())/8;
+            textSize = (screenHeight - grid.getHeight())/10;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -448,11 +451,56 @@ public class InventoryGUI {
     }
 
     private void writeDescription(Canvas canvas, int ID, ItemType itemType){
-        paint.getTextBounds(text.getItemName(ID), 0, text.getItemName(ID).length(), bounds);
+        String string = text.getItemName(ID);
+        paint.setTextSize(nameSize);
+        paint.getTextBounds(string, 0, string.length(), bounds);
         int y = grid.getHeight() + 10 + bounds.height();
         int x = screenHeight/9 - bounds.left;
-        canvas.drawText(text.getItemName(ID), x, y, paint);
-        y = y + bounds.height() + 5;
-        canvas.drawText(text.getItemDescription(ID), x, y, paint);
+        canvas.drawText(string, x, y, paint);
+        paint.setTextSize(textSize);
+        string = text.getItemDescription(ID);
+        if (string.length() <= 25) {
+            paint.getTextBounds(string, 0, string.length(), bounds);
+            y += bounds.height() + 5;
+            x = screenHeight/9 - bounds.left;
+            canvas.drawText(string, x, y, paint);
+        }
+        else {
+            StringBuilder firstPart = new StringBuilder(), secondPart = new StringBuilder();
+            String[] split = string.split("\\s+");
+            boolean second = false;
+            for (String word:split) {
+                if (firstPart.length() + word.length() <= 30 && !second){
+                    firstPart.append(" ");
+                    firstPart.append(word);
+                } else if (secondPart.length() + word.length() <= 30) {
+                    secondPart.append(" ");
+                    secondPart.append(word);
+                    second = true;
+                }
+            }
+            string = firstPart.toString();
+            paint.getTextBounds(string, 0, string.length(), bounds);
+            y += bounds.height() + 5;
+            x = screenHeight/9 - bounds.left;
+            canvas.drawText(string, x, y, paint);
+            string = secondPart.toString();
+            paint.getTextBounds(string, 0, string.length(), bounds);
+            y += bounds.height() + 5;
+            x = screenHeight/9 - bounds.left;
+            canvas.drawText(string, x, y, paint);
+        }
+        y += 5;
+        if (itemType != ItemType.OTHER){
+            HashMap<String,Integer> stats = itinerary.getItem(ID).getStats();
+            for (String key:stats.keySet()) {
+                string = key +": " + stats.get(key);
+                paint.getTextBounds(string, 0, string.length(), bounds);
+                paint.setTextSize(textSize-1);
+                y += bounds.height() + 5;
+                x = screenHeight/9 - bounds.left;
+                canvas.drawText(string, x, y, paint);
+            }
+        }
     }
 }

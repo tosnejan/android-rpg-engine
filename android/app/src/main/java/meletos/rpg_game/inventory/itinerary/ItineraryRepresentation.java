@@ -35,7 +35,7 @@ public class ItineraryRepresentation implements Serializable {
     }
 
     private Item buildItem(HashMap hashItem, Context context, Text text){
-        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+        //int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         AssetManager am = context.getAssets();
         Bitmap image;
@@ -47,7 +47,7 @@ public class ItineraryRepresentation implements Serializable {
         else ID = 0;
         try {
             image = BitmapFactory.decodeStream(am.open(path != null ? path : "itinerary/images/noImageFound.png"));
-            image = Bitmap.createScaledBitmap(image, screenHeight / 9, (int)(screenHeight / 9), true);
+            image = Bitmap.createScaledBitmap(image, screenHeight / 9, screenHeight / 9, true);
 
         } catch (IOException e) {
             try {
@@ -58,10 +58,10 @@ public class ItineraryRepresentation implements Serializable {
             }
             e.printStackTrace();
         }
-        image = Bitmap.createScaledBitmap(image, screenHeight / 9, (int)(screenHeight/9), true);
+        image = Bitmap.createScaledBitmap(image, screenHeight / 9, screenHeight/9, true);
         HashMap<String,Integer> stats = new HashMap<>();
         if (hashItem.containsKey("DMG")) stats.put("DMG",(int)(double)hashItem.get("DMG"));
-        if (hashItem.containsKey("INT")) stats.put("INT",(int)(double)hashItem.get("INT"));
+        if (hashItem.containsKey("ARM")) stats.put("ARM",(int)(double)hashItem.get("ARM"));
         return new Item(image, text, ID, type, stats);
     }
 }

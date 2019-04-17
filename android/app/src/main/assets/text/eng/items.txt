@@ -1,6 +1,6 @@
 ﻿ID: 1
 NAME: Glamdring
-DESCRIPTION: Was worn by Gandalf Gray.
+DESCRIPTION: Was worn by Gandalf Gray. Something like that.
 
 ID: 2
 NAME: NoName
