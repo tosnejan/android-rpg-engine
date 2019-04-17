@@ -11,6 +11,7 @@ public class MainThread extends Thread {
     private GameView gameView;
     private boolean running;
     public static Canvas canvas;
+    private boolean canUseSurfaceHolder;
 
     public MainThread (SurfaceHolder surfaceHolder, GameView gameView) {
         super();
@@ -22,6 +23,15 @@ public class MainThread extends Thread {
         running = isRunning;
     }
 
+    /**
+     * This fixes the error we experienced -- is called from GameView's methods
+     * onSurfaceCreated onSurfaceDestroyed
+     * @param canUseSurfaceHolder
+     */
+    public void canUseSurfaceHolder (boolean canUseSurfaceHolder) {
+        this.canUseSurfaceHolder = canUseSurfaceHolder;
+    }
+
     @Override
     public void run() {
         while (running) {
@@ -29,10 +39,11 @@ public class MainThread extends Thread {
             // tries to lock canvas to draw on and catch exception if not successful
             try {
                 // locks the canvas so that only one thread can draw onto it
-
-                canvas = this.surfaceHolder.lockCanvas();
-                synchronized(surfaceHolder) {
-                    this.gameView.draw(canvas);
+                if (canUseSurfaceHolder) {
+                    synchronized (surfaceHolder) {
+                        canvas = this.surfaceHolder.lockCanvas();
+                        this.gameView.draw(canvas);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

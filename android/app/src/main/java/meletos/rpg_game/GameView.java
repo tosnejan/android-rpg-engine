@@ -91,10 +91,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         gameHandler.pauseGame();
         gameHandler.setGameView(this);
         gameHandler.setJoystickToHero(js);
-        gameThread = new GameThread(gameHandler);
+
         inventory = new InventoryGUI(this, getContext(), gameHandler, text, itinerary);
         gameHandler.getInventory().setItinerary(itinerary);
         menu = new Menu(gameHandler, this, getContext(), text, settings);
+        gameThread = new GameThread(gameHandler);
         gameThread.start();
         gameHandler.resumeGame();
     }
@@ -254,10 +255,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        viewThread.canUseSurfaceHolder(true);
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        viewThread.canUseSurfaceHolder(false);
     }
 
     public State getState() {
