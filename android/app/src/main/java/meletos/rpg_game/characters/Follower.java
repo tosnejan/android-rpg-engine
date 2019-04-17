@@ -12,6 +12,7 @@ public class Follower extends FatherCharacter {
     private int idx = 0; // used to choose points to follow
     private double[] followVector = new double[2];
     Coordinates followedPoint;
+    private int xSpeed, ySpeed;
 
     public Follower (int x, int y, String assetsFolder, Context context, Coordinates[] followCoord) {
         super(x, y, assetsFolder, context);
@@ -28,17 +29,25 @@ public class Follower extends FatherCharacter {
                 idx = 0;
             }
             followedPoint = followCoord[idx];
-            followVector[0] = followedPoint.x - positionInformation.mainCoord.x;
-            followVector[1] = followedPoint.y - positionInformation.mainCoord.y;
-            followVector = normaliseFollowVector(followVector);
+            setFollow();
         }
-        positionInformation.addSpeed((int)Math.round(followVector[0]), (int)Math.round(followVector[0]), gameHandler);
+        if (
+                positionInformation.mainCoord.x <= followedPoint.x + 10 &&
+                positionInformation.mainCoord.x >= followedPoint.x - 10
+        ) {
+            y += ySpeed;
+        } else {
+            x += xSpeed;
+        }
     }
 
-    private double[] normaliseFollowVector (double[] followVector) {
-        double vectorLength = Math.sqrt(Math.pow(followVector[0], 2) + Math.pow(followVector[1], 2));
-        followVector[0] = followVector[0]*xSpeed/vectorLength;
-        followVector[1] = followVector[1]*ySpeed/vectorLength;
-        return followVector;
+    private void setFollow () {
+        if (positionInformation.mainCoord.x < followedPoint.x)
+            xSpeed = 5;
+        else xSpeed = -5;
+
+        if (positionInformation.mainCoord.y < followedPoint.y)
+            ySpeed = 5;
+        else ySpeed = -5;
     }
 }

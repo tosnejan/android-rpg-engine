@@ -1,0 +1,98 @@
+{
+  "lvlName": "Levl no 2",
+  "mapSource": "testing_map",
+  "inventory": [
+    [
+      2,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    [
+      19,
+      20,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1
+    ],
+    [
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1
+    ],
+    [
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1
+    ]
+  ],
+  "equipped": {
+    "HELMET": 3,
+    "ARMOR": 4,
+    "PANTS": 5,
+    "SHOES": 6,
+    "WEAPON": 1,
+    "SHIELD": 11,
+    "NECKLACE": 9,
+    "GLOVES": 7,
+    "RING": 10,
+    "BELT": 8
+  },
+  "characters": [
+    {
+      "charType": "Hero",
+      "assetsFolder": "characters/warrior_m",
+      "yCoord": 500,
+      "xCoord": 100
+    },
+    {
+      "charType": "RandomWalker",
+      "assetsFolder": "characters/ninja_m",
+      "yCoord": 900,
+      "xCoord": 100
+    },
+    {
+      "charType": "RandomWalker",
+      "assetsFolder": "characters/townfolk1_f",
+      "yCoord": 100,
+      "xCoord": 500
+    },
+    {
+      "charType": "RandomWalker",
+      "assetsFolder": "characters/mage_f",
+      "yCoord": 170,
+      "xCoord": 510,
+      "followCoord": [
+        {"x":100,"y":200},
+        {"x":300,"y":400},
+        {"x":400,"y":500},
+        {"x":700,"y":600},
+        {"x":300,"y":400},
+        {"x":1000,"y":200}
+      ]
+    },
+    {
+      "charType": "RandomWalker",
+      "assetsFolder": "characters/warrior_m",
+      "yCoord": 1000,
+      "xCoord": 800
+    }
+  ]
+}

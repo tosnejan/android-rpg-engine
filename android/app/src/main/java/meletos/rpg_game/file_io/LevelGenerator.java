@@ -23,7 +23,7 @@ import meletos.rpg_game.characters.RandomWalker;
 import meletos.rpg_game.inventory.Inventory;
 
 /**
- * should save an array of characters into a json -- doesnt work yet probably :D
+ * should save an array of characters into a json
  */
 public class LevelGenerator {
     private String filePath;
@@ -73,9 +73,14 @@ public class LevelGenerator {
                     return new Hero(x, y, assetsFolder, context);
                 case "RandomWalker":
                     return new RandomWalker(x, y, assetsFolder, context);
-                case "Follower":
-                    Coordinates[] coord = (Coordinates[])characterHash.get("followCoord");
-                    return new Follower(x, y, assetsFolder, context, coord);
+                    // follower doesnt work yet
+                    case "Follower":
+                    Object[] coord = new Object[10];
+                    coord = ((ArrayList)characterHash.get("followCoord")).toArray(coord);
+                    for (int i = 0; i < coord.length; i++) { // typecast
+                        coord[i] = (Coordinates)coord[i];
+                    }
+                    return new Follower(x, y, assetsFolder, context, (Coordinates[]) coord);
                 default:
                     throw new UnsupportedTypeException("This character doesnt exist yet.");
             }
@@ -88,7 +93,6 @@ public class LevelGenerator {
 
     private void loadFromJson () {
         loadFile();
-        System.out.println(json);
         levelRepresentation = new GsonBuilder().create().fromJson(json, LevelRepresentation.class);
     }
 

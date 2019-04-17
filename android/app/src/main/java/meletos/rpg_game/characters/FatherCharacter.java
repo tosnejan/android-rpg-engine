@@ -23,7 +23,8 @@ import meletos.rpg_game.Sprite;
  * -- all of them will have function update - implementing their own strategy
  */
 public abstract class FatherCharacter extends Sprite implements Serializable {
-
+    // will be used for enemy spawning
+    protected boolean spawned = true;
     /**
      * A proposal -- lets use this construct for animations :D
      */
@@ -103,7 +104,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
 
     @Override
     public void draw (Canvas canvas) {
-        if (animation && !gameHandler.isGamePaused()) {
+        if (animation && !gameHandler.isGamePaused() && spawned) {
             if (animationSpeed == ANIM_SPEED) {
                 animationSpeed = 0;
                 int i;
