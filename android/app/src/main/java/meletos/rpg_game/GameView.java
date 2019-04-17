@@ -92,8 +92,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         gameHandler.setJoystickToHero(js);
         gameThread = new GameThread(gameHandler);
         inventory = new InventoryGUI(this, getContext(), gameHandler, text, itinerary);
+        gameHandler.getInventory().setItinerary(itinerary);
         menu = new Menu(gameHandler, this, getContext(), text, settings);
-
         gameThread.start();
         gameHandler.resumeGame();
     }

@@ -125,6 +125,7 @@ public class InventoryGUI {
             xButton.draw(canvas);
             drawInventory(canvas);
             drawEquipped(canvas);
+            writePlayerStats(canvas);
             if (selectedY != -1 && selectedX != -1){
                 int ID = inventory.getInventoryItem(selectedY, selectedX);
                 if (ID != -1) {
@@ -174,7 +175,6 @@ public class InventoryGUI {
             gameView.setState(State.INVENTORY);
             inventory = gameHandler.getInventory();
         } else if (gameView.getState() == State.INVENTORY){
-            buttonTouched = false;
             if (xButtonTouched) xButton.changeImage(false, 0);
             if (xButtonTouched && xButton.isTouched(x, y)){
                 xButtonTouched = false;
@@ -204,7 +204,7 @@ public class InventoryGUI {
                     equSelected = null;
                     newEquSelected = null;
                     equButton.changeTextID(13);
-                } else if (equippedTouchedUp(x, y)){
+                } else if (equippedTouchedUp(x, y) && !buttonTouched){
                     equSelected = newEquSelected;
                     newEquSelected = null;
                     selectedX = -1;
@@ -215,6 +215,7 @@ public class InventoryGUI {
                 }
             }
         }
+        buttonTouched = false;
     }
 
     private void itemsTouchedDown(int x, int y) {
@@ -357,6 +358,7 @@ public class InventoryGUI {
                     && x < equX + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9
                     && equY < y
                     && y < equY + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9;
+
         }
         return false;
     }
@@ -501,6 +503,19 @@ public class InventoryGUI {
                 x = screenHeight/9 - bounds.left;
                 canvas.drawText(string, x, y, paint);
             }
+        }
+    }
+
+    private void writePlayerStats(Canvas canvas){
+        HashMap<String,Integer> stats = inventory.getStats();
+        int y = equipped.getHeight() + 5,x;
+        for (String key:stats.keySet()) {
+            String string = key +": " + stats.get(key);
+            paint.getTextBounds(string, 0, string.length(), bounds);
+            paint.setTextSize(textSize-1);
+            y += bounds.height() + 5;
+            x = equDrawX + 10 - bounds.left;
+            canvas.drawText(string, x, y, paint);
         }
     }
 }

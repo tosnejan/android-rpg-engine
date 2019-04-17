@@ -54,7 +54,7 @@ public class LevelGenerator {
         GameHandler gh = new GameHandler(characters.toArray(fatherCharacters), context, levelRepresentation.getLvlName());
         gh.loadMap(levelRepresentation.getMapSource());
         gh.setInventory(inv);
-        return gh; //TODO
+        return gh;
     }
 
     private FatherCharacter buildCharacter (HashMap characterHash) throws UnsupportedTypeException {

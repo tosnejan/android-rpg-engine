@@ -2,11 +2,14 @@ package meletos.rpg_game.inventory;
 
 import java.util.HashMap;
 
+import meletos.rpg_game.inventory.itinerary.Item;
 import meletos.rpg_game.inventory.itinerary.ItemType;
+import meletos.rpg_game.inventory.itinerary.Itinerary;
 
 public class Inventory {
     private int[][] inventory;
     private HashMap<ItemType,Integer> equipped;
+    private Itinerary itinerary;
 
     public Inventory(int[][] inventory, HashMap<ItemType,Integer> equipped) {
         this.inventory = inventory;
@@ -47,5 +50,23 @@ public class Inventory {
                 }
             }
         }
+    }
+
+    public void setItinerary(Itinerary itinerary) {
+        this.itinerary = itinerary;
+    }
+
+    public HashMap<String, Integer> getStats(){
+        HashMap<String, Integer> playerStats = new HashMap<>();
+        for (Integer ID:equipped.values()) {
+            if (ID != -1) {
+                HashMap<String, Integer> stats = itinerary.getItem(ID).getStats();
+                for (String key : stats.keySet()) {
+                    int value = stats.get(key) + (playerStats.containsKey(key) ? playerStats.get(key) : 0);
+                    playerStats.put(key, value);
+                }
+            }
+        }
+        return playerStats;
     }
 }
