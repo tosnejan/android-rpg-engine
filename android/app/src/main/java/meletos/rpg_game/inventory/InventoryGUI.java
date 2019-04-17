@@ -6,6 +6,10 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 
 import java.io.IOException;
 
@@ -41,6 +45,8 @@ public class InventoryGUI {
     private boolean buttonTouched = false;
     private boolean xButtonTouched = false;
     private boolean equButtonTouched = false;
+    private Paint paint;
+    private Rect bounds = new Rect();
     private Text text;
     private MenuButton button;
     private MenuButton xButton;
@@ -95,6 +101,12 @@ public class InventoryGUI {
             Bitmap xbuttonImageClicked = BitmapFactory.decodeStream(am.open("menu/x_button_round_clicked.png"));
             xbuttonImageClicked = Bitmap.createScaledBitmap(xbuttonImageClicked, screenHeight/10, screenHeight/10, true);
             xButton = new MenuButton(screenWidth - 9*xButtonImage.getWidth()/8, xButtonImage.getHeight()/8, xButtonImage, xbuttonImageClicked, text, -1);
+            paint = new Paint();
+            paint.setTextAlign(Paint.Align.LEFT);
+            paint.setColor(Color.BLACK);
+            paint.setTypeface(Typeface.create("Arial", Typeface.ITALIC));
+            int textSize = (screenHeight - grid.getHeight())/8;
+            paint.setTextSize(textSize);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,11 +125,12 @@ public class InventoryGUI {
             if (selectedY != -1 && selectedX != -1){
                 int ID = inventory.getInventoryItem(selectedY, selectedX);
                 if (ID != -1) {
-                    canvas.drawBitmap(frame, gridX - screenHeight / 135 + (screenHeight / 9 + screenHeight / 135) * selectedX, gridY - screenHeight / 135 + (screenHeight / 9 + screenHeight / 135) * selectedY, null);
+                    canvas.drawBitmap(frame, (gridX - screenHeight / 135) + (((screenHeight / 9) + (screenHeight / 135)) * selectedX), gridY - screenHeight / 135 + (screenHeight / 9 + screenHeight / 135) * selectedY, null);
                 }
                 if (ID != -1) {
                     if (itinerary.getItem(ID).getType() != ItemType.OTHER) {
                         equButton.draw(canvas);
+                        writeDescription(canvas, ID, itinerary.getItem(ID).getType());
                     }
                 }
             } else if (equSelected != null){
@@ -125,6 +138,7 @@ public class InventoryGUI {
                 if (ID != -1) {
                     drawEquippedFrame(canvas);
                     equButton.draw(canvas);
+                    writeDescription(canvas, ID, itinerary.getItem(ID).getType());
                 }
             }
         }
@@ -431,5 +445,14 @@ public class InventoryGUI {
                     break;
             }
         }
+    }
+
+    private void writeDescription(Canvas canvas, int ID, ItemType itemType){
+        paint.getTextBounds(text.getItemName(ID), 0, text.getItemName(ID).length(), bounds);
+        int y = grid.getHeight() + 10 + bounds.height();
+        int x = screenHeight/9 - bounds.left;
+        canvas.drawText(text.getItemName(ID), x, y, paint);
+        y = y + bounds.height() + 5;
+        canvas.drawText(text.getItemDescription(ID), x, y, paint);
     }
 }

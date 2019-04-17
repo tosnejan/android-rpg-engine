@@ -1,38 +1,47 @@
-﻿ID: 0
-Glamdring
-
-ID: 1
-Use me please!
+﻿ID: 1
+NAME: Glamdring
+DESCRIPTION: Was worn by Gandalf Gray.
 
 ID: 2
-Use me please!
+NAME: NoName
+DESCRIPTION: NoDescription
 
 ID: 3
-Use me please!
+NAME: NoName
+DESCRIPTION: NoDescription
 
 ID: 4
-Use me please!
+NAME: NoName
+DESCRIPTION: NoDescription
 
 ID: 5
-Use me please!
+NAME: NoName
+DESCRIPTION: NoDescription
 
 ID: 6
-Use me please!
+NAME: NoName
+DESCRIPTION: NoDescription
 
 ID: 7
-Use me please!
+NAME: NoName
+DESCRIPTION: NoDescription
 
 ID: 8
-Use me please!
+NAME: NoName
+DESCRIPTION: NoDescription
 
 ID: 9
-Use me please!
+NAME: NoName
+DESCRIPTION: NoDescription
 
 ID: 10
-Use me please!
+NAME: NoName
+DESCRIPTION: NoDescription
 
 ID: 11
-Use me please!
+NAME: NoName
+DESCRIPTION: NoDescription
 
 ID: 12
-Use me please!
+NAME: NoName
+DESCRIPTION: NoDescription

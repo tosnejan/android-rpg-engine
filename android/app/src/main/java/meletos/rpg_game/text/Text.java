@@ -15,6 +15,7 @@ public class Text {
     private Language lang;
     private SparseArray<String> text = new SparseArray<>();
     private SparseArray<String> itemNames = new SparseArray<>();
+    private SparseArray<String> itemDescription = new SparseArray<>();
     private Context context;
 
     public Text(Context context) {
@@ -51,8 +52,10 @@ public class Text {
                 if (!line.equals("")) {
                     if (line.startsWith("ID:")) {
                         ID = Integer.parseInt(line.substring(4));
-                    } else {
-                        itemNames.append(ID,line);
+                    } else if (line.startsWith("NAME:")){
+                        itemNames.append(ID,line.substring(6));
+                    }else /*if (line.startsWith("DESCRIPTION:"))*/{
+                        itemDescription.append(ID,line.substring(13));
                     }
                 }
             }
@@ -88,10 +91,15 @@ public class Text {
     }
 
     public String getText(int ID){
-        return text.get(ID, "KeyNotFound");
+        return text.get(ID, "TextNotFound");
     }
 
     public String getItemName(int ID) {
-        return itemNames.get(ID, "KeyNotFound");
+        return itemNames.get(ID, "NameNotFound");
     }
+
+    public String getItemDescription(int ID) {
+        return itemDescription.get(ID, "DescriptionNotFound");
+    }
+
 }
