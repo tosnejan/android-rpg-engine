@@ -1,6 +1,7 @@
 package meletos.rpg_game;
 
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -17,14 +18,14 @@ public class SplashScreen extends AppCompatActivity {
 
             @Override
             public void run() {
-                try {
-                    sleep(2000);    //Time for SplashScreen before it kills it self
+                //try {
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    SystemClock.sleep(2000);    //Time for SplashScreen before it kills it self
                     startActivity(intent);
                     finish();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                //} catch (InterruptedException e) {
+                    //e.printStackTrace();
+                //}
             }
         };
         myThread.start();
