@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); // this makes the app go fullscreen
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        SharedPreferences settings = getSharedPreferences("settings", 0);
+        //SharedPreferences settings = getSharedPreferences("settings", 0);
         text = new Text(this);// change this for default language
         gameView = new GameView(this, text);
         setContentView(gameView); // this starts the game canvas

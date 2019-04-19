@@ -126,23 +126,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas) {
         if (canvas != null) {
             super.draw(canvas);
-            if (state == State.MAIN_MENU){
-                mainMenu.draw(canvas);
-                //} else if(state == State.FIGHT) {
-            } else {
-                gameHandler.drawGame(canvas);
-                switch (state) {
-                    case MAP:
-                        inventory.draw(canvas);
-                        js.draw(canvas);
-                        break;
-                    case MENU:
-                        menu.draw(canvas);
-                        break;
-                    case INVENTORY:
-                        inventory.draw(canvas);
-                        break;
-                }
+            switch (state) {
+                case MAIN_MENU:
+                    mainMenu.draw(canvas);
+                    break;
+                case MAP:
+                    gameHandler.drawGame(canvas);
+                    inventory.draw(canvas);
+                    js.draw(canvas);
+                    break;
+                case MENU:
+                    gameHandler.drawGame(canvas);
+                    menu.draw(canvas);
+                    break;
+                case FIGHT:
+                    break;
+                case INVENTORY:
+                    inventory.draw(canvas);
+                    break;
             }
         }
     }

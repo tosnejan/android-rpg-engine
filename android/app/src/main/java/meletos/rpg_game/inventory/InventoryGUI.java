@@ -22,7 +22,7 @@ import meletos.rpg_game.inventory.itinerary.ItemType;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
 import meletos.rpg_game.navigation.MenuButton;
 import meletos.rpg_game.text.Text;
-
+//TODO nahradit screenHeight / 135 proměnnou
 public class InventoryGUI {
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -118,7 +118,7 @@ public class InventoryGUI {
     public void draw(Canvas canvas){
         if (gameView.getState() == State.MAP){
             button.draw(canvas);
-        } else {
+        } else if (gameView.getState() == State.INVENTORY){
             canvas.drawBitmap(background, backgroundX, backgroundY, null);
             canvas.drawBitmap(grid, 0, 0, null);
             canvas.drawBitmap(equipped, equDrawX, 0, null);
@@ -414,12 +414,12 @@ public class InventoryGUI {
         }
     }
 
-    private void drawEquippedFrame(Canvas canvas){
+    private void drawEquippedFrame(Canvas canvas){  //TODO Přepočítat všechny ty výpočty. Občas lze "+ screenHeight / 135 - screenHeight / 135" smazat
         int ID = inventory.getEquipedItem(equSelected);
         if (ID != -1){
             switch (equSelected) {
                 case HELMET:
-                    canvas.drawBitmap(frame, equX - screenHeight / 135, equY - screenHeight / 135, null);
+                    canvas.drawBitmap(frame, equX - (int)(screenHeight / 135.0), equY - (int)(screenHeight / 135.0), null);
                     break;
                 case ARMOR:
                     canvas.drawBitmap(frame, equX - screenHeight / 135, equY + screenHeight / 9 + screenHeight / 135 - screenHeight / 135, null);
