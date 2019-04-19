@@ -30,12 +30,15 @@ public class InventoryGUI {
     private Bitmap frame;
     private Bitmap grid;
     private Bitmap equipped;
+    private Bitmap hero;
     private int backgroundX;
     private int backgroundY;
     private int gridX;
     private int gridY;
     private int equX;
     private int equY;
+    private int heroX;
+    private int heroY;
     private int equDrawX;
     private int selectedX = -1;
     private int selectedY = -1;
@@ -110,6 +113,9 @@ public class InventoryGUI {
             paint.setTypeface(Typeface.create("Arial", Typeface.ITALIC));
             nameSize = (screenHeight - grid.getHeight())/8;
             textSize = (screenHeight - grid.getHeight())/10;
+            hero = Bitmap.createScaledBitmap(gameHandler.getHeroImage(),(int)(screenHeight/67.5 + screenHeight/9)*2 - screenHeight / 135,(int)(screenHeight/67.5 + screenHeight/9)*3- screenHeight / 135,true);
+            heroX = equX + screenHeight / 9 - screenHeight / 135;
+            heroY = equY;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,6 +131,7 @@ public class InventoryGUI {
             xButton.draw(canvas);
             drawInventory(canvas);
             drawEquipped(canvas);
+            canvas.drawBitmap(hero, heroX, heroY, null);
             writePlayerStats(canvas);
             if (selectedY != -1 && selectedX != -1){
                 int ID = inventory.getInventoryItem(selectedY, selectedX);

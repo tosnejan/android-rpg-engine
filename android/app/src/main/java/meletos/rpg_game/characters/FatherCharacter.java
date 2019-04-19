@@ -44,6 +44,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     private String assetsFolder;
 
     protected GameHandler gameHandler; // the boss
+    protected Context context;
 
     public FatherCharacter(int x, int y, Bitmap image) {
         super(x, y, image);
@@ -61,12 +62,16 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
         super(x, y);
         this.direction = Directions.UP;
         this.assetsFolder = assetsFolder;
-        getImages(assetsFolder, context);
+        this.context = context;
+        getImages(assetsFolder);
         animation = true;
-        image = images.get(7);
-        imgHeigth = image.getHeight();
-        imgWidth = image.getWidth();
-        positionInformation = new PositionInformation(x, y, image.getHeight(), image.getWidth());
+    }
+
+    public FatherCharacter(int x, int y, Context context) {
+        super(x, y);
+        this.direction = Directions.UP;
+        this.context = context;
+        animation = true;
     }
 
     public FatherCharacter(int x, int y) {
@@ -78,9 +83,8 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
      * Should work like this: gets name of the folder containing animation images.
      * Loads them all so it can animate the character
      * @param assetsFolder
-     * @param context
      */
-    private void getImages (String assetsFolder, Context context) {
+    public void getImages (String assetsFolder) {
         AssetManager am = context.getAssets();
         /*String[] files = new String[0];
         try {
@@ -100,6 +104,10 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
                 e.printStackTrace();
             }
         }
+        image = images.get(7);
+        imgHeigth = image.getHeight();
+        imgWidth = image.getWidth();
+        positionInformation = new PositionInformation(x, y, image.getHeight(), image.getWidth());
     }
 
     @Override

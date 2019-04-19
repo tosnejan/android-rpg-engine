@@ -9,16 +9,16 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.os.Environment;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
 
-import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.GameView;
 import meletos.rpg_game.State;
 import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.MenuButton;
-import meletos.rpg_game.text.Language;
 import meletos.rpg_game.text.Text;
 
 public class MainMenu {
@@ -28,13 +28,19 @@ public class MainMenu {
     private Bitmap background;
     private Bitmap buttonImage;
     private Bitmap buttonImageClicked;
+    private Bitmap storyButtonImage;
+    private Bitmap storyButtonImageClicked;
     private Settings settings;
     private int frameWidth;
     private int frameHeight;
+    private int shift = 0;
+    private int clicked = -1;
+    private ArrayList<Story> stories = new ArrayList<>();
     private GameView gameView;
     private Context context;
     private MainMenuStates state = MainMenuStates.MAIN;
     private MenuButton[] buttons = new MenuButton[4];
+    private MenuButton[] storyButtons = new MenuButton[4];
     private Text text;
 
     private int clickedButton = -1;
@@ -63,8 +69,16 @@ public class MainMenu {
             buttonImage = Bitmap.createScaledBitmap(buttonImage, (int)(frameWidth/1.3), (int)(frameHeight/7.6), true);
             buttonImageClicked = BitmapFactory.decodeStream(am.open("menu/button_clicked.png"));
             buttonImageClicked = Bitmap.createScaledBitmap(buttonImageClicked, (int)(frameWidth/1.3), (int)(frameHeight/7.6), true);
+            storyButtonImage = BitmapFactory.decodeStream(am.open("menu/storyButton.png"));
+            storyButtonImage = Bitmap.createScaledBitmap(storyButtonImage, (int)(frameWidth/1.3), (int)(frameHeight/7.6), true);
+            storyButtonImageClicked = BitmapFactory.decodeStream(am.open("menu/storyButtonClicked.png"));
+            storyButtonImageClicked = Bitmap.createScaledBitmap(storyButtonImageClicked, (int)(frameWidth/1.3), (int)(frameHeight/7.6), true);
             background = BitmapFactory.decodeStream(am.open("menu/background.png"));
             background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, true);
+            Bitmap icon = BitmapFactory.decodeStream(am.open("lvl/icon.png"));
+            icon = Bitmap.createScaledBitmap(icon, (int)(frameHeight/10.7), (int)(frameHeight/10.7), true);
+            stories.add(new Story(icon, "#Faigled", "lvl/second_lvl.json"));
+            getCustomMaps();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,7 +100,9 @@ public class MainMenu {
             case LOAD:
                 canvas.drawBitmap(frame, x, y, null);
                 break;
-            case CHOOSE_PLAYER:
+            case GAME_CREATION:
+                canvas.drawBitmap(frame, x, y, null);
+                drawStories(canvas);
                 break;
         }
     }
@@ -106,7 +122,13 @@ public class MainMenu {
                 break;
             case LOAD:
                 break;
-            case CHOOSE_PLAYER:
+            case GAME_CREATION:
+                for (int i = 0; i < storyButtons.length; i++) {
+                    if (storyButtons[i].isTouched(x, y)) {
+                        clickedButton = i;
+                        storyButtons[i].changeImage(true, 10);
+                    }
+                }
                 break;
         }
     }
@@ -118,24 +140,20 @@ public class MainMenu {
                 buttons[clickedButton].changeImage(false, 0);
                 if (!buttons[clickedButton].isTouched(x, y)) clickedButton = -1;
                 switch (clickedButton){
-                    case 0:
-                        clickedButton = -1;
-                        gameView.loadLevel("lvl/second_lvl.json", false);
-                        gameView.setState(State.MAP);
+                    case 0://New Game
+                        state = MainMenuStates.GAME_CREATION;
                         break;
-                    case 1:
+                    case 1://Load Game
                         // view load options
-                        clickedButton = -1;
                         break;
-                    case 2:
+                    case 2://Settings
                         state = MainMenuStates.SETTINGS;
-                        clickedButton = -1;
                         break;
-                    case 3:
+                    case 3://Quit
                         alert();
-                        clickedButton = -1;
                         break;
                 }
+                clickedButton = -1;
                 break;
             case SETTINGS:
                 if (settings.touchUp(x, y)){
@@ -144,7 +162,31 @@ public class MainMenu {
                 break;
             case LOAD:
                 break;
-            case CHOOSE_PLAYER:
+            case GAME_CREATION:
+                if (clickedButton == -1) break;
+                storyButtons[clickedButton].changeImage(false, 0);
+                if (!storyButtons[clickedButton].isTouched(x, y)) clickedButton = -1;
+                switch (clickedButton) {
+                    case 0://First story
+                        gameView.loadLevel(stories.get(shift).getPath(), false);
+                        gameView.setState(State.MAP);
+                        state = MainMenuStates.MAIN;
+                        break;
+                    case 1://Second story
+                        gameView.loadLevel(stories.get(shift + 1).getPath(), false);
+                        gameView.setState(State.MAP);
+                        state = MainMenuStates.MAIN;
+                        break;
+                    case 2://Third story
+                        gameView.loadLevel(stories.get(shift + 2).getPath(), false);
+                        gameView.setState(State.MAP);
+                        state = MainMenuStates.MAIN;
+                        break;
+                    case 3://Back
+                        state = MainMenuStates.MAIN;
+                        break;
+                }
+                clickedButton = -1;
                 break;
         }
     }
@@ -157,6 +199,10 @@ public class MainMenu {
         buttons[1] = new MenuButton(buttonX, buttonY + Yspace, buttonImage, buttonImageClicked, text, 5);
         buttons[2] = new MenuButton(buttonX, buttonY + Yspace*2, buttonImage, buttonImageClicked, text, 6);
         buttons[3] = new MenuButton(buttonX, buttonY + Yspace*3, buttonImage, buttonImageClicked, text, 7);
+        storyButtons[0] = new MenuButton(buttonX, buttonY, storyButtonImage, storyButtonImageClicked, text, -1);
+        storyButtons[1] = new MenuButton(buttonX, buttonY + Yspace, storyButtonImage, storyButtonImageClicked, text, -1);
+        storyButtons[2] = new MenuButton(buttonX, buttonY + Yspace*2, storyButtonImage, storyButtonImageClicked, text, -1);
+        storyButtons[3] = new MenuButton(buttonX, buttonY + Yspace*3, buttonImage, buttonImageClicked, text, 12);
     }
 
     private void alert(){
@@ -173,4 +219,35 @@ public class MainMenu {
                 .setNegativeButton(text.getText(0), null)
                 .show();
     }
+
+    private void getCustomMaps(){
+        File sdCard = Environment.getExternalStorageDirectory();
+        /*File ourFile = new File(sdCard, "rpg_game_data");
+        if (!ourFile.exists()) {
+            ourFile.mkdirs();
+        }*/
+        File mapsDir = new File(sdCard, "rpg_game_data/CustomMaps");
+        if (!mapsDir.exists()) {
+            if (!mapsDir.mkdirs()){
+                System.out.println("File directory wasn't created!");
+            }
+        } else if (mapsDir.list() != null) {
+            for (File f : mapsDir.listFiles()) {
+                if (f.isDirectory()) {
+                    Bitmap icon = BitmapFactory.decodeFile(f.getAbsolutePath() + "icon.png");
+                    icon = Bitmap.createScaledBitmap(icon, (int)(frameHeight/10.7), (int)(frameHeight/10.7), true);
+                    stories.add(new Story(icon, f.getName(), "CustomMaps/"+f.getName()+"test.json"));//TODO Pak sem přidat správný název .json, který se přečte v tom souboru, který říká pořadí map.
+                }
+            }
+        }
+    }
+
+    private void drawStories(Canvas canvas){
+        for (int i = 0; i < 3 && i < stories.size(); i++) {
+            Story story = stories.get(i + shift);
+            storyButtons[i].draw(canvas, story.getImage(), story.getName());
+        }
+        storyButtons[3].draw(canvas);
+    }
+
 }

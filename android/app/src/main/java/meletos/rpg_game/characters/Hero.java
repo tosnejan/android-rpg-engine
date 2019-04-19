@@ -1,6 +1,7 @@
 package meletos.rpg_game.characters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import meletos.rpg_game.Directions;
@@ -44,7 +45,6 @@ public class Hero extends FatherCharacter {
         js = joystick;
     }
 
-
     @Override
     public void update(){
         heroicMove(js.getDirection());
@@ -78,5 +78,9 @@ public class Hero extends FatherCharacter {
     public boolean setGameHandler(GameHandler gameHandler) {
         this.gameHandler = gameHandler;
         return true;
+    }
+
+    public Bitmap getImage(){
+        return images.get(7);
     }
 }

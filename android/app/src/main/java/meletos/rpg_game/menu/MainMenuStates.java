@@ -1,5 +1,5 @@
 package meletos.rpg_game.menu;
 
 public enum MainMenuStates {
-    MAIN, SETTINGS, LOAD, CHOOSE_PLAYER
+    MAIN, SETTINGS, LOAD, GAME_CREATION
 }

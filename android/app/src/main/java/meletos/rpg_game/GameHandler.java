@@ -44,7 +44,6 @@ public class GameHandler {
     private Hero hero;
     private List<FatherCharacter> characters;
     private SpawnHandler spawnHandler;
-
     //map info
     private String mapSource;
     private Bitmap map;
@@ -76,6 +75,7 @@ public class GameHandler {
         for (FatherCharacter character: characters) {
             if (character.setGameHandler(this)) { // let those characters know I'm the boss!
                 hero = (Hero)character; // if true, the character is hero
+                characters.remove(character);
             }
         }
     }
@@ -147,6 +147,7 @@ public class GameHandler {
         for (FatherCharacter character: characters) {
             character.draw(canvas);
         }
+        hero.draw(canvas);
 
     }
 
@@ -160,7 +161,7 @@ public class GameHandler {
         for (FatherCharacter character: characters) {
             character.update();
         }
-
+        hero.update();
     }
 
     /**
@@ -417,6 +418,10 @@ public class GameHandler {
     public void insertCharacter (FatherCharacter character) {
         characters.add(character);
         character.setGameHandler(this);
+    }
+
+    public Bitmap getHeroImage(){
+        return hero.getImage();
     }
 }
 

@@ -26,13 +26,13 @@ public class MenuButton extends Button {
         this.ID = ID;
         imageUnclicked = image;
         this.imageClicked = imageClicked;
+        paint = new Paint();
+        textSize = (int) (imgHeigth / 1.5);
+        paint.setTextAlign(Paint.Align.LEFT);
+        paint.setColor(Color.WHITE);
+        paint.setTypeface(Typeface.create("Arial", Typeface.ITALIC));
+        paint.setTextSize(textSize);
         if (ID != -1) {
-            paint = new Paint();
-            textSize = (int) (imgHeigth / 1.5);
-            paint.setTextAlign(Paint.Align.LEFT);
-            paint.setColor(Color.WHITE);
-            paint.setTypeface(Typeface.create("Arial", Typeface.ITALIC));
-            paint.setTextSize(textSize);
             setOptimalTextSize();
         }
     }
@@ -59,8 +59,30 @@ public class MenuButton extends Button {
             }
             canvas.drawText(text.getText(ID),
                     (x + imgWidth / 2f) - bounds.width() / 2f - bounds.left,
-                    (y + yClick + imgHeigth / 2f) + bounds.height() / 2f - bounds.bottom,
-                    paint);
+                    (y + yClick + imgHeigth / 2f) + bounds.height() / 2f - bounds.bottom, paint);
+        }
+    }
+
+    public void draw(Canvas canvas, Bitmap icon, String text) {
+        if(image != null){
+            canvas.drawBitmap(image,
+                    positionInformation.mainCoord.x, positionInformation.mainCoord.y + yClick, null);
+            canvas.drawBitmap(icon,
+                    positionInformation.mainCoord.x + imgWidth/25 , positionInformation.mainCoord.y + yClick + (imgHeigth - icon.getHeight())/2, null);
+        }
+        paint.getTextBounds(text, 0, text.length(), bounds);
+        if (bounds.width() > imgWidth - 50 - icon.getWidth()) {
+            setOptimalTextSizeIcon(icon.getWidth(), text);
+        }
+        canvas.drawText(text,x + icon.getWidth() + 20,
+                (y + yClick + imgHeigth / 2f) + bounds.height() / 2f - bounds.bottom, paint);
+    }
+
+    private void setOptimalTextSizeIcon(int width, String text) {
+        while (bounds.width() > imgWidth - 30 - width){
+            textSize -= 1;
+            paint.setTextSize(textSize);
+            paint.getTextBounds(text, 0, text.length(), bounds);
         }
     }
 
