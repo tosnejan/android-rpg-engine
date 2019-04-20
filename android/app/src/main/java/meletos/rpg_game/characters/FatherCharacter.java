@@ -100,7 +100,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
                 String fileName = String.format(Locale.US, "%s/%s.png", folder, i);
                 try {
                     temp = BitmapFactory.decodeStream(am.open(fileName));
-                    images.add(Bitmap.createScaledBitmap(temp, 96, 108, true));
+                    images.add(Bitmap.createScaledBitmap(temp, 96, 108, false));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

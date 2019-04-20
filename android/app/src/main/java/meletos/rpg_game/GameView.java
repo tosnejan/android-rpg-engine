@@ -86,8 +86,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         Loader loader = new Loader(this, filePath, userSave);
         loader.start();
     }
-
-
+    
     /**
      * Is triggered
      * when entering the menu and leaving the app

@@ -26,4 +26,5 @@ public class Button extends Sprite {
     private void onTouch () {
         // Implement in individual buttons -- should be more for effects
     }
+
 }

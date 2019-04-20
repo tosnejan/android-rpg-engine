@@ -113,9 +113,11 @@ public class InventoryGUI {
             paint.setTypeface(Typeface.create("Arial", Typeface.ITALIC));
             nameSize = (screenHeight - grid.getHeight())/8;
             textSize = (screenHeight - grid.getHeight())/10;
-            hero = Bitmap.createScaledBitmap(gameHandler.getHeroImage(),(int)(screenHeight/67.5 + screenHeight/9)*2 - screenHeight / 135,(int)(screenHeight/67.5 + screenHeight/9)*3- screenHeight / 135,true);
+            image = gameHandler.getHeroImage();
+            double ratio = image.getHeight()/(double)image.getWidth();
+            hero = Bitmap.createScaledBitmap(image,(int)(screenHeight/67.5 + screenHeight/9)*2 - screenHeight / 135,(int)(((screenHeight/67.5 + screenHeight/9)*2 - screenHeight / 135)*ratio),false);
             heroX = equX + screenHeight / 9 - screenHeight / 135;
-            heroY = equY;
+            heroY = equY + ((screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135)/2 - hero.getHeight()/2;
         } catch (IOException e) {
             e.printStackTrace();
         }

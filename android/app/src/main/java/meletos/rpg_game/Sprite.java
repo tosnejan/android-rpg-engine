@@ -61,4 +61,12 @@ public abstract class Sprite {
                 positionInformation.mainCoord.x, positionInformation.mainCoord.y, null);
         }
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

@@ -42,6 +42,7 @@ public class MainMenu {
     private MenuButton[] buttons = new MenuButton[4];
     private MenuButton[] storyButtons = new MenuButton[4];
     private Text text;
+    private HeroSelection heroSelection;
 
     private int clickedButton = -1;
     private int x;
@@ -100,12 +101,12 @@ public class MainMenu {
             case LOAD:
                 canvas.drawBitmap(frame, x, y, null);
                 break;
-            case GAME_CREATION:
+            case STORY_SELECTION://TODO scrollovací tlačítka
                 canvas.drawBitmap(frame, x, y, null);
                 drawStories(canvas);
                 break;
             case HERO_SELECTION:
-                canvas.drawBitmap(frame, x, y, null);
+                heroSelection.draw(canvas);
                 break;
         }
     }
@@ -125,7 +126,7 @@ public class MainMenu {
                 break;
             case LOAD:
                 break;
-            case GAME_CREATION:
+            case STORY_SELECTION:
                 for (int i = 0; i < storyButtons.length; i++) {
                     if (storyButtons[i].isTouched(x, y)) {
                         clickedButton = i;
@@ -134,6 +135,7 @@ public class MainMenu {
                 }
                 break;
             case HERO_SELECTION:
+                if (!heroSelection.isMoving()) heroSelection.touchDown(x, y);
                 break;
         }
     }
@@ -146,7 +148,7 @@ public class MainMenu {
                 if (!buttons[clickedButton].isTouched(x, y)) clickedButton = -1;
                 switch (clickedButton){
                     case 0://New Game
-                        state = MainMenuStates.GAME_CREATION;
+                        state = MainMenuStates.STORY_SELECTION;
                         break;
                     case 1://Load Game
                         // view load options
@@ -167,17 +169,17 @@ public class MainMenu {
                 break;
             case LOAD:
                 break;
-            case GAME_CREATION:
+            case STORY_SELECTION:
                 if (clickedButton == -1) break;
                 storyButtons[clickedButton].changeImage(false, 0);
                 if (!storyButtons[clickedButton].isTouched(x, y)) clickedButton = -1;
                 switch (clickedButton) {
                     case 0://First story
                         gameView.loadLevel(stories.get(shift).getPath() + "/second_lvl.json", stories.get(shift).isUserSave());
+                        loadHeroes(stories.get(shift));
                         state = MainMenuStates.HERO_SELECTION;
-                        //loadHeroes(stories.get(shift));
-                        while (!gameView.hasGameHandler()) System.out.println("loading");
-                        gameView.setState(State.MAP);
+                        //while (!gameView.hasGameHandler()) System.out.println("loading");
+                        //gameView.setState(State.MAP);
                         break;
                     case 1://Second story
                         gameView.loadLevel(stories.get(shift + 1).getPath(), stories.get(shift).isUserSave());
@@ -196,6 +198,7 @@ public class MainMenu {
                 clickedButton = -1;
                 break;
             case HERO_SELECTION:
+                if (!heroSelection.isMoving()) heroSelection.touchUp(x, y);
                 break;
         }
     }
@@ -264,5 +267,7 @@ public class MainMenu {
         for (HeroProperties hero : heroes) {
             hero.loadImage(context, story.getPath());
         }
+        heroSelection = new HeroSelection(heroes);
+        heroSelection.start();
     }
 }

@@ -38,8 +38,8 @@ public class HeroProperties {
     public static HeroProperties[] load(Context context, String path, boolean userSave) {
         Reader json = loadFile(context, path, userSave);
         if (json != null) {
-            return new GsonBuilder().create().fromJson(json, HeroProperties[].class);
-        } else return null;
+            return new GsonBuilder().create().fromJson(json,HeroProperties[].class);
+        } else return new HeroProperties[0];
     }
 
     private static Reader loadFile (Context context, String path, boolean userSave) {

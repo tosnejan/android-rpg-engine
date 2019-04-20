@@ -98,7 +98,7 @@ public class GameHandler {
             map = BitmapFactory.decodeStream(am.open(path));
             mapWidth = map.getWidth() * mapScale;
             mapHeight = map.getHeight() * mapScale;
-            map = Bitmap.createScaledBitmap(map, mapWidth, mapHeight, true);
+            map = Bitmap.createScaledBitmap(map, mapWidth, mapHeight, false);
         } catch (IOException e) {
             e.printStackTrace();
         }
