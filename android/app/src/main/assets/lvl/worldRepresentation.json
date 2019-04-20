@@ -1,1 +1,21 @@
-{"name":"worldRepresentation","levels":["first_lvl.json","second_lvl.json","worldRepresentation.json"],"lvlDetails":{"first_lvl.json":{"lvlName":"exampleLvl"},"worldRepresentation.json":{},"second_lvl.json":{"lvlName":"Levl no 2"}},"currLvlNumber":0,"folder":{"path":"C:\\melecmat\\android\\app\\src\\main\\assets\\lvl"}}
+{
+  "name": "worldRepresentation",
+  "levels": [
+    "first_lvl.json",
+    "second_lvl.json",
+    "worldRepresentation.json"
+  ],
+  "lvlDetails": {
+    "first_lvl.json": {
+      "lvlName": "exampleLvl"
+    },
+    "worldRepresentation.json": {},
+    "second_lvl.json": {
+      "lvlName": "Levl no 2"
+    }
+  },
+  "currLvlNumber": 0,
+  "folder": {
+    "path": "C:\\melecmat\\android\\app\\src\\main\\assets\\lvl"
+  }
+}

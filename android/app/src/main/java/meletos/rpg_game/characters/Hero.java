@@ -23,11 +23,17 @@ public class Hero extends FatherCharacter {
         ySpeedConstant = 4;
     }
 
+    public Hero(int x, int y, Context context) {
+        super(x, y, context);
+        xSpeedConstant = 4;
+        ySpeedConstant = 4;
+    }
+
     /**
      * will be called when the arrows are touched
-     * @param direction
+     * @param direction direction of joystick
      */
-    public void heroicMove (Directions direction) {
+    private void heroicMove (Directions direction) {
         updateDirectionSpeed(direction);
 
         PositionInformation newPosition = new PositionInformation(
@@ -66,13 +72,12 @@ public class Hero extends FatherCharacter {
                 gameHandler.getyShift()+ gameHandler.getMapHeight() == gameHandler.getMapHeight()) {
 
         }*/
-
     }
 
     /**
      * Lets the character know the gamehandler
      * Hero returns true
-     * @param gameHandler
+     * @param gameHandler put the boss
      */
     @Override
     public boolean setGameHandler(GameHandler gameHandler) {

@@ -63,7 +63,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
         this.direction = Directions.UP;
         this.assetsFolder = assetsFolder;
         this.context = context;
-        getImages(assetsFolder);
+        getImages(assetsFolder, true);
         animation = true;
     }
 
@@ -82,27 +82,31 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     /**
      * Should work like this: gets name of the folder containing animation images.
      * Loads them all so it can animate the character
-     * @param assetsFolder
+     * @param folder
      */
-    public void getImages (String assetsFolder) {
-        AssetManager am = context.getAssets();
+    public void getImages (String folder, boolean assets) {
+        if (assets) {
+            AssetManager am = context.getAssets();
         /*String[] files = new String[0];
         try {
-            files = am.list(assetsFolder);
+            files = am.list(folder);
         } catch (IOException e) {
             e.printStackTrace();
         }*/
-        images = new ArrayList<>();
-        Bitmap temp;
+            images = new ArrayList<>();
+            Bitmap temp;
 
-        for (int i = 1; i < 13; i++) {
-            String fileName = String.format(Locale.US,"%s/%s.png", assetsFolder, i);
-            try {
-                temp = BitmapFactory.decodeStream(am.open(fileName));
-                images.add(Bitmap.createScaledBitmap(temp, 96, 108, true));
-            } catch (IOException e) {
-                e.printStackTrace();
+            for (int i = 1; i < 13; i++) {
+                String fileName = String.format(Locale.US, "%s/%s.png", folder, i);
+                try {
+                    temp = BitmapFactory.decodeStream(am.open(fileName));
+                    images.add(Bitmap.createScaledBitmap(temp, 96, 108, true));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+        } else {
+
         }
         image = images.get(7);
         imgHeigth = image.getHeight();

@@ -22,6 +22,13 @@ public class RandomWalker extends FatherCharacter {
         ySpeedConstant = 5;
     }
 
+    public RandomWalker(int x, int y, Context context) {
+        super(x, y, context);
+        steps = 0;
+        xSpeedConstant = 5;
+        ySpeedConstant = 5;
+    }
+
     public RandomWalker(int x, int y) {
         super(x, y);
         steps = 0;

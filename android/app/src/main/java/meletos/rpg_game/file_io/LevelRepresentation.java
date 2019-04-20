@@ -59,13 +59,13 @@ public class LevelRepresentation {
     public void createCharacterHashmap (
             String charType,
             int x, int y,
-            String assetsFolder
+            String imagesFolder
     ) {
         HashMap character = new HashMap();
         character.put("charType", charType);
         character.put("xCoord", x);
         character.put("yCoord", y);
-        character.put("assetsFolder", assetsFolder);
+        character.put("imagesFolder", imagesFolder);
         addCharacter(character);
     }
 

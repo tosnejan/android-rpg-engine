@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import meletos.rpg_game.characters.Follower;
+import meletos.rpg_game.file_io.Loader;
 import meletos.rpg_game.inventory.InventoryGUI;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
 import meletos.rpg_game.menu.MenuStates;
@@ -52,6 +53,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Text text;
     private Sound sound;
     private InventoryGUI inventory;
+    private boolean hasGameHandler = false;
     private boolean isInLevel;
     private Itinerary itinerary;
     private Follower follower;
@@ -81,23 +83,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      *                 <code>false</code> if loading level
      */
     public void loadLevel (String filePath, boolean userSave) {
-
-        try {
-            LevelGenerator lvlGenerator = new LevelGenerator(getContext(), filePath);
-            gameHandler = lvlGenerator.buildLevel(userSave);
-        } catch (UnsupportedTypeException e) {
-            e.printStackTrace();
-        }
-        gameHandler.pauseGame();
-        gameHandler.setGameView(this);
-        gameHandler.setJoystickToHero(js);
-
-        inventory = new InventoryGUI(this, getContext(), gameHandler, text, itinerary);
-        gameHandler.getInventory().setItinerary(itinerary);
-        menu = new Menu(gameHandler, this, getContext(), text, settings);
-        gameThread = new GameThread(gameHandler);
-        gameThread.start();
-        gameHandler.resumeGame();
+        Loader loader = new Loader(this, filePath, userSave);
+        loader.start();
     }
 
 
@@ -310,5 +297,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setGameHandler(GameHandler gH) {
+        gameHandler = gH;
+        gameHandler.pauseGame();
+        gameHandler.setGameView(this);
+        gameHandler.setJoystickToHero(js);
+
+        inventory = new InventoryGUI(this, getContext(), gameHandler, text, itinerary);
+        gameHandler.getInventory().setItinerary(itinerary);
+        menu = new Menu(gameHandler, this, getContext(), text, settings);
+        gameThread = new GameThread(gameHandler);
+        gameThread.start();
+        //gameHandler.resumeGame(); //Možná pak torchu pozměnit, kdyby se to využívalo i na přechod mezi mapama.
+        hasGameHandler = true;
+    }
+
+    public boolean hasGameHandler() {
+        return hasGameHandler;
     }
 }
