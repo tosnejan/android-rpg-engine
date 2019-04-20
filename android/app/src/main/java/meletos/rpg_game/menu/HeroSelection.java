@@ -97,7 +97,7 @@ public class HeroSelection extends Thread {
                         e.printStackTrace();
                     }
                 }
-                theOne = theOne - 1 > 0 ? theOne - 1 : heroes.length - 1;
+                theOne = theOne - 1 < 0 ? heroes.length - 1 : theOne - 1;
                 image = heroes[theOne - 1 < 0 ? heroes.length - 1 : theOne - 1].getImage();
                 image = Bitmap.createScaledBitmap(image, baseWidth, baseHeight, false);
                 buttons[0] = new Button(baseX - image.getWidth() / 2, baseY - image.getHeight() / 2, image);
