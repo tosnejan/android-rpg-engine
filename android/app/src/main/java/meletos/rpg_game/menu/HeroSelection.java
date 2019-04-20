@@ -45,9 +45,9 @@ public class HeroSelection extends Thread {
             if (moveLeft){
                 moving = true;
                 for (int i = 1; i < 9; i++) {
-                    image = heroes[theOne - 1 < 0 ? heroes.length - 1 : theOne - 1].getImage();
+                    /*image = heroes[theOne - 1 < 0 ? heroes.length - 1 : theOne - 1].getImage();
                     image = Bitmap.createScaledBitmap(image, (int) (baseWidth * Math.log10(10 - i)), (int) (baseHeight * Math.log10(10 - i)), false);
-                    buttons[0] = new Button((int) (baseX * Math.log10(10 - 0.5*i)) - image.getWidth() / 2, baseY - image.getHeight() / 2, image);
+                    buttons[0] = new Button((int) (baseX * Math.log10(10 - 0.75*i)) - image.getWidth() / 2, baseY - image.getHeight() / 2, image);
                     image = heroes[theOne].getImage();
                     image = Bitmap.createScaledBitmap(image, (int)(baseWidth * Math.log10(100 - 10*i)), (int)(baseHeight * Math.log10(100 - 10*i)), false);
                     buttons[1] = new Button((int)(baseX * Math.log10(100 - 10*i)) - image.getWidth()/2, baseY - image.getHeight()/2, image);
@@ -56,7 +56,19 @@ public class HeroSelection extends Thread {
                     buttons[2] = new Button((int)(baseX * Math.log10(1000 - 100*i)) - image.getWidth()/2, baseY - image.getHeight()/2, image);
                     image = heroes[theOne + 1 < heroes.length ? (theOne + 2 < heroes.length ? theOne + 2 : 0) : (1 == heroes.length ? 0 : 1)].getImage(); //Tfuj to je prasečárna... ale tak je to potřebal, kdyby někdo udělal story pouze s jedním hrdinou...
                     image = Bitmap.createScaledBitmap(image, (int)(baseWidth * Math.log10(1 + i)), (int)(baseHeight * Math.log10(1 + i)), false);
-                    buttons[3] = new Button((int)(baseX * Math.log10(3250 - 250*i)) - image.getWidth()/2, baseY - image.getHeight()/2, image);
+                    buttons[3] = new Button((int)(baseX * Math.log10(3250 - 250*i)) - image.getWidth()/2, baseY - image.getHeight()/2, image);*/
+                    image = heroes[theOne - 1 < 0 ? heroes.length - 1 : theOne - 1].getImage();
+                    image = Bitmap.createScaledBitmap(image, (int) (baseWidth * Math.log10(10 - i)), (int) (baseHeight * Math.log10(10 - i)), false);
+                    buttons[0] = new Button(screenWidth - (int) (baseX * Math.log10(1000 + 250*i)) - image.getWidth() / 2, baseY - image.getHeight() / 2, image);
+                    image = heroes[theOne].getImage();
+                    image = Bitmap.createScaledBitmap(image, (int)(baseWidth * Math.log10(100 - 10*i)), (int)(baseHeight * Math.log10(100 - 10*i)), false);
+                    buttons[1] = new Button(screenWidth - (int)(baseX * Math.log10(100 + 100*i)) - image.getWidth()/2, baseY - image.getHeight()/2, image);
+                    image = heroes[theOne + 1 < heroes.length ? theOne + 1 : 0].getImage();
+                    image = Bitmap.createScaledBitmap(image, (int)(baseWidth * Math.log10(10 + 10*i)), (int)(baseHeight * Math.log10(10 + 10*i)), false);
+                    buttons[2] = new Button(screenWidth - (int)(baseX * Math.log10(10 + 10*i)) - image.getWidth()/2, baseY - image.getHeight()/2, image);
+                    image = heroes[theOne + 1 < heroes.length ? (theOne + 2 < heroes.length ? theOne + 2 : 0) : (1 == heroes.length ? 0 : 1)].getImage(); //Tfuj to je prasečárna... ale tak je to potřebal, kdyby někdo udělal story pouze s jedním hrdinou...
+                    image = Bitmap.createScaledBitmap(image, (int)(baseWidth * Math.log10(1 + i)), (int)(baseHeight * Math.log10(1 + i)), false);
+                    buttons[3] = new Button(screenWidth - (int)(baseX * Math.log10(3.25 + 0.75*i)) - image.getWidth()/2, baseY - image.getHeight()/2, image);
                     try {
                         Thread.sleep(50);
                     } catch (InterruptedException e) {
@@ -90,7 +102,7 @@ public class HeroSelection extends Thread {
                     buttons[2] = new Button((int) (baseX * Math.log10(1000 + 250*i)) - image.getWidth() / 2, baseY - image.getHeight() / 2, image);
                     image = heroes[theOne - 1 < 0 ? (heroes.length > 1 ? heroes.length - 2 : 0): (theOne - 2 < 0 ? heroes.length - 1 : theOne - 2)].getImage();
                     image = Bitmap.createScaledBitmap(image, (int)(baseWidth * Math.log10(1 + i)), (int)(baseHeight * Math.log10(1 + i)), false);
-                    buttons[3] = new Button((int)(baseX * Math.log10(5 + 0.5*i)) - image.getWidth()/2, baseY - image.getHeight()/2, image);
+                    buttons[3] = new Button((int)(baseX * Math.log10(3.25 + 0.75*i)) - image.getWidth()/2, baseY - image.getHeight()/2, image);
                     try {
                         Thread.sleep(50);
                     } catch (InterruptedException e) {
