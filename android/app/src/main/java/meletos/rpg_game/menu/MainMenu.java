@@ -177,7 +177,7 @@ public class MainMenu {
                     case 0://First story
                         gameView.loadLevel(stories.get(shift).getPath() + "/second_lvl.json", stories.get(shift).isUserSave());
                         loadHeroes(stories.get(shift));
-                        state = MainMenuStates.HERO_SELECTION;
+                        state = MainMenuStates.HERO_SELECTION;//TODO tohle zakomentovat a ty dva řádky pod tím odkomentovat pokud chceš na mapu
                         //while (!gameView.hasGameHandler()) System.out.println("loading");
                         //gameView.setState(State.MAP);
                         break;
