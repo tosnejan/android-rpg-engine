@@ -135,7 +135,7 @@ public class MainMenu {
                 }
                 break;
             case HERO_SELECTION:
-                if (!heroSelection.isMoving()) heroSelection.touchDown(x, y);
+                if (heroSelection.isNotMoving()) heroSelection.touchDown(x, y);
                 break;
         }
     }
@@ -198,7 +198,7 @@ public class MainMenu {
                 clickedButton = -1;
                 break;
             case HERO_SELECTION:
-                if (!heroSelection.isMoving()) heroSelection.touchUp(x, y);
+                if (heroSelection.isNotMoving()) heroSelection.touchUp(x, y);
                 break;
         }
     }
@@ -215,6 +215,24 @@ public class MainMenu {
         storyButtons[1] = new MenuButton(buttonX, buttonY + Yspace, storyButtonImage, storyButtonImageClicked, text, -1);
         storyButtons[2] = new MenuButton(buttonX, buttonY + Yspace*2, storyButtonImage, storyButtonImageClicked, text, -1);
         storyButtons[3] = new MenuButton(buttonX, buttonY + Yspace*3, buttonImage, buttonImageClicked, text, 12);
+    }
+
+    public void heroSelected(final HeroProperties hero){
+        new AlertDialog.Builder(context)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(text.getText(15))
+                .setMessage(text.getText(16))
+                .setPositiveButton(text.getText(1), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        while (!gameView.hasGameHandler()) System.out.println("Game is still loading!");
+                        gameView.getGameHandler().setHero(hero);
+                        gameView.setState(State.MAP);
+                        state = MainMenuStates.MAIN;
+                    }
+                })
+                .setNegativeButton(text.getText(0), null)
+                .show();
     }
 
     private void alert(){
@@ -248,7 +266,7 @@ public class MainMenu {
                 if (f.isDirectory()) {
                     Bitmap icon = BitmapFactory.decodeFile(f.getAbsolutePath() + "icon.png");
                     icon = Bitmap.createScaledBitmap(icon, (int)(frameHeight/10.7), (int)(frameHeight/10.7), true);
-                    stories.add(new Story(icon, f.getName(), "rpg_game_data/CustomMaps/"+f.getName(), true));//TODO Pak sem přidat správný název .json, který se přečte v tom souboru, který říká pořadí map.
+                    stories.add(new Story(icon, f.getName(), "rpg_game_data/CustomMaps/"+f.getName(), true));
                 }
             }
         }
@@ -267,7 +285,7 @@ public class MainMenu {
         for (HeroProperties hero : heroes) {
             hero.loadImage(context, story.getPath());
         }
-        heroSelection = new HeroSelection(heroes);
+        heroSelection = new HeroSelection(heroes, this);
         heroSelection.start();
     }
 }

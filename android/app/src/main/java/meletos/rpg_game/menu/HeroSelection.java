@@ -9,6 +9,7 @@ import meletos.rpg_game.navigation.Button;
 public class HeroSelection extends Thread {
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private MainMenu mainMenu;
     private HeroProperties[] heroes;
     private Button[] buttons = new Button[4];
     private boolean moveLeft;
@@ -23,7 +24,7 @@ public class HeroSelection extends Thread {
     private int baseY = screenHeight/3;
     private double ratio;
 
-    public HeroSelection(HeroProperties[] heroes) {
+    public HeroSelection(HeroProperties[] heroes, MainMenu mainMenu) {
         this.heroes = heroes;
         Bitmap image = heroes[heroes.length - 1].getImage();
         ratio = image.getHeight()/(double)image.getWidth();
@@ -36,6 +37,7 @@ public class HeroSelection extends Thread {
         image = heroes[heroes.length > 1 ? 1 : 0].getImage();
         image = Bitmap.createScaledBitmap(image,baseWidth, baseHeight, false);
         buttons[2] = new Button(baseX * 3 - image.getWidth()/2, baseY - image.getHeight()/2, image);
+        this.mainMenu = mainMenu;
     }
 
     @Override
@@ -150,6 +152,7 @@ public class HeroSelection extends Thread {
                 if (buttons[0].isTouched(x, y)) moveRight = true;
                 break;
             case 1:
+                if (buttons[1].isTouched(x, y)) mainMenu.heroSelected(heroes[theOne]);
                 break;
             case 2:
                 if (buttons[2].isTouched(x, y)) moveLeft = true;
@@ -162,12 +165,11 @@ public class HeroSelection extends Thread {
         return heroes;
     }
 
-    public boolean isMoving() {
-        return moving;
+    public boolean isNotMoving() {
+        return !moving;
     }
 
     public void kys() {
         isAlive = false;
     }
-
 }

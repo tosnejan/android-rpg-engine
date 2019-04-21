@@ -42,3 +42,9 @@ Equip
 
 ID: 14
 Unequip
+
+ID: 15
+Hero selected
+
+ID: 16
+Are you sure you want this hero?

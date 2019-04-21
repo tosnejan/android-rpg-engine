@@ -42,3 +42,9 @@ Nasadit
 
 ID: 14
 Sundat
+
+ID: 15
+Hrdina vybrán
+
+ID: 16
+Jste si jist/a, že chcete tohoto hrdinu?

@@ -128,12 +128,12 @@ public class LevelGenerator {
                     } else return new RandomWalker(x, y, imagesFolder, context);
                 // follower doesnt work yet, taky je ho potřeba předělat na ten userSave... viz nahoru :D Nechci ti do toho šahat :D
                 case "Follower":
-                Object[] coord = new Object[10];
-                coord = ((ArrayList)characterHash.get("followCoord")).toArray(coord);
-                for (int i = 0; i < coord.length; i++) { // typecast
-                    coord[i] = (Coordinates)coord[i];
-                }
-                return new Follower(x, y, imagesFolder, context, (Coordinates[]) coord);
+                    Object[] coord = new Object[10];
+                    coord = ((ArrayList)characterHash.get("followCoord")).toArray(coord);
+                    for (int i = 0; i < coord.length; i++) { // typecast
+                        coord[i] = (Coordinates)coord[i];
+                    }
+                    return new Follower(x, y, imagesFolder, context, (Coordinates[]) coord);
                 default:
                     throw new UnsupportedTypeException("This character doesnt exist yet.");
             }

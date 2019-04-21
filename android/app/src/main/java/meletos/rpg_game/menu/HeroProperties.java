@@ -31,6 +31,14 @@ public class HeroProperties {
         return image;
     }
 
+    public String getImagesFolder() {
+        return imagesFolder;
+    }
+
+    public boolean isCustom() {
+        return custom;
+    }
+
     public HashMap<String, Integer> getStats() {
         return stats;
     }

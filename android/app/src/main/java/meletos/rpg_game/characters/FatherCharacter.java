@@ -5,7 +5,10 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.os.Environment;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -82,19 +85,14 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     /**
      * Should work like this: gets name of the folder containing animation images.
      * Loads them all so it can animate the character
-     * @param folder
+     * @param folder folder that contains character images.
+     * @param assets true if the folder is from assets, false if the folder is from external storage.
      */
     public void getImages (String folder, boolean assets) {
+        images = new ArrayList<>();
+        Bitmap temp;
         if (assets) {
             AssetManager am = context.getAssets();
-        /*String[] files = new String[0];
-        try {
-            files = am.list(folder);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-            images = new ArrayList<>();
-            Bitmap temp;
 
             for (int i = 1; i < 13; i++) {
                 String fileName = String.format(Locale.US, "%s/%s.png", folder, i);
@@ -106,7 +104,12 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
                 }
             }
         } else {
-
+            File file = Environment.getExternalStorageDirectory();
+            for (int i = 1; i < 13; i++) {
+                String fileName = String.format(Locale.US, "%s/%s.png", folder, i);
+                temp = BitmapFactory.decodeFile(file.getAbsolutePath() + fileName);
+                images.add(Bitmap.createScaledBitmap(temp, 96, 108, false));
+            }
         }
         image = images.get(7);
         imgHeigth = image.getHeight();

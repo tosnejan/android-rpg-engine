@@ -32,6 +32,7 @@ import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
 import meletos.rpg_game.file_io.LevelRepresentation;
 import meletos.rpg_game.inventory.Inventory;
+import meletos.rpg_game.menu.HeroProperties;
 import meletos.rpg_game.navigation.JoyStick;
 import meletos.rpg_game.spawning.SpawnDataEntry;
 import meletos.rpg_game.spawning.SpawnHandler;
@@ -44,6 +45,7 @@ public class GameHandler {
     private Hero hero;
     private List<FatherCharacter> characters;
     private SpawnHandler spawnHandler;
+    private HeroProperties heroProperties;
     //map info
     private String mapSource;
     private Bitmap map;
@@ -423,5 +425,11 @@ public class GameHandler {
     public Bitmap getHeroImage(){
         return hero.getImage();
     }
+
+    public void setHero(HeroProperties heroProperties) {
+        this.heroProperties = heroProperties;
+        hero.getImages(heroProperties.getImagesFolder(), !heroProperties.isCustom());
+    }
+
 }
 

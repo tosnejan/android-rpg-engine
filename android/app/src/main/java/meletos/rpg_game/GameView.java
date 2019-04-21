@@ -316,4 +316,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public boolean hasGameHandler() {
         return hasGameHandler;
     }
+
+    public GameHandler getGameHandler() {
+        return gameHandler;
+    }
 }
