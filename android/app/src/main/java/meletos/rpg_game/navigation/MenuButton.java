@@ -40,10 +40,7 @@ public class MenuButton extends Button {
     @Override
     public boolean isTouched(int x, int y) {
         Coordinates touchCoord = new Coordinates(x, y);
-        if (positionInformation.isCoordinateInside(touchCoord)) {
-            return true;
-        }
-        return false;
+        return positionInformation.isCoordinateInside(touchCoord);
     }
 
     @Override
@@ -68,7 +65,7 @@ public class MenuButton extends Button {
             canvas.drawBitmap(image,
                     positionInformation.mainCoord.x, positionInformation.mainCoord.y + yClick, null);
             canvas.drawBitmap(icon,
-                    positionInformation.mainCoord.x + imgWidth/25 , positionInformation.mainCoord.y + yClick + (imgHeigth - icon.getHeight())/2, null);
+                    positionInformation.mainCoord.x + imgWidth/25f , positionInformation.mainCoord.y + yClick + (imgHeigth - icon.getHeight())/2, null);
         }
         paint.getTextBounds(text, 0, text.length(), bounds);
         if (bounds.width() > imgWidth - 50 - icon.getWidth() || bounds.height() > 8 * imgHeigth / 10) {

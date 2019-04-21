@@ -25,8 +25,8 @@ public class HeroSelection extends Thread {
     private boolean isAlive = true;
     private int selected = -1;
     private int theOne = 0;
-    private int baseWidth = screenWidth/8;
-    private int baseHeight;
+    private int baseWidth;
+    private int baseHeight = screenHeight/4;
     private int baseX = screenWidth/4;
     private int baseY = screenHeight/3;
     private int titleWidth;
@@ -40,8 +40,8 @@ public class HeroSelection extends Thread {
         titleWidth = title.getWidth();
         titleHeight = title.getHeight();
         Bitmap image = heroes[heroes.length - 1].getImage();
-        ratio = image.getHeight()/(double)image.getWidth();
-        baseHeight = (int)(baseWidth*ratio);
+        ratio = image.getWidth()/(double)image.getHeight();
+        baseWidth = (int)(baseHeight*ratio);
         image = Bitmap.createScaledBitmap(image, baseWidth, baseHeight, false);
         buttons[0] = new Button( baseX - image.getWidth()/2, baseY - image.getHeight()/2, image);
         image = heroes[0].getImage();

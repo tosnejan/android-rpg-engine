@@ -31,17 +31,17 @@ public class MainMenu {
     private Bitmap storyButtonImage;
     private Bitmap storyButtonImageClicked;
     private Bitmap title;
+    private Bitmap field;
     private Settings settings;
-    //private int frameWidth;
     private int frameHeight;
     private int shift = 0;
     private ArrayList<Story> stories = new ArrayList<>();
-    private HeroProperties[] heroes;
     private GameView gameView;
     private Context context;
     private MainMenuStates state = MainMenuStates.MAIN;
     private MenuButton[] buttons = new MenuButton[4];
     private MenuButton[] storyButtons = new MenuButton[4];
+    private MenuButton backButton;
     private Text text;
     private HeroSelection heroSelection;
 
@@ -78,7 +78,9 @@ public class MainMenu {
             background = BitmapFactory.decodeStream(am.open("menu/background.png"));
             background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, true);
             title = BitmapFactory.decodeStream(am.open("menu/title.png"));
-            title = Bitmap.createScaledBitmap(title, screenWidth/3, (int)(screenWidth/3*(title.getHeight()/(double)title.getWidth())), true);
+            title = Bitmap.createScaledBitmap(title, (int)(screenHeight/8*(title.getWidth()/(double)title.getHeight())), screenHeight/8, true);
+            field = BitmapFactory.decodeStream(am.open("menu/field.png"));
+            field = Bitmap.createScaledBitmap(field, (int)(screenHeight/1.5), screenHeight/3, true);
             Bitmap icon = BitmapFactory.decodeStream(am.open("lvl/icon.png"));
             icon = Bitmap.createScaledBitmap(icon, (int)(frameHeight/10.7), (int)(frameHeight/10.7), true);
             stories.add(new Story(icon, "#Faigled", "lvl", false));
@@ -109,7 +111,9 @@ public class MainMenu {
                 drawStories(canvas);
                 break;
             case HERO_SELECTION:
+                //canvas.drawBitmap(field,screenWidth - field.getWidth() - screenHeight/8f,screenHeight - field.getHeight() - screenHeight/10f,null);
                 heroSelection.draw(canvas);
+                backButton.draw(canvas);
                 break;
         }
     }
@@ -143,6 +147,10 @@ public class MainMenu {
                 break;
             case HERO_SELECTION:
                 if (heroSelection.isNotMoving()) heroSelection.touchDown(x, y);
+                if (backButton.isTouched(x, y)) {
+                    backButton.changeImage(true, 10);
+                    clickedButton = 1;
+                }
                 break;
         }
     }
@@ -184,19 +192,17 @@ public class MainMenu {
                     case 0://First story
                         gameView.loadLevel(stories.get(shift).getPath() + "/second_lvl.json", stories.get(shift).isUserSave());
                         loadHeroes(stories.get(shift));
-                        state = MainMenuStates.HERO_SELECTION;//TODO tohle zakomentovat a ty dva řádky pod tím odkomentovat pokud chceš na mapu
-                        //while (!gameView.hasGameHandler()) System.out.println("loading");
-                        //gameView.setState(State.MAP);
+                        state = MainMenuStates.HERO_SELECTION;
                         break;
                     case 1://Second story
-                        gameView.loadLevel(stories.get(shift + 1).getPath(), stories.get(shift).isUserSave());
+                        gameView.loadLevel(stories.get(shift + 1).getPath(), stories.get(shift + 1).isUserSave());
+                        loadHeroes(stories.get(shift + 1));
                         state = MainMenuStates.HERO_SELECTION;
-                        //gameView.setState(State.MAP);
                         break;
                     case 2://Third story
-                        gameView.loadLevel(stories.get(shift + 2).getPath(), stories.get(shift).isUserSave());
+                        gameView.loadLevel(stories.get(shift + 2).getPath(), stories.get(shift + 2).isUserSave());
+                        loadHeroes(stories.get(shift + 2));
                         state = MainMenuStates.HERO_SELECTION;
-                        //gameView.setState(State.MAP);
                         break;
                     case 3://Back
                         state = MainMenuStates.MAIN;
@@ -206,6 +212,12 @@ public class MainMenu {
                 break;
             case HERO_SELECTION:
                 if (heroSelection.isNotMoving()) heroSelection.touchUp(x, y);
+                if (clickedButton == 1 && backButton.isTouched(x, y)) {
+                    state = MainMenuStates.STORY_SELECTION;
+                    heroSelection.kys();
+                }
+                backButton.changeImage(false, 0);
+                clickedButton = -1;
                 break;
         }
     }
@@ -222,9 +234,10 @@ public class MainMenu {
         storyButtons[1] = new MenuButton(buttonX, buttonY + Yspace, storyButtonImage, storyButtonImageClicked, text, -1);
         storyButtons[2] = new MenuButton(buttonX, buttonY + Yspace*2, storyButtonImage, storyButtonImageClicked, text, -1);
         storyButtons[3] = new MenuButton(buttonX, buttonY + Yspace*3, buttonImage, buttonImageClicked, text, 12);
+        backButton = new MenuButton((screenWidth/2 - buttonImage.getWidth())/2, screenHeight - 2 * buttonImage.getHeight(), buttonImage, buttonImageClicked, text, 12);
     }
 
-    public void heroSelected(final HeroProperties hero){
+    void heroSelected(final HeroProperties hero){
         new AlertDialog.Builder(context)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(text.getText(15))
@@ -274,7 +287,7 @@ public class MainMenu {
                 if (f.isDirectory()) {
                     Bitmap icon = BitmapFactory.decodeFile(f.getAbsolutePath() + "icon.png");
                     icon = Bitmap.createScaledBitmap(icon, (int)(frameHeight/10.7), (int)(frameHeight/10.7), true);
-                    stories.add(new Story(icon, f.getName(), "rpg_game_data/CustomMaps/"+f.getName(), true));
+                    stories.add(new Story(icon, f.getName(), "rpg_game_data/CustomMaps/" + f.getName(), true));
                 }
             }
         }
@@ -289,7 +302,7 @@ public class MainMenu {
     }
 
     private void loadHeroes(Story story){
-        heroes = HeroProperties.load(context, story.getPath(), story.isUserSave());
+        HeroProperties[] heroes = HeroProperties.load(context, story.getPath(), story.isUserSave());
         for (HeroProperties hero : heroes) {
             hero.loadImage(context, story.getPath());
         }

@@ -12,7 +12,7 @@
   },
   {
     "name": "Mage",
-    "imagesFolder": "characters/ninja_m",
+    "imagesFolder": "characters/mage_m",
     "custom": false,
     "stats": {
       "DMG": 5,
@@ -23,7 +23,7 @@
   },
   {
     "name": "Ninja",
-    "imagesFolder": "characters/mage_m",
+    "imagesFolder": "characters/ninja_m",
     "custom": false,
     "stats": {
       "DMG": 25,
