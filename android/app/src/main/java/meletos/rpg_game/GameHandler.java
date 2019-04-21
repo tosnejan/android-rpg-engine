@@ -49,10 +49,11 @@ public class GameHandler {
     //map info
     private String mapSource;
     private Bitmap map;
+    private Bitmap map2;
     private int[][] mapMatrix; // matrix of the map availability
     private int mapWidth;
     private int mapHeight;
-    private final int available = 0; // constant defining whether a pixel is available
+    private final int notAvailable = 1; // constant defining whether a pixel is available
     private int xShift = 0;
     private int yShift = 0;
     private int mapScale = 5;
@@ -101,6 +102,9 @@ public class GameHandler {
             mapWidth = map.getWidth() * mapScale;
             mapHeight = map.getHeight() * mapScale;
             map = Bitmap.createScaledBitmap(map, mapWidth, mapHeight, false);
+            path = String.format("maps/%s2.png", fileName);
+            map2 = BitmapFactory.decodeStream(am.open(path));
+            map2 = Bitmap.createScaledBitmap(map2, mapWidth, mapHeight, false);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -151,6 +155,9 @@ public class GameHandler {
         }
         hero.draw(canvas);
 
+        // drawing second layer
+        canvas.drawBitmap(map2, xShift, yShift, null);
+
     }
 
     /**
@@ -186,7 +193,7 @@ public class GameHandler {
         ) {
             for (int i = y; i < y + imgHeight; i++) {
                 for (int j = x; j < x + imgWidth; j++) {
-                    if(mapMatrix[i][j] != available){
+                    if(mapMatrix[i][j] == notAvailable){
                         return false;
                     }
                 }
