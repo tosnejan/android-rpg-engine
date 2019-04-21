@@ -146,8 +146,10 @@ public class GameHandler {
      * @param canvas
      */
     public void drawGame (Canvas canvas) {
+        int x = xShift;
+        int y = yShift;
         // drawing map
-        canvas.drawBitmap(map, xShift, yShift, null);
+        canvas.drawBitmap(map, x, y, null);
 
         // drawing characters
         for (FatherCharacter character: characters) {
@@ -156,7 +158,7 @@ public class GameHandler {
         hero.draw(canvas);
 
         // drawing second layer
-        canvas.drawBitmap(map2, xShift, yShift, null);
+        canvas.drawBitmap(map2, x, y, null);
 
     }
 
@@ -191,8 +193,8 @@ public class GameHandler {
                         y + imgHeight < mapHeight/mapScale &&
                         x >= 0 && y >= 0
         ) {
-            for (int i = y; i < y + imgHeight; i++) {
-                for (int j = x; j < x + imgWidth; j++) {
+            for (int i = y; i <= y + imgHeight; i++) {
+                for (int j = x; j <= x + imgWidth; j++) {
                     if(mapMatrix[i][j] == notAvailable){
                         return false;
                     }
@@ -331,6 +333,12 @@ public class GameHandler {
             PositionInformation otherPositionInfo = character.getPositionInformation();
 
             Directions result = newPosition.collidesWith(otherPositionInfo);
+            if (result != Directions.NONE) {
+                return result;
+            }
+        }
+        if (!currPosition.equals(hero.getPositionInformation())) {
+            Directions result = newPosition.collidesWith(hero.getPositionInformation());
             if (result != Directions.NONE) {
                 return result;
             }

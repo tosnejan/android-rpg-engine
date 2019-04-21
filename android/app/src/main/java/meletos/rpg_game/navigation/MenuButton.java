@@ -54,7 +54,7 @@ public class MenuButton extends Button {
         }
         if (ID != -1) {
             paint.getTextBounds(text.getText(ID), 0, text.getText(ID).length(), bounds);
-            if (bounds.width() > 9 * imgWidth / 10) {
+            if (bounds.width() > 9 * imgWidth / 10 || bounds.height() > 8 * imgHeigth / 10) {
                 setOptimalTextSize();
             }
             canvas.drawText(text.getText(ID),
@@ -71,7 +71,7 @@ public class MenuButton extends Button {
                     positionInformation.mainCoord.x + imgWidth/25 , positionInformation.mainCoord.y + yClick + (imgHeigth - icon.getHeight())/2, null);
         }
         paint.getTextBounds(text, 0, text.length(), bounds);
-        if (bounds.width() > imgWidth - 50 - icon.getWidth()) {
+        if (bounds.width() > imgWidth - 50 - icon.getWidth() || bounds.height() > 8 * imgHeigth / 10) {
             setOptimalTextSizeIcon(icon.getWidth(), text);
         }
         canvas.drawText(text,x + icon.getWidth() + 20,
@@ -79,7 +79,7 @@ public class MenuButton extends Button {
     }
 
     private void setOptimalTextSizeIcon(int width, String text) {
-        while (bounds.width() > imgWidth - 30 - width){
+        while (bounds.width() > imgWidth - 30 - width || bounds.height() > 8 * imgHeigth / 10){
             textSize -= 1;
             paint.setTextSize(textSize);
             paint.getTextBounds(text, 0, text.length(), bounds);
@@ -87,7 +87,7 @@ public class MenuButton extends Button {
     }
 
     private void setOptimalTextSize(){
-        while (bounds.width() > 9*imgWidth/10){
+        while (bounds.width() > 9*imgWidth/10 || bounds.height() > 8 * imgHeigth / 10){
             textSize -= 1;
             paint.setTextSize(textSize);
             paint.getTextBounds(text.getText(ID), 0, text.getText(ID).length(), bounds);

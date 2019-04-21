@@ -83,6 +83,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      *                 <code>false</code> if loading level
      */
     public void loadLevel (String filePath, boolean userSave) {
+        hasGameHandler = false;
         Loader loader = new Loader(this, filePath, userSave);
         loader.start();
     }

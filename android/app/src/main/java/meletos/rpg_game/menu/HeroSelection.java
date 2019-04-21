@@ -3,6 +3,10 @@ package meletos.rpg_game.menu;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 
 import meletos.rpg_game.navigation.Button;
 
@@ -12,6 +16,9 @@ public class HeroSelection extends Thread {
     private MainMenu mainMenu;
     private HeroProperties[] heroes;
     private Button[] buttons = new Button[4];
+    private Bitmap title;
+    private Paint paint;
+    private Rect bounds = new Rect();
     private boolean moveLeft;
     private boolean moveRight;
     private boolean moving;
@@ -22,22 +29,34 @@ public class HeroSelection extends Thread {
     private int baseHeight;
     private int baseX = screenWidth/4;
     private int baseY = screenHeight/3;
+    private int titleWidth;
+    private int titleHeight;
+    private int textSize;
     private double ratio;
 
-    public HeroSelection(HeroProperties[] heroes, MainMenu mainMenu) {
+    public HeroSelection(HeroProperties[] heroes, MainMenu mainMenu, Bitmap title) {
         this.heroes = heroes;
+        this.title = title;
+        titleWidth = title.getWidth();
+        titleHeight = title.getHeight();
         Bitmap image = heroes[heroes.length - 1].getImage();
         ratio = image.getHeight()/(double)image.getWidth();
         baseHeight = (int)(baseWidth*ratio);
-        image = Bitmap.createScaledBitmap(image,baseWidth, baseHeight, false);
+        image = Bitmap.createScaledBitmap(image, baseWidth, baseHeight, false);
         buttons[0] = new Button( baseX - image.getWidth()/2, baseY - image.getHeight()/2, image);
         image = heroes[0].getImage();
         image = Bitmap.createScaledBitmap(image,(int)(baseWidth * Math.log10(100)), (int)(baseHeight * Math.log10(100)), false);
         buttons[1] = new Button(baseX * 2 - image.getWidth()/2, baseY - image.getHeight()/2, image);
         image = heroes[heroes.length > 1 ? 1 : 0].getImage();
-        image = Bitmap.createScaledBitmap(image,baseWidth, baseHeight, false);
+        image = Bitmap.createScaledBitmap(image, baseWidth, baseHeight, false);
         buttons[2] = new Button(baseX * 3 - image.getWidth()/2, baseY - image.getHeight()/2, image);
         this.mainMenu = mainMenu;
+        paint = new Paint();
+        textSize = (int) (title.getHeight() / 1.5);
+        paint.setTextAlign(Paint.Align.LEFT);
+        paint.setColor(Color.WHITE);
+        paint.setTypeface(Typeface.create("Arial", Typeface.ITALIC));
+        paint.setTextSize(textSize);
     }
 
     @Override
@@ -90,6 +109,7 @@ public class HeroSelection extends Thread {
                 buttons[3] = null;
                 moveLeft = false;
                 moving = false;
+                textSize = (int) (title.getHeight() / 1.5);
             } else if (moveRight){
                 moving = true;
                 for (int i = 1; i < 9; i++) {
@@ -124,6 +144,7 @@ public class HeroSelection extends Thread {
                 buttons[3] = null;
                 moveRight = false;
                 moving = false;
+                textSize = (int) (title.getHeight() / 1.5);
             }
         }
     }
@@ -133,6 +154,22 @@ public class HeroSelection extends Thread {
             if (button != null){
                 button.draw(canvas);
             }
+        }
+        canvas.drawBitmap(title, (screenWidth - title.getWidth())/2f, 0, null);
+        paint.getTextBounds(heroes[theOne].getName(), 0, heroes[theOne].getName().length(), bounds);
+        if (bounds.width() > 9 * titleWidth / 10 || bounds.height() > titleHeight / 2) {
+            setOptimalTextSize();
+        }
+        canvas.drawText(heroes[theOne].getName(),
+                screenWidth/2f - bounds.width()/2f - bounds.left,
+                titleHeight/4f + bounds.height()/2f - bounds.bottom, paint);
+    }
+
+    private void setOptimalTextSize(){
+        while (bounds.width() > 9 * titleWidth/10 || bounds.height() > titleHeight / 2){
+            textSize -= 1;
+            paint.setTextSize(textSize);
+            paint.getTextBounds(heroes[theOne].getName(), 0, heroes[theOne].getName().length(), bounds);
         }
     }
 

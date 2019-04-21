@@ -30,6 +30,7 @@ public class MainMenu {
     private Bitmap buttonImageClicked;
     private Bitmap storyButtonImage;
     private Bitmap storyButtonImageClicked;
+    private Bitmap title;
     private Settings settings;
     //private int frameWidth;
     private int frameHeight;
@@ -76,6 +77,8 @@ public class MainMenu {
             storyButtonImageClicked = Bitmap.createScaledBitmap(storyButtonImageClicked, (int)(frameWidth/1.3), (int)(frameHeight/7.6), true);
             background = BitmapFactory.decodeStream(am.open("menu/background.png"));
             background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, true);
+            title = BitmapFactory.decodeStream(am.open("menu/title.png"));
+            title = Bitmap.createScaledBitmap(title, screenWidth/3, (int)(screenWidth/3*(title.getHeight()/(double)title.getWidth())), true);
             Bitmap icon = BitmapFactory.decodeStream(am.open("lvl/icon.png"));
             icon = Bitmap.createScaledBitmap(icon, (int)(frameHeight/10.7), (int)(frameHeight/10.7), true);
             stories.add(new Story(icon, "#Faigled", "lvl", false));
@@ -127,11 +130,15 @@ public class MainMenu {
             case LOAD:
                 break;
             case STORY_SELECTION:
-                for (int i = 0; i < storyButtons.length; i++) {
+                for (int i = 0; i < storyButtons.length - 1 && i < stories.size(); i++) {
                     if (storyButtons[i].isTouched(x, y)) {
                         clickedButton = i;
                         storyButtons[i].changeImage(true, 10);
                     }
+                }
+                if (storyButtons[storyButtons.length-1].isTouched(x, y)){
+                    clickedButton = storyButtons.length-1;
+                    storyButtons[storyButtons.length-1].changeImage(true, 10);
                 }
                 break;
             case HERO_SELECTION:
@@ -226,6 +233,7 @@ public class MainMenu {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         while (!gameView.hasGameHandler()) System.out.println("Game is still loading!");
+                        heroSelection.kys();
                         gameView.getGameHandler().setHero(hero);
                         gameView.setState(State.MAP);
                         state = MainMenuStates.MAIN;
@@ -285,7 +293,7 @@ public class MainMenu {
         for (HeroProperties hero : heroes) {
             hero.loadImage(context, story.getPath());
         }
-        heroSelection = new HeroSelection(heroes, this);
+        heroSelection = new HeroSelection(heroes, this, title);
         heroSelection.start();
     }
 }
