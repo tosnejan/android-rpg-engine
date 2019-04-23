@@ -172,7 +172,7 @@ public class MainMenu {
                         state = MainMenuStates.SETTINGS;
                         break;
                     case 3://Quit
-                        alert();
+                        ((Activity)context).finish();
                         break;
                 }
                 clickedButton = -1;
@@ -249,22 +249,8 @@ public class MainMenu {
                         heroSelection.kys();
                         gameView.getGameHandler().setHero(hero);
                         gameView.setState(State.MAP);
+                        gameView.sound.play(State.MAP);
                         state = MainMenuStates.MAIN;
-                    }
-                })
-                .setNegativeButton(text.getText(0), null)
-                .show();
-    }
-
-    private void alert(){
-        new AlertDialog.Builder(context)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle(text.getText(2))
-                .setMessage(text.getText(3))
-                .setPositiveButton(text.getText(1), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ((Activity)context).finish();
                     }
                 })
                 .setNegativeButton(text.getText(0), null)
@@ -308,5 +294,9 @@ public class MainMenu {
         }
         heroSelection = new HeroSelection(heroes, this, title);
         heroSelection.start();
+    }
+
+    public void setState(MainMenuStates state) {
+        this.state = state;
     }
 }

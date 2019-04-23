@@ -43,7 +43,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Settings settings;
     private MainThread viewThread;
     private GameThread gameThread;
-    private Button exampleButton;
     JoyStick js = new JoyStick(BitmapFactory.decodeResource(getResources(),R.drawable.circle),
             BitmapFactory.decodeResource(getResources(),R.drawable.ring));
     private ArrayList<Button> buttons;
@@ -51,12 +50,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainMenu mainMenu;
     private Menu menu;
     private Text text;
-    private Sound sound;
+    public Sound sound;
     private InventoryGUI inventory;
     private boolean hasGameHandler = false;
     private boolean isInLevel;
     private Itinerary itinerary;
-    private Follower follower;
 
 
     /**
@@ -69,6 +67,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.text = text;
         itinerary = Itinerary.load(context, text, "itinerary/items.json");
         sound = new Sound(context);
+        sound.play(state);
         settings = new Settings(text, sound, context);
         mainMenu = new MainMenu(this, context, text, settings);
         getHolder().addCallback(this);
@@ -202,6 +201,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * Called when user exits the game by pressing home button
      */
     public void onPause () {
+        sound.killSounds();
         if (state == State.MAP) gameHandler.pauseGame();
     }
 
@@ -209,6 +209,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * resumes the game when user navigates back
      */
     public void onResume () {
+        sound.play(state);
         if (state == State.MAP) gameHandler.resumeGame();
 
     }

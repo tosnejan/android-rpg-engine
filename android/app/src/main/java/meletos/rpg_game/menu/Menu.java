@@ -15,6 +15,7 @@ import java.io.IOException;
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.GameView;
 import meletos.rpg_game.PositionInformation;
+import meletos.rpg_game.R;
 import meletos.rpg_game.State;
 import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.MenuButton;
@@ -135,24 +136,35 @@ public class Menu {
                 buttons[clickedButton].changeImage(false, 0);
                 if (!buttons[clickedButton].isTouched(x, y)) clickedButton = -1;
                 switch (clickedButton){
+
+                    /* Save game button */
                     case 0:
                         gameHandler.saveGameState();
                         gameView.setState(State.MAP);
                         gameView.takeScreenshot("file.jpg");
                         clickedButton = -1;
                         break;
+
+                    /* Load game button */
                     case 1:
                         clickedButton = -1;
                         break;
+
+                    /* Settings */
                     case 2:
                         clickedButton = -1;
                         state = MenuStates.SETTINGS;
                         break;
+
+                    /* Main menu */
                     case 3:
-                        gameView.exitLevel();
-                        gameView.setState(State.MAIN_MENU);
+                        alertLeavingToMenu();
+                        //gameView.exitLevel();
+                        //gameView.setState(State.MAIN_MENU);
                         clickedButton = -1;
                         break;
+
+                    /* Quit */
                     case 4:
                         alert();
                         clickedButton = -1;
@@ -189,6 +201,9 @@ public class Menu {
         this.state = state;
     }
 
+    /**
+     * Popup window -- when user attempts to exit the game.
+     */
     private void alert(){
         new AlertDialog.Builder(context)
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -198,6 +213,23 @@ public class Menu {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ((Activity)context).finish();
+                    }
+                })
+                .setNegativeButton(text.getText(0), null)
+                .show();
+    }
+
+    private void alertLeavingToMenu(){
+        new AlertDialog.Builder(context)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(text.getText(2))
+                .setMessage(text.getText(3))
+                .setPositiveButton(text.getText(1), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        gameView.exitLevel();
+                        gameView.setState(State.MAIN_MENU);
+                        gameView.sound.play(State.MAIN_MENU);
                     }
                 })
                 .setNegativeButton(text.getText(0), null)

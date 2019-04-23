@@ -58,18 +58,7 @@ public class MainActivity extends Activity {
     @Override
     public void onBackPressed() {
         if (gameView.getState() == State.MAIN_MENU) {
-            new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle(text.getText(2))
-                    .setMessage(text.getText(3))
-                    .setPositiveButton(text.getText(1), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    })
-                    .setNegativeButton(text.getText(0), null)
-                    .show();
+            finish();
         } else if (gameView.getState() == State.MENU){
             gameView.setState(State.MAP);
         } else if (gameView.getState() == State.INVENTORY){
