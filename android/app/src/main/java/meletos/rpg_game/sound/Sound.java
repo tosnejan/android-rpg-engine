@@ -17,11 +17,11 @@ public class Sound {
     private MediaPlayer mediaPlayer;
     private int maxVolume = 10;
     private int volume;
+    private float mediaVolume;
     private Context context;
     private boolean muted;
     private int menu_theme = R.raw.intro_theme;
-    private int game_theme = R.raw.game_theme; //TODO
-
+    private int game_theme = R.raw.game_theme;
 
     public Sound(Context context) {
         mediaPlayer = new MediaPlayer();
@@ -38,6 +38,8 @@ public class Sound {
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("volume", volume);
         editor.apply();
+        mediaVolume = (float)(volume/10.0); // computing real volume
+        mediaPlayer.setVolume(mediaVolume, mediaVolume);
         if (volume == 0) muted = true;
         else muted = false;
     }
@@ -67,6 +69,7 @@ public class Sound {
                 mediaPlayer = MediaPlayer.create(context, game_theme);
                 break;
         }
+        mediaPlayer.setVolume(mediaVolume, mediaVolume);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
     }
