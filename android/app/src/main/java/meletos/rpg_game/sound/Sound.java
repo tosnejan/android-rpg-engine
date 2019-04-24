@@ -38,10 +38,15 @@ public class Sound {
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("volume", volume);
         editor.apply();
-        mediaVolume = (float)(volume/10.0); // computing real volume
+        if (volume == 0) {
+            muted = true;
+            mediaVolume = 0;
+        }
+        else {
+            mediaVolume = (float)Math.log10(volume); // computing real volume
+            muted = false;
+        }
         mediaPlayer.setVolume(mediaVolume, mediaVolume);
-        if (volume == 0) muted = true;
-        else muted = false;
     }
 
     public boolean isMuted() {
