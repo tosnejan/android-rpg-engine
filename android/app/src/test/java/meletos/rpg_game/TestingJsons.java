@@ -37,9 +37,9 @@ public class TestingJsons {
         LevelRepresentation lr = new LevelRepresentation();
         lr.setLvlName("exampleLvl");
         lr.setMapSource("testing_map");
-        lr.createCharacterHashmap("Hero", 100, 500, "characters/warrior_m");
-        lr.createCharacterHashmap("RandomWalker",100, 800, "characters/ninja_m");
-        lr.createCharacterHashmap("RandomWalker", 500, 1000, "characters/townfolk1_f");
+        lr.createCharacterHashmap("Hero", 100, 500, "characters/warrior_m", true);
+        lr.createCharacterHashmap("RandomWalker",100, 800, "characters/ninja_m", false);
+        lr.createCharacterHashmap("RandomWalker", 500, 1000, "characters/townfolk1_f", false);
 
         // allows for integer !!!
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -65,8 +65,8 @@ public class TestingJsons {
         LevelRepresentation lr = new LevelRepresentation();
         lr.setLvlName("exampleLvl");
         lr.setMapSource("example_map");
-        lr.createCharacterHashmap("RandomWalker", 100, 1000, "folder");
-        lr.createCharacterHashmap("Follower", 1000, 200, "folder2");
+        lr.createCharacterHashmap("RandomWalker", 100, 1000, "folder", false);
+        lr.createCharacterHashmap("Follower", 1000, 200, "folder2", false);
 
     }
 

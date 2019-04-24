@@ -237,6 +237,10 @@ public class MainMenu {
         backButton = new MenuButton((screenWidth/2 - buttonImage.getWidth())/2, screenHeight - 2 * buttonImage.getHeight(), buttonImage, buttonImageClicked, text, 12);
     }
 
+    /**
+     * Starts the game level
+     * @param hero
+     */
     void heroSelected(final HeroProperties hero){
         new AlertDialog.Builder(context)
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -251,6 +255,7 @@ public class MainMenu {
                         gameView.setState(State.MAP);
                         gameView.sound.play(State.MAP);
                         state = MainMenuStates.MAIN;
+                        gameView.getGameHandler().startGame();
                     }
                 })
                 .setNegativeButton(text.getText(0), null)

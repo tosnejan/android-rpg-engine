@@ -53,6 +53,7 @@ public class LevelGenerator {
         ArrayList<FatherCharacter> characters = new ArrayList<>();
         extractLevelRepresentation();
         ArrayList<HashMap> charStrings = levelRepresentation.getCharacters();
+        System.out.println(levelRepresentation); // testing
         for (HashMap characterHash: charStrings) {
             characters.add(buildCharacter(characterHash));
         }
@@ -67,7 +68,13 @@ public class LevelGenerator {
         int[][] inventory = levelRepresentation.getInventory();
         HashMap equipped = levelRepresentation.getEquipped();
         Inventory inv = new Inventory(inventory, equipped);
-        GameHandler gh = new GameHandler(characters, context, levelRepresentation.getLvlName(), spawnInstructions); // TODO -- make spawn instructions support
+        GameHandler gh = new GameHandler(
+                characters,
+                (Hero)buildCharacter(levelRepresentation.getHero()),
+                context,
+                levelRepresentation.getLvlName(),
+                spawnInstructions
+        );
         gh.loadMap(levelRepresentation.getMapSource());
         gh.setInventory(inv);
         return gh;

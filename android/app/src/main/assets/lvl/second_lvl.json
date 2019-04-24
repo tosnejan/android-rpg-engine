@@ -57,12 +57,13 @@
   },
   "characters": [
     {
-      "charType": "Hero",
-      "imagesFolder": "characters/warrior_m",
-      "yCoord": 500,
-      "xCoord": 100
+      "charType": "RandomWalker",
+      "imagesFolder": "characters/mage_m",
+      "yCoord": 1000,
+      "xCoord": 700
     }
   ],
+  "hero":{"charType":"Hero","yCoord":500,"xCoord":100,"imagesFolder":"characters/warrior_m"},
   "spawnStructure": {
     "5000": [
       {

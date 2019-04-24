@@ -22,7 +22,6 @@ class TimedSpawn extends TimerTask {
 
     @Override
     public void run() {
-        System.out.println("New character(s) should appear.");
         for (FatherCharacter character: characters) {
             gh.insertCharacter(character);
         }
@@ -35,11 +34,19 @@ class TimedSpawn extends TimerTask {
  * Will be used from GameHandler
  */
 public class SpawnHandler {
-    Timer timer;
-    GameHandler gh;
+    private Timer timer;
+    private GameHandler gh;
+    private  List<SpawnDataEntry> spawnInstructions;
 
     public SpawnHandler(List<SpawnDataEntry> spawnInstructions, GameHandler gh) {
         this.gh = gh;
+        this.spawnInstructions = spawnInstructions;
+    }
+
+    /**
+     * Begins the timer
+     */
+    public void begin() {
         if (spawnInstructions == null) {
             return;
         }
@@ -47,6 +54,5 @@ public class SpawnHandler {
         for (SpawnDataEntry spawn: spawnInstructions) {
             timer.schedule(new TimedSpawn(gh, spawn.fatherCharacters), (int)spawn.time);
         }
-
     }
 }

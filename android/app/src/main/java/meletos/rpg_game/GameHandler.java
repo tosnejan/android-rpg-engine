@@ -70,16 +70,15 @@ public class GameHandler {
     private String lvlName;
     private Inventory inventory;
 
-    public GameHandler (List<FatherCharacter> characters, final Context context, String lvlName, List<SpawnDataEntry> spawnInstructions) {
+    public GameHandler (List<FatherCharacter> characters, Hero hero, final Context context, String lvlName, List<SpawnDataEntry> spawnInstructions) {
         spawnHandler = new SpawnHandler(spawnInstructions, this);
         this.characters = characters;
         this.context = context;
         this.lvlName = lvlName;
-        for (FatherCharacter character: characters) {
-            if (character.setGameHandler(this)) { // let those characters know I'm the boss!
-                hero = (Hero)character; // if true, the character is hero
-                characters.remove(character);
-            }
+        this.hero = hero;
+        hero.setGameHandler(this);
+        for (FatherCharacter character: characters) { // TODO -- edit - hero should be declared in the beginning
+          character.setGameHandler(this); // let those characters know I'm the boss!
         }
     }
 
@@ -377,8 +376,9 @@ public class GameHandler {
             public void run() {
                 LevelRepresentation lr = new LevelRepresentation();
                 for (FatherCharacter character : characters) {
-                    lr.createCharacterHashmap(character.getClass().getSimpleName(), character.getX(), character.getY(), character.getAssetsFolder());
+                    lr.createCharacterHashmap(character.getClass().getSimpleName(), character.getX(), character.getY(), character.getAssetsFolder(), false);
                 }
+                lr.createCharacterHashmap("Hero",  hero.getX(), hero.getY(), hero.getAssetsFolder(), true);
                 lr.setMapSource(mapSource);
                 lr.setLvlName(lvlName);
                 lr.setInventory(inventory.getInventory());
@@ -444,6 +444,11 @@ public class GameHandler {
     public void setHero(HeroProperties heroProperties) {
         this.heroProperties = heroProperties;
         hero.getImages(heroProperties.getImagesFolder(), !heroProperties.isCustom());
+    }
+
+    public void startGame () {
+        isGamePaused = false;
+        spawnHandler.begin();
     }
 
 }

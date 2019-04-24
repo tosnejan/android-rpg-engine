@@ -2,11 +2,13 @@ package meletos.rpg_game.file_io;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 import meletos.rpg_game.Coordinates;
+import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.inventory.itinerary.ItemType;
 
 /**
@@ -19,6 +21,7 @@ public class LevelRepresentation {
     private int[][] inventory;
     private HashMap<ItemType,Integer> equipped;
     private ArrayList<HashMap> characters;
+    private HashMap hero;
     private Coordinates heroPosition;
     private String lvlText;
 
@@ -59,14 +62,19 @@ public class LevelRepresentation {
     public void createCharacterHashmap (
             String charType,
             int x, int y,
-            String imagesFolder
+            String imagesFolder,
+            boolean isHero
     ) {
         HashMap character = new HashMap();
         character.put("charType", charType);
         character.put("xCoord", x);
         character.put("yCoord", y);
         character.put("imagesFolder", imagesFolder);
-        addCharacter(character);
+        if (!isHero) {
+            addCharacter(character);
+        } else {
+            hero = character;
+        }
     }
 
     // for follower
@@ -126,5 +134,24 @@ public class LevelRepresentation {
 
     public HashMap<String, List<HashMap>> getSpawnStructure() {
         return spawnStructure;
+    }
+
+    public HashMap getHero () {
+        return hero;
+    }
+
+    @Override
+    public String toString() {
+        return "LevelRepresentation{" +
+                "lvlName='" + lvlName + '\'' +
+                ", mapSource='" + mapSource + '\'' +
+                ", inventory=" + Arrays.toString(inventory) +
+                ", equipped=" + equipped +
+                ", characters=" + characters +
+                ", hero=" + hero +
+                ", heroPosition=" + heroPosition +
+                ", lvlText='" + lvlText + '\'' +
+                ", spawnStructure=" + spawnStructure +
+                '}';
     }
 }
