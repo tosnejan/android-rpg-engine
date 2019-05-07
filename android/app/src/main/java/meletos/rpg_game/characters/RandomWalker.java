@@ -15,15 +15,15 @@ public class RandomWalker extends FatherCharacter {
         ySpeedConstant = 5;
     }
 
-    public RandomWalker(int x, int y, String assetsFolder, Context context) {
-        super(x, y, assetsFolder, context);
+    public RandomWalker(int x, int y, String assetsFolder, Context context, boolean enemy) {
+        super(x, y, assetsFolder, context, enemy);
         steps = 0;
         xSpeedConstant = 5;
         ySpeedConstant = 5;
     }
 
-    public RandomWalker(int x, int y, Context context) {
-        super(x, y, context);
+    public RandomWalker(int x, int y, Context context, boolean enemy) {
+        super(x, y, context, enemy);
         steps = 0;
         xSpeedConstant = 5;
         ySpeedConstant = 5;

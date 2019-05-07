@@ -333,12 +333,19 @@ public class GameHandler {
 
             Directions result = newPosition.collidesWith(otherPositionInfo);
             if (result != Directions.NONE) {
-                return result;
+                if (!currPosition.equals(hero.getPositionInformation())) return result;
+                else {
+                    //TODO battle
+                    System.out.println("Battle");
+                    return result;
+                }
             }
         }
         if (!currPosition.equals(hero.getPositionInformation())) {
             Directions result = newPosition.collidesWith(hero.getPositionInformation());
             if (result != Directions.NONE) {
+                //TODO battle
+                System.out.println("Battle");
                 return result;
             }
         }
@@ -376,9 +383,9 @@ public class GameHandler {
             public void run() {
                 LevelRepresentation lr = new LevelRepresentation();
                 for (FatherCharacter character : characters) {
-                    lr.createCharacterHashmap(character.getClass().getSimpleName(), character.getX(), character.getY(), character.getAssetsFolder(), false);
+                    lr.createCharacterHashmap(character.getClass().getSimpleName(), character.getX(), character.getY(), character.getAssetsFolder(), false, character.isEnemy());
                 }
-                lr.createCharacterHashmap("Hero",  hero.getX(), hero.getY(), hero.getAssetsFolder(), true);
+                lr.createCharacterHashmap("Hero",  hero.getX(), hero.getY(), hero.getAssetsFolder(), true, hero.isEnemy());
                 lr.setMapSource(mapSource);
                 lr.setLvlName(lvlName);
                 lr.setInventory(inventory.getInventory());

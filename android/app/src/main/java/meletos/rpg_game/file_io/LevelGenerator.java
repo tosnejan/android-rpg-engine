@@ -112,6 +112,7 @@ public class LevelGenerator {
     private FatherCharacter buildCharacter (HashMap characterHash) throws UnsupportedTypeException {
         System.out.println(characterHash);
         System.out.println(characterHash.get("xCoord"));
+        boolean enemy = (boolean)characterHash.get("isEnemy");
         double xDoub = (double)characterHash.get("xCoord");
         double yDoub = (double)characterHash.get("yCoord");
         int x = (int) xDoub;
@@ -121,18 +122,18 @@ public class LevelGenerator {
         try {
             switch ((String) characterHash.get("charType")) {
 
-                case "Hero":
+                case "Hero"://TODO teoreticky lze úplně odendat, protože se to pak stejně mění
                     if (userSave){
-                        Hero hero = new Hero(x, y, context);
+                        Hero hero = new Hero(x, y, context, enemy);
                         hero.getImages(imagesFolder, false);
                         return hero;
-                    } else return new Hero(x, y, imagesFolder, context);
+                    } else return new Hero(x, y, imagesFolder, context, enemy);
                 case "RandomWalker":
                     if (userSave){
-                        RandomWalker walker = new RandomWalker(x, y, context);
+                        RandomWalker walker = new RandomWalker(x, y, context, enemy);
                         walker.getImages(imagesFolder, false);
                         return walker;
-                    } else return new RandomWalker(x, y, imagesFolder, context);
+                    } else return new RandomWalker(x, y, imagesFolder, context, enemy);
                 // follower doesnt work yet, taky je ho potřeba předělat na ten userSave... viz nahoru :D Nechci ti do toho šahat :D
                 case "Follower":
                     Object[] coord = new Object[10];
@@ -140,7 +141,7 @@ public class LevelGenerator {
                     for (int i = 0; i < coord.length; i++) { // typecast
                         coord[i] = (Coordinates)coord[i];
                     }
-                    return new Follower(x, y, imagesFolder, context, (Coordinates[]) coord);
+                    return new Follower(x, y, imagesFolder, context, (Coordinates[]) coord, enemy);
                 default:
                     throw new UnsupportedTypeException("This character doesnt exist yet.");
             }

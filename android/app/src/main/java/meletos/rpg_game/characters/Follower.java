@@ -14,8 +14,8 @@ public class Follower extends FatherCharacter {
     private Coordinates followedPoint;
     private int xSpeed, ySpeed;
 
-    public Follower (int x, int y, String assetsFolder, Context context, Coordinates[] followCoord) {
-        super(x, y, assetsFolder, context);
+    public Follower (int x, int y, String assetsFolder, Context context, Coordinates[] followCoord, boolean enemy) {
+        super(x, y, assetsFolder, context, enemy);
         this.followCoord = followCoord;
         followedPoint = followCoord[idx];
 

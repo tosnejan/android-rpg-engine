@@ -8,6 +8,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 
+import java.util.HashMap;
+
 import meletos.rpg_game.navigation.Button;
 
 public class HeroSelection extends Thread {
@@ -18,6 +20,7 @@ public class HeroSelection extends Thread {
     private Button[] buttons = new Button[4];
     private Bitmap title;
     private Paint paint;
+    private Paint paintDesc;
     private Rect bounds = new Rect();
     private boolean moveLeft;
     private boolean moveRight;
@@ -32,15 +35,19 @@ public class HeroSelection extends Thread {
     private int titleWidth;
     private int titleHeight;
     private int textSize;
-    private double ratio;
+    private float descSize = (float)(screenHeight/16.25);
+    private int x;
+    private int y;
 
-    public HeroSelection(HeroProperties[] heroes, MainMenu mainMenu, Bitmap title) {
+    public HeroSelection(HeroProperties[] heroes, MainMenu mainMenu, Bitmap title, int x, int y) {
         this.heroes = heroes;
         this.title = title;
         titleWidth = title.getWidth();
         titleHeight = title.getHeight();
+        this.x = x;
+        this.y = y;
         Bitmap image = heroes[heroes.length - 1].getImage();
-        ratio = image.getWidth()/(double)image.getHeight();
+        double ratio = image.getWidth()/(double)image.getHeight();
         baseWidth = (int)(baseHeight*ratio);
         image = Bitmap.createScaledBitmap(image, baseWidth, baseHeight, false);
         buttons[0] = new Button( baseX - image.getWidth()/2, baseY - image.getHeight()/2, image);
@@ -156,20 +163,47 @@ public class HeroSelection extends Thread {
             }
         }
         canvas.drawBitmap(title, (screenWidth - title.getWidth())/2f, 0, null);
+        paint.setTextSize(textSize);
         paint.getTextBounds(heroes[theOne].getName(), 0, heroes[theOne].getName().length(), bounds);
         if (bounds.width() > 9 * titleWidth / 10 || bounds.height() > titleHeight / 2) {
-            setOptimalTextSize();
+            setOptimalTextSize(false);
         }
         canvas.drawText(heroes[theOne].getName(),
                 screenWidth/2f - bounds.width()/2f - bounds.left,
                 titleHeight/4f + bounds.height()/2f - bounds.bottom, paint);
+        paint.setTextSize(descSize);
+        HashMap<String, Integer> stats = heroes[theOne].getStats();
+        paint.getTextBounds("DMG: " + stats.get("DMG"), 0, heroes[theOne].getName().length(), bounds);
+        if (bounds.height() > (int) (screenHeight/16.25)) {
+            setOptimalTextSize(true);
+        }
+        canvas.drawText("DMG: " + stats.get("DMG"),
+                x + screenHeight/12f - bounds.left,
+                y + screenHeight/12f - bounds.bottom, paint);
+        canvas.drawText("INT: " + stats.get("INT"),
+                x + screenHeight/12f - bounds.left,
+                y + screenHeight/12f - bounds.bottom + (bounds.height() + 10), paint);
+        canvas.drawText("ARM: " + stats.get("ARM"),
+                x + screenHeight/12f - bounds.left,
+                y + screenHeight/12f - bounds.bottom + (bounds.height() + 10)*2, paint);
+        canvas.drawText("MR: " + stats.get("MR"),
+                x + screenHeight/12f - bounds.left,
+                y + screenHeight/12f - bounds.bottom + (bounds.height() + 10)*3, paint);
     }
 
-    private void setOptimalTextSize(){
-        while (bounds.width() > 9 * titleWidth/10 || bounds.height() > titleHeight / 2){
-            textSize -= 1;
-            paint.setTextSize(textSize);
-            paint.getTextBounds(heroes[theOne].getName(), 0, heroes[theOne].getName().length(), bounds);
+    private void setOptimalTextSize(boolean desc){
+        if (desc){
+            while (bounds.height() > (int)(screenHeight/16.25)) {
+                descSize -= 1;
+                paint.setTextSize(descSize);
+                paint.getTextBounds("DMG: " + heroes[theOne].getStats().get("DMG"), 0, heroes[theOne].getName().length(), bounds);
+            }
+        }else {
+            while (bounds.width() > 9 * titleWidth/10 || bounds.height() > titleHeight / 2){
+                textSize -= 1;
+                paint.setTextSize(textSize);
+                paint.getTextBounds(heroes[theOne].getName(), 0, heroes[theOne].getName().length(), bounds);
+            }
         }
     }
 

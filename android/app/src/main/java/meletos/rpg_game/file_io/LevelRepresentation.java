@@ -63,13 +63,15 @@ public class LevelRepresentation {
             String charType,
             int x, int y,
             String imagesFolder,
-            boolean isHero
+            boolean isHero,
+            boolean enemy
     ) {
         HashMap character = new HashMap();
         character.put("charType", charType);
+        character.put("imagesFolder", imagesFolder);
+        character.put("isEnemy", enemy);
         character.put("xCoord", x);
         character.put("yCoord", y);
-        character.put("imagesFolder", imagesFolder);
         if (!isHero) {
             addCharacter(character);
         } else {
@@ -82,10 +84,12 @@ public class LevelRepresentation {
             String charType,
             int x, int y,
             String assetsFolder,
-            Coordinates[] followCoord
+            Coordinates[] followCoord,
+            boolean enemy
     ) {
         HashMap character = new HashMap();
         character.put("charType", charType);
+        character.put("isEnemy", enemy);
         character.put("xCoord", x);
         character.put("yCoord", y);
         character.put("assetsFolder", assetsFolder);

@@ -28,6 +28,8 @@ import meletos.rpg_game.Sprite;
 public abstract class FatherCharacter extends Sprite implements Serializable {
     // will be used for enemy spawning
     protected boolean spawned = true;
+
+    protected boolean enemy;
     /**
      * A proposal -- lets use this construct for animations :D
      */
@@ -61,19 +63,21 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
      * @param assetsFolder
      * @param context
      */
-    public FatherCharacter(int x, int y, String assetsFolder, Context context) {
+    public FatherCharacter(int x, int y, String assetsFolder, Context context, boolean enemy) {
         super(x, y);
         this.direction = Directions.UP;
         this.assetsFolder = assetsFolder;
         this.context = context;
+        this.enemy = enemy;
         getImages(assetsFolder, true);
         animation = true;
     }
 
-    public FatherCharacter(int x, int y, Context context) {
+    public FatherCharacter(int x, int y, Context context, boolean enemy) {
         super(x, y);
         this.direction = Directions.UP;
         this.context = context;
+        this.enemy = enemy;
         animation = true;
     }
 
@@ -247,6 +251,10 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
 
     public int getY() {
         return positionInformation.mainCoord.y;
+    }
+
+    public boolean isEnemy() {
+        return enemy;
     }
 
     public void setY(int y) {

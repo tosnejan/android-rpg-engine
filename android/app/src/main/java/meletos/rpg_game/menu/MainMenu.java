@@ -30,6 +30,8 @@ public class MainMenu {
     private Bitmap buttonImageClicked;
     private Bitmap storyButtonImage;
     private Bitmap storyButtonImageClicked;
+    private Bitmap up;
+    private Bitmap down;
     private Bitmap title;
     private Bitmap field;
     private Settings settings;
@@ -40,7 +42,7 @@ public class MainMenu {
     private Context context;
     private MainMenuStates state = MainMenuStates.MAIN;
     private MenuButton[] buttons = new MenuButton[4];
-    private MenuButton[] storyButtons = new MenuButton[4];
+    private MenuButton[] storyButtons = new MenuButton[6];
     private MenuButton backButton;
     private Text text;
     private HeroSelection heroSelection;
@@ -80,7 +82,11 @@ public class MainMenu {
             title = BitmapFactory.decodeStream(am.open("menu/title.png"));
             title = Bitmap.createScaledBitmap(title, (int)(screenHeight/8*(title.getWidth()/(double)title.getHeight())), screenHeight/8, true);
             field = BitmapFactory.decodeStream(am.open("menu/field.png"));
-            field = Bitmap.createScaledBitmap(field, (int)(screenHeight/1.5), screenHeight/3, true);
+            field = Bitmap.createScaledBitmap(field, (int)(screenHeight/1.75), (int)(screenHeight/3.25), true);
+            up = BitmapFactory.decodeStream(am.open("menu/slider_up.png"));
+            up = Bitmap.createScaledBitmap(up, (int)(screenWidth/15), (int)(frameHeight/6.7), true);
+            down = BitmapFactory.decodeStream(am.open("menu/slider_down.png"));
+            down = Bitmap.createScaledBitmap(down, (int)(screenWidth/15), (int)(frameHeight/6.7), true);
             Bitmap icon = BitmapFactory.decodeStream(am.open("lvl/icon.png"));
             icon = Bitmap.createScaledBitmap(icon, (int)(frameHeight/10.7), (int)(frameHeight/10.7), true);
             stories.add(new Story(icon, "#Faigled", "lvl", false));
@@ -106,12 +112,12 @@ public class MainMenu {
             case LOAD:
                 canvas.drawBitmap(frame, x, y, null);
                 break;
-            case STORY_SELECTION://TODO scrollovací tlačítka
+            case STORY_SELECTION:
                 canvas.drawBitmap(frame, x, y, null);
                 drawStories(canvas);
                 break;
             case HERO_SELECTION:
-                //canvas.drawBitmap(field,screenWidth - field.getWidth() - screenHeight/8f,screenHeight - field.getHeight() - screenHeight/10f,null);
+                canvas.drawBitmap(field,screenWidth - field.getWidth() - screenHeight/8f,screenHeight - field.getHeight() - screenHeight/10f,null);
                 heroSelection.draw(canvas);
                 backButton.draw(canvas);
                 break;
@@ -134,16 +140,20 @@ public class MainMenu {
             case LOAD:
                 break;
             case STORY_SELECTION:
-                for (int i = 0; i < storyButtons.length - 1 && i < stories.size(); i++) {
-                    if (storyButtons[i].isTouched(x, y)) {
-                        clickedButton = i;
-                        storyButtons[i].changeImage(true, 10);
+                for (int i = 0; i < storyButtons.length; i++) {
+
+                    if ((i < 3 && i < stories.size())||i > 2) {
+                        if (storyButtons[i].isTouched(x, y)) {
+                            clickedButton = i;
+                            storyButtons[i].changeImage(true, 10);
+                            break;
+                        }
                     }
                 }
-                if (storyButtons[storyButtons.length-1].isTouched(x, y)){
+                /*if (storyButtons[storyButtons.length-1].isTouched(x, y)){
                     clickedButton = storyButtons.length-1;
                     storyButtons[storyButtons.length-1].changeImage(true, 10);
-                }
+                }*/
                 break;
             case HERO_SELECTION:
                 if (heroSelection.isNotMoving()) heroSelection.touchDown(x, y);
@@ -207,6 +217,12 @@ public class MainMenu {
                     case 3://Back
                         state = MainMenuStates.MAIN;
                         break;
+                    case 4://UP
+                        if (shift != 0) shift--;
+                        break;
+                    case 5://DOWN
+                        if (shift < stories.size() - 3) shift++;
+                        break;
                 }
                 clickedButton = -1;
                 break;
@@ -234,12 +250,14 @@ public class MainMenu {
         storyButtons[1] = new MenuButton(buttonX, buttonY + Yspace, storyButtonImage, storyButtonImageClicked, text, -1);
         storyButtons[2] = new MenuButton(buttonX, buttonY + Yspace*2, storyButtonImage, storyButtonImageClicked, text, -1);
         storyButtons[3] = new MenuButton(buttonX, buttonY + Yspace*3, buttonImage, buttonImageClicked, text, 12);
+        storyButtons[4] = new MenuButton(2*screenWidth/3, buttonY, up, up, text, -1);
+        storyButtons[5] = new MenuButton(2*screenWidth/3, buttonY + Yspace*2, down, down, text, -1);
         backButton = new MenuButton((screenWidth/2 - buttonImage.getWidth())/2, screenHeight - 2 * buttonImage.getHeight(), buttonImage, buttonImageClicked, text, 12);
     }
 
     /**
      * Starts the game level
-     * @param hero
+     * @param hero chosen role
      */
     void heroSelected(final HeroProperties hero){
         new AlertDialog.Builder(context)
@@ -290,6 +308,8 @@ public class MainMenu {
             storyButtons[i].draw(canvas, story.getImage(), story.getName());
         }
         storyButtons[3].draw(canvas);
+        if (shift != 0) storyButtons[4].draw(canvas);
+        if (shift < stories.size() - 3) storyButtons[5].draw(canvas);
     }
 
     private void loadHeroes(Story story){
@@ -297,11 +317,11 @@ public class MainMenu {
         for (HeroProperties hero : heroes) {
             hero.loadImage(context, story.getPath());
         }
-        heroSelection = new HeroSelection(heroes, this, title);
+        heroSelection = new HeroSelection(heroes, this, title, screenWidth - field.getWidth() - screenHeight/8, screenHeight - field.getHeight() - screenHeight/10);
         heroSelection.start();
     }
 
-    public void setState(MainMenuStates state) {
+    /*public void setState(MainMenuStates state) {
         this.state = state;
-    }
+    }*/
 }
