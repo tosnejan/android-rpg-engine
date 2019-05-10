@@ -41,7 +41,7 @@ public class Hero extends FatherCharacter {
                 positionInformation.mainCoord.y + ySpeed, imgHeigth, imgWidth
         );
         if (
-                gameHandler.collisionDetector(positionInformation, newPosition ) == Directions.NONE
+                gameHandler.collisionDetector(this, newPosition ) == Directions.NONE
         ) {
             updateXY();
         }

@@ -2,6 +2,7 @@ package meletos.rpg_game.inventory;
 
 import java.util.HashMap;
 
+import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.inventory.itinerary.Item;
 import meletos.rpg_game.inventory.itinerary.ItemType;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
@@ -56,8 +57,12 @@ public class Inventory {
         this.itinerary = itinerary;
     }
 
-    public HashMap<String, Integer> getStats(){
+    public HashMap<String, Integer> getStats(GameHandler gameHandler){
         HashMap<String, Integer> playerStats = new HashMap<>();
+        HashMap<String, Integer> heroStats = gameHandler.getHeroStats();
+        for (String key : heroStats.keySet()) {
+            playerStats.put(key, heroStats.get(key));
+        }
         for (Integer ID:equipped.values()) {
             if (ID != -1) {
                 HashMap<String, Integer> stats = itinerary.getItem(ID).getStats();

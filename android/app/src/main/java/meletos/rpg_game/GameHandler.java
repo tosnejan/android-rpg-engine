@@ -46,6 +46,7 @@ public class GameHandler {
     private List<FatherCharacter> characters;
     private SpawnHandler spawnHandler;
     private HeroProperties heroProperties;
+    private FatherCharacter toRemove = null;
     //map info
     private String mapSource;
     private Bitmap map;
@@ -168,10 +169,14 @@ public class GameHandler {
         if (isGamePaused) {
             return;
         }
+        hero.update();
         for (FatherCharacter character: characters) {
             character.update();
         }
-        hero.update();
+        if (toRemove != null){
+            characters.remove(toRemove);
+            toRemove = null;
+        }
     }
 
     /**
@@ -319,12 +324,13 @@ public class GameHandler {
 
     /**
      * Collision detector -- works by edges of rectangles
-     * @param currPosition
+     * @param currCharacter
      * @param newPosition
      * @return
      */
-    public Directions collisionDetector (PositionInformation currPosition, PositionInformation newPosition) {
+    public Directions collisionDetector (FatherCharacter currCharacter, PositionInformation newPosition) {
 
+        PositionInformation currPosition = currCharacter.positionInformation;
         for (FatherCharacter character : characters) {
             if (currPosition.equals(character.getPositionInformation())) {
                 continue; // probably is the same character
@@ -336,7 +342,10 @@ public class GameHandler {
                 if (!currPosition.equals(hero.getPositionInformation())) return result;
                 else {
                     //TODO battle
-                    System.out.println("Battle");
+                    if (character.isEnemy()){
+                        System.out.println("Battle");
+                        toRemove = character;
+                    }
                     return result;
                 }
             }
@@ -345,7 +354,10 @@ public class GameHandler {
             Directions result = newPosition.collidesWith(hero.getPositionInformation());
             if (result != Directions.NONE) {
                 //TODO battle
-                System.out.println("Battle");
+                if (currCharacter.isEnemy()){
+                    System.out.println("Battle");
+                    toRemove = currCharacter;
+                }
                 return result;
             }
         }
@@ -456,6 +468,14 @@ public class GameHandler {
     public void startGame () {
         isGamePaused = false;
         spawnHandler.begin();
+    }
+
+    public HeroProperties getHeroProperties() {
+        return heroProperties;
+    }
+
+    public HashMap<String, Integer> getHeroStats() {
+        return heroProperties.getStats();
     }
 
 }

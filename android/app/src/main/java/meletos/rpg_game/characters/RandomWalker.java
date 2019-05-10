@@ -51,7 +51,7 @@ public class RandomWalker extends FatherCharacter {
         //}
 
         Directions suggestedDirection = gameHandler.collisionDetector(
-                positionInformation, new PositionInformation(
+                this, new PositionInformation(
                         positionInformation.mainCoord.x + xSpeed,
                         positionInformation.mainCoord.y + ySpeed,
                         imgHeigth, imgWidth

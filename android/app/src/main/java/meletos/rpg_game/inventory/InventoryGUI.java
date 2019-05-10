@@ -518,7 +518,7 @@ public class InventoryGUI {
     }
 
     private void writePlayerStats(Canvas canvas){
-        HashMap<String,Integer> stats = inventory.getStats();
+        HashMap<String,Integer> stats = inventory.getStats(gameHandler);
         int y = equipped.getHeight() + 5,x;
         for (String key:stats.keySet()) {
             String string = key +": " + stats.get(key);
