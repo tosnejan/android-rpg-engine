@@ -63,6 +63,7 @@ public class MainActivity extends Activity {
             gameView.setState(State.MAP);
         } else if (gameView.getState() == State.INVENTORY){
             gameView.setState(State.MAP);
+        } else if (gameView.getState() == State.BATTLE){
         } else {
             gameView.setState(State.MENU);
         }
