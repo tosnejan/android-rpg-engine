@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Random;
 
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.State;
@@ -18,7 +19,8 @@ import meletos.rpg_game.inventory.Inventory;
 public class Battle {
     private GameHandler gameHandler;
     private boolean playersRound = true;
-    private int playerShield;
+    private int heroShield;
+    private int enemyShield;
     private boolean animationDone = true;
     private Animations animation;
     private Bitmap frame;
@@ -29,6 +31,7 @@ public class Battle {
     private Bitmap attacked;
     private HashMap<String,Integer> enemyStats;
     private HashMap<String,Integer> heroStats;
+    private HashMap<String,Integer> itemsStats;
     private int x = 0, y = 0;
     private Bitmap toDraw;
 
@@ -61,10 +64,11 @@ public class Battle {
 
     public void initNewBattle(FatherCharacter character){
         enemyStats = character.getStats();
-        heroStats = gameHandler.getInventory().getStats(gameHandler);
-        enemyBar = Bitmap.createScaledBitmap(enemyBar, gameHandler.getScreenWidth()/3, gameHandler.getScreenHeight()/20, true);
-        heroBar = Bitmap.createScaledBitmap(heroBar, gameHandler.getScreenWidth()/3, gameHandler.getScreenHeight()/20, true);
-        playerShield = 0;
+        heroStats = gameHandler.getHeroStats();
+        itemsStats = gameHandler.getInventory().getItemsStats();
+        enemyBar = Bitmap.createScaledBitmap(enemyBar, (gameHandler.getScreenWidth()/3)* (enemyStats.get("HP") >= 2 ? enemyStats.get("HP") : 2) / 1000, gameHandler.getScreenHeight()/20, true);
+        heroBar = Bitmap.createScaledBitmap(enemyBar, (gameHandler.getScreenWidth()/3)* (heroStats.get("HP") >= 2 ? heroStats.get("HP") : 2) / 1000, gameHandler.getScreenHeight()/20, true);
+        heroShield = 0;
         playersRound = true;
     }
 
@@ -105,13 +109,23 @@ public class Battle {
                 //TODO game over
                 gameHandler.setGameViewState(State.MAP);
             }
-            if (playerShield != 0){
-                playerShield--;
+            if (heroShield != 0){
+                heroShield--;
+            }
+            if (enemyShield != 0){
+                enemyShield--;
             }
             toDraw = null;
             animationDone = true;
             playersRound = !playersRound;
         } else if (!playersRound){
+            if (new Random().nextInt(10) < 3){
+                enemyShield = 4;
+                animation = Animations.ENEMY_SHIELD;
+            } else {
+                attacked();
+                animation = Animations.ATTACKED;
+            }
             animationDone = false;
         }
     }
@@ -128,10 +142,9 @@ public class Battle {
 
     public void setShield() {
         if (playersRound && animationDone) {
-            playerShield = 4;
+            heroShield = 4;
             animation = Animations.SHIELD;
             animationDone = false;
-            playersRound = false;
         }
     }
 
@@ -140,20 +153,42 @@ public class Battle {
             int hp = enemyStats.get("HP");
             int mr = enemyStats.get("MR");
             int arm = enemyStats.get("ARM");
-            int damage = (int)(heroStats.get("DMG") * gameHandler.getHeroProperties().getDamageMultiplayer());
-            int inteligence = (int)(heroStats.get("INT") * gameHandler.getHeroProperties().getInteligenceMultiplayer());
+            int damage = heroStats.get("DMG") + (itemsStats.containsKey("DMG") ? itemsStats.get("DMG") : 0);
+            int inteligence = heroStats.get("INT") + (itemsStats.containsKey("INT") ? itemsStats.get("INT") : 0);
+            damage = (int)(damage * gameHandler.getHeroProperties().getDamageMultiplayer());
+            inteligence = (int)(inteligence * gameHandler.getHeroProperties().getInteligenceMultiplayer());
+            if (enemyShield != 0){
+                mr *= 2;
+                arm *= 2;
+            }
             hp += arm < damage ? arm - damage : 0;
             hp += mr < inteligence ? mr - inteligence : 0;
             enemyBar = Bitmap.createScaledBitmap(enemyBar, (gameHandler.getScreenWidth()/3)* (hp >= 2 ? hp : 2) / 1000, gameHandler.getScreenHeight()/20, true);
             enemyStats.put("HP", hp);
             animation = Animations.ATTACK;
             animationDone = false;
-            playersRound = false;
         }
     }
 
-    public void healChar(Inventory inventory) {
+    public void attacked() {
+        int hp = heroStats.get("HP");
+        int mr = heroStats.get("MR") + (itemsStats.containsKey("MR") ? itemsStats.get("MR") : 0);
+        int arm = heroStats.get("ARM") + (itemsStats.containsKey("ARM") ? itemsStats.get("ARM") : 0);
+        int damage = enemyStats.get("DMG");
+        int inteligence = enemyStats.get("INT");
+        if (heroShield != 0){
+            mr *= 2;
+            arm *= 2;
+        }
+        hp += arm < damage ? arm - damage : 0;
+        hp += mr < inteligence ? mr - inteligence : 0;
+        heroBar = Bitmap.createScaledBitmap(enemyBar, (gameHandler.getScreenWidth()/3)* (hp >= 2 ? hp : 2) / 1000, gameHandler.getScreenHeight()/20, true);
+        heroStats.put("HP", hp);
+        animation = Animations.ATTACKED;
+        animationDone = false;
+    }
 
+    public void healChar(Inventory inventory) {
         HashMap<String,Integer> stats = gameHandler.getHeroStats();
         int hp = stats.get("HP");
         if (hp <= 900 && inventory.deleteItem(21)){
@@ -161,7 +196,6 @@ public class Battle {
             heroBar = Bitmap.createScaledBitmap(heroBar, (gameHandler.getScreenWidth()/3)* (stats.get("HP") >= 2 ? stats.get("HP") : 2) / 1000, gameHandler.getScreenHeight()/20, true);
             animation = Animations.HEAL;
             animationDone = false;
-            playersRound = false;
         } else if (hp <= 900) alert(gameHandler.getText().getText(18));
         else if (inventory.hasItem(21)) alert(gameHandler.getText().getText(17));
     }

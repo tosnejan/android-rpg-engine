@@ -31,7 +31,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     protected boolean spawned = true;
 
     protected boolean enemy;
-    private HashMap<String,Integer> stats;
+    public HashMap<String,Integer> stats;
     /**
      * A proposal -- lets use this construct for animations :D
      */

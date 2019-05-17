@@ -102,4 +102,18 @@ public class Inventory {
         }
         return false;
     }
+
+    public HashMap<String, Integer> getItemsStats(){
+        HashMap<String, Integer> itemsStats = new HashMap<>();
+        for (Integer ID:equipped.values()) {
+            if (ID != -1) {
+                HashMap<String, Integer> stats = itinerary.getItem(ID).getStats();
+                for (String key : stats.keySet()) {
+                    int value = stats.get(key) + (itemsStats.containsKey(key) ? itemsStats.get(key) : 0);
+                    itemsStats.put(key, value);
+                }
+            }
+        }
+        return itemsStats;
+    }
 }
