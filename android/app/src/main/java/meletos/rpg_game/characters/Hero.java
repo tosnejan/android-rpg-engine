@@ -18,13 +18,13 @@ public class Hero extends FatherCharacter {
     private JoyStick js;
 
     public Hero(int x, int y, String assetsFolder, Context context, boolean enemy) {
-        super(x, y, assetsFolder, context, enemy);
+        super(x, y, assetsFolder, context, enemy, null, null);
         xSpeedConstant = 4;
         ySpeedConstant = 4;
     }
 
     public Hero(int x, int y, Context context, boolean enemy) {
-        super(x, y, context, enemy);
+        super(x, y, context, enemy, null);
         xSpeedConstant = 4;
         ySpeedConstant = 4;
     }

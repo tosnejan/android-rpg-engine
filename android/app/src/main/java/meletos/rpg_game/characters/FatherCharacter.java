@@ -2,17 +2,17 @@ package meletos.rpg_game.characters;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Environment;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 import meletos.rpg_game.Directions;
@@ -30,6 +30,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     protected boolean spawned = true;
 
     protected boolean enemy;
+    private HashMap<String,Integer> stats;
     /**
      * A proposal -- lets use this construct for animations :D
      */
@@ -38,6 +39,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     protected boolean animation = false;
     protected int animationSpeed = 0;
     protected final int ANIM_SPEED = 10; // sets after how many calls to draw does the image animate
+    protected Bitmap characterImage;
 
     protected Directions direction;
     protected int xSpeedConstant = 10;
@@ -47,6 +49,10 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     protected int xSpeed = xSpeedConstant;
     protected int ySpeed = ySpeedConstant;
     private String assetsFolder;
+
+    // screen info
+    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
     protected GameHandler gameHandler; // the boss
     protected Context context;
@@ -62,19 +68,22 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
      * @param y
      * @param assetsFolder
      * @param context
+     * @param stats
      */
-    public FatherCharacter(int x, int y, String assetsFolder, Context context, boolean enemy) {
+    public FatherCharacter(int x, int y, String assetsFolder, Context context, boolean enemy, String imagePath, HashMap<String, Integer> stats) {
         super(x, y);
+        this.stats = stats;
         this.direction = Directions.UP;
         this.assetsFolder = assetsFolder;
         this.context = context;
         this.enemy = enemy;
-        getImages(assetsFolder, true);
+        getImages(assetsFolder, true, imagePath);
         animation = true;
     }
 
-    public FatherCharacter(int x, int y, Context context, boolean enemy) {
+    public FatherCharacter(int x, int y, Context context, boolean enemy, HashMap<String, Integer> stats) {
         super(x, y);
+        this.stats = stats;
         this.direction = Directions.UP;
         this.context = context;
         this.enemy = enemy;
@@ -92,20 +101,32 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
      * @param folder folder that contains character images.
      * @param assets true if the folder is from assets, false if the folder is from external storage.
      */
-    public void getImages (String folder, boolean assets) {
+    public void getImages (String folder, boolean assets, String imagePath) {
         images = new ArrayList<>();
         Bitmap temp;
         if (assets) {
             AssetManager am = context.getAssets();
-
-            for (int i = 1; i < 13; i++) {
-                String fileName = String.format(Locale.US, "%s/%s.png", folder, i);
-                try {
+            try {
+                for (int i = 1; i < 13; i++) {
+                    String fileName = String.format(Locale.US, "%s/%s.png", folder, i);
                     temp = BitmapFactory.decodeStream(am.open(fileName));
                     images.add(Bitmap.createScaledBitmap(temp, 96, 108, false));
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+                if (imagePath != null){
+                    temp = BitmapFactory.decodeStream(am.open(imagePath));
+                    double ratio = temp.getHeight()/(double)temp.getWidth();
+                    int w, h;
+                    if (ratio >= 1){
+                        h = screenHeight - 50;
+                        w = (int) (h / ratio);
+                    } else {
+                        w = screenWidth / 4;
+                        h = (int) (w * ratio);
+                    }
+                    characterImage = Bitmap.createScaledBitmap(temp, w, h, false);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         } else {
             File file = Environment.getExternalStorageDirectory();
@@ -113,6 +134,19 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
                 String fileName = String.format(Locale.US, "%s/%s.png", folder, i);
                 temp = BitmapFactory.decodeFile(file.getAbsolutePath() + fileName);
                 images.add(Bitmap.createScaledBitmap(temp, 96, 108, false));
+            }
+            if (imagePath != null){
+                temp = BitmapFactory.decodeFile(file.getAbsolutePath() + imagePath);
+                double ratio = temp.getHeight()/(double)temp.getWidth();
+                int w, h;
+                if (ratio >= 1){
+                    h = screenHeight - 50;
+                    w = (int) (h / ratio);
+                } else {
+                    w = screenWidth / 4;
+                    h = (int) (w * ratio);
+                }
+                characterImage = Bitmap.createScaledBitmap(temp, w, h, false);
             }
         }
         image = images.get(7);
@@ -263,5 +297,13 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
 
     public String getAssetsFolder () {
         return assetsFolder;
+    }
+
+    public Bitmap getCharacterImage() {
+        return characterImage;
+    }
+
+    public HashMap<String, Integer> getStats() {
+        return stats;
     }
 }

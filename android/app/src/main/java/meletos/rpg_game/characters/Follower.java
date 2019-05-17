@@ -1,6 +1,9 @@
 package meletos.rpg_game.characters;
 
 import android.content.Context;
+
+import java.util.HashMap;
+
 import meletos.rpg_game.Coordinates;
 
 /**
@@ -14,8 +17,8 @@ public class Follower extends FatherCharacter {
     private Coordinates followedPoint;
     private int xSpeed, ySpeed;
 
-    public Follower (int x, int y, String assetsFolder, Context context, Coordinates[] followCoord, boolean enemy) {
-        super(x, y, assetsFolder, context, enemy);
+    public Follower (int x, int y, String assetsFolder, Context context, Coordinates[] followCoord, boolean enemy, String battleImageFolder, HashMap<String, Integer> stats) {
+        super(x, y, assetsFolder, context, enemy, battleImageFolder, stats);
         this.followCoord = followCoord;
         followedPoint = followCoord[idx];
 

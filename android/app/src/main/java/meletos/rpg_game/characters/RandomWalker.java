@@ -3,6 +3,8 @@ package meletos.rpg_game.characters;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import java.util.HashMap;
+
 import meletos.rpg_game.Directions;
 import meletos.rpg_game.PositionInformation;
 
@@ -15,15 +17,15 @@ public class RandomWalker extends FatherCharacter {
         ySpeedConstant = 5;
     }
 
-    public RandomWalker(int x, int y, String assetsFolder, Context context, boolean enemy) {
-        super(x, y, assetsFolder, context, enemy);
+    public RandomWalker(int x, int y, String assetsFolder, Context context, boolean enemy, String battleImageFolder, HashMap<String, Integer> stats) {
+        super(x, y, assetsFolder, context, enemy, battleImageFolder, stats);
         steps = 0;
         xSpeedConstant = 5;
         ySpeedConstant = 5;
     }
 
-    public RandomWalker(int x, int y, Context context, boolean enemy) {
-        super(x, y, context, enemy);
+    public RandomWalker(int x, int y, Context context, boolean enemy, HashMap<String,Integer> stats) {
+        super(x, y, context, enemy, stats);
         steps = 0;
         xSpeedConstant = 5;
         ySpeedConstant = 5;
