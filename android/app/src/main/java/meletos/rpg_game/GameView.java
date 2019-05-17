@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import meletos.rpg_game.battle.BattleGUI;
 import meletos.rpg_game.characters.Follower;
+import meletos.rpg_game.file_io.FileManager;
 import meletos.rpg_game.file_io.Loader;
 import meletos.rpg_game.inventory.InventoryGUI;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
@@ -57,6 +58,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private boolean hasGameHandler = false;
     private boolean isInLevel;
     private Itinerary itinerary;
+    private FileManager fileManager;
 
 
     /**
@@ -67,6 +69,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public GameView(Context context, Text text) {
         super(context);
         this.text = text;
+        fileManager = new FileManager(context, this);
         itinerary = Itinerary.load(context, text, "itinerary/items.json");
         sound = new Sound(context);
         sound.play(state);
@@ -77,7 +80,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         setFocusable(true);
     }
 
-    /**
+    /** TODO obsolete -- will not be here
      * Loads a specific level -- quite buggy at the moment
      * @param filePath name and path of file to read
      * @param userSave <code>true</code> if loading userSave
@@ -85,8 +88,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     public void loadLevel (String filePath, boolean userSave) {
         hasGameHandler = false;
-        Loader loader = new Loader(this, filePath, userSave);
-        loader.start();
+        //Loader loader = new Loader(this, filePath, userSave);
+        //loader.start();
     }
     
     /**
@@ -263,6 +266,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public State getState() {
         return state;
+    }
+
+    public FileManager getFileManager() {
+        return fileManager;
     }
 
     public void setState(State state) {

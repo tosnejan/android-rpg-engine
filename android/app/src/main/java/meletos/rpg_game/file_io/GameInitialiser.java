@@ -130,4 +130,7 @@ public class GameInitialiser {
             }
     }
 
+    public void startGameLoading(FileManager fm) {
+        fm.setJob(dir.getPath());
+    }
 }

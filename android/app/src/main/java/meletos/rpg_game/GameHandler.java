@@ -404,7 +404,7 @@ public class GameHandler {
     /**
      * Saves the current game state -- runs in a new thread
      */
-    //TODO
+    //TODO tahle cela vec pujde pryc
     public void saveGameState() {
         new Thread(new Runnable() {
             @Override
@@ -418,8 +418,7 @@ public class GameHandler {
                 lr.addCharacter(hero.putMyselfIntoCharRepresentation());
                 lr.setMapSource(mapSource);
                 lr.setLvlName(lvlName);
-                lr.setInventory(inventory.getInventory());
-                lr.setEquipped(inventory.getEquipped());
+                // TODO save inventory
 
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 gsonBuilder.registerTypeAdapter(Double.class, new JsonSerializer<Double>() {

@@ -31,15 +31,20 @@ import meletos.rpg_game.spawning.SpawnDataEntry;
  */
 public class LevelGenerator {
     private String filePath;
+    private String lvlName;
     private Context context;
     private LevelRepresentation levelRepresentation;
     private String json;
     private boolean userSave;
+    private Inventory inventory;
 
 
-    public LevelGenerator(Context context, String filePath) {
+    // WARNING -- SHOULD BE GIVEN FULL PATH TO EXTERNAL STORAGE
+    public LevelGenerator(Context context, String filePath, String lvlName, Inventory inventory) {
         this.context = context;
         this.filePath = filePath;
+        this.inventory = inventory; // this is useful for passing already existing inventory between levels
+        this.lvlName = lvlName;
     }
 
     /**
@@ -49,6 +54,9 @@ public class LevelGenerator {
      * @throws UnsupportedTypeException
      */
     public GameHandler buildLevel (boolean userSave) throws UnsupportedTypeException {
+        if (inventory == null) {
+            inventory = loadInventory();
+        }
         this.userSave = userSave;
         ArrayList<FatherCharacter> characters = new ArrayList<>();
         extractLevelRepresentation();
@@ -58,16 +66,16 @@ public class LevelGenerator {
             characters.add(buildCharacter(characterI));
         }
         HashMap<String, List<HashMap>> spawnStructure = levelRepresentation.getSpawnStructure();
-        List<SpawnDataEntry> spawnInstructions;
+        //List<SpawnDataEntry> spawnInstructions;
         /*if (spawnStructure != null) {
             spawnInstructions = processSpawnStructure(spawnStructure);
         } else {
             spawnInstructions = null;
         }*/
 
-        int[][] inventory = levelRepresentation.getInventory();
-        HashMap equipped = levelRepresentation.getEquipped();
-        Inventory inv = new Inventory(inventory, equipped);
+        //int[][] inventory = levelRepresentation.getInventory();
+        //HashMap equipped = levelRepresentation.getEquipped();
+        //Inventory inv = new Inventory(inventory, equipped);
         Hero hero = (Hero)buildCharacter(levelRepresentation.getHero());
         GameHandler gh = new GameHandler(
                 characters,
@@ -77,7 +85,7 @@ public class LevelGenerator {
                 /*spawnInstructions*/
         );
         gh.loadMap(levelRepresentation.getMapSource());
-        gh.setInventory(inv);
+        gh.setInventory(inventory);
         return gh;
     }
 
@@ -159,7 +167,7 @@ public class LevelGenerator {
      * Converts loaded file from json into LevelRepresentation
      */
     private void extractLevelRepresentation() {
-        json = loadFile(userSave, filePath, context);
+        json = loadFile(userSave, filePath + "/" + lvlName, context);
         levelRepresentation = new GsonBuilder().create().fromJson(json, LevelRepresentation.class);
     }
 
@@ -170,20 +178,14 @@ public class LevelGenerator {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
         try {
-            if (userSave) {
-                reader = new BufferedReader(
+            reader = new BufferedReader(
                     new InputStreamReader(
-                        new FileInputStream(
-                            Environment.getExternalStorageDirectory().toString()
-                                + "/rpg_game_data/" + filePath
-                        ),
-                        StandardCharsets.UTF_8
+                            new FileInputStream(
+                                    filePath
+                            ),
+                            StandardCharsets.UTF_8
                     )
-                );
-            } else {
-                reader = new BufferedReader(
-                        new InputStreamReader(context.getAssets().open(filePath), StandardCharsets.UTF_8));
-            }
+            );
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
@@ -202,5 +204,9 @@ public class LevelGenerator {
         return sb.toString();
     }
 
+    private Inventory loadInventory() {
+        String json = loadFile(userSave,  filePath + "/inventory.json", context);
+        return new GsonBuilder().create().fromJson(json, Inventory.class);
+    }
 
 }

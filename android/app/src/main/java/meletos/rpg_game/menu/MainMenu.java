@@ -179,6 +179,21 @@ public class MainMenu {
                         break;
                     case 1://Load Game
                         // view load options
+                        // EXPERIMENT -- DOES WORK ONLY FOR A SPECIFIC SAVE :DD
+                        gameView.getFileManager().setJob(Environment.getExternalStorageDirectory().toString()
+                                + "/rpg_game_data/save/test17.05.2019_19:29:24");
+
+                        // extract this into a function
+                        while (!gameView.hasGameHandler()) System.out.println("Game is still loading!");
+                        //heroSelection.kys();
+                        //gameView.getGameHandler().setHero(hero);
+                        //gameInitialiser.saveHeroProperties(hero);
+                        gameView.setState(State.MAP);
+                        gameView.sound.play(State.MAP);
+                        state = MainMenuStates.MAIN;
+                        gameView.getGameHandler().startGame();
+
+                        //----END OF EXPERIMENT
                         break;
                     case 2://Settings
                         state = MainMenuStates.SETTINGS;
@@ -203,9 +218,10 @@ public class MainMenu {
                 switch (clickedButton) {
                     case 0://First story
                         // TODO -- MATOUS -- COPY THE WHOLE LEVEL
-                        gameInitialiser = new GameInitialiser("faigled", context);
+                        gameInitialiser = new GameInitialiser("test", context);
                         gameInitialiser.initialiseNewSave(); // makes new save
-                        gameView.loadLevel(stories.get(shift).getPath() + "/second_lvl.json", stories.get(shift).isUserSave());
+                        gameInitialiser.startGameLoading(gameView.getFileManager());
+                        //gameView.loadLevel(stories.get(shift).getPath() + "/second_lvl.json", stories.get(shift).isUserSave());
                         loadHeroes(stories.get(shift));
                         state = MainMenuStates.HERO_SELECTION;
                         break;
