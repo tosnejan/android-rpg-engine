@@ -3,33 +3,42 @@
     "name": "Warrior",
     "imagesFolder": "characters/warrior_m",
     "custom": false,
+    "damageMultiplayer": 1.25,
+    "inteligenceMultiplayer": 0,
     "stats": {
       "DMG": 20,
       "ARM": 30,
       "INT": 0,
-      "MR": 15
+      "MR": 15,
+      "HP": 1000
     }
   },
   {
     "name": "Mage",
     "imagesFolder": "characters/mage_m",
     "custom": false,
+    "damageMultiplayer": 0.25,
+    "inteligenceMultiplayer": 1,
     "stats": {
       "DMG": 5,
       "ARM": 15,
       "INT": 20,
-      "MR": 20
+      "MR": 20,
+      "HP": 1000
     }
   },
   {
     "name": "Ninja",
     "imagesFolder": "characters/ninja_m",
     "custom": false,
+    "damageMultiplayer": 0.75,
+    "inteligenceMultiplayer": 0.5,
     "stats": {
       "DMG": 25,
       "ARM": 10,
       "INT": 5,
-      "MR": 10
+      "MR": 10,
+      "HP": 1000
     }
   }
 ]
