@@ -355,6 +355,7 @@ public class GameHandler {
                         System.out.println("Battle");
                         fighting = character;
                         inBattle = true;
+                        battle.initNewBattle();
                         gameView.setState(State.BATTLE);
                     }
                     return result;
@@ -369,6 +370,7 @@ public class GameHandler {
                     System.out.println("Battle");
                     fighting = currCharacter;
                     inBattle = true;
+                    battle.initNewBattle();
                     gameView.setState(State.BATTLE);
                 }
                 return result;
