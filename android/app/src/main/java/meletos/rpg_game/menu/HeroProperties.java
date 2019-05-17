@@ -88,5 +88,11 @@ public class HeroProperties {
         }
     }
 
+    public double getDamageMultiplayer() {
+        return damageMultiplayer;
+    }
 
+    public double getInteligenceMultiplayer() {
+        return inteligenceMultiplayer;
+    }
 }

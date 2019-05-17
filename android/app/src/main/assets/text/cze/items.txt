@@ -45,3 +45,7 @@ DESCRIPTION: NoDescription
 ID: 12
 NAME: NoName
 DESCRIPTION: NoDescription
+
+ID: 21
+NAME: Lektvar života
+DESCRIPTION: Lze v boji použít na doplnění 100 životů.

@@ -37,6 +37,7 @@ import meletos.rpg_game.menu.HeroProperties;
 import meletos.rpg_game.navigation.JoyStick;
 import meletos.rpg_game.spawning.SpawnDataEntry;
 import meletos.rpg_game.spawning.SpawnHandler;
+import meletos.rpg_game.text.Text;
 
 /**
  * Main logic class. Oversees the characters on the map.
@@ -74,6 +75,7 @@ public class GameHandler {
     private String lvlName;
     private Inventory inventory;
     private TransitionManager transitionManager;
+    private Text text;
 
 
     public GameHandler (List<FatherCharacter> characters, Hero hero, final Context context, String lvlName) {
@@ -352,10 +354,9 @@ public class GameHandler {
                 else {
                     //TODO battle
                     if (character.isEnemy()){
-                        System.out.println("Battle");
                         fighting = character;
                         inBattle = true;
-                        battle.initNewBattle();
+                        battle.initNewBattle(character);
                         gameView.setState(State.BATTLE);
                     }
                     return result;
@@ -367,10 +368,9 @@ public class GameHandler {
             if (result != Directions.NONE) {
                 //TODO battle
                 if (currCharacter.isEnemy()){
-                    System.out.println("Battle");
                     fighting = currCharacter;
                     inBattle = true;
-                    battle.initNewBattle();
+                    battle.initNewBattle(currCharacter);
                     gameView.setState(State.BATTLE);
                 }
                 return result;
@@ -505,6 +505,18 @@ public class GameHandler {
 
     public Battle getBattle() {
         return battle;
+    }
+
+    public void setText(Text text) {
+        this.text = text;
+    }
+
+    public Text getText() {
+        return text;
+    }
+
+    public void setGameViewState(State state){
+        gameView.setState(state);
     }
 }
 

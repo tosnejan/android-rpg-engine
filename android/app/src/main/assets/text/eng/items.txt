@@ -45,3 +45,7 @@ DESCRIPTION: NoDescription
 ID: 12
 NAME: NoName
 DESCRIPTION: NoDescription
+
+ID: 21
+NAME: Health potion
+DESCRIPTION: Can be used in battle to give you 100 health.

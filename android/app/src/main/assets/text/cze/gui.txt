@@ -48,3 +48,12 @@ Hrdina vybrán
 
 ID: 16
 Jste si jist/a, že chcete tohoto hrdinu?
+
+ID: 17
+Máte hodně životů.
+
+ID: 18
+Došly vám lektvary.
+
+ID: 19
+Lektvary

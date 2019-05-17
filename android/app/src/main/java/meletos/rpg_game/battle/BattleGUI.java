@@ -14,6 +14,7 @@ import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.GameView;
 import meletos.rpg_game.State;
 import meletos.rpg_game.characters.FatherCharacter;
+import meletos.rpg_game.inventory.Inventory;
 import meletos.rpg_game.inventory.InventoryGUI;
 import meletos.rpg_game.navigation.GameButton;
 import meletos.rpg_game.navigation.MenuButton;
@@ -27,14 +28,14 @@ public class BattleGUI {
     private Bitmap background;
     private Bitmap enemyImage;
     private Context context;
-    private InventoryGUI inventory;
+    private Inventory inventory;
     private GameButton[] buttons = new GameButton[4];
     private int clickedButton = -1;
 
-    public BattleGUI(GameHandler gameHandler, GameView gameView, Context context, InventoryGUI inventory) {
+    public BattleGUI(GameHandler gameHandler, GameView gameView, Context context) {
         this.gameHandler = gameHandler;
         this.gameView = gameView;
-        this.inventory = inventory;
+        this.inventory = gameHandler.getInventory();
         this.context = context;
         load();
     }
@@ -62,35 +63,6 @@ public class BattleGUI {
             buttons[2].setIcon(Bitmap.createScaledBitmap(image, screenHeight / 6, screenHeight / 6, true));
             image = BitmapFactory.decodeStream(am.open("battle/surrender.png"));
             buttons[3].setIcon(Bitmap.createScaledBitmap(image, screenHeight / 6, screenHeight / 6, true));
-            /*equipped = BitmapFactory.decodeStream(am.open("inventory/equipped.png"));
-            equipped = Bitmap.createScaledBitmap(equipped, 16*screenHeight/27, 79*screenHeight/135, true);
-            grid = BitmapFactory.decodeStream(am.open("inventory/grid.png"));
-            grid = Bitmap.createScaledBitmap(grid, 143*screenHeight/135, 79*screenHeight/135, true);
-            frame = BitmapFactory.decodeStream(am.open("inventory/select.png"));
-            frame = Bitmap.createScaledBitmap(frame, (int)(screenHeight/67.5 + screenHeight/9), (int)(screenHeight/67.5 + screenHeight/9), true);
-            backgroundX = 0;     //(screenWidth - frameWidth)/2;
-            backgroundY = 0;     //(screenHeight - frameHeight)/2;
-            gridX = screenHeight / 9;
-            gridY = screenHeight / 9;
-            equX = screenWidth - equipped.getWidth() + screenHeight / 135;
-            equY = screenHeight / 9;
-            equDrawX = screenWidth - equipped.getWidth();
-            image = BitmapFactory.decodeStream(am.open("menu/button.png"));
-            image = Bitmap.createScaledBitmap(image, screenWidth/5, screenHeight/10, true);
-            Bitmap imageClicked = BitmapFactory.decodeStream(am.open("menu/button_clicked.png"));
-            imageClicked = Bitmap.createScaledBitmap(imageClicked, screenWidth/5, screenHeight/10, true);
-            equButton = new MenuButton(gridX + screenWidth/2 + screenWidth/30 - image.getWidth(), screenHeight - screenHeight/9 - image.getHeight(), image, imageClicked, text, 13);
-            Bitmap xButtonImage = BitmapFactory.decodeStream(am.open("menu/x_button_round.png"));
-            xButtonImage = Bitmap.createScaledBitmap(xButtonImage, screenHeight/11, screenHeight/11, true);
-            Bitmap xbuttonImageClicked = BitmapFactory.decodeStream(am.open("menu/x_button_round_clicked.png"));
-            xbuttonImageClicked = Bitmap.createScaledBitmap(xbuttonImageClicked, screenHeight/11, screenHeight/11, true);
-            xButton = new MenuButton(screenWidth - 9*xButtonImage.getWidth()/8, xButtonImage.getHeight()/8, xButtonImage, xbuttonImageClicked, text, -1);
-            paint = new Paint();
-            paint.setTextAlign(Paint.Align.LEFT);
-            paint.setColor(Color.BLACK);
-            paint.setTypeface(Typeface.create("Arial", Typeface.ITALIC));
-            nameSize = (screenHeight - grid.getHeight())/8;
-            textSize = (screenHeight - grid.getHeight())/10;*/
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -120,14 +92,13 @@ public class BattleGUI {
             if (!buttons[clickedButton].isTouched(x, y)) clickedButton = -1;
             switch (clickedButton){
                 case 0://attack
-                    gameHandler.removeCharacter(enemy);
-                    gameView.setState(State.MAP);
+                    gameHandler.getBattle().attack();
                     break;
                 case 1://shield
                     gameHandler.getBattle().setShield();
                     break;
                 case 2://potion
-                    gameHandler.getBattle().healChar();
+                    gameHandler.getBattle().healChar(inventory);
                     break;
                 case 3://escape
                     gameView.setState(State.MAP);
@@ -141,5 +112,4 @@ public class BattleGUI {
         enemy = gameHandler.getFighting();
         enemyImage = enemy.getCharacterImage();
     }
-
 }

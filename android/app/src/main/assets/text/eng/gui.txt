@@ -48,3 +48,12 @@ Hero selected
 
 ID: 16
 Are you sure you want this hero?
+
+ID: 17
+You have lots of health.
+
+ID: 18
+You are out of potions.
+
+ID: 19
+Potions

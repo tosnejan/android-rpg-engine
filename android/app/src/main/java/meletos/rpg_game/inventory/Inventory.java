@@ -91,4 +91,15 @@ public class Inventory {
         return false;
     }
 
+    public boolean deleteItem(int id) {
+        for (int row = 0; row < inventory.length; row++) {
+            for (int column = 0; column < inventory[row].length; column++) {
+                if (inventory[row][column] == id){
+                    inventory[row][column] = -1;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

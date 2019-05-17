@@ -139,6 +139,8 @@ public class InventoryGUI {
                     if (itinerary.getItem(ID).getType() != ItemType.OTHER) {
                         equButton.draw(canvas);
                         writeDescription(canvas, ID, itinerary.getItem(ID).getType());
+                    } else {
+                        writeDescription(canvas, ID, itinerary.getItem(ID).getType());
                     }
                 }
             } else if (equSelected != null){
@@ -528,5 +530,9 @@ public class InventoryGUI {
             x = equDrawX + 10 - bounds.left;
             canvas.drawText(string, x, y, paint);
         }
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }

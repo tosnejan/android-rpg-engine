@@ -322,8 +322,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         inventory = new InventoryGUI(this, getContext(), gameHandler, text, itinerary);
         gameHandler.getInventory().setItinerary(itinerary);
+        gameHandler.setText(text);
         menu = new Menu(gameHandler, this, getContext(), text, settings);
-        battle = new BattleGUI(gameHandler, this, getContext(), inventory);
+        battle = new BattleGUI(gameHandler, this, getContext());
         gameThread = new GameThread(gameHandler);
         gameThread.start();
         //gameHandler.resumeGame(); //Možná pak torchu pozměnit, kdyby se to využívalo i na přechod mezi mapama.

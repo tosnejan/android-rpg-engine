@@ -23,8 +23,4 @@ public class CharacterRepresentation {
         this.xCoord = xCoord;
         this.stats = stats;
     }
-
-    public String getCharType() {
-        return charType;
-    }
 }

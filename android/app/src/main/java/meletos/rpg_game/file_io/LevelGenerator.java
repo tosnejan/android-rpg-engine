@@ -124,7 +124,6 @@ public class LevelGenerator {
 
                 case "Hero"://TODO teoreticky lze úplně odendat, protože se to pak stejně mění
                     if (userSave){
-
                         Hero hero = new Hero(x, y, context, enemy);
                         hero.getImages(imagesFolder, false, battleImage);
                         return hero;
