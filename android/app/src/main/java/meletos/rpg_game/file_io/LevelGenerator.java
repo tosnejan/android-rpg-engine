@@ -52,28 +52,29 @@ public class LevelGenerator {
         this.userSave = userSave;
         ArrayList<FatherCharacter> characters = new ArrayList<>();
         extractLevelRepresentation();
-        ArrayList<HashMap> charStrings = levelRepresentation.getCharacters();
-        System.out.println(levelRepresentation); // testing
-        for (HashMap characterHash: charStrings) {
-            characters.add(buildCharacter(characterHash));
+        ArrayList<CharacterRepresentation> characterInfo = levelRepresentation.getCharacters();
+        System.out.println("no of characters:" + characterInfo.size());
+        for (CharacterRepresentation characterI: characterInfo) {
+            characters.add(buildCharacter(characterI));
         }
         HashMap<String, List<HashMap>> spawnStructure = levelRepresentation.getSpawnStructure();
         List<SpawnDataEntry> spawnInstructions;
-        if (spawnStructure != null) {
+        /*if (spawnStructure != null) {
             spawnInstructions = processSpawnStructure(spawnStructure);
         } else {
             spawnInstructions = null;
-        }
+        }*/
 
         int[][] inventory = levelRepresentation.getInventory();
         HashMap equipped = levelRepresentation.getEquipped();
         Inventory inv = new Inventory(inventory, equipped);
+        Hero hero = (Hero)buildCharacter(levelRepresentation.getHero());
         GameHandler gh = new GameHandler(
                 characters,
-                (Hero)buildCharacter(levelRepresentation.getHero()),
+                hero,
                 context,
-                levelRepresentation.getLvlName(),
-                spawnInstructions
+                levelRepresentation.getLvlName()
+                /*spawnInstructions*/
         );
         gh.loadMap(levelRepresentation.getMapSource());
         gh.setInventory(inv);
@@ -85,6 +86,7 @@ public class LevelGenerator {
      * @param spawnStructure -- hashmap saved in LevelRepresentation
      * @return
      */
+    /*
     private List<SpawnDataEntry> processSpawnStructure(HashMap<String, List<HashMap>> spawnStructure) {
         List<SpawnDataEntry> spawnInstructions = new LinkedList<>();
         for (HashMap.Entry<String, List<HashMap>> entry : spawnStructure.entrySet()) {
@@ -101,47 +103,49 @@ public class LevelGenerator {
             spawnInstructions.add(new SpawnDataEntry(spawnCharacters, time));
         }
         return spawnInstructions;
-    }
+    }*/
 
     /**
      * Function that constructs a character from characterHash.
-     * @param characterHash
+     * @param characterInfo
      * @return
      * @throws UnsupportedTypeException
      */
-    private FatherCharacter buildCharacter (HashMap characterHash) throws UnsupportedTypeException {
-        System.out.println(characterHash);
-        System.out.println(characterHash.get("xCoord"));
-        boolean enemy = (boolean)characterHash.get("isEnemy");
-        double xDoub = (double)characterHash.get("xCoord");
-        double yDoub = (double)characterHash.get("yCoord");
-        int x = (int) xDoub;
-        int y = (int) yDoub;
+    private FatherCharacter buildCharacter (CharacterRepresentation characterInfo) throws UnsupportedTypeException {
 
-        String imagesFolder = (String)characterHash.get("imagesFolder");
+        boolean enemy = (boolean)characterInfo.isEnemy;
+        int x = characterInfo.xCoord;
+        int y = characterInfo.yCoord;
+        String imagesFolder = characterInfo.imagesFolder;
+        HashMap<String,Integer> stats = characterInfo.stats;
+        String battleImage = characterInfo.image;
         try {
-            switch ((String) characterHash.get("charType")) {
+            switch (characterInfo.charType) {
 
                 case "Hero"://TODO teoreticky lze úplně odendat, protože se to pak stejně mění
                     if (userSave){
+
                         Hero hero = new Hero(x, y, context, enemy);
-                        hero.getImages(imagesFolder, false);
+                        hero.getImages(imagesFolder, false, battleImage);
                         return hero;
                     } else return new Hero(x, y, imagesFolder, context, enemy);
                 case "RandomWalker":
                     if (userSave){
-                        RandomWalker walker = new RandomWalker(x, y, context, enemy);
-                        walker.getImages(imagesFolder, false);
+                        //RandomWalker(int x, int y, Context context, boolean enemy, HashMap<String,Integer> stats)
+                        RandomWalker walker = new RandomWalker(x, y, context, enemy, stats);
+                        walker.getImages(imagesFolder, false, battleImage);
                         return walker;
-                    } else return new RandomWalker(x, y, imagesFolder, context, enemy);
+                    } else return new RandomWalker(
+                            x, y, imagesFolder, context, enemy, battleImage,  stats
+                            /*x, y, context, enemy, stats*/);
                 // follower doesnt work yet, taky je ho potřeba předělat na ten userSave... viz nahoru :D Nechci ti do toho šahat :D
-                case "Follower":
+                /*case "Follower":
                     Object[] coord = new Object[10];
-                    coord = ((ArrayList)characterHash.get("followCoord")).toArray(coord);
+                    coord = ((ArrayList)characterInfo.get("followCoord")).toArray(coord);
                     for (int i = 0; i < coord.length; i++) { // typecast
                         coord[i] = (Coordinates)coord[i];
                     }
-                    return new Follower(x, y, imagesFolder, context, (Coordinates[]) coord, enemy);
+                    return new Follower(x, y, imagesFolder, context, (Coordinates[]) coord, enemy);*/
                 default:
                     throw new UnsupportedTypeException("This character doesnt exist yet.");
             }
@@ -156,14 +160,14 @@ public class LevelGenerator {
      * Converts loaded file from json into LevelRepresentation
      */
     private void extractLevelRepresentation() {
-        loadFile();
+        json = loadFile(userSave, filePath, context);
         levelRepresentation = new GsonBuilder().create().fromJson(json, LevelRepresentation.class);
     }
 
     /**
      * Helper function, loads the file.
      */
-    private void loadFile () {
+    public static String loadFile (boolean userSave, String filePath, Context context) {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
         try {
@@ -196,7 +200,7 @@ public class LevelGenerator {
                 }
             }
         }
-        json = sb.toString();
+        return sb.toString();
     }
 
 

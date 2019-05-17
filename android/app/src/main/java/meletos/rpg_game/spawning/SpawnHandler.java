@@ -44,7 +44,7 @@ public class SpawnHandler {
     }
 
     /**
-     * Begins the timer
+     * Starts the timer
      */
     public void begin() {
         if (spawnInstructions == null) {

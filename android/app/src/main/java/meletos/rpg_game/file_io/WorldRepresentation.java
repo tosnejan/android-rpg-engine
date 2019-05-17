@@ -1,5 +1,6 @@
 package meletos.rpg_game.file_io;
 
+import android.content.Context;
 import android.util.SparseArray;
 
 import com.google.gson.Gson;
@@ -32,7 +33,26 @@ public class WorldRepresentation {
     private int currLvlNumber = 0;
     File folder;
 
-    public WorldRepresentation() {
+    public WorldRepresentation (String filepath, boolean userSave, Context context) {
+    }
+
+    public static WorldRepresentation createWorldRepresentationFromFile (String filepath, boolean userSave, Context context) {
+        return new GsonBuilder().create().fromJson(LevelGenerator.loadFile(userSave, filepath + "/worldRepresentation.json", context), WorldRepresentation.class);
+    }
+
+    /**
+     * returns filename of the current level
+     * @return
+     */
+    public String getCurrentLevel () {
+        return levels.get(currLvlNumber);
+    }
+
+    /**
+     * Advances level count -- can be used to go to another level
+     */
+    public void nextLevel () {
+        ++currLvlNumber;
     }
 
     /**

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import meletos.rpg_game.GameView;
 import meletos.rpg_game.State;
+import meletos.rpg_game.file_io.GameInitialiser;
 import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.MenuButton;
 import meletos.rpg_game.text.Text;
@@ -46,6 +47,7 @@ public class MainMenu {
     private MenuButton backButton;
     private Text text;
     private HeroSelection heroSelection;
+    private GameInitialiser gameInitialiser;
 
     private int clickedButton = -1;
     private int x;
@@ -200,6 +202,9 @@ public class MainMenu {
                 if (!storyButtons[clickedButton].isTouched(x, y)) clickedButton = -1;
                 switch (clickedButton) {
                     case 0://First story
+                        // TODO -- MATOUS -- COPY THE WHOLE LEVEL
+                        gameInitialiser = new GameInitialiser("faigled", context);
+                        gameInitialiser.initialiseNewSave(); // makes new save
                         gameView.loadLevel(stories.get(shift).getPath() + "/second_lvl.json", stories.get(shift).isUserSave());
                         loadHeroes(stories.get(shift));
                         state = MainMenuStates.HERO_SELECTION;
@@ -270,6 +275,8 @@ public class MainMenu {
                         while (!gameView.hasGameHandler()) System.out.println("Game is still loading!");
                         heroSelection.kys();
                         gameView.getGameHandler().setHero(hero);
+                        // save those hero properties into TODO
+                        gameInitialiser.saveHeroProperties(hero);
                         gameView.setState(State.MAP);
                         gameView.sound.play(State.MAP);
                         state = MainMenuStates.MAIN;

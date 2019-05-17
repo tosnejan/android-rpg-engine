@@ -65,7 +65,7 @@ public class HeroProperties {
         } catch (IOException e) {
             e.printStackTrace();
             try {
-                return new InputStreamReader(context.getAssets().open("lvl/heroes.json"),
+                return new InputStreamReader(context.getAssets().open("lvl/faigled/heroes.json"),
                         StandardCharsets.UTF_8);//Tohle je prasečárna, ale lepší než aby to spadlo. Jestli se změní cesta, tak je třeba předělat!!!!!
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -87,4 +87,6 @@ public class HeroProperties {
             e.printStackTrace();
         }
     }
+
+
 }
