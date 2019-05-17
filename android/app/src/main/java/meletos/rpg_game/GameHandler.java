@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import meletos.rpg_game.battle.Battle;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
@@ -46,7 +47,8 @@ public class GameHandler {
     private List<FatherCharacter> characters;
     private SpawnHandler spawnHandler;
     private HeroProperties heroProperties;
-    private FatherCharacter toRemove = null;
+    //private FatherCharacter toRemove = null;
+    private FatherCharacter fighting = null;
     //map info
     private String mapSource;
     private Bitmap map;
@@ -65,8 +67,10 @@ public class GameHandler {
 
 
     private boolean isGamePaused = false;
+    private boolean inBattle = false;
     public Context context;
     private GameView gameView;
+    private Battle battle = new Battle(this);
 
     private String lvlName;
     private Inventory inventory;
@@ -167,16 +171,19 @@ public class GameHandler {
      */
     public void updateGame () {
         if (isGamePaused) {
+            if (inBattle){
+                battle.update();
+            }
             return;
         }
         hero.update();
         for (FatherCharacter character: characters) {
             character.update();
         }
-        if (toRemove != null){
+        /*if (toRemove != null){
             characters.remove(toRemove);
             toRemove = null;
-        }
+        }*/
     }
 
     /**
@@ -344,7 +351,9 @@ public class GameHandler {
                     //TODO battle
                     if (character.isEnemy()){
                         System.out.println("Battle");
-                        toRemove = character;
+                        fighting = character;
+                        inBattle = true;
+                        gameView.setState(State.BATTLE);
                     }
                     return result;
                 }
@@ -356,7 +365,9 @@ public class GameHandler {
                 //TODO battle
                 if (currCharacter.isEnemy()){
                     System.out.println("Battle");
-                    toRemove = currCharacter;
+                    fighting = currCharacter;
+                    inBattle = true;
+                    gameView.setState(State.BATTLE);
                 }
                 return result;
             }
@@ -462,7 +473,7 @@ public class GameHandler {
 
     public void setHero(HeroProperties heroProperties) {
         this.heroProperties = heroProperties;
-        hero.getImages(heroProperties.getImagesFolder(), !heroProperties.isCustom());
+        hero.getImages(heroProperties.getImagesFolder(), !heroProperties.isCustom(), null);
     }
 
     public void startGame () {
@@ -478,5 +489,16 @@ public class GameHandler {
         return heroProperties.getStats();
     }
 
+    public void removeCharacter(FatherCharacter character) {
+        characters.remove(character);
+    }
+
+    public FatherCharacter getFighting() {
+        return fighting;
+    }
+
+    public Battle getBattle() {
+        return battle;
+    }
 }
 

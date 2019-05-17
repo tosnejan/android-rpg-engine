@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import meletos.rpg_game.battle.BattleGUI;
 import meletos.rpg_game.characters.Follower;
 import meletos.rpg_game.file_io.Loader;
 import meletos.rpg_game.inventory.InventoryGUI;
@@ -52,6 +53,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Text text;
     public Sound sound;
     private InventoryGUI inventory;
+    private BattleGUI battle;
     private boolean hasGameHandler = false;
     private boolean isInLevel;
     private Itinerary itinerary;
@@ -126,7 +128,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     gameHandler.drawGame(canvas);
                     menu.draw(canvas);
                     break;
-                case FIGHT:
+                case BATTLE:
+                    battle.draw(canvas);
                     break;
                 case INVENTORY:
                     inventory.draw(canvas);
@@ -175,7 +178,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     menu.touchUp((int)event.getX(), (int)event.getY());
                 }
                 break;
-            case FIGHT:
+            case BATTLE:
+                if (event.getAction() == ACTION_DOWN) {
+                    battle.touchDown((int)event.getX(), (int)event.getY());
+                }
+                if (event.getAction() == ACTION_UP) {
+                    battle.touchUp((int)event.getX(), (int)event.getY());
+                }
                 break;
             case INVENTORY:
                 if (event.getAction() == ACTION_DOWN) {
@@ -262,8 +271,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         } else if (state == State.MAP && this.state == State.MENU) {
             gameHandler.resumeGame();
             menu.setState(MenuStates.MAIN);
-        }else if (state == State.MAP) {
+            js.setUsed(false);
+        } else if (state == State.MAP) {
             gameHandler.resumeGame();
+            js.setUsed(false);
+        } else if (state == State.BATTLE){
+            gameHandler.pauseGame();
+            battle.init();
         }
         this.state = state;
     }
@@ -309,6 +323,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         inventory = new InventoryGUI(this, getContext(), gameHandler, text, itinerary);
         gameHandler.getInventory().setItinerary(itinerary);
         menu = new Menu(gameHandler, this, getContext(), text, settings);
+        battle = new BattleGUI(gameHandler, this, getContext(), inventory);
         gameThread = new GameThread(gameHandler);
         gameThread.start();
         //gameHandler.resumeGame(); //Možná pak torchu pozměnit, kdyby se to využívalo i na přechod mezi mapama.

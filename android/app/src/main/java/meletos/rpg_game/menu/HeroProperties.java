@@ -20,6 +20,8 @@ public class HeroProperties {
     private String name;
     private String imagesFolder;
     private Bitmap image;
+    private double damageMultiplayer;
+    private double inteligenceMultiplayer;
     private HashMap<String,Integer> stats;
     private boolean custom;
 
