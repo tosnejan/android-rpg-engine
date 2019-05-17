@@ -20,6 +20,7 @@ import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
 import meletos.rpg_game.file_io.LevelRepresentation;
+import meletos.rpg_game.inventory.Inventory;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -34,40 +35,9 @@ public class TestingJsons {
 
     @Test
     public void checkJsons2() {
-        LevelRepresentation lr = new LevelRepresentation();
-        lr.setLvlName("exampleLvl");
-        lr.setMapSource("testing_map");
-        lr.createCharacterHashmap("Hero", 100, 500, "characters/warrior_m", true);
-        lr.createCharacterHashmap("RandomWalker",100, 800, "characters/ninja_m", false);
-        lr.createCharacterHashmap("RandomWalker", 500, 1000, "characters/townfolk1_f", false);
-
-        // allows for integer !!!
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Double.class,  new JsonSerializer<Double>() {
-
-            public JsonElement serialize(Double src, Type typeOfSrc,
-                                         JsonSerializationContext context) {
-                Integer value = (int)Math.round(src);
-                return new JsonPrimitive(value);
-            }
-        });
-        Gson gs = gsonBuilder.create();
-        String res = gs.toJson(lr);
-        System.out.println(res);
-        LevelRepresentation lvlRetrieved = new GsonBuilder().create().fromJson(res, LevelRepresentation.class);
-        String other = gs.toJson(lvlRetrieved);
-
-        assertEquals(res, other);
+        String json = new Gson().toJson("Hello");
+        System.out.println(json);
     }
 
-    @Test
-    public void checkJsons3() {
-        LevelRepresentation lr = new LevelRepresentation();
-        lr.setLvlName("exampleLvl");
-        lr.setMapSource("example_map");
-        lr.createCharacterHashmap("RandomWalker", 100, 1000, "folder", false);
-        lr.createCharacterHashmap("Follower", 1000, 200, "folder2", false);
-
-    }
 
 }

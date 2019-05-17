@@ -18,8 +18,6 @@ import meletos.rpg_game.inventory.itinerary.ItemType;
 public class LevelRepresentation {
     private String lvlName;
     private String mapSource;
-    private int[][] inventory;
-    private HashMap<ItemType,Integer> equipped;
     private ArrayList<CharacterRepresentation> characters;
     private CharacterRepresentation hero;
     private Coordinates heroPosition;
@@ -42,15 +40,6 @@ public class LevelRepresentation {
     public void setMapSource (String mapSource) {
         this.mapSource = mapSource;
     }
-
-    public void setInventory(int[][] inventory) {
-        this.inventory = inventory;
-    }
-
-    public void setEquipped(HashMap<ItemType, Integer> equipped) {
-        this.equipped = equipped;
-    }
-
     public void addCharacter (CharacterRepresentation character) {
         characters.add(character);
     }
@@ -129,13 +118,6 @@ public class LevelRepresentation {
         return mapSource;
     }
 
-    public int[][] getInventory() {
-        return inventory;
-    }
-
-    public HashMap<ItemType, Integer> getEquipped() {
-        return equipped;
-    }
 
     public HashMap<String, List<HashMap>> getSpawnStructure() {
         return spawnStructure;
@@ -150,8 +132,6 @@ public class LevelRepresentation {
         return "LevelRepresentation{" +
                 "lvlName='" + lvlName + '\'' +
                 ", mapSource='" + mapSource + '\'' +
-                ", inventory=" + Arrays.toString(inventory) +
-                ", equipped=" + equipped +
                 ", characters=" + characters +
                 ", hero=" + hero +
                 ", heroPosition=" + heroPosition +

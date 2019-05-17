@@ -1,6 +1,4 @@
 {
-  "lvlName": "exampleLvl",
-  "mapSource": "testing_map",
   "inventory": [
     [
       2,
@@ -54,25 +52,5 @@
     "GLOVES": 7,
     "RING": 10,
     "BELT": 8
-  },
-  "characters": [
-    {
-      "charType": "Hero",
-      "imagesFolder": "characters/warrior_m",
-      "yCoord": 500,
-      "xCoord": 100
-    },
-    {
-      "charType": "RandomWalker",
-      "imagesFolder": "characters/ninja_m",
-      "yCoord": 800,
-      "xCoord": 100
-    },
-    {
-      "charType": "RandomWalker",
-      "imagesFolder": "characters/townfolk1_f",
-      "yCoord": 1000,
-      "xCoord": 500
-    }
-  ]
+  }
 }

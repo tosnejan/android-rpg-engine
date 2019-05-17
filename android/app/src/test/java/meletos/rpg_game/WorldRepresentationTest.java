@@ -13,11 +13,7 @@ import static org.junit.Assert.*;
  * Not real tests :D
  */
 public class WorldRepresentationTest {
-    @Test
-    public void test1() {
-        WorldRepresentation wr = new WorldRepresentation();
-        wr.generateWorldRepresentation("C:\\melecmat\\android\\app\\src\\main\\assets\\lvl");
-    }
+
 
     @Test
     public void test2() {
