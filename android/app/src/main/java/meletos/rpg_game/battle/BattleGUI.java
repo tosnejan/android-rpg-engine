@@ -102,6 +102,7 @@ public class BattleGUI {
         for (int i = 0; i < buttons.length; i++) {
             buttons[i].draw(canvas);
         }
+        gameHandler.getBattle().draw(canvas);
     }
 
     public void touchDown(int x, int y) {
@@ -126,9 +127,7 @@ public class BattleGUI {
                     gameHandler.getBattle().setShield();
                     break;
                 case 2://potion
-                     HashMap<String,Integer> stats = gameHandler.getHeroStats();
-                     int hp = stats.get("hp");
-                     stats.put("hp", hp + 100);
+                    gameHandler.getBattle().healChar();
                     break;
                 case 3://escape
                     gameView.setState(State.MAP);

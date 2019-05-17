@@ -70,7 +70,7 @@ public class GameHandler {
     private boolean inBattle = false;
     public Context context;
     private GameView gameView;
-    private Battle battle = new Battle(this);
+    private Battle battle;
 
     private String lvlName;
     private Inventory inventory;
@@ -81,6 +81,7 @@ public class GameHandler {
         this.context = context;
         this.lvlName = lvlName;
         this.hero = hero;
+        battle = new Battle(this);
         hero.setGameHandler(this);
         for (FatherCharacter character: characters) { // TODO -- edit - hero should be declared in the beginning
           character.setGameHandler(this); // let those characters know I'm the boss!
