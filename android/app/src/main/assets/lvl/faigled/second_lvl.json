@@ -59,17 +59,9 @@
     {
       "charType": "RandomWalker",
       "imagesFolder": "characters/mage_m",
-      "image": "characters/mage_m/image.png",
       "isEnemy": true,
       "yCoord": 1000,
-      "xCoord": 700,
-      "stats": {
-        "DMG": 5,
-        "ARM": 15,
-        "INT": 20,
-        "MR": 20,
-        "HP": 1000
-      }
+      "xCoord": 700
     }
   ],
   "hero": {
@@ -78,5 +70,23 @@
     "yCoord": 500,
     "xCoord": 100,
     "imagesFolder": "characters/warrior_m"
+  },
+  "spawnStructure": {
+    "5000": [
+      {
+        "charType": "RandomWalker",
+        "imagesFolder": "characters/mage_m",
+        "isEnemy": true,
+        "yCoord": 1000,
+        "xCoord": 700
+      },
+      {
+        "charType": "RandomWalker",
+        "imagesFolder": "characters/ninja_m",
+        "isEnemy": true,
+        "yCoord": 160,
+        "xCoord": 1000
+      }
+    ]
   }
 }

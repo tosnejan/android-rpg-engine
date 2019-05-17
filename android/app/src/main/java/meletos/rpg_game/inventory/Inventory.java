@@ -74,4 +74,21 @@ public class Inventory {
         }
         return playerStats;
     }
+
+    /**
+     * Can be used to search for key. I hope this is how it works :D
+     * @param id
+     * @return
+     */
+    public boolean hasItem(int id) {
+        for (int row = 0; row < inventory.length; row++) {
+            for (int column = 0; column < inventory[row].length; column++) {
+                if (inventory[row][column] == id){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

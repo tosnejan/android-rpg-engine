@@ -20,8 +20,8 @@ public class LevelRepresentation {
     private String mapSource;
     private int[][] inventory;
     private HashMap<ItemType,Integer> equipped;
-    private ArrayList<HashMap> characters;
-    private HashMap hero;
+    private ArrayList<CharacterRepresentation> characters;
+    private CharacterRepresentation hero;
     private Coordinates heroPosition;
     private String lvlText;
 
@@ -51,7 +51,7 @@ public class LevelRepresentation {
         this.equipped = equipped;
     }
 
-    private void addCharacter (HashMap character) {
+    public void addCharacter (CharacterRepresentation character) {
         characters.add(character);
     }
 
@@ -59,6 +59,7 @@ public class LevelRepresentation {
         spawnStructure.put(Double.toString(time), charactersToSpawn);
     }
 
+    /*
     public void createCharacterHashmap (
             String charType,
             int x, int y,
@@ -99,7 +100,7 @@ public class LevelRepresentation {
 
     public void removeEntry (String key) {
         characters.remove(key);
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -116,7 +117,7 @@ public class LevelRepresentation {
         return Objects.hash(lvlName, mapSource, characters);
     }
 
-    public ArrayList<HashMap> getCharacters() {
+    public ArrayList<CharacterRepresentation> getCharacters() {
         return characters;
     }
 
@@ -140,7 +141,7 @@ public class LevelRepresentation {
         return spawnStructure;
     }
 
-    public HashMap getHero () {
+    public CharacterRepresentation getHero () {
         return hero;
     }
 

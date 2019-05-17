@@ -13,7 +13,7 @@ public class Battle {
 
     public Battle(GameHandler gameHandler) {
         this.gameHandler = gameHandler;
-        enemyStats = gameHandler.getFighting().getStats();
+        //enemyStats = gameHandler.getFighting().getStats();
 
     }
 

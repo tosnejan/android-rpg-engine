@@ -19,6 +19,7 @@ import meletos.rpg_game.Directions;
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.PositionInformation;
 import meletos.rpg_game.Sprite;
+import meletos.rpg_game.file_io.CharacterRepresentation;
 
 /**
  * This character should be the father of all the other characters.
@@ -56,6 +57,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
 
     protected GameHandler gameHandler; // the boss
     protected Context context;
+    protected String imagePath;
 
     public FatherCharacter(int x, int y, Bitmap image) {
         super(x, y, image);
@@ -77,6 +79,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
         this.assetsFolder = assetsFolder;
         this.context = context;
         this.enemy = enemy;
+        this.imagePath = imagePath;
         getImages(assetsFolder, true, imagePath);
         animation = true;
     }
@@ -306,4 +309,12 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     public HashMap<String, Integer> getStats() {
         return stats;
     }
+
+    public CharacterRepresentation putMyselfIntoCharRepresentation() {
+        return new CharacterRepresentation(
+            this.getClass().getSimpleName(), assetsFolder,
+            imagePath, enemy, y, x, stats
+        );
+    }
+
 }

@@ -1,11 +1,14 @@
 package meletos.rpg_game;
 
 
+import android.util.Log;
+
 /**
  * The thread on which the game logic runs
  */
 public class GameThread extends Thread {
-        private GameHandler gameHandler;
+    private static final String TAG = "GameThread";
+    private GameHandler gameHandler;
 
         /*variable used to stop the thread -- when false,
         game loop terminates and the system kills the thread*/
@@ -27,7 +30,7 @@ public class GameThread extends Thread {
             try {
                 sleep(10); // puts the thread asleep so it isnt too fast :D
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(TAG, e.getMessage());
             }
         }
 

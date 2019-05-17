@@ -45,7 +45,6 @@ public class GameHandler {
     //characters
     private Hero hero;
     private List<FatherCharacter> characters;
-    private SpawnHandler spawnHandler;
     private HeroProperties heroProperties;
     //private FatherCharacter toRemove = null;
     private FatherCharacter fighting = null;
@@ -70,21 +69,23 @@ public class GameHandler {
     private boolean inBattle = false;
     public Context context;
     private GameView gameView;
-    private Battle battle = new Battle(this);
+    private Battle battle;
 
     private String lvlName;
     private Inventory inventory;
+    private TransitionManager transitionManager;
 
-    public GameHandler (List<FatherCharacter> characters, Hero hero, final Context context, String lvlName, List<SpawnDataEntry> spawnInstructions) {
-        spawnHandler = new SpawnHandler(spawnInstructions, this);
+
+    public GameHandler (List<FatherCharacter> characters, Hero hero, final Context context, String lvlName) {
         this.characters = characters;
         this.context = context;
         this.lvlName = lvlName;
         this.hero = hero;
         hero.setGameHandler(this);
         for (FatherCharacter character: characters) { // TODO -- edit - hero should be declared in the beginning
-          character.setGameHandler(this); // let those characters know I'm the boss!
+            character.setGameHandler(this); // let those characters know I'm the boss!
         }
+        battle = new Battle(this);
     }
 
     public void setGameView(GameView gameView) {
@@ -192,7 +193,7 @@ public class GameHandler {
      * @param y
      * @param imgWidth
      * @param imgHeight
-     * @return
+     * @return true if
      */
     public boolean isPositionAvailable (int x, int y, int imgWidth, int imgHeight) {
         x = (x)/mapScale;
@@ -400,15 +401,18 @@ public class GameHandler {
     /**
      * Saves the current game state -- runs in a new thread
      */
+    //TODO
     public void saveGameState() {
         new Thread(new Runnable() {
             @Override
             public void run() {
+
+                // put this code into level representation
                 LevelRepresentation lr = new LevelRepresentation();
                 for (FatherCharacter character : characters) {
-                    lr.createCharacterHashmap(character.getClass().getSimpleName(), character.getX(), character.getY(), character.getAssetsFolder(), false, character.isEnemy());
+                    lr.addCharacter(character.putMyselfIntoCharRepresentation());
                 }
-                lr.createCharacterHashmap("Hero",  hero.getX(), hero.getY(), hero.getAssetsFolder(), true, hero.isEnemy());
+                lr.addCharacter(hero.putMyselfIntoCharRepresentation());
                 lr.setMapSource(mapSource);
                 lr.setLvlName(lvlName);
                 lr.setInventory(inventory.getInventory());
@@ -478,7 +482,6 @@ public class GameHandler {
 
     public void startGame () {
         isGamePaused = false;
-        spawnHandler.begin();
     }
 
     public HeroProperties getHeroProperties() {

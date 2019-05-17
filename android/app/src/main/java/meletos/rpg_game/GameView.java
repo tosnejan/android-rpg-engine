@@ -95,7 +95,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     public void exitLevel () {
         gameHandler.pauseGame();
-        gameHandler.saveGameState();
+        gameHandler.saveGameState(); // saves the level
         state = State.MAIN_MENU;
         boolean retry = true;
         while (retry) {
