@@ -2,30 +2,31 @@
   "lvlName": "Levl no 2",
   "mapSource": "testing_map",
   "transitionManager": {
-    "HEIGHT": 5,
-    "WIDTH": 5,
+    "height": 5,
+    "width": 100,
     "transitionPosition": {
       "imgHeigth": 5,
-      "imgWidth": 5,
+      "imgWidth": 100,
       "mainCoord": {
-        "x": 100,
-        "y": 490
+        "x": 130,
+        "y": 375
       },
       "upperRightCorner": {
-        "x": 105,
-        "y": 490
+        "x": 230,
+        "y": 375
       },
       "lowerLeftCorner": {
-        "x": 100,
-        "y": 495
+        "x": 130,
+        "y": 380
       },
       "lowerRightCorner": {
-        "x": 105,
-        "y": 495
+        "x": 230,
+        "y": 380
       }
     },
     "keyID": -1,
-    "nextLevelName": "house.json"
+    "nextLevelName": "house.json",
+    "heroVisited": false
   },
   "characters": [
     {

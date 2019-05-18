@@ -1,32 +1,8 @@
 {
   "lvlName": "house",
   "mapSource": "house",
-  "transitionManager": {
-    "HEIGHT": 5,
-    "WIDTH": 5,
-    "transitionPosition": {
-      "imgHeigth": 5,
-      "imgWidth": 5,
-      "mainCoord": {
-        "x": 720,
-        "y": 910
-      },
-      "upperRightCorner": {
-        "x": 725,
-        "y": 910
-      },
-      "lowerLeftCorner": {
-        "x": 720,
-        "y": 915
-      },
-      "lowerRightCorner": {
-        "x": 725,
-        "y": 915
-      }
-    },
-    "keyID": -1,
-    "nextLevelName": "second_lvl.json"
-  },
+  "transitionManager": {"height":5,"width":150,"transitionPosition":{"imgHeigth":5,"imgWidth":150,"mainCoord":{"x":885,"y":845},"upperRightCorner":{"x":1035,"y":845},"lowerLeftCorner":{"x":885,"y":850},"lowerRightCorner":{"x":1035,"y":850}},"keyID":-1,"nextLevelName":"second_lvl.json","heroVisited":false}
+,
   "characters": [
     {
       "charType": "StandingCharacter",

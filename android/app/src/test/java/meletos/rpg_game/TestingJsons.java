@@ -35,9 +35,10 @@ public class TestingJsons {
 
     @Test
     public void checkJsons2() {
-        String json = new Gson().toJson(new TransitionManager(-1, 100, 200, "third_level.json"));
+        String json = new Gson().toJson(new TransitionManager(-1, 130, 375, "house.json", 5, 100));
+        String house = new Gson().toJson(new TransitionManager(-1, 885, 845, "second_lvl.json", 5, 150));
+        // sirka 150
+        System.out.println(house);
         System.out.println(json);
     }
-
-
 }

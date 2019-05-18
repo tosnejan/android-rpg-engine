@@ -6,3 +6,6 @@ Ty: Mám se dobře!
 
 ID: 2
 Anna: Už jsme si povídali...
+
+ID: 3
+Mistránek69: Ty jsi mě zachránil!
