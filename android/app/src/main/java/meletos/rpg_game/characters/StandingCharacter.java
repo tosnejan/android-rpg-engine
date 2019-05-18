@@ -12,11 +12,13 @@ import java.util.HashMap;
 
 import meletos.rpg_game.PositionInformation;
 import meletos.rpg_game.dialog.DialogSwitcher;
+import meletos.rpg_game.file_io.CharacterRepresentation;
 
 public class StandingCharacter extends FatherCharacter {
 
     public StandingCharacter(int x, int y, Context context, String imagePath, int[][] dialogs, int actualDialog, boolean played, DialogSwitcher[] dialogSwitchers) {
         super(x, y, context, false);
+        this.assetsFolder = imagePath;
         this.dialogs = dialogs;
         this.actualDialog = actualDialog;
         this.played = played;

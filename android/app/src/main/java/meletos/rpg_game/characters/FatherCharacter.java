@@ -36,12 +36,12 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     /**
      * A proposal -- lets use this construct for animations :D
      */
-    protected  ArrayList<Bitmap> images;
+    protected transient ArrayList<Bitmap> images;
     protected int idx = 0;
     protected boolean animation = false;
     protected int animationSpeed = 0;
     protected final int ANIM_SPEED = 10; // sets after how many calls to draw does the image animate
-    protected Bitmap characterImage;
+    protected transient Bitmap characterImage;
 
     protected Directions direction;
     protected int xSpeedConstant = 10;
@@ -50,13 +50,13 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     /* ALWAYS CHANGE THROUGH updateDirectionSpeed() METHOD*/
     protected int xSpeed = xSpeedConstant;
     protected int ySpeed = ySpeedConstant;
-    private String assetsFolder;
+    protected String assetsFolder;
 
     // screen info
     protected int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     protected int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
-    protected GameHandler gameHandler; // the boss
+    protected transient GameHandler gameHandler; // the boss
     protected Context context;
     protected String imagePath;
 
@@ -327,8 +327,9 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
 
     public CharacterRepresentation putMyselfIntoCharRepresentation() {
         return new CharacterRepresentation(
-            this.getClass().getSimpleName(), assetsFolder,
-            imagePath, enemy, y, x, stats
+            this.getClass().getSimpleName(), assetsFolder, imagePath,
+        enemy, positionInformation.mainCoord.y, positionInformation.mainCoord.x, stats,
+                dialogs, actualDialog,  played,  dialogSwitchers
         );
     }
 

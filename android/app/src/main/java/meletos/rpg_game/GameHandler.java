@@ -31,6 +31,7 @@ import meletos.rpg_game.battle.Battle;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
+import meletos.rpg_game.file_io.FileManager;
 import meletos.rpg_game.file_io.LevelRepresentation;
 import meletos.rpg_game.inventory.Inventory;
 import meletos.rpg_game.menu.HeroProperties;
@@ -414,21 +415,20 @@ public class GameHandler {
     /**
      * Saves the current game state -- runs in a new thread
      */
-    //TODO tahle cela vec pujde pryc
     public void saveGameState() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 // put this code into level representation
                 LevelRepresentation lr = new LevelRepresentation();
+                String currPath = gameView.getFileManager().getCurrPath();
+                String currLevel =  currPath + "/" + gameView.getFileManager().getCurrLvl();
                 for (FatherCharacter character : characters) {
                     lr.addCharacter(character.putMyselfIntoCharRepresentation());
                 }
-                lr.addCharacter(hero.putMyselfIntoCharRepresentation());
+                lr.setHero(hero.putMyselfIntoCharRepresentation());
                 lr.setMapSource(mapSource);
                 lr.setLvlName(lvlName);
-                // TODO save inventory
 
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 gsonBuilder.registerTypeAdapter(Double.class, new JsonSerializer<Double>() {
@@ -440,8 +440,15 @@ public class GameHandler {
                     }
                 });
                 Gson gs = gsonBuilder.create();
-                String json = gs.toJson(lr);
-                String path = Environment.getExternalStorageDirectory().toString() + "/rpg_game_data/saves/" + lr.getLvlName() + ".json";
+                String lvljson = gs.toJson(lr);
+                System.out.println("Saving!!!!!!");
+                saveFile(currLevel, lvljson);
+
+                String inventoryjson = new Gson().toJson(inventory);
+                saveFile(currPath + "/inventory.json", inventoryjson);
+            }
+
+            private void saveFile(String path, String json) {
                 FileWriter out = null;
                 try {
                     File saveFile = new File(path);

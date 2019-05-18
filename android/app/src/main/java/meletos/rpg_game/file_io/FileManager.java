@@ -1,14 +1,26 @@
 package meletos.rpg_game.file_io;
 
 import android.content.Context;
+import android.os.Environment;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.GameView;
+import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.inventory.Inventory;
+import meletos.rpg_game.menu.HeroProperties;
 
 /**
  * Used for coordinating loading and saving
@@ -45,11 +57,17 @@ public class FileManager {
         new Loader(gameview, rootDirPath, false, currentLevel).start();
     }
 
-    /**
-     * Will be used for saving level TODO -- SATURDAY
-     */
-    public void save() {
+    public HeroProperties loadHeroProperties() {
+        String heroJson = LevelGenerator.loadFile(false, rootDirPath + "/heroProperties.json", context);
+        return new GsonBuilder().create().fromJson(heroJson, HeroProperties.class);
+    }
 
+    public String getCurrLvl() {
+        return currentLevel;
+    }
+
+    public String getCurrPath() {
+        return rootDirPath;
     }
 
     /**
