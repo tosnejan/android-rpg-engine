@@ -21,6 +21,7 @@ import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Follower;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
+import meletos.rpg_game.characters.StandingCharacter;
 import meletos.rpg_game.inventory.Inventory;
 import meletos.rpg_game.spawning.SpawnDataEntry;
 
@@ -120,16 +121,17 @@ public class LevelGenerator {
      * @throws UnsupportedTypeException
      */
     private FatherCharacter buildCharacter (CharacterRepresentation characterInfo) throws UnsupportedTypeException {
-
-        boolean enemy = (boolean)characterInfo.isEnemy;
+        boolean enemy = characterInfo.isEnemy;
         int x = characterInfo.xCoord;
         int y = characterInfo.yCoord;
         String imagesFolder = characterInfo.imagesFolder;
         HashMap<String,Integer> stats = characterInfo.stats;
         String battleImage = characterInfo.image;
+        int[][] dialogs = characterInfo.dialogs;
+        int actualDialog = characterInfo.actualDialog;
+        boolean played = characterInfo.played;
         try {
             switch (characterInfo.charType) {
-
                 case "Hero"://TODO teoreticky lze úplně odendat, protože se to pak stejně mění
                     if (userSave){
                         Hero hero = new Hero(x, y, context, enemy);
@@ -145,6 +147,20 @@ public class LevelGenerator {
                     } else return new RandomWalker(
                             x, y, imagesFolder, context, enemy, battleImage,  stats
                             /*x, y, context, enemy, stats*/);
+                case "StandingCharacter":
+                    if (enemy){
+                        if (userSave){
+                            StandingCharacter standing = new StandingCharacter(x, y, context, stats);
+                            standing.loadImage(imagesFolder, false, battleImage);
+                            return standing;
+                        } else return new StandingCharacter(x, y, imagesFolder, context, battleImage,  stats);
+                    } else {
+                        if (userSave){
+                            StandingCharacter standing = new StandingCharacter(x, y, context, dialogs, actualDialog, played);
+                            standing.loadImage(imagesFolder, false);
+                            return standing;
+                        } else return new StandingCharacter(x, y, context, imagesFolder, dialogs, actualDialog, played);
+                    }
                 // follower doesnt work yet, taky je ho potřeba předělat na ten userSave... viz nahoru :D Nechci ti do toho šahat :D
                 /*case "Follower":
                     Object[] coord = new Object[10];

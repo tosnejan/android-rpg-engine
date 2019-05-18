@@ -57,3 +57,9 @@ Došly vám lektvary.
 
 ID: 19
 Lektvary
+
+ID: 20
+Konec hry
+
+ID: 21
+Umřel jsi!

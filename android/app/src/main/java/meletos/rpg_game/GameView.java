@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.os.Environment;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -17,15 +16,12 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import meletos.rpg_game.battle.BattleGUI;
-import meletos.rpg_game.characters.Follower;
+import meletos.rpg_game.dialog.Dialog;
 import meletos.rpg_game.file_io.FileManager;
-import meletos.rpg_game.file_io.Loader;
 import meletos.rpg_game.inventory.InventoryGUI;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
 import meletos.rpg_game.menu.MenuStates;
 import meletos.rpg_game.menu.Settings;
-import meletos.rpg_game.file_io.LevelGenerator;
-import meletos.rpg_game.file_io.UnsupportedTypeException;
 import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.JoyStick;
 import meletos.rpg_game.menu.MainMenu;
@@ -55,6 +51,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public Sound sound;
     private InventoryGUI inventory;
     private BattleGUI battle;
+    private Dialog dialog;
+    private Endgame endgame;
     private boolean hasGameHandler = false;
     private boolean isInLevel;
     private Itinerary itinerary;
@@ -138,6 +136,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 case INVENTORY:
                     inventory.draw(canvas);
                     break;
+                case ENDGAME:
+                    endgame.draw(canvas);
+                    break;
+                case DIALOG:
+                    gameHandler.drawGame(canvas);
+                    dialog.draw(canvas);
+                    break;
             }
         }
     }
@@ -196,6 +201,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
                 if (event.getAction() == ACTION_UP) {
                     inventory.buttonTouchedUp((int)event.getX(), (int)event.getY());
+                }
+                break;
+            case ENDGAME:
+                if (event.getAction() == ACTION_DOWN) {
+                    endgame.touchDown((int)event.getX(), (int)event.getY());
+                }
+                if (event.getAction() == ACTION_UP) {
+                    endgame.touchUp((int)event.getX(), (int)event.getY());
                 }
                 break;
         }
@@ -333,6 +346,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         gameHandler.setText(text);
         menu = new Menu(gameHandler, this, getContext(), text, settings);
         battle = new BattleGUI(gameHandler, this, getContext());
+        dialog = new Dialog(gameHandler, this, text);
+        endgame = new Endgame(gameHandler);
         gameThread = new GameThread(gameHandler);
         gameThread.start();
         //gameHandler.resumeGame(); //Možná pak torchu pozměnit, kdyby se to využívalo i na přechod mezi mapama.

@@ -78,6 +78,7 @@ public class GameHandler {
     private Text text;
 
 
+
     public GameHandler (List<FatherCharacter> characters, Hero hero, final Context context, String lvlName) {
         this.characters = characters;
         this.context = context;
@@ -181,6 +182,11 @@ public class GameHandler {
             return;
         }
         hero.update();
+        if (heroProperties.getStats().get("HP") < 1000){
+            int hp = heroProperties.getStats().get("HP") + 1;
+            hp = hp > 1000 ? 1000 : hp;
+            heroProperties.getStats().put("HP", hp);
+        }
         for (FatherCharacter character: characters) {
             character.update();
         }
@@ -516,6 +522,10 @@ public class GameHandler {
 
     public void setGameViewState(State state){
         gameView.setState(state);
+    }
+
+    public GameView getGameView() {
+        return gameView;
     }
 }
 

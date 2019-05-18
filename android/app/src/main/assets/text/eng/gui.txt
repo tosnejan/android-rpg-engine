@@ -57,3 +57,9 @@ You are out of potions.
 
 ID: 19
 Potions
+
+ID: 20
+Game over
+
+ID: 21
+You died!

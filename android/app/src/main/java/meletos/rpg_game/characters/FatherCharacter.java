@@ -52,8 +52,8 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     private String assetsFolder;
 
     // screen info
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    protected int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    protected int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
     protected GameHandler gameHandler; // the boss
     protected Context context;
@@ -93,6 +93,13 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
         animation = true;
     }
 
+    public FatherCharacter(int x, int y, Context context, boolean enemy) {
+        super(x, y);
+        this.context = context;
+        this.enemy = enemy;
+        animation = false;
+    }
+
     public FatherCharacter(int x, int y) {
         super(x, y);
         animation = true;
@@ -103,6 +110,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
      * Loads them all so it can animate the character
      * @param folder folder that contains character images.
      * @param assets true if the folder is from assets, false if the folder is from external storage.
+     * @param imagePath path for battle image.
      */
     public void getImages (String folder, boolean assets, String imagePath) {
         images = new ArrayList<>();

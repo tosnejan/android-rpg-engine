@@ -31,13 +31,6 @@ public class RandomWalker extends FatherCharacter {
         ySpeedConstant = 5;
     }
 
-    public RandomWalker(int x, int y) {
-        super(x, y);
-        steps = 0;
-        xSpeedConstant = 5;
-        ySpeedConstant = 5;
-    }
-
     @Override
     public void update() {
         ++steps;
@@ -69,6 +62,13 @@ public class RandomWalker extends FatherCharacter {
                 positionInformation.mainCoord.y,
                 imgWidth, imgHeigth)) {
             updateXY();
+        }
+        if (enemy){
+            if (stats.get("HP") < 1000){
+                int hp = stats.get("HP") + 1;
+                hp = hp > 1000 ? 1000 : hp;
+                stats.put("HP", hp);
+            }
         }
     }
 }

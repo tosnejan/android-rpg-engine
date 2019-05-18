@@ -1,6 +1,8 @@
 package meletos.rpg_game.battle;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -98,7 +100,10 @@ public class BattleGUI {
                     gameHandler.getBattle().setShield();
                     break;
                 case 2://potion
-                    gameHandler.getBattle().healChar(inventory);
+                    if (gameHandler.getHeroStats().get("HP") <= 900 && inventory.deleteItem(21)){
+                        gameHandler.getBattle().healChar();
+                    } else if (inventory.hasItem(21)) alert(gameHandler.getText().getText(17));
+                    else alert(gameHandler.getText().getText(18));
                     break;
                 case 3://escape
                     gameView.setState(State.MAP);
@@ -111,5 +116,18 @@ public class BattleGUI {
     public void init(){
         enemy = gameHandler.getFighting();
         enemyImage = enemy.getCharacterImage();
+    }
+
+    private void alert(String message){
+        AlertDialog alertDialog = new AlertDialog.Builder(gameHandler.context).create();
+        alertDialog.setTitle(gameHandler.getText().getText(19));
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }

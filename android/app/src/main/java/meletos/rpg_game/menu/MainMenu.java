@@ -307,7 +307,7 @@ public class MainMenu {
                 .setPositiveButton(text.getText(1), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        while (!gameView.hasGameHandler()) System.out.println("Game is still loading!");
+                        while (!gameView.hasGameHandler()); //System.out.println("Game is still loading!");
                         heroSelection.kys();
                         gameView.getGameHandler().setHero(hero);
                         // save those hero properties into TODO

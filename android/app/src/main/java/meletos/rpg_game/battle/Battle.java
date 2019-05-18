@@ -106,8 +106,7 @@ public class Battle {
                 gameHandler.removeCharacter(gameHandler.getFighting());
                 gameHandler.setGameViewState(State.MAP);
             } else if (heroStats.get("HP") <= 0){
-                //TODO game over
-                gameHandler.setGameViewState(State.MAP);
+                gameHandler.setGameViewState(State.ENDGAME);
             }
             if (heroShield != 0){
                 heroShield--;
@@ -120,7 +119,7 @@ public class Battle {
             playersRound = !playersRound;
         } else if (!playersRound){
             if (new Random().nextInt(10) < 3){
-                enemyShield = 4;
+                enemyShield = 6;
                 animation = Animations.ENEMY_SHIELD;
             } else {
                 attacked();
@@ -142,7 +141,7 @@ public class Battle {
 
     public void setShield() {
         if (playersRound && animationDone) {
-            heroShield = 4;
+            heroShield = 6;
             animation = Animations.SHIELD;
             animationDone = false;
         }
@@ -188,16 +187,13 @@ public class Battle {
         animationDone = false;
     }
 
-    public void healChar(Inventory inventory) {
+    public void healChar() {
         HashMap<String,Integer> stats = gameHandler.getHeroStats();
         int hp = stats.get("HP");
-        if (hp <= 900 && inventory.deleteItem(21)){
-            stats.put("HP", hp + 100);
-            heroBar = Bitmap.createScaledBitmap(heroBar, (gameHandler.getScreenWidth()/3)* (stats.get("HP") >= 2 ? stats.get("HP") : 2) / 1000, gameHandler.getScreenHeight()/20, true);
-            animation = Animations.HEAL;
-            animationDone = false;
-        } else if (hp <= 900) alert(gameHandler.getText().getText(18));
-        else if (inventory.hasItem(21)) alert(gameHandler.getText().getText(17));
+        stats.put("HP", hp + 100);
+        heroBar = Bitmap.createScaledBitmap(heroBar, (gameHandler.getScreenWidth()/3)* (stats.get("HP") >= 2 ? stats.get("HP") : 2) / 1000, gameHandler.getScreenHeight()/20, true);
+        animation = Animations.HEAL;
+        animationDone = false;
     }
 
     private void alert(String message){

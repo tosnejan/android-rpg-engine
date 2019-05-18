@@ -46,6 +46,17 @@
         "MR": 40,
         "HP": 1000
       }
+    },
+    {
+      "charType": "StandingCharacter",
+      "imagesFolder": "characters/townfolk1_f/7.png",
+      "isEnemy": false,
+      "yCoord": 380,
+      "xCoord": 0,
+      "dialogs": [
+        [0,1],
+        [2]
+      ]
     }
   ],
   "hero": {

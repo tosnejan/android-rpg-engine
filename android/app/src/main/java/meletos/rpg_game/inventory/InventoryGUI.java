@@ -1,6 +1,8 @@
 package meletos.rpg_game.inventory;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -535,4 +537,5 @@ public class InventoryGUI {
     public Inventory getInventory() {
         return inventory;
     }
+
 }

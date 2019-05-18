@@ -10,6 +10,9 @@ public class CharacterRepresentation {
     public int yCoord;
     public int xCoord;
     public HashMap<String,Integer> stats;
+    public int[][] dialogs;
+    public int actualDialog;
+    public boolean played;
 
     public CharacterRepresentation(
             String charType, String imagesFolder, String image, boolean isEnemy,
