@@ -1,14 +1,8 @@
 ID: 0
-Ahoj jak se máš?
+Anna: Hello. How are you?
 
 ID: 1
-Ty: Mám se dobře!
+You: I'm fine!
 
 ID: 2
-Už jsme si povídali.
-
-ID: 3
-Jste si jist/a, že chcete ukončit tuto hru? Veškerý neuložený obsah bude ztracen.
-
-ID: 4
-Nová hra
+Anna: We already talked...
