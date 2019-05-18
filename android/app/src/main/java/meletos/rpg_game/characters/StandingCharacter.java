@@ -109,12 +109,15 @@ public class StandingCharacter extends FatherCharacter {
 
     @Override
     public void update() {
-        if (dialogSwitchers.length > actualDialog){
-            if (dialogSwitchers[actualDialog].check(gameHandler, this)){
-                actualDialog++;
-                played = false;
+        if (enemy){
+
+        }else {
+            if (dialogSwitchers.length > actualDialog) {
+                if (dialogSwitchers[actualDialog].check(gameHandler, this)) {
+                    actualDialog++;
+                    played = false;
+                }
             }
         }
     }
-
 }
