@@ -16,7 +16,7 @@ public class CharacterRepresentation {
     public int actualDialog;
     public boolean played;
     public DialogSwitcher[] dialogSwitchers;
-
+/*
     public CharacterRepresentation(
             String charType, String imagesFolder, String image, boolean isEnemy,
             int yCoord, int xCoord, HashMap<String, Integer> stats
@@ -28,5 +28,21 @@ public class CharacterRepresentation {
         this.yCoord = yCoord;
         this.xCoord = xCoord;
         this.stats = stats;
+    }*/
+
+    public CharacterRepresentation(String charType, String imagesFolder, String image,
+                                   boolean isEnemy, int yCoord, int xCoord, HashMap<String, Integer> stats,
+                                   int[][] dialogs, int actualDialog, boolean played, DialogSwitcher[] dialogSwitchers) {
+        this.charType = charType;
+        this.imagesFolder = imagesFolder;
+        this.image = image;
+        this.isEnemy = isEnemy;
+        this.yCoord = yCoord;
+        this.xCoord = xCoord;
+        this.stats = stats;
+        this.dialogs = dialogs;
+        this.actualDialog = actualDialog;
+        this.played = played;
+        this.dialogSwitchers = dialogSwitchers;
     }
 }

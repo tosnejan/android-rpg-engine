@@ -16,10 +16,19 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
+class HeroPropertiesJson {
+    public  String name;
+    public String imagesFolder;
+    public double damageMultiplayer;
+    public double inteligenceMultiplayer;
+    public HashMap<String,Integer> stats;
+    public boolean custom;
+}
+
 public class HeroProperties {
     private String name;
     private String imagesFolder;
-    private Bitmap image;
+    private transient Bitmap image; // makes gson ignore this :D
     private double damageMultiplayer;
     private double inteligenceMultiplayer;
     private HashMap<String,Integer> stats;

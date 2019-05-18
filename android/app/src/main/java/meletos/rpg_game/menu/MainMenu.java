@@ -195,14 +195,16 @@ public class MainMenu {
                     case 1://Load Game
                         // view load options
                         // EXPERIMENT -- DOES WORK ONLY FOR A SPECIFIC SAVE :DD
+                        // tady bychom potrebovali at to najde zalezitosti :D
                         gameView.getFileManager().setJob(Environment.getExternalStorageDirectory().toString()
-                                + "/rpg_game_data/save/test17.05.2019_19:29:24");
+                                + "/rpg_game_data/save/test18.05.2019_16:22:27");
 
                         // extract this into a function
                         while (!gameView.hasGameHandler()) System.out.println("Game is still loading!");
                         //heroSelection.kys();
                         //gameView.getGameHandler().setHero(hero);
                         //gameInitialiser.saveHeroProperties(hero);
+                        gameView.getGameHandler().setHero(gameView.getFileManager().loadHeroProperties());
                         gameView.setState(State.MAP);
                         gameView.sound.play(State.MAP);
                         state = MainMenuStates.MAIN;
@@ -230,10 +232,11 @@ public class MainMenu {
                 if (clickedButton == -1) break;
                 storyButtons[clickedButton].changeImage(false, 0);
                 if (!storyButtons[clickedButton].isTouched(x, y)) clickedButton = -1;
-                String[] lvls = FileScout.getAllLvls(context);
+                String[] lvls = FileScout.getAllLvls(context); // finds all the level folders
+                // BTW Nepredelame pak ten switch case na to, aby tam mohlo byt vic svetu? :D
                 switch (clickedButton) {
                     case 0://First story
-                        // TODO -- MATOUS -- COPY THE WHOLE LEVEL
+                        // TODO -- put this into a function maybe
                         gameInitialiser = new GameInitialiser(lvls[0], context);
                         gameInitialiser.initialiseNewSave(); // makes new save
                         gameInitialiser.startGameLoading(gameView.getFileManager());

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 import meletos.rpg_game.Coordinates;
+import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.inventory.itinerary.ItemType;
 
@@ -34,6 +35,10 @@ public class LevelRepresentation {
         characters = new ArrayList<>();
     }
 
+    public LevelRepresentation (GameHandler gh) {
+
+    }
+
     public void setLvlName(String lvlName) {
         this.lvlName = lvlName;
     }
@@ -42,6 +47,10 @@ public class LevelRepresentation {
     }
     public void addCharacter (CharacterRepresentation character) {
         characters.add(character);
+    }
+
+    public void setHero (CharacterRepresentation hero) {
+        this.hero = hero;
     }
 
     private void addSpawnInstructions (double time, List<HashMap> charactersToSpawn) {
