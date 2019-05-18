@@ -58,4 +58,8 @@ public class FileManager {
     private void checkLoadedLevels() {
 
     }
+
+    public String getRootDirPath() {
+        return rootDirPath;
+    }
 }

@@ -22,6 +22,7 @@ import meletos.rpg_game.characters.Follower;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
 import meletos.rpg_game.characters.StandingCharacter;
+import meletos.rpg_game.dialog.DialogSwitcher;
 import meletos.rpg_game.inventory.Inventory;
 import meletos.rpg_game.spawning.SpawnDataEntry;
 
@@ -130,6 +131,7 @@ public class LevelGenerator {
         int[][] dialogs = characterInfo.dialogs;
         int actualDialog = characterInfo.actualDialog;
         boolean played = characterInfo.played;
+        DialogSwitcher[] dialogSwitchers = characterInfo.dialogSwitchers;
         try {
             switch (characterInfo.charType) {
                 case "Hero"://TODO teoreticky lze úplně odendat, protože se to pak stejně mění
@@ -156,10 +158,10 @@ public class LevelGenerator {
                         } else return new StandingCharacter(x, y, imagesFolder, context, battleImage,  stats);
                     } else {
                         if (userSave){
-                            StandingCharacter standing = new StandingCharacter(x, y, context, dialogs, actualDialog, played);
+                            StandingCharacter standing = new StandingCharacter(x, y, context, dialogs, actualDialog, played, dialogSwitchers);
                             standing.loadImage(imagesFolder, false);
                             return standing;
-                        } else return new StandingCharacter(x, y, context, imagesFolder, dialogs, actualDialog, played);
+                        } else return new StandingCharacter(x, y, context, imagesFolder, dialogs, actualDialog, played, dialogSwitchers);
                     }
                 // follower doesnt work yet, taky je ho potřeba předělat na ten userSave... viz nahoru :D Nechci ti do toho šahat :D
                 /*case "Follower":

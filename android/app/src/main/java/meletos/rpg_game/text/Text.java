@@ -5,9 +5,13 @@ import android.content.SharedPreferences;
 import android.util.SparseArray;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+
+import meletos.rpg_game.GameView;
 
 
 public class Text {
@@ -16,7 +20,9 @@ public class Text {
     private SparseArray<String> text = new SparseArray<>();
     private SparseArray<String> itemNames = new SparseArray<>();
     private SparseArray<String> itemDescription = new SparseArray<>();
+    private SparseArray<String> dialogs = new SparseArray<>();
     private Context context;
+    private GameView gameView;
 
     public Text(Context context) {
         this.context = context;
@@ -27,6 +33,11 @@ public class Text {
         this.context = context;
         load();
     }
+
+    public void setGameView(GameView gameView) {
+        this.gameView = gameView;
+    }
+
     private void load() {
         BufferedReader reader = null;
         try {
@@ -88,6 +99,9 @@ public class Text {
         editor.putInt("language", lang.getID());
         editor.apply();
         load();
+        if (gameView.hasGameHandler()){
+            loadDialogs();
+        }
     }
 
     public String getText(int ID){
@@ -100,6 +114,43 @@ public class Text {
 
     public String getItemDescription(int ID) {
         return itemDescription.get(ID, "DescriptionNotFound");
+    }
+
+    public String getDialog(int ID){
+        return dialogs.get(ID, "DialogNotFound");
+    }
+
+    public void loadDialogs(){
+        BufferedReader reader = null;
+        try {
+            if (new File(gameView.getFileManager().getRootDirPath() + "/" + lang.getDialog()).exists()) {
+                reader = new BufferedReader(new FileReader(gameView.getFileManager().getRootDirPath() + "/" + lang.getDialog()));
+            } else {
+                reader = new BufferedReader(new FileReader(gameView.getFileManager().getRootDirPath() + "/" + Language.ENG.getDialog()));
+            }
+            String line;
+            int ID = 0;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("\uFEFF")) line = line.substring(1); //skip first character
+                if (!line.equals("")) {
+                    if (line.startsWith("ID:")) {
+                        ID = Integer.parseInt(line.substring(4));
+                    } else {
+                        dialogs.append(ID, line);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }

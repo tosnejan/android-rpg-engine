@@ -77,8 +77,6 @@ public class GameHandler {
     private TransitionManager transitionManager;
     private Text text;
 
-
-
     public GameHandler (List<FatherCharacter> characters, Hero hero, final Context context, String lvlName) {
         this.characters = characters;
         this.context = context;
@@ -364,6 +362,9 @@ public class GameHandler {
                         inBattle = true;
                         battle.initNewBattle(character);
                         gameView.setState(State.BATTLE);
+                    } else {
+                        gameView.getDialog().init(character);
+                        gameView.setState(State.DIALOG);
                     }
                     return result;
                 }
@@ -378,6 +379,9 @@ public class GameHandler {
                     inBattle = true;
                     battle.initNewBattle(currCharacter);
                     gameView.setState(State.BATTLE);
+                } else {
+                    gameView.getDialog().init(currCharacter);
+                    gameView.setState(State.DIALOG);
                 }
                 return result;
             }

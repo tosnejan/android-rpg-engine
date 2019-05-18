@@ -2,6 +2,8 @@ package meletos.rpg_game.file_io;
 
 import java.util.HashMap;
 
+import meletos.rpg_game.dialog.DialogSwitcher;
+
 public class CharacterRepresentation {
     public String charType;
     public String imagesFolder;
@@ -13,6 +15,7 @@ public class CharacterRepresentation {
     public int[][] dialogs;
     public int actualDialog;
     public boolean played;
+    public DialogSwitcher[] dialogSwitchers;
 
     public CharacterRepresentation(
             String charType, String imagesFolder, String image, boolean isEnemy,

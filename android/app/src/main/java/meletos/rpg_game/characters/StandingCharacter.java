@@ -10,27 +10,26 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-import meletos.rpg_game.Directions;
 import meletos.rpg_game.PositionInformation;
+import meletos.rpg_game.dialog.DialogSwitcher;
 
 public class StandingCharacter extends FatherCharacter {
-    private int[][] dialogs;
-    private int actualDialog;
-    private boolean played;
 
-    public StandingCharacter(int x, int y, Context context, String imagePath, int[][] dialogs, int actualDialog, boolean played) {
+    public StandingCharacter(int x, int y, Context context, String imagePath, int[][] dialogs, int actualDialog, boolean played, DialogSwitcher[] dialogSwitchers) {
         super(x, y, context, false);
         this.dialogs = dialogs;
         this.actualDialog = actualDialog;
         this.played = played;
+        this.dialogSwitchers = dialogSwitchers;
         loadImage(imagePath, true);
     }
 
-    public StandingCharacter(int x, int y, Context context, int[][] dialogs, int actualDialog, boolean played) {
+    public StandingCharacter(int x, int y, Context context, int[][] dialogs, int actualDialog, boolean played, DialogSwitcher[] dialogSwitchers) {
         super(x, y, context, false);
         this.dialogs = dialogs;
         this.actualDialog = actualDialog;
         this.played = played;
+        this.dialogSwitchers = dialogSwitchers;
     }
 
     public StandingCharacter(int x, int y, String assetsFolder, Context context, String battleImageFolder, HashMap<String, Integer> stats) {
@@ -108,10 +107,12 @@ public class StandingCharacter extends FatherCharacter {
 
     @Override
     public void update() {
-    }
-
-    public int[] dialog(){
-        return dialogs[actualDialog];
+        if (dialogSwitchers.length > actualDialog){
+            if (dialogSwitchers[actualDialog].check(gameHandler, this)){
+                actualDialog++;
+                played = false;
+            }
+        }
     }
 
 }

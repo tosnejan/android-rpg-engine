@@ -67,6 +67,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public GameView(Context context, Text text) {
         super(context);
         this.text = text;
+        this.text.setGameView(this);
         fileManager = new FileManager(context, this);
         itinerary = Itinerary.load(context, text, "itinerary/items.json");
         sound = new Sound(context);
@@ -211,6 +212,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     endgame.touchUp((int)event.getX(), (int)event.getY());
                 }
                 break;
+            case DIALOG:
+                if (event.getAction() == ACTION_DOWN) {
+                    dialog.touchDown((int)event.getX(), (int)event.getY());
+                }
+                if (event.getAction() == ACTION_UP) {
+                    dialog.touchUp((int)event.getX(), (int)event.getY());
+                }
+                break;
         }
         return true;
     }
@@ -287,7 +296,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void setState(State state) {
-        if (state == State.INVENTORY || state == State.MENU) {
+        if (state == State.INVENTORY || state == State.MENU || state == State.DIALOG || state == State.ENDGAME) {
             gameHandler.pauseGame();
         } else if (state == State.MAP && this.state == State.MENU) {
             gameHandler.resumeGame();
@@ -346,6 +355,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         gameHandler.setText(text);
         menu = new Menu(gameHandler, this, getContext(), text, settings);
         battle = new BattleGUI(gameHandler, this, getContext());
+        text.loadDialogs();
         dialog = new Dialog(gameHandler, this, text);
         endgame = new Endgame(gameHandler);
         gameThread = new GameThread(gameHandler);
@@ -360,5 +370,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public GameHandler getGameHandler() {
         return gameHandler;
+    }
+
+    public Dialog getDialog() {
+        return dialog;
     }
 }

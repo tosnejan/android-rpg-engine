@@ -19,6 +19,7 @@ import meletos.rpg_game.Directions;
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.PositionInformation;
 import meletos.rpg_game.Sprite;
+import meletos.rpg_game.dialog.DialogSwitcher;
 import meletos.rpg_game.file_io.CharacterRepresentation;
 
 /**
@@ -58,6 +59,12 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     protected GameHandler gameHandler; // the boss
     protected Context context;
     protected String imagePath;
+
+    // dialogs
+    protected int[][] dialogs;
+    protected int actualDialog;
+    protected boolean played;
+    protected DialogSwitcher[] dialogSwitchers;
 
     public FatherCharacter(int x, int y, Bitmap image) {
         super(x, y, image);
@@ -325,4 +332,15 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
         );
     }
 
+    public int[] getDialog(){
+        return dialogs[actualDialog];
+    }
+
+    public void setPlayed(boolean played) {
+        this.played = played;
+    }
+
+    public boolean isPlayed() {
+        return played;
+    }
 }

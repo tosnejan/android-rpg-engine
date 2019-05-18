@@ -53,9 +53,16 @@
       "isEnemy": false,
       "yCoord": 380,
       "xCoord": 0,
+      "actualDialog": 0,
+      "played": false,
       "dialogs": [
         [0,1],
         [2]
+      ],
+      "dialogSwitchers": [
+        {
+          "played": true
+        }
       ]
     }
   ],
