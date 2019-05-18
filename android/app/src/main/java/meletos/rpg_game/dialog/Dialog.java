@@ -71,6 +71,10 @@ public class Dialog {
         } else if (x > gameHandler.getScreenWidth()/2 && side == 1){
             if (actualSentece + 1 < dialog.length){
                 actualSentece++;
+                if (dialog[actualSentece] == -1){
+                    gameView.getEndgame().setMessage(22, 23);
+                    gameView.setState(State.ENDGAME);
+                }
             } else {
                 character.setPlayed(true);
                 gameView.setState(State.MAP);
@@ -84,7 +88,8 @@ public class Dialog {
         this.character = character;
         actualSentece = 0;
         if (dialog[0] == -1){
-            //TODO endgame
+            gameView.getEndgame().setMessage(22, 23);
+            gameView.setState(State.ENDGAME);
         }
     }
 }

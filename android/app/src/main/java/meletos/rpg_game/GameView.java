@@ -375,4 +375,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public Dialog getDialog() {
         return dialog;
     }
+
+    public Endgame getEndgame() {
+        return endgame;
+    }
 }

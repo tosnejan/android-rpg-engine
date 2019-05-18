@@ -246,7 +246,7 @@ public class MainMenu {
                         gameInitialiser.initialiseNewSave(); // makes new save
                         gameInitialiser.startGameLoading(gameView.getFileManager());
                         //gameView.loadLevel(stories.get(shift).getPath() + "/second_lvl.json", stories.get(shift).isUserSave());
-                        loadHeroes(stories.get(shift));
+                        loadHeroes(stories.get(shift+1));
                         state = MainMenuStates.HERO_SELECTION;
                         break;
                     case 2://Third story

@@ -49,7 +49,7 @@
     },
     {
       "charType": "StandingCharacter",
-      "imagesFolder": "characters/townfolk1_f/7.png",
+      "imagesFolder": "characters/townfolk1_f/8.png",
       "isEnemy": false,
       "yCoord": 380,
       "xCoord": 0,

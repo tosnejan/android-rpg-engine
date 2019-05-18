@@ -106,6 +106,7 @@ public class Battle {
                 gameHandler.removeCharacter(gameHandler.getFighting());
                 gameHandler.setGameViewState(State.MAP);
             } else if (heroStats.get("HP") <= 0){
+                gameHandler.getGameView().getEndgame().setMessage(20, 21);
                 gameHandler.setGameViewState(State.ENDGAME);
             }
             if (heroShield != 0){

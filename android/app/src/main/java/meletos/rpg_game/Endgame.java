@@ -75,11 +75,16 @@ public class Endgame {
     private void drawText(Canvas canvas){
         Rect bounds = new Rect();
         paint.setTextSize(textSize);
-        paint.getTextBounds(gameHandler.getText().getText(20), 0, gameHandler.getText().getText(20).length(), bounds);
-        canvas.drawText(gameHandler.getText().getText(20), (gameHandler.getScreenWidth() - bounds.width())/2f, 2*gameHandler.getScreenHeight()/6f, paint);
+        paint.getTextBounds(gameHandler.getText().getText(header), 0, gameHandler.getText().getText(header).length(), bounds);
+        canvas.drawText(gameHandler.getText().getText(header), (gameHandler.getScreenWidth() - bounds.width())/2f, 2*gameHandler.getScreenHeight()/6f, paint);
         paint.setTextSize(textSize/2f);
-        paint.getTextBounds(gameHandler.getText().getText(21), 0, gameHandler.getText().getText(21).length(), bounds);
-        canvas.drawText(gameHandler.getText().getText(21), (gameHandler.getScreenWidth() - bounds.width())/2f, 3*gameHandler.getScreenHeight()/6f, paint);
+        paint.getTextBounds(gameHandler.getText().getText(text), 0, gameHandler.getText().getText(text).length(), bounds);
+        canvas.drawText(gameHandler.getText().getText(text), (gameHandler.getScreenWidth() - bounds.width())/2f, 3*gameHandler.getScreenHeight()/6f, paint);
+    }
+
+    public void setMessage(int header, int text){
+        this.header = header;
+        this.text = text;
     }
 
 }

@@ -63,3 +63,9 @@ Game over
 
 ID: 21
 You died!
+
+ID: 22
+Congratulation!
+
+ID: 23
+You won!

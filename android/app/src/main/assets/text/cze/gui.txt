@@ -63,3 +63,9 @@ Konec hry
 
 ID: 21
 Umřel jsi!
+
+ID: 22
+Gratuluji!
+
+ID: 23
+Vyhrál jsi!
