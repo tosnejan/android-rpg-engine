@@ -40,7 +40,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private GameHandler gameHandler;
     private Settings settings;
     private MainThread viewThread;
-    private GameThread gameThread;
+    public GameThread gameThread;
     JoyStick js = new JoyStick(BitmapFactory.decodeResource(getResources(),R.drawable.circle),
             BitmapFactory.decodeResource(getResources(),R.drawable.ring));
     private ArrayList<Button> buttons;
@@ -57,6 +57,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private boolean isInLevel;
     private Itinerary itinerary;
     private FileManager fileManager;
+
+    private Boolean init = true; // used to recognise initiation
 
 
     /**
@@ -349,7 +351,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         gameHandler.pauseGame();
         gameHandler.setGameView(this);
         gameHandler.setJoystickToHero(js);
-
         inventory = new InventoryGUI(this, getContext(), gameHandler, text, itinerary);
         gameHandler.getInventory().setItinerary(itinerary);
         gameHandler.setText(text);
@@ -358,14 +359,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         text.loadDialogs();
         dialog = new Dialog(gameHandler, this, text);
         endgame = new Endgame(gameHandler);
-        gameThread = new GameThread(gameHandler);
-        gameThread.start();
+        if (init) {
+            gameThread = new GameThread(gameHandler);
+            gameThread.start();
+        } else {
+            gameThread.setNewGameHandler(gameHandler);
+        }
         //gameHandler.resumeGame(); //Možná pak torchu pozměnit, kdyby se to využívalo i na přechod mezi mapama.
         hasGameHandler = true;
+        init = false;
     }
 
     public boolean hasGameHandler() {
         return hasGameHandler;
+    }
+
+    public void setHasGameHandler(boolean hasGameHandler) {
+        this.hasGameHandler = hasGameHandler;
     }
 
     public GameHandler getGameHandler() {

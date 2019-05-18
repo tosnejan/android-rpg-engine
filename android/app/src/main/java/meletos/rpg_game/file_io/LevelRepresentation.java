@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import meletos.rpg_game.Coordinates;
 import meletos.rpg_game.GameHandler;
+import meletos.rpg_game.TransitionManager;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.inventory.itinerary.ItemType;
 
@@ -23,6 +24,7 @@ public class LevelRepresentation {
     private CharacterRepresentation hero;
     private Coordinates heroPosition;
     private String lvlText;
+    private TransitionManager transitionManager;
 
     /**
     *hashmap with double keys representing time, list of character
@@ -51,6 +53,14 @@ public class LevelRepresentation {
 
     public void setHero (CharacterRepresentation hero) {
         this.hero = hero;
+    }
+
+    public TransitionManager getTransitionManager() {
+        return transitionManager;
+    }
+
+    public void setTransitionManager(TransitionManager transitionManager) {
+        this.transitionManager = transitionManager;
     }
 
     private void addSpawnInstructions (double time, List<HashMap> charactersToSpawn) {

@@ -1,0 +1,52 @@
+{
+  "lvlName": "house",
+  "mapSource": "house",
+  "transitionManager": {
+    "HEIGHT": 5,
+    "WIDTH": 5,
+    "transitionPosition": {
+      "imgHeigth": 5,
+      "imgWidth": 5,
+      "mainCoord": {
+        "x": 720,
+        "y": 910
+      },
+      "upperRightCorner": {
+        "x": 725,
+        "y": 910
+      },
+      "lowerLeftCorner": {
+        "x": 720,
+        "y": 915
+      },
+      "lowerRightCorner": {
+        "x": 725,
+        "y": 915
+      }
+    },
+    "keyID": -1,
+    "nextLevelName": "second_lvl.json"
+  },
+  "characters": [
+    {
+      "charType": "StandingCharacter",
+      "imagesFolder": "characters/townfolk1_m/8.png",
+      "isEnemy": false,
+      "yCoord": 400,
+      "xCoord": 750,
+      "actualDialog": 0,
+      "played": false,
+      "dialogs": [
+        [3,-1]
+      ],
+      "dialogSwitchers": []
+    }
+  ],
+  "hero": {
+    "charType": "Hero",
+    "isEnemy": false,
+    "yCoord": 730,
+    "xCoord": 910,
+    "imagesFolder": "characters/warrior_m"
+  }
+}

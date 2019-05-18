@@ -198,7 +198,6 @@ public class MainMenu {
                         // tady bychom potrebovali at to najde zalezitosti :D
                         gameView.getFileManager().setJob(Environment.getExternalStorageDirectory().toString()
                                 + "/rpg_game_data/save/test18.05.2019_16:22:27");
-
                         // extract this into a function
                         while (!gameView.hasGameHandler()) System.out.println("Game is still loading!");
                         //heroSelection.kys();
@@ -237,7 +236,7 @@ public class MainMenu {
                 switch (clickedButton) {
                     case 0://First story
                         // TODO -- put this into a function maybe
-                        gameInitialiser = new GameInitialiser(lvls[0], context);
+                        gameInitialiser = new GameInitialiser(lvls[shift], context);
                         gameInitialiser.initialiseNewSave(); // makes new save
                         gameInitialiser.startGameLoading(gameView.getFileManager());
                         //gameView.loadLevel(stories.get(shift).getPath() + "/second_lvl.json", stories.get(shift).isUserSave());
@@ -245,15 +244,17 @@ public class MainMenu {
                         state = MainMenuStates.HERO_SELECTION;
                         break;
                     case 1://Second story
-                        gameInitialiser = new GameInitialiser(lvls[1], context);
+                        gameInitialiser = new GameInitialiser(lvls[shift + 1], context);
                         gameInitialiser.initialiseNewSave(); // makes new save
                         gameInitialiser.startGameLoading(gameView.getFileManager());
                         //gameView.loadLevel(stories.get(shift).getPath() + "/second_lvl.json", stories.get(shift).isUserSave());
-                        loadHeroes(stories.get(shift+1));
+                        loadHeroes(stories.get(shift + 1));
                         state = MainMenuStates.HERO_SELECTION;
                         break;
                     case 2://Third story
-                        gameView.loadLevel(stories.get(shift + 2).getPath(), stories.get(shift + 2).isUserSave());
+                        gameInitialiser = new GameInitialiser(lvls[shift + 1], context);
+                        gameInitialiser.initialiseNewSave(); // makes new save
+                        gameInitialiser.startGameLoading(gameView.getFileManager());
                         loadHeroes(stories.get(shift + 2));
                         state = MainMenuStates.HERO_SELECTION;
                         break;

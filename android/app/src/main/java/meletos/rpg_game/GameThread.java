@@ -20,6 +20,9 @@ public class GameThread extends Thread {
             running = true;
         }
 
+    public void setNewGameHandler(GameHandler gameHandler) {
+        this.gameHandler = gameHandler;
+    }
     /**
      * The heart of the game logic
      */

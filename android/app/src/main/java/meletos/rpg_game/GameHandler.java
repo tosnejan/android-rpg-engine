@@ -78,11 +78,12 @@ public class GameHandler {
     private TransitionManager transitionManager;
     private Text text;
 
-    public GameHandler (List<FatherCharacter> characters, Hero hero, final Context context, String lvlName) {
+    public GameHandler (List<FatherCharacter> characters, Hero hero, final Context context, String lvlName, TransitionManager transitionManager) {
         this.characters = characters;
         this.context = context;
         this.lvlName = lvlName;
         this.hero = hero;
+        this.transitionManager = transitionManager;
         battle = new Battle(this);
         hero.setGameHandler(this);
         for (FatherCharacter character: characters) { // TODO -- edit - hero should be declared in the beginning
@@ -189,6 +190,7 @@ public class GameHandler {
         for (FatherCharacter character: characters) {
             character.update();
         }
+        transitionManager.checkForHero(hero, inventory, gameView);
         /*if (toRemove != null){
             characters.remove(toRemove);
             toRemove = null;

@@ -83,7 +83,8 @@ public class LevelGenerator {
                 characters,
                 hero,
                 context,
-                levelRepresentation.getLvlName()
+                levelRepresentation.getLvlName(),
+                levelRepresentation.getTransitionManager()
                 /*spawnInstructions*/
         );
         gh.loadMap(levelRepresentation.getMapSource());
