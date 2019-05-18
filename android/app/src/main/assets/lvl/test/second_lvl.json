@@ -61,7 +61,10 @@
       ],
       "dialogSwitchers": [
         {
-          "played": true
+          "played": true,
+          "itemsToCheck": [],
+          "itemsToDelete": [],
+          "itemsToGive": []
         }
       ]
     }

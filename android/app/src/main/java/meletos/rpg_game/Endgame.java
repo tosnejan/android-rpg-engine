@@ -20,6 +20,8 @@ public class Endgame {
     private Paint paint;
     private boolean buttonClicked;
     private int textSize;
+    private int header;
+    private int text;
 
     public Endgame(GameHandler gameHandler) {
         this.gameHandler = gameHandler;
@@ -75,7 +77,7 @@ public class Endgame {
         paint.setTextSize(textSize);
         paint.getTextBounds(gameHandler.getText().getText(20), 0, gameHandler.getText().getText(20).length(), bounds);
         canvas.drawText(gameHandler.getText().getText(20), (gameHandler.getScreenWidth() - bounds.width())/2f, 2*gameHandler.getScreenHeight()/6f, paint);
-        paint.setTextSize(textSize-2);
+        paint.setTextSize(textSize/2f);
         paint.getTextBounds(gameHandler.getText().getText(21), 0, gameHandler.getText().getText(21).length(), bounds);
         canvas.drawText(gameHandler.getText().getText(21), (gameHandler.getScreenWidth() - bounds.width())/2f, 3*gameHandler.getScreenHeight()/6f, paint);
     }
