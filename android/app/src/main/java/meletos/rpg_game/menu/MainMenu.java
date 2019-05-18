@@ -14,9 +14,11 @@ import android.os.Environment;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import meletos.rpg_game.GameView;
 import meletos.rpg_game.State;
+import meletos.rpg_game.file_io.FileScout;
 import meletos.rpg_game.file_io.GameInitialiser;
 import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.MenuButton;
@@ -89,9 +91,22 @@ public class MainMenu {
             up = Bitmap.createScaledBitmap(up, (int)(screenWidth/15), (int)(frameHeight/6.7), true);
             down = BitmapFactory.decodeStream(am.open("menu/slider_down.png"));
             down = Bitmap.createScaledBitmap(down, (int)(screenWidth/15), (int)(frameHeight/6.7), true);
-            Bitmap icon = BitmapFactory.decodeStream(am.open("lvl/icon.png"));
-            icon = Bitmap.createScaledBitmap(icon, (int)(frameHeight/10.7), (int)(frameHeight/10.7), true);
-            stories.add(new Story(icon, "#Faigled", "lvl", false));
+            //Bitmap icon = BitmapFactory.decodeStream(am.open("lvl/icon.png"));
+            //icon = Bitmap.createScaledBitmap(icon, (int)(frameHeight/10.7), (int)(frameHeight/10.7), true);
+
+            // TODO -- CHANGE
+            //stories.add(new Story(icon, "#Faigled", "lvl", false));
+            stories = new ArrayList<Story>(Arrays.asList(FileScout.getStories(context)));
+            System.out.println("Len of stories:" + stories.size());
+            // TODO -- scaling for cyklus
+            for (Story story : stories) {
+                story.setImage(
+                    Bitmap.createScaledBitmap(
+                            story.getImage(), (int)(frameHeight/10.7),
+                            (int)(frameHeight/10.7), true
+                    )
+                );
+            }
             getCustomMaps();
         } catch (IOException e) {
             e.printStackTrace();
@@ -215,10 +230,11 @@ public class MainMenu {
                 if (clickedButton == -1) break;
                 storyButtons[clickedButton].changeImage(false, 0);
                 if (!storyButtons[clickedButton].isTouched(x, y)) clickedButton = -1;
+                String[] lvls = FileScout.getAllLvls(context);
                 switch (clickedButton) {
                     case 0://First story
                         // TODO -- MATOUS -- COPY THE WHOLE LEVEL
-                        gameInitialiser = new GameInitialiser("test", context);
+                        gameInitialiser = new GameInitialiser(lvls[0], context);
                         gameInitialiser.initialiseNewSave(); // makes new save
                         gameInitialiser.startGameLoading(gameView.getFileManager());
                         //gameView.loadLevel(stories.get(shift).getPath() + "/second_lvl.json", stories.get(shift).isUserSave());
@@ -226,8 +242,11 @@ public class MainMenu {
                         state = MainMenuStates.HERO_SELECTION;
                         break;
                     case 1://Second story
-                        gameView.loadLevel(stories.get(shift + 1).getPath(), stories.get(shift + 1).isUserSave());
-                        loadHeroes(stories.get(shift + 1));
+                        gameInitialiser = new GameInitialiser(lvls[1], context);
+                        gameInitialiser.initialiseNewSave(); // makes new save
+                        gameInitialiser.startGameLoading(gameView.getFileManager());
+                        //gameView.loadLevel(stories.get(shift).getPath() + "/second_lvl.json", stories.get(shift).isUserSave());
+                        loadHeroes(stories.get(shift));
                         state = MainMenuStates.HERO_SELECTION;
                         break;
                     case 2://Third story

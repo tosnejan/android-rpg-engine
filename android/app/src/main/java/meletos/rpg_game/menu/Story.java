@@ -2,7 +2,17 @@ package meletos.rpg_game.menu;
 
 import android.graphics.Bitmap;
 
+import com.google.gson.GsonBuilder;
+
+import meletos.rpg_game.inventory.Inventory;
+
+class StoryRepresentation {
+    public String name;
+    public String path;
+    public boolean userSave;
+}
 public class Story {
+
     private Bitmap image;
     private String name;
     private String path;
@@ -15,8 +25,20 @@ public class Story {
         this.userSave = userSave;
     }
 
+    public Story(String json, Bitmap image) {
+        StoryRepresentation sr = new GsonBuilder().create().fromJson(json, StoryRepresentation.class);
+        this.name = sr.name;
+        this.image = image;
+        this.path = sr.path;
+        this.userSave = sr.userSave;
+    }
+
     public Bitmap getImage() {
         return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 
     public String getName() {
