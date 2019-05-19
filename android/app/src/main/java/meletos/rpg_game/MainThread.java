@@ -19,6 +19,10 @@ public class MainThread extends Thread {
         this.gameView = gameView;
     }
 
+    /**
+     * Can stop the thread
+     * @param isRunning
+     */
     public void setRunning(boolean isRunning) {
         running = isRunning;
     }

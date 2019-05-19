@@ -18,6 +18,7 @@ import java.util.List;
 
 import meletos.rpg_game.Coordinates;
 import meletos.rpg_game.GameHandler;
+import meletos.rpg_game.characters.Chest;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Follower;
 import meletos.rpg_game.characters.Hero;
@@ -29,8 +30,7 @@ import meletos.rpg_game.spawning.SpawnDataEntry;
 
 /**
  * Generates a level from json by reading it into level representation and
- * then building characters, spawns etc.
- * A one function class -- buildLevel
+ * then building characters, inventory etc.
  */
 public class LevelGenerator {
     private String filePath;
@@ -68,54 +68,26 @@ public class LevelGenerator {
             characters.add(buildCharacter(characterI));
         }
         HashMap<String, List<HashMap>> spawnStructure = levelRepresentation.getSpawnStructure();
-        //List<SpawnDataEntry> spawnInstructions;
-        /*if (spawnStructure != null) {
-            spawnInstructions = processSpawnStructure(spawnStructure);
-        } else {
-            spawnInstructions = null;
-        }*/
-
-        //int[][] inventory = levelRepresentation.getInventory();
-        //HashMap equipped = levelRepresentation.getEquipped();
-        //Inventory inv = new Inventory(inventory, equipped);
         Hero hero = (Hero)buildCharacter(levelRepresentation.getHero());
+        List<Chest> chests = levelRepresentation.getChests();
+        if (chests != null)
+            for (Chest chest: chests) {
+                chest.loadImage(context);
+            }
+
         GameHandler gh = new GameHandler(
                 characters,
                 hero,
                 context,
                 levelRepresentation.getLvlName(),
-                levelRepresentation.getTransitionManager()
-                /*spawnInstructions*/
+                levelRepresentation.getTransitionManager(),
+                levelRepresentation.getChests()
         );
         gh.loadMap(levelRepresentation.getMapSource());
         gh.setInventory(inventory);
         Log.i("LevelGenerator", "Returning new game handler.");
         return gh;
     }
-
-    /**
-     * Transforms spawnStructure into full spawnInstructions used by the spawnHandler
-     * @param spawnStructure -- hashmap saved in LevelRepresentation
-     * @return
-     */
-    /*
-    private List<SpawnDataEntry> processSpawnStructure(HashMap<String, List<HashMap>> spawnStructure) {
-        List<SpawnDataEntry> spawnInstructions = new LinkedList<>();
-        for (HashMap.Entry<String, List<HashMap>> entry : spawnStructure.entrySet()) {
-            Double time = Double.parseDouble(entry.getKey());
-            List<HashMap> chars = entry.getValue();
-            List<FatherCharacter> spawnCharacters = new LinkedList<>();
-            for (HashMap characterHashmap: chars) {
-                try {
-                    spawnCharacters.add(buildCharacter(characterHashmap));
-                } catch (UnsupportedTypeException e) {
-                    e.printStackTrace();
-                }
-            }
-            spawnInstructions.add(new SpawnDataEntry(spawnCharacters, time));
-        }
-        return spawnInstructions;
-    }*/
 
     /**
      * Function that constructs a character from characterHash.
@@ -165,14 +137,6 @@ public class LevelGenerator {
                             return standing;
                         } else return new StandingCharacter(x, y, context, imagesFolder, dialogs, actualDialog, played, dialogSwitchers);
                     }
-                // follower doesnt work yet, taky je ho potřeba předělat na ten userSave... viz nahoru :D Nechci ti do toho šahat :D
-                /*case "Follower":
-                    Object[] coord = new Object[10];
-                    coord = ((ArrayList)characterInfo.get("followCoord")).toArray(coord);
-                    for (int i = 0; i < coord.length; i++) { // typecast
-                        coord[i] = (Coordinates)coord[i];
-                    }
-                    return new Follower(x, y, imagesFolder, context, (Coordinates[]) coord, enemy);*/
                 default:
                     throw new UnsupportedTypeException("This character doesnt exist yet.");
             }
@@ -192,7 +156,11 @@ public class LevelGenerator {
     }
 
     /**
-     * Helper function, loads the file.
+     * Helper function -- loads file. Static and so used by multiple other classes
+     * @param userSave
+     * @param filePath -- full SD card path to file
+     * @param context
+     * @return
      */
     public static String loadFile (boolean userSave, String filePath, Context context) {
         StringBuilder sb = new StringBuilder();
@@ -224,6 +192,10 @@ public class LevelGenerator {
         return sb.toString();
     }
 
+    /**
+     * Loads inventory from its file.
+     * @return
+     */
     private Inventory loadInventory() {
         String json = loadFile(userSave,  filePath + "/inventory.json", context);
         return new GsonBuilder().create().fromJson(json, Inventory.class);

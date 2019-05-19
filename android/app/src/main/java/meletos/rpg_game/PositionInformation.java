@@ -2,6 +2,10 @@ package meletos.rpg_game;
 
 import java.util.Objects;
 
+/**
+ * Class used for capturing objects position at a given time.
+ * Is used in collision detection.
+ */
 public class PositionInformation {
     public int imgHeigth, imgWidth;
     public Coordinates mainCoord; // upper left corner
@@ -17,7 +21,12 @@ public class PositionInformation {
         lowerLeftCorner = new Coordinates(x, y + imgHeigth);
         lowerRightCorner = new Coordinates(upperRightCorner.x, lowerLeftCorner.y);
     }
-    
+
+    /**
+     * Updates position information
+     * @param x
+     * @param y
+     */
     public void updatePositionInformation (int x, int y) {
         mainCoord.updateCoordinates(x, y);
         upperRightCorner.updateCoordinates(x + imgWidth, y);
@@ -25,6 +34,12 @@ public class PositionInformation {
         lowerRightCorner.updateCoordinates(upperRightCorner.x, lowerLeftCorner.y);
     }
 
+    /**
+     * Finds out whether a given coordinate is located within
+     * the rectangle of position information
+     * @param coordinate
+     * @return
+     */
     public boolean isCoordinateInside (Coordinates coordinate) {
         return (coordinate.x >= mainCoord.x && coordinate.x <= lowerRightCorner.x)
             && (coordinate.y >= mainCoord.y && coordinate.y <= lowerRightCorner.y);
@@ -46,6 +61,12 @@ public class PositionInformation {
         return Objects.hash(mainCoord, upperRightCorner, lowerLeftCorner, lowerRightCorner);
     }
 
+    /**
+     * Simpler function than collidesWith, this only informs
+     * that there has been a collision
+     * @param other
+     * @return
+     */
     public boolean collisionCheck (PositionInformation other) {
         return this.isCoordinateInside(other.mainCoord) || this.isCoordinateInside(other.lowerLeftCorner)
                 || this.isCoordinateInside(other.lowerRightCorner) || this.isCoordinateInside(other.upperRightCorner);
@@ -78,6 +99,12 @@ public class PositionInformation {
         return Directions.NONE;
     }
 
+    /**
+     * Moves the characters. Adds speed and computes all the corners
+     * @param xSpeed
+     * @param ySpeed
+     * @param gameHandler
+     */
     public void addSpeed (int xSpeed, int ySpeed, GameHandler gameHandler) {
         if (gameHandler.isPositionAvailable(mainCoord.x + xSpeed,mainCoord.y + ySpeed,imgWidth,imgHeigth)){
             updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y + ySpeed);
@@ -87,7 +114,12 @@ public class PositionInformation {
             updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y);
         }
     }
-    // used by follower
+
+    /**
+     * Used by follower
+     * @param xSpeed
+     * @param ySpeed
+     */
     public void addSpeed (int xSpeed, int ySpeed) {
         updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y + ySpeed);
     }

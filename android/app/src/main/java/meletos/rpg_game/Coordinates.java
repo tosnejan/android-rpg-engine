@@ -2,6 +2,9 @@ package meletos.rpg_game;
 
 import java.util.Objects;
 
+/**
+ * Helper class used to hold coordinates in game
+ */
 public class Coordinates {
     public int x;
     public int y;

@@ -27,15 +27,14 @@ import meletos.rpg_game.file_io.CharacterRepresentation;
  * This should allow us to group them into an array of type FatherCharacter[]
  * -- all of them will have function update - implementing their own strategy
  */
-public abstract class FatherCharacter extends Sprite implements Serializable {
+public abstract class FatherCharacter extends Sprite {
     // will be used for enemy spawning
     protected boolean spawned = true;
 
     protected boolean enemy;
     public HashMap<String,Integer> stats;
-    /**
-     * A proposal -- lets use this construct for animations :D
-     */
+
+    // animations
     protected transient ArrayList<Bitmap> images;
     protected int idx = 0;
     protected boolean animation = false;
@@ -113,7 +112,7 @@ public abstract class FatherCharacter extends Sprite implements Serializable {
     }
 
     /**
-     * Should work like this: gets name of the folder containing animation images.
+     * Gets name of the folder containing animation images.
      * Loads them all so it can animate the character
      * @param folder folder that contains character images.
      * @param assets true if the folder is from assets, false if the folder is from external storage.

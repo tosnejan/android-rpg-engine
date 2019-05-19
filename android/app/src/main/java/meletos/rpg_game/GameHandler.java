@@ -28,6 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import meletos.rpg_game.battle.Battle;
+import meletos.rpg_game.characters.Chest;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
@@ -47,6 +48,7 @@ public class GameHandler {
     //characters
     private Hero hero;
     private List<FatherCharacter> characters;
+    private List<Chest> chests;
     private HeroProperties heroProperties;
     //private FatherCharacter toRemove = null;
     private FatherCharacter fighting = null;
@@ -78,17 +80,22 @@ public class GameHandler {
     private TransitionManager transitionManager;
     private Text text;
 
-    public GameHandler (List<FatherCharacter> characters, Hero hero, final Context context, String lvlName, TransitionManager transitionManager) {
+    public GameHandler (List<FatherCharacter> characters, Hero hero, final Context context, String lvlName, TransitionManager transitionManager, List<Chest> chests) {
         this.characters = characters;
         this.context = context;
         this.lvlName = lvlName;
+        this.chests = chests;
         this.hero = hero;
         this.transitionManager = transitionManager;
         battle = new Battle(this);
         hero.setGameHandler(this);
-        for (FatherCharacter character: characters) { // TODO -- edit - hero should be declared in the beginning
+        for (FatherCharacter character: characters) {
             character.setGameHandler(this); // let those characters know I'm the boss!
         }
+        if (chests != null)
+            for (Chest chest: chests) {
+                chest.setGameHandler(this);
+            }
         battle = new Battle(this);
     }
 
@@ -164,6 +171,11 @@ public class GameHandler {
         for (FatherCharacter character: characters) {
             character.draw(canvas);
         }
+
+        if (chests != null)
+            for (Chest chest: chests) {
+                chest.draw(canvas);
+            }
         hero.draw(canvas);
 
         // drawing second layer
@@ -190,6 +202,10 @@ public class GameHandler {
         for (FatherCharacter character: characters) {
             character.update();
         }
+        if (chests != null)
+            for (Chest chest: chests) {
+                chest.checkForHero(hero, inventory);
+            }
         transitionManager.checkForHero(hero, inventory, gameView);
         /*if (toRemove != null){
             characters.remove(toRemove);
@@ -225,19 +241,6 @@ public class GameHandler {
             return true;
         }
         return false;
-        /*
-        if (x + imgWidth > mapWidth/mapScale) x = mapWidth/mapScale - imgWidth;
-        if (y + imgHeight > mapHeight/mapScale) y = mapHeight/mapScale - imgHeight;
-        if (x < 0) x = 0;
-        if (y < 0) y = 0;
-        for (int i = y; i < y + imgHeight; i++) {
-            for (int j = x; j < x + imgWidth; j++) {
-                if(mapMatrix[i][j] != available){
-                    return false;
-                }
-            }
-        }
-        return true;*/
     }
 
     public int getxShift() {
@@ -248,14 +251,6 @@ public class GameHandler {
         return yShift;
     }
 
-    public int getMapWidth() {
-        return mapWidth;
-    }
-
-    public int getMapHeight() {
-        return mapHeight;
-    }
-
     public int getScreenWidth() {
         return screenWidth;
     }
@@ -264,6 +259,13 @@ public class GameHandler {
         return screenHeight;
     }
 
+    /**
+     * Using to make map follow Hero in x direction
+     * @param x
+     * @param xSpeed
+     * @param imgWidth
+     * @return
+     */
     public boolean moveMapByX(int x, int xSpeed, int imgWidth) {
         int newX = xShift - xSpeed;
         boolean ret = false;
@@ -284,6 +286,13 @@ public class GameHandler {
         return ret;
     }
 
+    /**
+     * Using to make map follow Hero in y direction
+     * @param y
+     * @param ySpeed
+     * @param imgHeight
+     * @return
+     */
     public boolean moveMapByY(int y, int ySpeed, int imgHeight) {
         int newY = yShift - ySpeed;
         boolean ret = false;
@@ -307,6 +316,7 @@ public class GameHandler {
      * Maybe well make it deprecated :DD
      * @param p
      */
+    @Deprecated
     public Directions suggestDirections(PositionInformation p) {
         Directions yDirection = Directions.NONE;
         Directions xDirection = Directions.NONE;
@@ -344,7 +354,7 @@ public class GameHandler {
      * Collision detector -- works by edges of rectangles
      * @param currCharacter
      * @param newPosition
-     * @return
+     * @return suggests direction to go
      */
     public Directions collisionDetector (FatherCharacter currCharacter, PositionInformation newPosition) {
 
@@ -432,6 +442,7 @@ public class GameHandler {
                 lr.setMapSource(mapSource);
                 lr.setLvlName(lvlName);
                 lr.setTransitionManager(transitionManager);
+                lr.setChests(chests);
 
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 gsonBuilder.registerTypeAdapter(Double.class, new JsonSerializer<Double>() {

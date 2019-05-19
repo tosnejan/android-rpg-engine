@@ -49,11 +49,6 @@ public class Loading {
         for (int i = 0; i < animationStage; i++) {
             textToDraw += ".";
         }
-        for (int i = 0; i < 2 - animationStage; i++) {
-            textToDraw += " ";
-        }
-        System.out.println(animationStage);
-        System.out.println(textToDraw);
         if (animationSteps == 10) {
             animationSteps = 0;
             if (animationStage > 2) {

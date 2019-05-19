@@ -34,21 +34,25 @@ import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_UP;
 
 /**
- * The main surface of the game
- * SurfaceHolder.Callback -- enables to catch events
+ * The main surface of the game.
+ * SurfaceHolder.Callback -- enables to catch events.
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
+    //screen size
+    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+
     private GameHandler gameHandler;
     private Settings settings;
     private MainThread viewThread;
     public GameThread gameThread;
-    JoyStick js = new JoyStick(BitmapFactory.decodeResource(getResources(),R.drawable.circle),
+    private JoyStick js = new JoyStick(BitmapFactory.decodeResource(getResources(),R.drawable.circle),
             BitmapFactory.decodeResource(getResources(),R.drawable.ring));
-    private ArrayList<Button> buttons;
+
+    // states used to tell apart different stages of game
     private State state = State.MAIN_MENU;
     private State prevState = State.MENU;
+
     private MainMenu mainMenu;
     private Menu menu;
     private Text text;
@@ -59,7 +63,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Endgame endgame;
     private Loading loading;
     private boolean hasGameHandler = false;
-    private boolean isInLevel;
     private Itinerary itinerary;
     private FileManager fileManager;
 
@@ -110,6 +113,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         gameHandler = null;
     }
 
+    /**
+     * Function that draws entities
+     * @param canvas
+     */
     @Override
     public void draw(Canvas canvas) {
         if (canvas != null) {
@@ -244,7 +251,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     /**
-     * resumes the game when user navigates back
+     * Resumes the game when user navigates back
      */
     public void onResume () {
         sound.play(state);
@@ -298,6 +305,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return fileManager;
     }
 
+    /**
+     * Sets state and takes care of the logic surrounding it
+     * @param state
+     */
     public void setState(State state) {
         if (state == State.INVENTORY || state == State.MENU || state == State.DIALOG || state == State.ENDGAME) {
             gameHandler.pauseGame();

@@ -28,6 +28,17 @@
     "nextLevelName": "house.json",
     "heroVisited": false
   },
+  "chests": [
+    {
+      "items": [
+        2,
+        12
+      ],
+      "keyID": -1,
+      "x": 100,
+      "y": 500
+    }
+  ],
   "characters": [
     {
       "charType": "RandomWalker",
@@ -35,7 +46,7 @@
       "image": "characters/mage_m/image.png",
       "isEnemy": true,
       "yCoord": 1000,
-      "xCoord": 700,
+      "xCoord": 750,
       "stats": {
         "DMG": 20,
         "ARM": 50,

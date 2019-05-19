@@ -4,15 +4,14 @@ import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.inventory.Inventory;
 
 /**
- * SKETCH - TODO
- * Each level will have one or more -- it will handle transitions from one level to another
+ * It will handles transitions from one level to another
  * Implements lock.
  */
 public class TransitionManager {
     private int height;
     private int width; //  setting the senstitivity
     private PositionInformation transitionPosition; // position where hero gets checked
-    private int keyID; // the key that hero has to have
+    private int keyID; // the key that hero has to have -- if -1 it means free pass
     private String nextLevelName; // saves the name of the next level
     private boolean heroVisited = false;
 
@@ -29,20 +28,17 @@ public class TransitionManager {
             if (inventory.hasItem(keyID) || keyID == -1) {
                 System.out.println("HERO IS HERE");
                 heroVisited = true;
-                // start new map
+                // start new level
                 gameView.setHasGameHandler(false);
                 gameView.getFileManager().loadLevels(nextLevelName, inventory);
 
-                while (!gameView.hasGameHandler()) {
+                while (!gameView.hasGameHandler()) { // waiting for loading
                     try {
                         Thread.sleep(5);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                //heroSelection.kys();
-                //gameView.getGameHandler().setHero(hero);
-                //gameInitialiser.saveHeroProperties(hero);
                 gameView.getGameHandler().setHero(gameView.getFileManager().loadHeroProperties());
 
                 gameView.getGameHandler().startGame();

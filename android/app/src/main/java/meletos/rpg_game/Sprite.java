@@ -52,7 +52,7 @@ public abstract class Sprite {
     }
 
     /**
-     * we should probably move this method to the view class -- or not? :D
+     * Method that draws sprite onto screen
      * @param canvas
      */
     public void draw(Canvas canvas) {

@@ -24,7 +24,6 @@ public class Sound {
     private int volume; // got from UI
     private float mediaVolume; // actual volume for media player
     private Context context;
-    private boolean muted;
     private int menu_theme = R.raw.intro_theme;
     private int game_theme = R.raw.game_theme;
     private int endgame_theme = R.raw.endgame_theme;
@@ -52,12 +51,10 @@ public class Sound {
         editor.putInt("volume", volume);
         editor.apply();
         if (volume == 0) {
-            muted = true;
             mediaVolume = 0;
         }
         else {
             mediaVolume = (float)Math.log10(volume); // computing real volume
-            muted = false;
         }
         mediaPlayer.setVolume(mediaVolume, mediaVolume);
     }

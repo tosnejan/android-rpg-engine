@@ -6,11 +6,18 @@ import com.google.gson.GsonBuilder;
 
 import meletos.rpg_game.inventory.Inventory;
 
+/**
+ * Used for Json representing
+ */
 class StoryRepresentation {
     public String name;
     public String path;
     public boolean userSave;
 }
+
+/**
+ * Class used mainly in GUI
+ */
 public class Story {
 
     private Bitmap image;
