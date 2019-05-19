@@ -55,11 +55,10 @@ public class Chest extends Sprite {
             }
     }
 
-    @Override
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas, int x, int y) {
         if (!heroVisited) {
-            canvas.drawBitmap(image, positionInformation.mainCoord.x + gameHandler.getxShift(),
-                    positionInformation.mainCoord.y + gameHandler.getyShift(), null
+            canvas.drawBitmap(image, positionInformation.mainCoord.x + x,
+                    positionInformation.mainCoord.y + y, null
             );
         }
     }

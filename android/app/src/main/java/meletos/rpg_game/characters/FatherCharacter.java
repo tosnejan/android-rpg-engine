@@ -173,8 +173,7 @@ public abstract class FatherCharacter extends Sprite {
         positionInformation = new PositionInformation(x, y, image.getHeight(), image.getWidth());
     }
 
-    @Override
-    public void draw (Canvas canvas) {
+    public void draw (Canvas canvas, int x, int y) {
         if (animation && !gameHandler.isGamePaused() && spawned) {
             if (animationSpeed == ANIM_SPEED) {
                 animationSpeed = 0;
@@ -218,8 +217,8 @@ public abstract class FatherCharacter extends Sprite {
                 ++animationSpeed;
             }
         }
-        canvas.drawBitmap(image, positionInformation.mainCoord.x + gameHandler.getxShift(),
-                positionInformation.mainCoord.y + gameHandler.getyShift(), null
+        canvas.drawBitmap(image, positionInformation.mainCoord.x + x,
+                positionInformation.mainCoord.y + y, null
         );
     }
 

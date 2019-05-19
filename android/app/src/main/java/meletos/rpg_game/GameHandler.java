@@ -170,14 +170,14 @@ public class GameHandler {
 
         // drawing characters
         for (FatherCharacter character: characters) {
-            character.draw(canvas);
+            character.draw(canvas, x, y);
         }
 
         if (chests != null)
             for (Chest chest: chests) {
-                chest.draw(canvas);
+                chest.draw(canvas, x, y);
             }
-        hero.draw(canvas);
+        hero.draw(canvas, x, y);
 
         // drawing second layer
         canvas.drawBitmap(map2, x, y, null);
