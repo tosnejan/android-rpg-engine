@@ -74,6 +74,7 @@ public class Dialog {
                 if (dialog[actualSentece] == -1){
                     gameView.getEndgame().setMessage(22, 23);
                     gameView.setState(State.ENDGAME);
+                    gameView.sound.play(State.ENDGAME);
                 }
             } else {
                 character.setPlayed(true);
@@ -90,6 +91,7 @@ public class Dialog {
         if (dialog[0] == -1){
             gameView.getEndgame().setMessage(22, 23);
             gameView.setState(State.ENDGAME);
+            //gameView.sound.play(State.ENDGAME);
         }
     }
 }

@@ -49,12 +49,12 @@ public class FileManager {
                 ),
                 String.class
         );
-        loadLevels(currentLevel);
+        loadLevels(currentLevel, null);
     }
 
-    public void loadLevels (String levelToBeLoaded) {
+    public void loadLevels (String levelToBeLoaded, Inventory inventory) {
         currentLevel = levelToBeLoaded;
-        new Loader(gameview, rootDirPath, false, currentLevel).start();
+        new Loader(gameview, rootDirPath, false, currentLevel, inventory).start();
     }
 
     public HeroProperties loadHeroProperties() {

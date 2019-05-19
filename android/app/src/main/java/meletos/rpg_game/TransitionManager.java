@@ -31,7 +31,7 @@ public class TransitionManager {
                 heroVisited = true;
                 // start new map
                 gameView.setHasGameHandler(false);
-                gameView.getFileManager().loadLevels(nextLevelName);
+                gameView.getFileManager().loadLevels(nextLevelName, inventory);
 
                 while (!gameView.hasGameHandler()) {
                     try {

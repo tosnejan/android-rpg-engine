@@ -2,6 +2,7 @@ package meletos.rpg_game.file_io;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import com.google.gson.GsonBuilder;
 
@@ -63,7 +64,6 @@ public class LevelGenerator {
         ArrayList<FatherCharacter> characters = new ArrayList<>();
         extractLevelRepresentation();
         ArrayList<CharacterRepresentation> characterInfo = levelRepresentation.getCharacters();
-        System.out.println("no of characters:" + characterInfo.size());
         for (CharacterRepresentation characterI: characterInfo) {
             characters.add(buildCharacter(characterI));
         }
@@ -89,6 +89,7 @@ public class LevelGenerator {
         );
         gh.loadMap(levelRepresentation.getMapSource());
         gh.setInventory(inventory);
+        Log.i("LevelGenerator", "Returning new game handler.");
         return gh;
     }
 
@@ -227,5 +228,4 @@ public class LevelGenerator {
         String json = loadFile(userSave,  filePath + "/inventory.json", context);
         return new GsonBuilder().create().fromJson(json, Inventory.class);
     }
-
 }

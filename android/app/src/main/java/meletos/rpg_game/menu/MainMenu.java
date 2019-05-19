@@ -25,8 +25,8 @@ import meletos.rpg_game.navigation.MenuButton;
 import meletos.rpg_game.text.Text;
 
 public class MainMenu {
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private int screenWidth; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
+    private int screenHeight;
     private Bitmap frame;
     private Bitmap background;
     private Bitmap buttonImage;
@@ -56,6 +56,8 @@ public class MainMenu {
     private int y;
 
     public MainMenu(GameView gameView, Context context, Text text, Settings settings) {
+        screenWidth = gameView.getScreenWidth(); // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
+        screenHeight = gameView.getScreenHeight();
         this.gameView = gameView;
         this.context = context;
         this.text = text;
@@ -94,7 +96,6 @@ public class MainMenu {
             //Bitmap icon = BitmapFactory.decodeStream(am.open("lvl/icon.png"));
             //icon = Bitmap.createScaledBitmap(icon, (int)(frameHeight/10.7), (int)(frameHeight/10.7), true);
 
-            // TODO -- CHANGE
             //stories.add(new Story(icon, "#Faigled", "lvl", false));
             stories = new ArrayList<Story>(Arrays.asList(FileScout.getStories(context)));
             System.out.println("Len of stories:" + stories.size());
@@ -199,7 +200,14 @@ public class MainMenu {
                         gameView.getFileManager().setJob(Environment.getExternalStorageDirectory().toString()
                                 + "/rpg_game_data/save/test18.05.2019_16:22:27");
                         // extract this into a function
-                        while (!gameView.hasGameHandler()) System.out.println("Game is still loading!");
+                        gameView.setState(State.LOADING);
+                        while (!gameView.hasGameHandler()) {
+                            try {
+                                Thread.sleep(5);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         //heroSelection.kys();
                         //gameView.getGameHandler().setHero(hero);
                         //gameInitialiser.saveHeroProperties(hero);
@@ -235,7 +243,6 @@ public class MainMenu {
                 // BTW Nepredelame pak ten switch case na to, aby tam mohlo byt vic svetu? :D
                 switch (clickedButton) {
                     case 0://First story
-                        // TODO -- put this into a function maybe
                         gameInitialiser = new GameInitialiser(lvls[shift], context);
                         gameInitialiser.initialiseNewSave(); // makes new save
                         gameInitialiser.startGameLoading(gameView.getFileManager());
@@ -311,15 +318,20 @@ public class MainMenu {
                 .setPositiveButton(text.getText(1), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        while (!gameView.hasGameHandler()); //System.out.println("Game is still loading!");
-                        heroSelection.kys();
-                        gameView.getGameHandler().setHero(hero);
-                        // save those hero properties into TODO
-                        gameInitialiser.saveHeroProperties(hero);
-                        gameView.setState(State.MAP);
-                        gameView.sound.play(State.MAP);
-                        state = MainMenuStates.MAIN;
-                        gameView.getGameHandler().startGame();
+                        new Thread() {
+                            public void run() {
+                                if (!gameView.hasGameHandler()) gameView.setState(meletos.rpg_game.State.LOADING);
+                                while (!gameView.hasGameHandler());
+                                heroSelection.kys();
+                                gameView.getGameHandler().setHero(hero);
+                                gameInitialiser.saveHeroProperties(hero);
+                                gameView.setState(meletos.rpg_game.State.MAP);
+                                gameView.sound.play(meletos.rpg_game.State.MAP);
+                                state = MainMenuStates.MAIN;
+                                gameView.getGameHandler().startGame();
+                            }
+                        }.start();
+
                     }
                 })
                 .setNegativeButton(text.getText(0), null)

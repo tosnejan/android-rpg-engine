@@ -22,6 +22,7 @@ public class Sound {
     private boolean muted;
     private int menu_theme = R.raw.intro_theme;
     private int game_theme = R.raw.game_theme;
+    private int endgame_theme = R.raw.endgame_theme;
 
     public Sound(Context context) {
         mediaPlayer = new MediaPlayer();
@@ -64,13 +65,16 @@ public class Sound {
     public void play (State state) {
         switch (state) {
             case MAIN_MENU:
-                System.out.println("In main menu.");
                 mediaPlayer.stop();
                 mediaPlayer = MediaPlayer.create(context, menu_theme);
                 break;
-            default:
-                System.out.println("In game.");
+            case ENDGAME:
                 mediaPlayer.stop();
+                System.out.println("ENDGAME");
+                mediaPlayer = MediaPlayer.create(context, endgame_theme);
+            default:
+                mediaPlayer.stop();
+                System.out.println("GAMETHEME");
                 mediaPlayer = MediaPlayer.create(context, game_theme);
                 break;
         }

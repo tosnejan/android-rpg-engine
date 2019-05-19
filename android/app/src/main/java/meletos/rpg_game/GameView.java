@@ -1,6 +1,7 @@
 package meletos.rpg_game;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -37,6 +38,8 @@ import static android.view.MotionEvent.ACTION_UP;
  * SurfaceHolder.Callback -- enables to catch events
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
+    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private GameHandler gameHandler;
     private Settings settings;
     private MainThread viewThread;
@@ -53,6 +56,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private BattleGUI battle;
     private Dialog dialog;
     private Endgame endgame;
+    private Loading loading;
     private boolean hasGameHandler = false;
     private boolean isInLevel;
     private Itinerary itinerary;
@@ -68,6 +72,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     public GameView(Context context, Text text) {
         super(context);
+        loading = new Loading(this);
         this.text = text;
         this.text.setGameView(this);
         fileManager = new FileManager(context, this);
@@ -79,18 +84,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         viewThread = new MainThread(getHolder(), this);
         setFocusable(true);
-    }
-
-    /** TODO obsolete -- will not be here
-     * Loads a specific level -- quite buggy at the moment
-     * @param filePath name and path of file to read
-     * @param userSave <code>true</code> if loading userSave
-     *                 <code>false</code> if loading level
-     */
-    public void loadLevel (String filePath, boolean userSave) {
-        hasGameHandler = false;
-        //Loader loader = new Loader(this, filePath, userSave);
-        //loader.start();
     }
     
     /**
@@ -145,6 +138,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 case DIALOG:
                     gameHandler.drawGame(canvas);
                     dialog.draw(canvas);
+                    break;
+                case LOADING:
+                    loading.draw(canvas);
                     break;
             }
         }
@@ -314,6 +310,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.state = state;
     }
 
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
+    }
+
     /**
      * Takes screenshot and saves it
      * @param filename
@@ -389,4 +393,5 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public Endgame getEndgame() {
         return endgame;
     }
+
 }
