@@ -48,6 +48,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             BitmapFactory.decodeResource(getResources(),R.drawable.ring));
     private ArrayList<Button> buttons;
     private State state = State.MAIN_MENU;
+    private State prevState = State.MENU;
     private MainMenu mainMenu;
     private Menu menu;
     private Text text;
@@ -78,7 +79,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         fileManager = new FileManager(context, this);
         itinerary = Itinerary.load(context, text, "itinerary/items.json");
         sound = new Sound(context);
-        sound.play(state);
+        //sound.play(state);
         settings = new Settings(text, sound, context);
         mainMenu = new MainMenu(this, context, text, settings);
         getHolder().addCallback(this);
@@ -113,6 +114,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas) {
         if (canvas != null) {
             super.draw(canvas);
+            if (prevState != state) {
+                prevState = state;
+                sound.play(state);
+            }
             switch (state) {
                 case MAIN_MENU:
                     mainMenu.draw(canvas);

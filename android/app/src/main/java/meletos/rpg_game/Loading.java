@@ -12,14 +12,15 @@ import android.graphics.Typeface;
 
 import java.io.IOException;
 
-import meletos.rpg_game.navigation.MenuButton;
-
 public class Loading {
+    private int animationStage = 0; // used for animating
+    private int animationSteps = 0;
     private GameView gameView;
     private Bitmap background;
     private Paint paint;
     private int textSize;
-    private String text = "Loading...";
+    private String text = "Loading";
+    private String textToDraw;
 
     public Loading(GameView gameView) {
         this.gameView = gameView;
@@ -44,6 +45,25 @@ public class Loading {
     }
 
     public void draw(Canvas canvas){
+        textToDraw = text;
+        for (int i = 0; i < animationStage; i++) {
+            textToDraw += ".";
+        }
+        for (int i = 0; i < 2 - animationStage; i++) {
+            textToDraw += " ";
+        }
+        System.out.println(animationStage);
+        System.out.println(textToDraw);
+        if (animationSteps == 10) {
+            animationSteps = 0;
+            if (animationStage > 2) {
+                animationStage = 0;
+            } else {
+                animationStage++;
+            }
+        }
+        animationSteps++;
+
         canvas.drawBitmap(background, 0, 0, null);
         drawText(canvas);
     }
@@ -51,8 +71,8 @@ public class Loading {
     private void drawText(Canvas canvas){
         Rect bounds = new Rect();
         paint.setTextSize(textSize);
-        paint.getTextBounds(text, 0, text.length(), bounds);
-        canvas.drawText(text, (gameView.getScreenWidth() - bounds.width())/2f, gameView.getScreenHeight()/2f, paint);
+        paint.getTextBounds(textToDraw, 0, textToDraw.length(), bounds);
+        canvas.drawText(textToDraw, (gameView.getScreenWidth() - 442)/2f, gameView.getScreenHeight()/2f, paint);
         paint.setTextSize(textSize/2f);
     }
 

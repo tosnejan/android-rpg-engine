@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -25,7 +24,7 @@ import meletos.rpg_game.navigation.MenuButton;
 import meletos.rpg_game.text.Text;
 
 public class MainMenu {
-    private int screenWidth; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
+    private int screenWidth;
     private int screenHeight;
     private Bitmap frame;
     private Bitmap background;
@@ -98,8 +97,6 @@ public class MainMenu {
 
             //stories.add(new Story(icon, "#Faigled", "lvl", false));
             stories = new ArrayList<Story>(Arrays.asList(FileScout.getStories(context)));
-            System.out.println("Len of stories:" + stories.size());
-            // TODO -- scaling for cyklus
             for (Story story : stories) {
                 story.setImage(
                     Bitmap.createScaledBitmap(
@@ -196,9 +193,12 @@ public class MainMenu {
                     case 1://Load Game
                         // view load options
                         // EXPERIMENT -- DOES WORK ONLY FOR A SPECIFIC SAVE :DD
-                        // tady bychom potrebovali at to najde zalezitosti :D
-                        gameView.getFileManager().setJob(Environment.getExternalStorageDirectory().toString()
-                                + "/rpg_game_data/save/test18.05.2019_16:22:27");
+                        // uz to umit najit vsechny savy a vyvolat jeden z nich :D
+                        // potrebovali bychom, aby sel save smazat -- tlacitko v GUI
+                        Story[] saves = FileScout.getSaves(context);
+                        System.out.println("Number of stories" + saves.length);
+
+                        gameView.getFileManager().setJob(saves[0].getPath());
                         // extract this into a function
                         gameView.setState(State.LOADING);
                         while (!gameView.hasGameHandler()) {
@@ -213,7 +213,7 @@ public class MainMenu {
                         //gameInitialiser.saveHeroProperties(hero);
                         gameView.getGameHandler().setHero(gameView.getFileManager().loadHeroProperties());
                         gameView.setState(State.MAP);
-                        gameView.sound.play(State.MAP);
+                        //gameView.sound.play(State.MAP);
                         state = MainMenuStates.MAIN;
                         gameView.getGameHandler().startGame();
 
@@ -239,8 +239,7 @@ public class MainMenu {
                 if (clickedButton == -1) break;
                 storyButtons[clickedButton].changeImage(false, 0);
                 if (!storyButtons[clickedButton].isTouched(x, y)) clickedButton = -1;
-                String[] lvls = FileScout.getAllLvls(context); // finds all the level folders
-                // BTW Nepredelame pak ten switch case na to, aby tam mohlo byt vic svetu? :D
+                String[] lvls = FileScout.getAllStoryLocations(context); // finds all the level folders
                 switch (clickedButton) {
                     case 0://First story
                         gameInitialiser = new GameInitialiser(lvls[shift], context);
@@ -326,7 +325,7 @@ public class MainMenu {
                                 gameView.getGameHandler().setHero(hero);
                                 gameInitialiser.saveHeroProperties(hero);
                                 gameView.setState(meletos.rpg_game.State.MAP);
-                                gameView.sound.play(meletos.rpg_game.State.MAP);
+                                //gameView.sound.play(meletos.rpg_game.State.MAP);
                                 state = MainMenuStates.MAIN;
                                 gameView.getGameHandler().startGame();
                             }

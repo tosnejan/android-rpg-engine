@@ -431,6 +431,7 @@ public class GameHandler {
                 lr.setHero(hero.putMyselfIntoCharRepresentation());
                 lr.setMapSource(mapSource);
                 lr.setLvlName(lvlName);
+                lr.setTransitionManager(transitionManager);
 
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 gsonBuilder.registerTypeAdapter(Double.class, new JsonSerializer<Double>() {

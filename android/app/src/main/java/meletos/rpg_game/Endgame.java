@@ -66,7 +66,7 @@ public class Endgame {
     public void touchUp(int x, int y) {
         if (buttonClicked && button.isTouched(x, y)) {
             gameHandler.getGameView().exitLevel();
-            gameHandler.getGameView().sound.play(State.MAIN_MENU);
+            //gameHandler.getGameView().sound.play(State.MAIN_MENU);
         }
         button.changeImage(false, 0);
         buttonClicked = false;

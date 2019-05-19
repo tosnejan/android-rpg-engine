@@ -229,7 +229,7 @@ public class Menu {
                     public void onClick(DialogInterface dialog, int which) {
                         gameView.exitLevel();
                         gameView.setState(State.MAIN_MENU);
-                        gameView.sound.play(State.MAIN_MENU);
+                        //gameView.sound.play(State.MAIN_MENU);
                     }
                 })
                 .setNegativeButton(text.getText(0), null)
