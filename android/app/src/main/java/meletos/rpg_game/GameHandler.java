@@ -202,10 +202,6 @@ public class GameHandler {
         for (FatherCharacter character: characters) {
             character.update();
         }
-        if (chests != null)
-            for (Chest chest: chests) {
-                chest.checkForHero(hero, inventory);
-            }
         transitionManager.checkForHero(hero, inventory, gameView);
         /*if (toRemove != null){
             characters.remove(toRemove);
@@ -399,6 +395,15 @@ public class GameHandler {
                 return result;
             }
         }
+        if (chests != null)
+            for (Chest chest : chests) {
+                PositionInformation otherPositionInfo = chest.getPositionInformation();
+                Directions result = newPosition.collidesWith(otherPositionInfo);
+                if (currPosition.equals(hero.getPositionInformation()) && result != Directions.NONE) {
+                    chest.open(inventory);
+                }
+                return result;
+            }
         return Directions.NONE;
     }
 

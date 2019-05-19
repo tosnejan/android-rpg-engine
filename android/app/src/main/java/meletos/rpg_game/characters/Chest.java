@@ -33,7 +33,6 @@ public class Chest extends Sprite {
             image = BitmapFactory.decodeStream(am.open("characters/chest.png"));
             image = Bitmap.createScaledBitmap(image, 96, 108, false);
         } catch (IOException e) {
-            System.out.println("LOADING DIDNT WORK");
             e.printStackTrace();
         }
         positionInformation = new PositionInformation(x, y, image.getHeight(), image.getWidth());
@@ -43,22 +42,24 @@ public class Chest extends Sprite {
         this.gameHandler = gh;
     }
 
-    public void checkForHero (Hero hero, Inventory inventory) {
-        if (positionInformation.collisionCheck(hero.getPositionInformation()) && !heroVisited) {
-            if (inventory.hasItem(keyID) || keyID == -1) {
-                heroVisited = true;
-                // give him items
-                for (int item: items) {
-                    inventory.putItem(item);
-                }
+    public void open (Inventory inventory) {
+        System.out.println("OPENING");
+        if (!heroVisited && (inventory.hasItem(keyID) || keyID == -1)) {
+            heroVisited = true;
+            // give him items
+            for (int item: items) {
+                inventory.putItem(item);
             }
+            positionInformation = new PositionInformation(-100, -100, 1, 1); // making it disappear
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(image, positionInformation.mainCoord.x + gameHandler.getxShift(),
-                positionInformation.mainCoord.y + gameHandler.getyShift(), null
-        );
+        if (!heroVisited) {
+            canvas.drawBitmap(image, positionInformation.mainCoord.x + gameHandler.getxShift(),
+                    positionInformation.mainCoord.y + gameHandler.getyShift(), null
+            );
+        }
     }
 }
