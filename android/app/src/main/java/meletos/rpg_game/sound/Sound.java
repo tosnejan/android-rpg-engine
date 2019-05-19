@@ -32,6 +32,12 @@ public class Sound {
 
     public Sound(Context context) {
         mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
+            }
+        });
         this.context = context;
     }
 
@@ -66,22 +72,26 @@ public class Sound {
     public void play (State state) {
         switch (state) {
             case MAIN_MENU:
-                mediaPlayer.stop();
+                if (mediaPlayer.isPlaying())
+                    mediaPlayer.stop();
                 mediaPlayer = MediaPlayer.create(context, menu_theme);
                 break;
             case ENDGAME:
-                mediaPlayer.stop();
+                if (mediaPlayer.isPlaying())
+                    mediaPlayer.stop();
                 mediaPlayer = MediaPlayer.create(context, endgame_theme);
                 break;
             case BATTLE:
-                mediaPlayer.stop();
+                if (mediaPlayer.isPlaying())
+                    mediaPlayer.stop();
                 mediaPlayer = MediaPlayer.create(context, battle_theme);
                 break;
             default:
                 if (prevState != ENDGAME && prevState!= MAIN_MENU && prevState != BATTLE) {
                     return;
                 }
-                mediaPlayer.stop();
+                if (mediaPlayer.isPlaying())
+                    mediaPlayer.stop();
                 mediaPlayer = MediaPlayer.create(context, game_theme);
                 break;
         }

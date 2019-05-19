@@ -16,6 +16,7 @@ public class TransitionManager {
     private int keyID; // the key that hero has to have -- if -1 it means free pass
     private String nextLevelName; // saves the name of the next level
     private boolean heroVisited = false;
+    int resistance = 10;
 
     public TransitionManager(int keyID, int x, int y, String nextLevelName, int height, int width) {
         this.keyID = keyID;
