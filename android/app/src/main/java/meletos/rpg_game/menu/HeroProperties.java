@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.util.Log;
 
 import com.google.gson.GsonBuilder;
 
@@ -72,12 +73,12 @@ public class HeroProperties {
                         StandardCharsets.UTF_8);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("HeroProperties", e.getMessage());
             try {
                 return new InputStreamReader(context.getAssets().open("lvl/faigled/heroes.json"),
                         StandardCharsets.UTF_8);//Tohle je prasečárna, ale lepší než aby to spadlo. Jestli se změní cesta, tak je třeba předělat!!!!!
             } catch (IOException ex) {
-                ex.printStackTrace();
+                Log.e("HeroProperties", ex.getMessage());
             }
         }
         return null;
@@ -93,7 +94,7 @@ public class HeroProperties {
                 image = BitmapFactory.decodeStream(am.open(imagesFolder + "/8.png"));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage());
         }
     }
 

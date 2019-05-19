@@ -5,10 +5,6 @@ import com.google.gson.Gson;
 
 import org.junit.Test;
 
-import meletos.rpg_game.file_io.WorldRepresentation;
-
-import static org.junit.Assert.*;
-
 /**
  * Not real tests :D
  */

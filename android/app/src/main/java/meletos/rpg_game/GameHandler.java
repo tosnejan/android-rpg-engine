@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Environment;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -122,7 +123,7 @@ public class GameHandler {
             map2 = BitmapFactory.decodeStream(am.open(path));
             map2 = Bitmap.createScaledBitmap(map2, mapWidth, mapHeight, false);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage());
         }
         path = String.format("maps/%s.txt",fileName);
         BufferedReader reader = null;
@@ -145,13 +146,13 @@ public class GameHandler {
                 ++j;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage());
         } finally {
             if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(this.getClass().getSimpleName(), e.getMessage());
                 }
             }
         }
@@ -460,7 +461,7 @@ public class GameHandler {
                 });
                 Gson gs = gsonBuilder.create();
                 String lvljson = gs.toJson(lr);
-                System.out.println("Saving!!!!!!");
+                Log.i(this.getClass().getSimpleName(), "Saving.");
                 saveFile(currLevel, lvljson);
 
                 String inventoryjson = new Gson().toJson(inventory);
@@ -478,14 +479,14 @@ public class GameHandler {
                     out.write(json);
                     out.flush();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(this.getClass().getSimpleName(), e.getMessage());
                 } finally {
                     try {
                         if (out != null) {
                             out.close();
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Log.e(this.getClass().getSimpleName(), e.getMessage());
                     }
                 }
             }

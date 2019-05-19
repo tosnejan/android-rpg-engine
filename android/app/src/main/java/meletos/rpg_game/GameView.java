@@ -6,13 +6,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Environment;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
@@ -67,6 +71,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private FileManager fileManager;
 
     private Boolean init = true; // used to recognise initiation
+    private String TAG = "GameView";
 
 
     /**
@@ -76,6 +81,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     public GameView(Context context, Text text) {
         super(context);
+        saveLog();
         loading = new Loading(this);
         this.text = text;
         this.text.setGameView(this);
@@ -104,7 +110,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 gameThread.setRunning(false);
                 gameThread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Log.e(TAG, e.getMessage());
             }
             retry = false;
         }
@@ -275,7 +281,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 viewThread.join();
 
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Log.e(TAG, e.getMessage());
             }
             retry = false;
         }
@@ -354,14 +360,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             b.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());;
         } finally {
             try {
                 if (out != null) {
                     out.close();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(TAG, e.getMessage());;
             }
         }
     }
@@ -408,6 +414,34 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public Endgame getEndgame() {
         return endgame;
+    }
+
+    public void saveLog(){
+        String filename = Environment.getExternalStorageDirectory() + "/rpg_game_data/rpg_game.log";
+        String command = "logcat -d *:E";
+
+        try{
+            Process process = Runtime.getRuntime().exec(command);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line = null;
+            try{
+                File file = new File(filename);
+                file.createNewFile();
+                FileWriter writer = new FileWriter(file);
+                while((line = in.readLine()) != null){
+                    writer.write(line + "\n");
+                }
+                writer.flush();
+                writer.close();
+            }
+            catch(IOException e){
+                Log.e(TAG, e.getMessage());;
+            }
+        }
+        catch(IOException e){
+            Log.e(TAG, e.getMessage());;
+        }
     }
 
 }

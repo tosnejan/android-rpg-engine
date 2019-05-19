@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -107,7 +108,7 @@ public class MainMenu {
             }
             getCustomMaps();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage());
         }
     }
 
@@ -205,7 +206,7 @@ public class MainMenu {
                             try {
                                 Thread.sleep(5);
                             } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                Log.e(this.getClass().getSimpleName(), e.getMessage());
                             }
                         }
                         //heroSelection.kys();
@@ -377,8 +378,4 @@ public class MainMenu {
         heroSelection = new HeroSelection(heroes, this, title, screenWidth - field.getWidth() - screenHeight/8, screenHeight - field.getHeight() - screenHeight/10);
         heroSelection.start();
     }
-
-    /*public void setState(MainMenuStates state) {
-        this.state = state;
-    }*/
 }

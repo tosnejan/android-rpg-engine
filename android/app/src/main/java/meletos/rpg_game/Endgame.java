@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -46,7 +47,7 @@ public class Endgame {
             paint.setTypeface(Typeface.create("Arial", Typeface.ITALIC));
             textSize = screenHeight/10;
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage());
         }
     }
 
@@ -66,7 +67,6 @@ public class Endgame {
     public void touchUp(int x, int y) {
         if (buttonClicked && button.isTouched(x, y)) {
             gameHandler.getGameView().exitLevel();
-            //gameHandler.getGameView().sound.play(State.MAIN_MENU);
         }
         button.changeImage(false, 0);
         buttonClicked = false;

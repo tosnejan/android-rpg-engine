@@ -1,5 +1,7 @@
 package meletos.rpg_game;
 
+import android.util.Log;
+
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.inventory.Inventory;
 
@@ -26,6 +28,12 @@ public class TransitionManager {
     public void checkForHero (Hero hero, Inventory inventory, GameView gameView) {
         if (transitionPosition.collisionCheck(hero.positionInformation) && !heroVisited) {
             if (inventory.hasItem(keyID) || keyID == -1) {
+                gameView.getGameHandler().saveGameState();
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException e) {
+                    Log.e(this.getClass().getSimpleName(), e.getMessage());
+                }
                 System.out.println("HERO IS HERE");
                 heroVisited = true;
                 // start new level
@@ -36,7 +44,7 @@ public class TransitionManager {
                     try {
                         Thread.sleep(5);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Log.e(this.getClass().getSimpleName(), e.getMessage());
                     }
                 }
                 gameView.getGameHandler().setHero(gameView.getFileManager().loadHeroProperties());

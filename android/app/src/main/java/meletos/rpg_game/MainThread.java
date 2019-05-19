@@ -1,6 +1,7 @@
 package meletos.rpg_game;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 /**
@@ -50,14 +51,14 @@ public class MainThread extends Thread {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(this.getClass().getSimpleName(), e.getMessage());
                 break;
             } finally {
                 if (canvas != null) {
                     try {
                         surfaceHolder.unlockCanvasAndPost(canvas);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Log.e(this.getClass().getSimpleName(), e.getMessage());
                     }
                 }
             }

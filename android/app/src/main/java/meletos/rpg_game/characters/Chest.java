@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class Chest extends Sprite {
             image = BitmapFactory.decodeStream(am.open("characters/chest.png"));
             image = Bitmap.createScaledBitmap(image, 96, 108, false);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage());
         }
         positionInformation = new PositionInformation(x, y, image.getHeight(), image.getWidth());
     }
@@ -50,8 +51,8 @@ public class Chest extends Sprite {
             for (int item: items) {
                 inventory.putItem(item);
             }
-            positionInformation = new PositionInformation(-100, -100, 1, 1); // making it disappear
-        }
+            disappear();
+            }
     }
 
     @Override
@@ -61,5 +62,11 @@ public class Chest extends Sprite {
                     positionInformation.mainCoord.y + gameHandler.getyShift(), null
             );
         }
+    }
+
+    private void disappear() {
+        x = -100;
+        y = -100;
+        positionInformation = new PositionInformation(-100, -100, 1, 1);
     }
 }

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import java.util.HashMap;
 
@@ -100,7 +101,7 @@ public class HeroSelection extends Thread {
                     try {
                         Thread.sleep(50);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Log.e(this.getClass().getSimpleName(), e.getMessage());
                     }
                 }
                 theOne = theOne + 1 < heroes.length ? theOne + 1 : 0;
@@ -135,7 +136,7 @@ public class HeroSelection extends Thread {
                     try {
                         Thread.sleep(50);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Log.e(this.getClass().getSimpleName(), e.getMessage());
                     }
                 }
                 theOne = theOne - 1 < 0 ? heroes.length - 1 : theOne - 1;

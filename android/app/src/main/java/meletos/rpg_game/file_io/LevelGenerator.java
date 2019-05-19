@@ -141,7 +141,7 @@ public class LevelGenerator {
                     throw new UnsupportedTypeException("This character doesnt exist yet.");
             }
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage());
         }
         return null;
 
@@ -179,13 +179,13 @@ public class LevelGenerator {
                 sb.append(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("LevelGenerator", e.getMessage());
         } finally {
             if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e("LevelGenerator", e.getMessage());
                 }
             }
         }

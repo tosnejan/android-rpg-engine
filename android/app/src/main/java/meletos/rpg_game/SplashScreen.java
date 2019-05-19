@@ -18,14 +18,10 @@ public class SplashScreen extends AppCompatActivity {
 
             @Override
             public void run() {
-                //try {
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     SystemClock.sleep(2000);    //Time for SplashScreen before it kills it self
                     startActivity(intent);
                     finish();
-                //} catch (InterruptedException e) {
-                    //e.printStackTrace();
-                //}
             }
         };
         myThread.start();

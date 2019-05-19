@@ -48,7 +48,7 @@ public final class FileScout {
                 stories[i] = story;
                 ++i;
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e("FileScout", e.getMessage());
             }
         }
         return stories;
@@ -79,13 +79,13 @@ public final class FileScout {
                 sb.append(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("FileScout", e.getMessage());
         } finally {
             if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e("FileScout", e.getMessage());
                 }
             }
         }
@@ -119,7 +119,7 @@ public final class FileScout {
                 stories[i] = story;
                 ++i;
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e("FileScout", e.getMessage());
             }
         }
         return stories;
@@ -152,7 +152,7 @@ public final class FileScout {
             try {
                 throw new IOException("Failed to delete " + file);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e("FileScout", e.getMessage());
             }
         }
     }

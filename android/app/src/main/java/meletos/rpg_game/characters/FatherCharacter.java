@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -143,7 +144,7 @@ public abstract class FatherCharacter extends Sprite {
                     characterImage = Bitmap.createScaledBitmap(temp, w, h, false);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(this.getClass().getSimpleName(), e.getMessage());
             }
         } else {
             File file = Environment.getExternalStorageDirectory();

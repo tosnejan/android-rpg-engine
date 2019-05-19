@@ -2,6 +2,7 @@ package meletos.rpg_game.text;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.util.SparseArray;
 
 import java.io.BufferedReader;
@@ -71,13 +72,13 @@ public class Text {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage());
         } finally {
             if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(this.getClass().getSimpleName(), e.getMessage());
                 }
             }
         }
@@ -141,13 +142,13 @@ public class Text {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage());
         } finally {
             if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(this.getClass().getSimpleName(), e.getMessage());
                 }
             }
         }

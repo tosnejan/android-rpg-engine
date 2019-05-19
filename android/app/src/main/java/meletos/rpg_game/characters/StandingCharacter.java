@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class StandingCharacter extends FatherCharacter {
                 image = BitmapFactory.decodeStream(am.open(imagePath));
                 image = Bitmap.createScaledBitmap(image, 96, 108, false);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(this.getClass().getSimpleName(), e.getMessage());
             }
         } else {
             File file = Environment.getExternalStorageDirectory();
@@ -82,7 +83,7 @@ public class StandingCharacter extends FatherCharacter {
                     characterImage = Bitmap.createScaledBitmap(temp, w, h, false);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(this.getClass().getSimpleName(), e.getMessage());
             }
         } else {
             File file = Environment.getExternalStorageDirectory();

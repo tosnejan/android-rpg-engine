@@ -8,15 +8,12 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import meletos.rpg_game.menu.HeroProperties;
@@ -52,7 +49,7 @@ public class GameInitialiser {
             if (!dir.mkdirs()) throw new Exception("Error creating directory.");
 
         } catch (Exception e) {
-            // TODO loggers
+            Log.e(this.getClass().getSimpleName(), e.getMessage());
         }
         copyFolderFromAssets("lvl/" + storyName, dir.getPath());
 
@@ -88,14 +85,14 @@ public class GameInitialiser {
                     try {
                         in.close();
                     } catch (IOException e) {
-                        // NOOP
+                        Log.e(this.getClass().getSimpleName(), e.getMessage());
                     }
                 }
                 if (out != null) {
                     try {
                         out.close();
                     } catch (IOException e) {
-                        // NOOP
+                        Log.e(this.getClass().getSimpleName(), e.getMessage());
                     }
                 }
             }
@@ -126,7 +123,7 @@ public class GameInitialiser {
                 out.print(json);
                 out.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(this.getClass().getSimpleName(), e.getMessage());
             }
     }
 

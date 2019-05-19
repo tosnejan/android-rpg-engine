@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -40,7 +41,7 @@ public class Loading {
             paint.setTypeface(Typeface.create("Arial", Typeface.ITALIC));
             textSize = screenHeight/10;
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage());
         }
     }
 

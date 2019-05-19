@@ -12,7 +12,7 @@ public abstract class Sprite {
     protected PositionInformation positionInformation;
     protected int x, y;
     protected int imgHeigth, imgWidth;
-    protected Bitmap image;
+    protected transient Bitmap image;
 
 
     public Sprite(int x, int y, Bitmap image) {
