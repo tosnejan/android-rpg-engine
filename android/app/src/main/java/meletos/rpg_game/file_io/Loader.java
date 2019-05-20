@@ -4,11 +4,11 @@ import android.util.Log;
 
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.GameView;
+import meletos.rpg_game.State;
 import meletos.rpg_game.inventory.Inventory;
 
-
 /**
- * TODO -- GET RID OF THIS CLASS
+ * Thread for loading.
  */
 public class Loader extends Thread {
     private GameView gameView;
@@ -30,6 +30,14 @@ public class Loader extends Thread {
         try {
             LevelGenerator lvlGenerator = new LevelGenerator(gameView.getContext(), filePath, lvlName, inventory);
             gameView.setGameHandler(lvlGenerator.buildLevel(userSave));
+            while(!gameView.hasGameHandler()) {
+                try {
+                    sleep(5);
+                } catch (InterruptedException e) {
+                    Log.e(this.getClass().getSimpleName(), e.getMessage());
+                }
+            }
+            gameView.setState(meletos.rpg_game.State.MAP);
 
         } catch (UnsupportedTypeException e) {
             Log.e(this.getClass().getSimpleName(), e.getMessage());

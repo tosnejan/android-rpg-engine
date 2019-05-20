@@ -9,9 +9,9 @@ import java.util.Objects;
 public class PositionInformation {
     public int imgHeigth, imgWidth;
     public Coordinates mainCoord; // upper left corner
-    public Coordinates upperRightCorner;
-    public Coordinates lowerLeftCorner;
-    public Coordinates lowerRightCorner;
+    Coordinates upperRightCorner;
+    private Coordinates lowerLeftCorner;
+    Coordinates lowerRightCorner;
 
     public PositionInformation(int x, int y, int imgHeigth, int imgWidth) {
         this.imgHeigth = imgHeigth;
@@ -24,10 +24,10 @@ public class PositionInformation {
 
     /**
      * Updates position information
-     * @param x
-     * @param y
+     * @param x coord
+     * @param y coord
      */
-    public void updatePositionInformation (int x, int y) {
+    private void updatePositionInformation(int x, int y) {
         mainCoord.updateCoordinates(x, y);
         upperRightCorner.updateCoordinates(x + imgWidth, y);
         lowerLeftCorner.updateCoordinates(x, y + imgHeigth);
@@ -37,8 +37,9 @@ public class PositionInformation {
     /**
      * Finds out whether a given coordinate is located within
      * the rectangle of position information
-     * @param coordinate
-     * @return
+     * @param coordinate to check
+     * @return true if inside
+     * false otherwise
      */
     public boolean isCoordinateInside (Coordinates coordinate) {
         return (coordinate.x >= mainCoord.x && coordinate.x <= lowerRightCorner.x)
@@ -64,8 +65,9 @@ public class PositionInformation {
     /**
      * Simpler function than collidesWith, this only informs
      * that there has been a collision
-     * @param other
-     * @return
+     * @param other to check collision against
+     * @return <code>true<code/> if there is a collision
+     * <code>false<code/> otherwise
      */
     public boolean collisionCheck (PositionInformation other) {
         return this.isCoordinateInside(other.mainCoord) || this.isCoordinateInside(other.lowerLeftCorner)

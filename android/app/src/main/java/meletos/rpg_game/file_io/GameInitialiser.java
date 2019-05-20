@@ -24,8 +24,8 @@ import meletos.rpg_game.menu.HeroProperties;
 public class GameInitialiser {
     private final String SAVEFOLDER = "/rpg_game_data/save/"; // here the levels are saved
     private final String storyName;
-    File dir;
-    Context context;
+    private File dir;
+    private Context context;
 
     public GameInitialiser(String storyName, Context context) {
         this.storyName = storyName;
@@ -36,7 +36,6 @@ public class GameInitialiser {
      * Initialises new save -- copies everything into a folder
      */
     public void initialiseNewSave() {
-        //getCurrentSaves();
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss");
         Date date = new Date();
         String currDate = formatter.format(date);
@@ -58,8 +57,8 @@ public class GameInitialiser {
     /**
      * Copies whole folder from assets with everything it contains and copies
      * it into specified locatipn on SDcard
-     * @param assetPath
-     * @param SDPath
+     * @param assetPath to assets
+     * @param SDPath path in SD
      */
     private void copyFolderFromAssets(String assetPath, String SDPath) {
         AssetManager assetManager = context.getAssets();
@@ -101,9 +100,9 @@ public class GameInitialiser {
 
     /**
      * Helper function that copies files
-     * @param in
-     * @param out
-     * @throws IOException
+     * @param in inputstream to copy form
+     * @param out outputstream to copy to
+     * @throws IOException when read doesn't succeed
      */
     private void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
@@ -112,7 +111,11 @@ public class GameInitialiser {
             out.write(buffer, 0, read);
         }
     }
-    
+
+    /**
+     * Saves heroProperties
+     * @param heroProperties to be saved
+     */
     public void saveHeroProperties(HeroProperties heroProperties) {
             try (
                     PrintStream out = new PrintStream(
@@ -127,6 +130,10 @@ public class GameInitialiser {
             }
     }
 
+    /**
+     * Sets job to FileManager
+     * @param fm FileManager
+     */
     public void startGameLoading(FileManager fm) {
         fm.setJob(dir.getPath());
     }

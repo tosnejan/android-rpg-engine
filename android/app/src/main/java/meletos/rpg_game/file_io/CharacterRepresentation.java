@@ -4,18 +4,21 @@ import java.util.HashMap;
 
 import meletos.rpg_game.dialog.DialogSwitcher;
 
+/**
+ * Class that represents character in JSON
+ */
 public class CharacterRepresentation {
-    public String charType;
+    String charType;
     public String imagesFolder;
     public String image;
-    public boolean isEnemy;
-    public int yCoord;
-    public int xCoord;
+    boolean isEnemy;
+    int yCoord;
+    int xCoord;
     public HashMap<String,Integer> stats;
-    public int[][] dialogs;
-    public int actualDialog;
-    public boolean played;
-    public DialogSwitcher[] dialogSwitchers;
+    int[][] dialogs;
+    int actualDialog;
+    boolean played;
+    DialogSwitcher[] dialogSwitchers;
 
     public CharacterRepresentation(String charType, String imagesFolder, String image,
                                    boolean isEnemy, int yCoord, int xCoord, HashMap<String, Integer> stats,

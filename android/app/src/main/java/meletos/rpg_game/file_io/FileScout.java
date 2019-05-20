@@ -26,6 +26,11 @@ public final class FileScout {
     private FileScout() { // no instances allowed
     }
 
+    /**
+     * Gets stories from assets
+     * @param context of Activity
+     * @return Story[] array of stories
+     */
     public static Story[] getStories(Context context) {
         AssetManager assetManager = context.getAssets();
         String[] directories = null;
@@ -54,6 +59,11 @@ public final class FileScout {
         return stories;
     }
 
+    /**
+     * Gets all locations of stories in assets
+     * @param context of Activity
+     * @return String[] of paths to stories
+     */
     public static String[] getAllStoryLocations(Context context) {
         AssetManager assetManager = context.getAssets();
         String[] directories = null;
@@ -65,6 +75,12 @@ public final class FileScout {
         return directories;
     }
 
+    /**
+     * Helper function to read from
+     * @param assetPath in assets
+     * @param assetManager to help
+     * @return String file contents
+     */
     private static String readFromAssets(String assetPath, AssetManager assetManager) {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
@@ -92,6 +108,11 @@ public final class FileScout {
         return sb.toString();
     }
 
+    /**
+     * Gets saves.
+     * @param context of Activity
+     * @return Story[] all saves
+     */
     public static Story[] getSaves(Context context) {
         Story[] stories;
         String storagePath = Environment.getExternalStorageDirectory().toString();
@@ -128,7 +149,7 @@ public final class FileScout {
 
     /**
      * This function deletes the whole story
-     * @param fullPath
+     * @param fullPath path of the story
      */
     private static void deleteStory(String fullPath) {
         File file = new File(fullPath);
@@ -137,7 +158,7 @@ public final class FileScout {
 
     /**
      * Recursively deletes whole directory
-     * @param file
+     * @param file to delete
      */
     private static void deleteDirectory (File file) {
         if (file.isDirectory()) {

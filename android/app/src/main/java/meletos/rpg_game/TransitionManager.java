@@ -43,6 +43,7 @@ public class TransitionManager {
                 heroVisited = true;
                 // start new level
                 gameView.setHasGameHandler(false);
+                gameView.setState(State.LOADING);
                 gameView.getFileManager().loadLevels(nextLevelName, inventory);
 
                 while (!gameView.hasGameHandler()) { // waiting for loading

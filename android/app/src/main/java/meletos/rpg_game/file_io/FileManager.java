@@ -1,22 +1,20 @@
 package meletos.rpg_game.file_io;
 
 import android.content.Context;
-import com.google.gson.GsonBuilder;
-import java.util.ArrayList;
 
-import meletos.rpg_game.GameHandler;
+import com.google.gson.GsonBuilder;
+
 import meletos.rpg_game.GameView;
 import meletos.rpg_game.inventory.Inventory;
 import meletos.rpg_game.menu.HeroProperties;
 
 /**
- * Used for coordinating loading and saving
+ * Used for coordinating loading stories and levels within them
  */
 public class FileManager {
     private String rootDirPath;
     private String currentLevel;
     private Context context;
-    private ArrayList<GameHandler> gameHandlers;
     private GameView gameview;
 
     public FileManager(Context context, GameView gameview) {
@@ -24,8 +22,10 @@ public class FileManager {
         this.context = context;
     }
 
+
     /**
      * Sets job -- the save structure it should be processing
+     * @param rootDirPath of world
      */
     public void setJob (String rootDirPath) {
         this.rootDirPath = rootDirPath;
@@ -39,11 +39,21 @@ public class FileManager {
         loadLevels(currentLevel, null);
     }
 
+    /**
+     * Loads level
+     * @param levelToBeLoaded full path to level
+     * @param inventory passes inventory if only switching levels so it
+     *                  doesn't have to load it form file
+     */
     public void loadLevels (String levelToBeLoaded, Inventory inventory) {
         currentLevel = levelToBeLoaded;
         new Loader(gameview, rootDirPath, false, currentLevel, inventory).start();
     }
 
+    /**
+     * Loads hero properties.
+     * @return HeroProperties leaded from file
+     */
     public HeroProperties loadHeroProperties() {
         String heroJson = LevelGenerator.loadFile(false, rootDirPath + "/heroProperties.json", context);
         return new GsonBuilder().create().fromJson(heroJson, HeroProperties.class);
@@ -55,13 +65,6 @@ public class FileManager {
 
     public String getCurrPath() {
         return rootDirPath;
-    }
-
-    /**
-     * Kills and loads new levels
-     */
-    private void checkLoadedLevels() {
-
     }
 
     public String getRootDirPath() {

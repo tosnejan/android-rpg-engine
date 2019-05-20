@@ -1,6 +1,7 @@
 package meletos.rpg_game.characters;
 
 import android.content.Context;
+
 import java.util.HashMap;
 
 import meletos.rpg_game.Directions;

@@ -32,7 +32,7 @@ import meletos.rpg_game.spawning.SpawnDataEntry;
  * Generates a level from json by reading it into level representation and
  * then building characters, inventory etc.
  */
-public class LevelGenerator {
+class LevelGenerator {
     private String filePath;
     private String lvlName;
     private Context context;
@@ -43,7 +43,7 @@ public class LevelGenerator {
 
 
     // WARNING -- SHOULD BE GIVEN FULL PATH TO EXTERNAL STORAGE
-    public LevelGenerator(Context context, String filePath, String lvlName, Inventory inventory) {
+    LevelGenerator(Context context, String filePath, String lvlName, Inventory inventory) {
         this.context = context;
         this.filePath = filePath;
         this.inventory = inventory; // this is useful for passing already existing inventory between levels
@@ -52,11 +52,11 @@ public class LevelGenerator {
 
     /**
      * Main function, builds level
-     * @param userSave
-     * @return
-     * @throws UnsupportedTypeException
+     * @param userSave whether uses custom pictures
+     * @return GameHandler
+     * @throws UnsupportedTypeException if wrong character types
      */
-    public GameHandler buildLevel (boolean userSave) throws UnsupportedTypeException {
+    GameHandler buildLevel(boolean userSave) throws UnsupportedTypeException {
         if (inventory == null) {
             inventory = loadInventory();
         }
@@ -91,9 +91,9 @@ public class LevelGenerator {
 
     /**
      * Function that constructs a character from characterHash.
-     * @param characterInfo
-     * @return
-     * @throws UnsupportedTypeException
+     * @param characterInfo characterRepresentation
+     * @return FatherCharacter generated character
+     * @throws UnsupportedTypeException if wrong types in json
      */
     private FatherCharacter buildCharacter (CharacterRepresentation characterInfo) throws UnsupportedTypeException {
         boolean enemy = characterInfo.isEnemy;
@@ -156,12 +156,12 @@ public class LevelGenerator {
 
     /**
      * Helper function -- loads file. Static and so used by multiple other classes
-     * @param userSave
-     * @param filePath -- full SD card path to file
-     * @param context
-     * @return
+     * @param userSave boolean whether custom
+     * @param filePath full SD card path to file
+     * @param context of Activity
+     * @return file data in a String
      */
-    public static String loadFile (boolean userSave, String filePath, Context context) {
+    static String loadFile(boolean userSave, String filePath, Context context) {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
         try {
@@ -193,7 +193,7 @@ public class LevelGenerator {
 
     /**
      * Loads inventory from its file.
-     * @return
+     * @return inventory
      */
     private Inventory loadInventory() {
         String json = loadFile(userSave,  filePath + "/inventory.json", context);
