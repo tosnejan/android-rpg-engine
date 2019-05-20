@@ -30,15 +30,6 @@ public class Loader extends Thread {
         try {
             LevelGenerator lvlGenerator = new LevelGenerator(gameView.getContext(), filePath, lvlName, inventory);
             gameView.setGameHandler(lvlGenerator.buildLevel(userSave));
-            while(!gameView.hasGameHandler()) {
-                try {
-                    sleep(5);
-                } catch (InterruptedException e) {
-                    Log.e(this.getClass().getSimpleName(), e.getMessage());
-                }
-            }
-            gameView.setState(meletos.rpg_game.State.MAP);
-
         } catch (UnsupportedTypeException e) {
             Log.e(this.getClass().getSimpleName(), e.getMessage());
         }

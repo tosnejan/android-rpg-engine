@@ -54,7 +54,7 @@ public class TransitionManager {
                     }
                 }
                 gameView.getGameHandler().setHero(gameView.getFileManager().loadHeroProperties());
-
+                gameView.setState(State.MAP);
                 gameView.getGameHandler().startGame();
             }
         } else {

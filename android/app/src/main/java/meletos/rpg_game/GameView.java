@@ -67,6 +67,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private boolean hasGameHandler = false;
     private Itinerary itinerary;
     private FileManager fileManager;
+    private long loadingCheck;
 
     private Boolean init = true; // used to recognise initiation
     private String TAG = "GameView";
@@ -372,6 +373,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void setGameHandler(GameHandler gH) {
+        if(Thread.currentThread().getId() != loadingCheck)return;
         gameHandler = gH;
         gameHandler.pauseGame();
         gameHandler.setGameView(this);
@@ -443,4 +445,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    public synchronized void setLoadingCheck(long loadingCheck) {
+        this.loadingCheck = loadingCheck;
+    }
 }

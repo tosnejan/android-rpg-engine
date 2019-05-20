@@ -47,7 +47,10 @@ public class FileManager {
      */
     public void loadLevels (String levelToBeLoaded, Inventory inventory) {
         currentLevel = levelToBeLoaded;
-        new Loader(gameview, rootDirPath, false, currentLevel, inventory).start();
+        Loader loader = new Loader(gameview, rootDirPath, false, currentLevel, inventory);
+        gameview.setLoadingCheck(loader.getId());
+        loader.start();
+
     }
 
     /**
