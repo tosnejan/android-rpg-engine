@@ -292,6 +292,7 @@ public class MainMenu {
                 if (heroSelection.isNotMoving()) heroSelection.touchUp(x, y);
                 if (clickedButton == 1 && backButton.isTouched(x, y)) {
                     state = MainMenuStates.STORY_SELECTION;
+                    gameView.setLoadingCheck(-1);
                     heroSelection.kys();
                 }
                 backButton.changeImage(false, 0);

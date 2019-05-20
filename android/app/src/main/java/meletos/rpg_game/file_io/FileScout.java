@@ -151,7 +151,7 @@ public final class FileScout {
      * This function deletes the whole story
      * @param fullPath path of the story
      */
-    private static void deleteStory(String fullPath) {
+    public static void deleteStory(String fullPath) {
         File file = new File(fullPath);
         deleteDirectory(file);
     }

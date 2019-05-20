@@ -515,5 +515,14 @@ public class GameHandler {
     public GameView getGameView() {
         return gameView;
     }
+
+    public void setChests(List<Chest> chests) {
+        this.chests = chests;
+    }
+
+    public List<Chest> getChests() {
+        return chests;
+    }
+
 }
 

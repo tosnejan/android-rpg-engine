@@ -18,10 +18,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.sql.SQLOutput;
 
 import meletos.rpg_game.battle.BattleGUI;
 import meletos.rpg_game.dialog.Dialog;
 import meletos.rpg_game.file_io.FileManager;
+import meletos.rpg_game.file_io.FileScout;
 import meletos.rpg_game.inventory.InventoryGUI;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
 import meletos.rpg_game.menu.MenuStates;
@@ -166,8 +168,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     /**
      * All the management of touch events
-     * @param event
-     * @return
+     * @param event touch event to handle
+     * @return true on success
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -190,7 +192,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 if (event.getAction() == ACTION_UP) {
                     js.setUsed(false);
                     inventory.touchUp((int)event.getX(), (int)event.getY());
-                    //gameHandler.resumeGame();
                 }
                 if (js.used) {
                     js.setPos(event.getX(), event.getY());
@@ -372,8 +373,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    public void setGameHandler(GameHandler gH) {
-        if(Thread.currentThread().getId() != loadingCheck)return;
+    public void setGameHandler(GameHandler gH, String storyPath) {
+        if(Thread.currentThread().getId() != loadingCheck) {
+            Log.i(TAG, "Deleting unused save.");
+            FileScout.deleteStory(storyPath); // delete unused save
+            return;
+        }
         gameHandler = gH;
         gameHandler.pauseGame();
         gameHandler.setGameView(this);

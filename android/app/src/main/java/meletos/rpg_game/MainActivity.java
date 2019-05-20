@@ -10,6 +10,9 @@ import android.view.WindowManager;
 
 import meletos.rpg_game.text.Text;
 
+/**
+ * MainActivity of the class
+ */
 public class MainActivity extends Activity {
 
     private GameView gameView;
@@ -20,8 +23,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); // this makes the app go fullscreen
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //SharedPreferences settings = getSharedPreferences("settings", 0);
         text = new Text(this);// change this for default language
         gameView = new GameView(this, text);
         setContentView(gameView); // this starts the game canvas
@@ -81,13 +82,13 @@ public class MainActivity extends Activity {
 
     /**
      * Stops the game if permissions are not given
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
+     * @param requestCode of the request
+     * @param permissions permissions it is asking for
+     * @param grantResults if results are granted
      */
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[]
+                                           String[] permissions, int[]
                                                    grantResults) {
         switch (requestCode) {
             case 100: {

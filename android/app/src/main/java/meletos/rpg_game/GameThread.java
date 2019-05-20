@@ -14,13 +14,13 @@ public class GameThread extends Thread {
         game loop terminates and the system kills the thread*/
         private boolean running;
 
-    public GameThread (GameHandler gameHandler) {
+    GameThread(GameHandler gameHandler) {
             super();
             this.gameHandler = gameHandler;
             running = true;
-        }
+    }
 
-    public void setNewGameHandler(GameHandler gameHandler) {
+    void setNewGameHandler(GameHandler gameHandler) {
         this.gameHandler = gameHandler;
     }
     /**
@@ -43,7 +43,7 @@ public class GameThread extends Thread {
      * used to kill the thread
      * @param state when false, thread stops because it will not have any more work to do
      */
-    public void setRunning (boolean state) {
+    void setRunning(boolean state) {
         running = state;
     }
 }
