@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.os.Environment;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -25,21 +24,14 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import meletos.rpg_game.battle.Battle;
 import meletos.rpg_game.characters.Chest;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Hero;
-import meletos.rpg_game.characters.RandomWalker;
-import meletos.rpg_game.file_io.FileManager;
 import meletos.rpg_game.file_io.LevelRepresentation;
 import meletos.rpg_game.inventory.Inventory;
 import meletos.rpg_game.menu.HeroProperties;
 import meletos.rpg_game.navigation.JoyStick;
-import meletos.rpg_game.spawning.SpawnDataEntry;
-import meletos.rpg_game.spawning.SpawnHandler;
 import meletos.rpg_game.text.Text;
 
 /**
@@ -106,7 +98,7 @@ public class GameHandler {
 
     /**
      * Loads level map from a filename -- usually gets called from LevelGenerator
-     * @param fileName
+     * @param fileName of the map
      */
     public void loadMap (String fileName) {
         mapSource = fileName;
@@ -204,10 +196,6 @@ public class GameHandler {
             character.update();
         }
         transitionManager.checkForHero(hero, inventory, gameView);
-        /*if (toRemove != null){
-            characters.remove(toRemove);
-            toRemove = null;
-        }*/
     }
 
     /**
@@ -238,14 +226,6 @@ public class GameHandler {
             return true;
         }
         return false;
-    }
-
-    public int getxShift() {
-        return xShift;
-    }
-
-    public int getyShift() {
-        return yShift;
     }
 
     public int getScreenWidth() {
@@ -309,10 +289,7 @@ public class GameHandler {
         }
             return ret;
     }
-    /**
-     * Maybe well make it deprecated :DD
-     * @param p
-     */
+
     @Deprecated
     public Directions suggestDirections(PositionInformation p) {
         Directions yDirection = Directions.NONE;
@@ -349,8 +326,8 @@ public class GameHandler {
 
     /**
      * Collision detector -- works by edges of rectangles
-     * @param currCharacter
-     * @param newPosition
+     * @param currCharacter character to detect collision with
+     * @param newPosition where the character wants to go to
      * @return suggests direction to go
      */
     public Directions collisionDetector (FatherCharacter currCharacter, PositionInformation newPosition) {
@@ -366,7 +343,6 @@ public class GameHandler {
             if (result != Directions.NONE) {
                 if (!currPosition.equals(hero.getPositionInformation())) return result;
                 else {
-                    //TODO battle
                     if (character.isEnemy()){
                         fighting = character;
                         inBattle = true;
@@ -383,7 +359,6 @@ public class GameHandler {
         if (!currPosition.equals(hero.getPositionInformation())) {
             Directions result = newPosition.collidesWith(hero.getPositionInformation());
             if (result != Directions.NONE) {
-                //TODO battle
                 if (currCharacter.isEnemy()){
                     fighting = currCharacter;
                     inBattle = true;
@@ -411,14 +386,14 @@ public class GameHandler {
     /**
      * Pauses game -- characters stop moving and interacting
      */
-    public void pauseGame() {
+    void pauseGame() {
         isGamePaused = true;
     }
 
     /**
      * Resumes game -- characters start moving
      */
-    public void resumeGame() {
+    void resumeGame() {
         isGamePaused = false;
     }
 
@@ -426,12 +401,12 @@ public class GameHandler {
         return isGamePaused;
     }
 
-    public void setJoystickToHero (JoyStick js) {
+    void setJoystickToHero(JoyStick js) {
         hero.setJoystick(js);
     }
 
     /**
-     * Saves the current game state -- runs in a new thread
+     * Saves the current game state -- runs in a new thread.
      */
     public void saveGameState() {
         new Thread(new Runnable() {
@@ -503,7 +478,7 @@ public class GameHandler {
 
     /**
      * Inserts new character into GameHandler -- used for spawning
-     * @param character
+     * @param character to be inserted
      */
     public void insertCharacter (FatherCharacter character) {
         characters.add(character);
@@ -531,6 +506,10 @@ public class GameHandler {
         return heroProperties.getStats();
     }
 
+    /**
+     * Removes character
+     * @param character to be removed
+     */
     public void removeCharacter(FatherCharacter character) {
         characters.remove(character);
     }

@@ -17,7 +17,7 @@ public class TransitionManager {
     private String nextLevelName; // saves the name of the next level
     private boolean heroVisited = false;
 
-    public TransitionManager(int keyID, int x, int y, String nextLevelName, int height, int width) {
+    TransitionManager(int keyID, int x, int y, String nextLevelName, int height, int width) {
         this.keyID = keyID;
         this.nextLevelName = nextLevelName;
         this.height = height;
@@ -25,7 +25,13 @@ public class TransitionManager {
         transitionPosition = new PositionInformation(x, y, this.height, this.width);
     }
 
-    public void checkForHero (Hero hero, Inventory inventory, GameView gameView) {
+    /**
+     * Checks for hero. When it is in proximity, it will transport him
+     * @param hero to check for
+     * @param inventory used to find key
+     * @param gameView so that it is able to trigger new level
+     */
+    void checkForHero(Hero hero, Inventory inventory, GameView gameView) {
         if (transitionPosition.collisionCheck(hero.positionInformation)) {
             if ((inventory.hasItem(keyID) || keyID == -1) && !heroVisited) {
                 gameView.getGameHandler().saveGameState();

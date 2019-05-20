@@ -1,8 +1,6 @@
 package meletos.rpg_game.characters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-
 import java.util.HashMap;
 
 import meletos.rpg_game.Directions;
@@ -29,6 +27,9 @@ public class RandomWalker extends FatherCharacter {
         ySpeedConstant = 5;
     }
 
+    /**
+     * Update strategy - moves in random directions.
+     */
     @Override
     public void update() {
         ++steps;

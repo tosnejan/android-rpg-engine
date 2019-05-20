@@ -74,8 +74,8 @@ public class PositionInformation {
 
     /**
      * Checks for collision with other character and suggests what direction to go in
-     * @param other
-     * @return
+     * @param other to check collision against
+     * @return Directions suggested direction to avoid collision
      */
     public Directions collidesWith (PositionInformation other) {
         if (this.isCoordinateInside(other.mainCoord) && this.isCoordinateInside(other.upperRightCorner)) {
@@ -101,9 +101,9 @@ public class PositionInformation {
 
     /**
      * Moves the characters. Adds speed and computes all the corners
-     * @param xSpeed
-     * @param ySpeed
-     * @param gameHandler
+     * @param xSpeed to add
+     * @param ySpeed to add
+     * @param gameHandler to check if position is available
      */
     public void addSpeed (int xSpeed, int ySpeed, GameHandler gameHandler) {
         if (gameHandler.isPositionAvailable(mainCoord.x + xSpeed,mainCoord.y + ySpeed,imgWidth,imgHeigth)){
@@ -117,12 +117,19 @@ public class PositionInformation {
 
     /**
      * Used by follower
-     * @param xSpeed
-     * @param ySpeed
+     * @param xSpeed to add
+     * @param ySpeed to add
      */
     public void addSpeed (int xSpeed, int ySpeed) {
         updatePositionInformation(mainCoord.x + xSpeed, mainCoord.y + ySpeed);
     }
+
+    /**
+     * Enables sliding.
+     * @param xSpeed to add
+     * @param ySpeed to add
+     * @param gh gamehandler
+     */
     public void heroAddSpeed (int xSpeed, int ySpeed, GameHandler gh) {
         if (gh.isPositionAvailable(mainCoord.x + xSpeed,mainCoord.y + ySpeed,imgWidth,imgHeigth)){
             if (gh.moveMapByX(mainCoord.x,xSpeed,imgWidth))

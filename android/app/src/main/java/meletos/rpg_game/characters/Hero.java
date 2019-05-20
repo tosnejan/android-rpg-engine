@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import meletos.rpg_game.Directions;
-import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.PositionInformation;
 import meletos.rpg_game.navigation.JoyStick;
 
@@ -64,25 +63,6 @@ public class Hero extends FatherCharacter {
     @Override
     public void updateXY() {
         positionInformation.heroAddSpeed(xSpeed, ySpeed, gameHandler);
-        /*
-        if (gameHandler.getxShift() == 0 && gameHandler.getyShift() == 0){
-            if
-            positionInformation.addSpeed(xSpeed, ySpeed, gameHandler);
-        } else if (gameHandler.getxShift() + gameHandler.getMapWidth() == gameHandler.getMapWidth() &&
-                gameHandler.getyShift()+ gameHandler.getMapHeight() == gameHandler.getMapHeight()) {
-
-        }*/
-    }
-
-    /**
-     * Lets the character know the gamehandler
-     * Hero returns true
-     * @param gameHandler put the boss
-     */
-    @Override
-    public boolean setGameHandler(GameHandler gameHandler) {
-        this.gameHandler = gameHandler;
-        return true;
     }
 
     public Bitmap getImage(){
