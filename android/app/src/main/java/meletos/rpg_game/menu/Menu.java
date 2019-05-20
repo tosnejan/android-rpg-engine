@@ -98,6 +98,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Checking if buttons was clicked.
+     * @param x coordination where click was detected
+     * @param y coordination where click was detected
+     */
     public void touchDown(int x, int y) {
         if (xButton.isTouched(x, y)){
             xButtonClicked = true;
@@ -123,6 +128,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Checking if same button was clicked and do what it should do.
+     * @param x coordination where click was detected
+     * @param y coordination where click was detected
+     */
     public void touchUp(int x, int y) {
         if (xButtonClicked) xButton.changeImage(false, 0);
         if (xButtonClicked && xButton.isTouched(x, y)){

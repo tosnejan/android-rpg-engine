@@ -13,7 +13,6 @@ import java.util.HashMap;
 
 import meletos.rpg_game.PositionInformation;
 import meletos.rpg_game.dialog.DialogSwitcher;
-import meletos.rpg_game.file_io.CharacterRepresentation;
 
 public class StandingCharacter extends FatherCharacter {
 
