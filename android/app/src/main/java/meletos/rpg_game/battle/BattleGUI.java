@@ -42,6 +42,9 @@ public class BattleGUI {
         load();
     }
 
+    /**
+     * Loads images and creates buttons.
+     */
     private void load(){
         AssetManager am = context.getAssets();
         try {
@@ -70,6 +73,10 @@ public class BattleGUI {
         }
     }
 
+    /**
+     * Draw battle GUI.
+     * @param canvas canvas to draw
+     */
     public void draw(Canvas canvas){
         canvas.drawBitmap(background, 0, 0, null);
         canvas.drawBitmap(enemyImage, 4*screenWidth/7f - enemyImage.getWidth()/2f, screenHeight/2f - enemyImage.getHeight()/2f, null);
@@ -79,6 +86,11 @@ public class BattleGUI {
         gameHandler.getBattle().draw(canvas);
     }
 
+    /**
+     * Checking if buttons was clicked.
+     * @param x coordination where click was detected
+     * @param y coordination where click was detected
+     */
     public void touchDown(int x, int y) {
         for (int i = 0; i < buttons.length; i++) {
             if (buttons[i].isTouched(x, y)) {
@@ -88,6 +100,11 @@ public class BattleGUI {
         }
     }
 
+    /**
+     * Checking if same button was clicked and do what it should do.
+     * @param x coordination where click was detected
+     * @param y coordination where click was detected
+     */
     public void touchUp(int x, int y) {
         if (clickedButton != -1){
             buttons[clickedButton].changeImage(false, 0);
@@ -113,11 +130,18 @@ public class BattleGUI {
         }
     }
 
+    /**
+     * Initialize battle before start.
+     */
     public void init(){
         enemy = gameHandler.getFighting();
         enemyImage = enemy.getCharacterImage();
     }
 
+    /**
+     * Potion error message.
+     * @param message what to say
+     */
     private void alert(String message){
         AlertDialog alertDialog = new AlertDialog.Builder(gameHandler.context).create();
         alertDialog.setTitle(gameHandler.getText().getText(19));

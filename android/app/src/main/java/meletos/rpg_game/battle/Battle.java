@@ -14,7 +14,6 @@ import java.util.Random;
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.State;
 import meletos.rpg_game.characters.FatherCharacter;
-import meletos.rpg_game.inventory.Inventory;
 
 public class Battle {
     private GameHandler gameHandler;
@@ -40,6 +39,9 @@ public class Battle {
         load();
     }
 
+    /**
+     * Loads images.
+     */
     private void load(){
         AssetManager am = gameHandler.context.getAssets();
         int screenHeight = gameHandler.getScreenHeight();
@@ -62,6 +64,10 @@ public class Battle {
         }
     }
 
+    /**
+     * Prepare new battle.
+     * @param character enemy to fight with
+     */
     public void initNewBattle(FatherCharacter character){
         enemyStats = character.getStats();
         heroStats = gameHandler.getHeroStats();
@@ -72,6 +78,9 @@ public class Battle {
         playersRound = true;
     }
 
+    /**
+     * Do animation or play as enemy.
+     */
     public void update(){
         if (!animationDone){
             try {
@@ -130,6 +139,10 @@ public class Battle {
         }
     }
 
+    /**
+     * Draw health bars and animation if needed.
+     * @param canvas canvas to draw
+     */
     public void draw(Canvas canvas){
         canvas.drawBitmap(frame, 2*gameHandler.getScreenWidth()/5f, gameHandler.getScreenHeight()-frame.getHeight(), null);
         canvas.drawBitmap(frame, 2*gameHandler.getScreenWidth()/5f, 0, null);
@@ -140,6 +153,9 @@ public class Battle {
         }
     }
 
+    /**
+     * Set shield for player for 6 turns.
+     */
     public void setShield() {
         if (playersRound && animationDone) {
             heroShield = 6;
@@ -148,6 +164,9 @@ public class Battle {
         }
     }
 
+    /**
+     * Attack as player. Calculate damage and does it.
+     */
     public void attack() {
         if (playersRound && animationDone) {
             int hp = enemyStats.get("HP");
@@ -170,6 +189,9 @@ public class Battle {
         }
     }
 
+    /**
+     * Attack as enemy. Calculate damage and does it.
+     */
     public void attacked() {
         int hp = heroStats.get("HP");
         int mr = heroStats.get("MR") + (itemsStats.containsKey("MR") ? itemsStats.get("MR") : 0);
@@ -188,6 +210,9 @@ public class Battle {
         animationDone = false;
     }
 
+    /**
+     * Heal player by 100.
+     */
     public void healChar() {
         HashMap<String,Integer> stats = gameHandler.getHeroStats();
         int hp = stats.get("HP");
@@ -195,18 +220,5 @@ public class Battle {
         heroBar = Bitmap.createScaledBitmap(heroBar, (gameHandler.getScreenWidth()/3)* (stats.get("HP") >= 2 ? stats.get("HP") : 2) / 1000, gameHandler.getScreenHeight()/20, true);
         animation = Animations.HEAL;
         animationDone = false;
-    }
-
-    private void alert(String message){
-        AlertDialog alertDialog = new AlertDialog.Builder(gameHandler.context).create();
-        alertDialog.setTitle(gameHandler.getText().getText(19));
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
     }
 }
