@@ -69,7 +69,7 @@ public class JoyStick {
         return Directions.NONE;
     }
 
-    public double cal_angle(float x, float y) {
+    private double cal_angle(float x, float y) {
         if(x > 0 && y >= 0)
             return Math.toDegrees(Math.atan(y / x));
         else if(x == 0 && y > 0)
