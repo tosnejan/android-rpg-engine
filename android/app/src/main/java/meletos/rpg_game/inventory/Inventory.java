@@ -41,6 +41,10 @@ public class Inventory {
         equipped.put(type, ID);
     }
 
+    /**
+     * Unequip item and put it to the first empty field. Does nothing when inventory is full.
+     * @param type type of item to unequip
+     */
     public void unequipItem(ItemType type) {
         for (int row = 0; row < inventory.length; row++) {
             for (int column = 0; column < inventory[row].length; column++) {
@@ -57,6 +61,11 @@ public class Inventory {
         this.itinerary = itinerary;
     }
 
+    /**
+     * @param gameHandler actual gameHandler.
+     * @return <code>HashMap</code> with sums of equipped items and hero base stats;
+     *          <code>false</code> otherwise
+     */
     public HashMap<String, Integer> getStats(GameHandler gameHandler){
         HashMap<String, Integer> playerStats = new HashMap<>();
         HashMap<String, Integer> heroStats = gameHandler.getHeroStats();
@@ -76,9 +85,10 @@ public class Inventory {
     }
 
     /**
-     * Can be used to search for key. I hope this is how it works :D
-     * @param id
-     * @return
+     * Searching for item with <b>id</b> in inventory.
+     * @param id ID of item you are asking to check
+     * @return <code>true</code> if item with <b>id</b> is in inventory;
+     *          <code>false</code> otherwise
      */
     public boolean hasItem(int id) {
         for (int row = 0; row < inventory.length; row++) {
@@ -91,6 +101,11 @@ public class Inventory {
         return false;
     }
 
+
+    /**
+     * Adds item with <b>id</b> to the first empty field.
+     * @param id ID of item
+     */
     public void putItem(int id) {
         for (int row = 0; row < inventory.length; row++) {
             for (int column = 0; column < inventory[row].length; column++) {
@@ -102,6 +117,10 @@ public class Inventory {
         }
     }
 
+    /**
+     * @param id ID of item
+     * @return <code>true</code> if item was in inventory; <code>false</code> otherwise
+     */
     public boolean deleteItem(int id) {
         for (int row = 0; row < inventory.length; row++) {
             for (int column = 0; column < inventory[row].length; column++) {
