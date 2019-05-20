@@ -49,3 +49,7 @@ DESCRIPTION: NoDescription
 ID: 21
 NAME: Health potion
 DESCRIPTION: Can be used in battle to give you 100 health.
+
+ID: 22
+NAME: Key
+DESCRIPTION: Hut key.

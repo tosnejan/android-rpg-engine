@@ -124,6 +124,11 @@
       "type": "OTHER",
       "ID": 21,
       "path": "itinerary/images/potions/health_potion.png"
+    },
+    {
+      "type": "OTHER",
+      "ID": 22,
+      "path": "itinerary/images/keys/key1.png"
     }
   ]
 }

@@ -24,15 +24,14 @@
         "y": 380
       }
     },
-    "keyID": -1,
+    "keyID": 22,
     "nextLevelName": "house.json",
     "heroVisited": false
   },
   "chests": [
     {
       "items": [
-        2,
-        12
+        22
       ],
       "keyID": -1,
       "x": 100,
