@@ -77,13 +77,12 @@ public class Sound {
                 mediaPlayer = MediaPlayer.create(context, menu_theme);
                 break;
             case ENDGAME:
-                if (mediaPlayer.isPlaying())
-                    mediaPlayer.stop();
+                if (mediaPlayer.isPlaying()) killSounds();
                 mediaPlayer = MediaPlayer.create(context, endgame_theme);
                 break;
             case BATTLE:
                 if (mediaPlayer.isPlaying())
-                    mediaPlayer.stop();
+                    killSounds();
                 mediaPlayer = MediaPlayer.create(context, battle_theme);
                 break;
             default:
@@ -91,7 +90,7 @@ public class Sound {
                     return;
                 }
                 if (mediaPlayer.isPlaying())
-                    mediaPlayer.stop();
+                    killSounds();
                 mediaPlayer = MediaPlayer.create(context, game_theme);
                 break;
         }

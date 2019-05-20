@@ -16,7 +16,6 @@ public class TransitionManager {
     private int keyID; // the key that hero has to have -- if -1 it means free pass
     private String nextLevelName; // saves the name of the next level
     private boolean heroVisited = false;
-    int resistance = 10;
 
     public TransitionManager(int keyID, int x, int y, String nextLevelName, int height, int width) {
         this.keyID = keyID;
@@ -27,15 +26,14 @@ public class TransitionManager {
     }
 
     public void checkForHero (Hero hero, Inventory inventory, GameView gameView) {
-        if (transitionPosition.collisionCheck(hero.positionInformation) && !heroVisited) {
-            if (inventory.hasItem(keyID) || keyID == -1) {
+        if (transitionPosition.collisionCheck(hero.positionInformation)) {
+            if ((inventory.hasItem(keyID) || keyID == -1) && !heroVisited) {
                 gameView.getGameHandler().saveGameState();
                 try {
                     Thread.sleep(5);
                 } catch (InterruptedException e) {
                     Log.e(this.getClass().getSimpleName(), e.getMessage());
                 }
-                System.out.println("HERO IS HERE");
                 heroVisited = true;
                 // start new level
                 gameView.setHasGameHandler(false);
@@ -52,6 +50,8 @@ public class TransitionManager {
 
                 gameView.getGameHandler().startGame();
             }
+        } else {
+            heroVisited = false;
         }
     }
 
