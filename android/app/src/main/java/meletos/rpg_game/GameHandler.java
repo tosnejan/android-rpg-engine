@@ -28,6 +28,7 @@ import meletos.rpg_game.battle.Battle;
 import meletos.rpg_game.characters.Chest;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Hero;
+import meletos.rpg_game.file_io.FileManager;
 import meletos.rpg_game.file_io.LevelRepresentation;
 import meletos.rpg_game.inventory.Inventory;
 import meletos.rpg_game.menu.HeroProperties;
@@ -437,33 +438,10 @@ public class GameHandler {
                 Gson gs = gsonBuilder.create();
                 String lvljson = gs.toJson(lr);
                 Log.i(this.getClass().getSimpleName(), "Saving.");
-                saveFile(currLevel, lvljson);
+                FileManager.saveFile(currLevel, lvljson);
 
                 String inventoryjson = new Gson().toJson(inventory);
-                saveFile(currPath + "/inventory.json", inventoryjson);
-            }
-
-            private void saveFile(String path, String json) {
-                FileWriter out = null;
-                try {
-                    File saveFile = new File(path);
-                    if (!saveFile.exists()) {
-                        saveFile.getParentFile().mkdirs();
-                    }
-                    out = new FileWriter(saveFile);
-                    out.write(json);
-                    out.flush();
-                } catch (IOException e) {
-                    Log.e(this.getClass().getSimpleName(), e.getMessage());
-                } finally {
-                    try {
-                        if (out != null) {
-                            out.close();
-                        }
-                    } catch (Exception e) {
-                        Log.e(this.getClass().getSimpleName(), e.getMessage());
-                    }
-                }
+                FileManager.saveFile(currPath + "/inventory.json", inventoryjson);
             }
         }).start();
     }
@@ -537,5 +515,14 @@ public class GameHandler {
     public GameView getGameView() {
         return gameView;
     }
+
+    public void setChests(List<Chest> chests) {
+        this.chests = chests;
+    }
+
+    public List<Chest> getChests() {
+        return chests;
+    }
+
 }
 

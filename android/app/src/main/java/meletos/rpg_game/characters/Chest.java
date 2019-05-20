@@ -10,6 +10,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.PositionInformation;
@@ -57,7 +58,7 @@ public class Chest extends Sprite {
      * @param inventory inventory where items get copied
      */
     public void open (Inventory inventory) {
-        System.out.println("OPENING");
+        Log.i(this.getClass().getSimpleName(), "Opening chest.");
         if (!heroVisited && (inventory.hasItem(keyID) || keyID == -1)) {
             heroVisited = true;
             // give him items
@@ -83,11 +84,9 @@ public class Chest extends Sprite {
     }
 
     /**
-     * Makes chest disappear.
+     * Makes chest disappear and removes it from chests.
      */
     private void disappear() {
-        x = -100;
-        y = -100;
-        positionInformation = new PositionInformation(-100, -100, 1, 1);
+        gameHandler.getChests().remove(this);
     }
 }

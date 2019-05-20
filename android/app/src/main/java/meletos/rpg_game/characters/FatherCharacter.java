@@ -27,27 +27,27 @@ import meletos.rpg_game.file_io.CharacterRepresentation;
  */
 public abstract class FatherCharacter extends Sprite {
     // will be used for enemy spawning
-    protected boolean spawned = true;
+    private boolean spawned = true;
 
-    protected boolean enemy;
+    boolean enemy;
     public HashMap<String,Integer> stats;
 
     // animations
-    protected transient ArrayList<Bitmap> images;
-    protected int idx = 0;
-    protected boolean animation = false;
-    protected int animationSpeed = 0;
-    protected final int ANIM_SPEED = 10; // sets after how many calls to draw does the image animate
-    protected transient Bitmap characterImage;
+    transient ArrayList<Bitmap> images;
+    private int idx = 0;
+    private boolean animation = false;
+    private int animationSpeed = 0;
+    private final int ANIM_SPEED = 10; // sets after how many calls to draw does the image animate
+    transient Bitmap characterImage;
 
-    protected Directions direction;
-    protected int xSpeedConstant = 10;
-    protected int ySpeedConstant = 10;
+    private Directions direction;
+    int xSpeedConstant = 10;
+    int ySpeedConstant = 10;
 
     /* ALWAYS CHANGE THROUGH updateDirectionSpeed() METHOD*/
-    protected int xSpeed = xSpeedConstant;
-    protected int ySpeed = ySpeedConstant;
-    protected String assetsFolder;
+    int xSpeed = xSpeedConstant;
+    int ySpeed = ySpeedConstant;
+    String assetsFolder;
 
     // screen info
     protected int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;

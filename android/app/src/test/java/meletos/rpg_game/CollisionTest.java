@@ -49,6 +49,13 @@ public class CollisionTest {
     public void collisionCheck6 () {
         PositionInformation firstPos = new PositionInformation(4,4, 4, 4);
         PositionInformation secondPos = new PositionInformation(3,4, 1, 1);
-        assertEquals(Directions.UP, firstPos.collidesWith(secondPos));
+        assertEquals(Directions.UPRIGHT, firstPos.collidesWith(secondPos));
+    }
+
+    @Test
+    public void collisionCheck7 () {
+        PositionInformation firstPos = new PositionInformation(4,4, 4, 4);
+        PositionInformation secondPos = new PositionInformation(1000,20000, 1, 1);
+        assertEquals(Directions.NONE, firstPos.collidesWith(secondPos));
     }
 }

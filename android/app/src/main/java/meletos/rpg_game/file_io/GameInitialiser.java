@@ -8,6 +8,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +36,7 @@ public class GameInitialiser {
     /**
      * Initialises new save -- copies everything into a folder
      */
-    public void initialiseNewSave() {
+    public void initialiseNewSave(boolean custom) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss");
         Date date = new Date();
         String currDate = formatter.format(date);
@@ -50,8 +51,13 @@ public class GameInitialiser {
         } catch (Exception e) {
             Log.e(this.getClass().getSimpleName(), e.getMessage());
         }
-        copyFolderFromAssets("lvl/" + storyName, dir.getPath());
-
+        if (!custom) {
+            Log.i(this.getClass().getSimpleName(), "Going to copy from assets.");
+            copyFolderFromAssets("lvl/" + storyName, dir.getPath());
+        } else {
+            Log.i(this.getClass().getSimpleName(), "Going to copy from SD.");
+            copyFolderSD(Environment.getExternalStorageDirectory().toString() + "/rpg_game_data/CustomMaps/" + storyName, dir.getPath());
+        }
     }
 
     /**
@@ -62,6 +68,8 @@ public class GameInitialiser {
      */
     private void copyFolderFromAssets(String assetPath, String SDPath) {
         AssetManager assetManager = context.getAssets();
+        Log.i(this.getClass().getSimpleName(), "Asset path to copy from: " + assetPath);
+        Log.i(this.getClass().getSimpleName(), "SD path to copy to " + SDPath);
         String[] files = null;
         try {
             files = assetManager.list(assetPath);
@@ -78,6 +86,45 @@ public class GameInitialiser {
                 copyFile(in, out);
             } catch(IOException e) {
                 Log.e("tag", "Failed to copy asset file: " + filename, e);
+            }
+            finally {
+                if (in != null) {
+                    try {
+                        in.close();
+                    } catch (IOException e) {
+                        Log.e(this.getClass().getSimpleName(), e.getMessage());
+                    }
+                }
+                if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        Log.e(this.getClass().getSimpleName(), e.getMessage());
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Copies whole folder from assets with everything it contains and copies
+     * it into specified locatipn on SDcard
+     * @param pathFrom whole path to dir
+     * @param pathTo whole path to dir
+     */
+    private void copyFolderSD(String pathFrom, String pathTo) {
+        String[] files = null;
+        files = new File(pathFrom).list();
+        if (files != null) for (String filename : files) {
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+                in = new FileInputStream(pathFrom + "/" + filename);
+                File outFile = new File(pathTo + "/" +  filename);
+                out = new FileOutputStream(outFile);
+                copyFile(in, out);
+            } catch(IOException e) {
+                Log.e("tag", "Failed to copy file: " + filename, e);
             }
             finally {
                 if (in != null) {

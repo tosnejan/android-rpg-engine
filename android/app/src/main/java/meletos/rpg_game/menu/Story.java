@@ -16,7 +16,7 @@ class StoryRepresentation {
 }
 
 /**
- * Class used mainly in GUI
+ * Class used mainly in GUI for representing stories.
  */
 public class Story {
 

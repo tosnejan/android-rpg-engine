@@ -19,6 +19,7 @@ import meletos.rpg_game.characters.BouncingCharacter;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
+import meletos.rpg_game.file_io.CharacterRepresentation;
 import meletos.rpg_game.file_io.LevelRepresentation;
 import meletos.rpg_game.inventory.Inventory;
 
@@ -34,11 +35,36 @@ import static org.junit.Assert.assertTrue;
 public class TestingJsons {
 
     @Test
-    public void checkJsons2() {
-        String json = new Gson().toJson(new TransitionManager(-1, 130, 375, "house.json", 5, 100));
+    public void checkJsonsTransitionManager1() {
+        TransitionManager transitionManager1 = new TransitionManager(-1, 130, 375, "house.json", 5, 100);
+        String json = new Gson().toJson(transitionManager1);
         String house = new Gson().toJson(new TransitionManager(-1, 885, 845, "second_lvl.json", 5, 150));
-        // sirka 150
-        System.out.println(house);
-        System.out.println(json);
+        TransitionManager tm2 = new GsonBuilder().create().fromJson(json, TransitionManager.class);
+        assertEquals(transitionManager1, tm2);
+    }
+
+    @Test
+    public void checkJsonsTransitionManager2() {
+        TransitionManager transitionManager1 = new TransitionManager(-1, 885, 845, "second_lvl.json", 5, 150);
+        String json = new Gson().toJson(transitionManager1);
+        TransitionManager tm2 = new GsonBuilder().create().fromJson(json, TransitionManager.class);
+        assertEquals(transitionManager1, tm2);
+    }
+
+
+    @Test
+    public void checkJsonsCharacterRepresentation() {
+        CharacterRepresentation cr1 = new CharacterRepresentation("RandomWalker", "img", "image", true, 10, 200, null, null, 1, true, null);
+        String json = new Gson().toJson(cr1);
+        CharacterRepresentation cr2 = new GsonBuilder().create().fromJson(json, CharacterRepresentation.class);
+        assertEquals(cr1, cr2);
+    }
+
+    @Test
+    public void checkJsons4() {
+        TransitionManager transitionManager1 = new TransitionManager(-1, 885, 845, "second_lvl.json", 5, 150);
+        String json = new Gson().toJson(transitionManager1);
+        TransitionManager tm2 = new GsonBuilder().create().fromJson(json, TransitionManager.class);
+        assertEquals(transitionManager1, tm2);
     }
 }

@@ -2,6 +2,8 @@ package meletos.rpg_game;
 
 import android.util.Log;
 
+import java.util.Objects;
+
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.inventory.Inventory;
 
@@ -62,4 +64,21 @@ public class TransitionManager {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TransitionManager that = (TransitionManager) o;
+        return height == that.height &&
+                width == that.width &&
+                keyID == that.keyID &&
+                heroVisited == that.heroVisited &&
+                Objects.equals(transitionPosition, that.transitionPosition) &&
+                nextLevelName.equals(that.nextLevelName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(height, width, transitionPosition, keyID, nextLevelName, heroVisited);
+    }
 }

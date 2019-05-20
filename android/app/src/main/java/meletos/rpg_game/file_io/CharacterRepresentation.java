@@ -1,6 +1,8 @@
 package meletos.rpg_game.file_io;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 import meletos.rpg_game.dialog.DialogSwitcher;
 
@@ -34,5 +36,31 @@ public class CharacterRepresentation {
         this.actualDialog = actualDialog;
         this.played = played;
         this.dialogSwitchers = dialogSwitchers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CharacterRepresentation that = (CharacterRepresentation) o;
+        return isEnemy == that.isEnemy &&
+                yCoord == that.yCoord &&
+                xCoord == that.xCoord &&
+                actualDialog == that.actualDialog &&
+                played == that.played &&
+                Objects.equals(charType, that.charType) &&
+                Objects.equals(imagesFolder, that.imagesFolder) &&
+                Objects.equals(image, that.image) &&
+                Objects.equals(stats, that.stats) &&
+                Arrays.equals(dialogs, that.dialogs) &&
+                Arrays.equals(dialogSwitchers, that.dialogSwitchers);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(charType, imagesFolder, image, isEnemy, yCoord, xCoord, stats, actualDialog, played);
+        result = 31 * result + Arrays.hashCode(dialogs);
+        result = 31 * result + Arrays.hashCode(dialogSwitchers);
+        return result;
     }
 }

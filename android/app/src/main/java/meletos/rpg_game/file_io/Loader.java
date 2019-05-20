@@ -29,7 +29,7 @@ public class Loader extends Thread {
     public synchronized void run() {
         try {
             LevelGenerator lvlGenerator = new LevelGenerator(gameView.getContext(), filePath, lvlName, inventory);
-            gameView.setGameHandler(lvlGenerator.buildLevel(userSave));
+            gameView.setGameHandler(lvlGenerator.buildLevel(userSave), filePath);
         } catch (UnsupportedTypeException e) {
             Log.e(this.getClass().getSimpleName(), e.getMessage());
         }
