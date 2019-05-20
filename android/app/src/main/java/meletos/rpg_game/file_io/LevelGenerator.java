@@ -196,6 +196,7 @@ class LevelGenerator {
      * @return inventory
      */
     private Inventory loadInventory() {
+        Log.i(this.getClass().getSimpleName(), "Filepath " + filePath);
         String json = loadFile(userSave,  filePath + "/inventory.json", context);
         return new GsonBuilder().create().fromJson(json, Inventory.class);
     }

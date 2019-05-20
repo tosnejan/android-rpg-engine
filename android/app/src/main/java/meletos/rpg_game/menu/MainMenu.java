@@ -253,25 +253,25 @@ public class MainMenu {
                 if (clickedButton == -1) break;
                 storyButtons[clickedButton].changeImage(false, 0);
                 if (!storyButtons[clickedButton].isTouched(x, y)) clickedButton = -1;
-                String[] lvls = FileScout.getAllStoryLocations(context); // finds all the level folders
+                //String[] lvls = FileScout.getAllStoryLocations(context); // finds all the level folders
                 switch (clickedButton) {
                     case 0://First story
-                        gameInitialiser = new GameInitialiser(lvls[shift], context);
-                        gameInitialiser.initialiseNewSave(); // makes new save
+                        gameInitialiser = new GameInitialiser(stories.get(shift).getPath(), context);
+                        gameInitialiser.initialiseNewSave(stories.get(shift).isUserSave()); // makes new save
                         gameInitialiser.startGameLoading(gameView.getFileManager());
                         loadHeroes(stories.get(shift));
                         state = MainMenuStates.HERO_SELECTION;
                         break;
                     case 1://Second story
-                        gameInitialiser = new GameInitialiser(lvls[shift + 1], context);
-                        gameInitialiser.initialiseNewSave(); // makes new save
+                        gameInitialiser = new GameInitialiser(stories.get(shift + 1).getPath(), context);
+                        gameInitialiser.initialiseNewSave(stories.get(shift + 1).isUserSave()); // makes new save
                         gameInitialiser.startGameLoading(gameView.getFileManager());
                         loadHeroes(stories.get(shift + 1));
                         state = MainMenuStates.HERO_SELECTION;
                         break;
                     case 2://Third story
-                        gameInitialiser = new GameInitialiser(lvls[shift + 1], context);
-                        gameInitialiser.initialiseNewSave(); // makes new save
+                        gameInitialiser = new GameInitialiser(stories.get(shift + 2).getPath(), context);
+                        gameInitialiser.initialiseNewSave(stories.get(shift + 2).isUserSave()); // makes new save
                         gameInitialiser.startGameLoading(gameView.getFileManager());
                         loadHeroes(stories.get(shift + 2));
                         state = MainMenuStates.HERO_SELECTION;
@@ -370,9 +370,9 @@ public class MainMenu {
         } else if (mapsDir.list() != null) {
             for (File f : mapsDir.listFiles()) {
                 if (f.isDirectory()) {
-                    Bitmap icon = BitmapFactory.decodeFile(f.getAbsolutePath() + "icon.png");
+                    Bitmap icon = BitmapFactory.decodeFile(f.getAbsolutePath() + "/icon.png");
                     icon = Bitmap.createScaledBitmap(icon, (int)(frameHeight/10.7), (int)(frameHeight/10.7), true);
-                    stories.add(new Story(icon, f.getName(), "rpg_game_data/CustomMaps/" + f.getName(), true));
+                    stories.add(new Story(icon, f.getName(), f.getName(), true));
                 }
             }
         }
@@ -397,9 +397,10 @@ public class MainMenu {
      * @param story chosen story
      */
     private void loadHeroes(Story story){
-        HeroProperties[] heroes = HeroProperties.load(context, story.getPath(), story.isUserSave());
+        String path = story.isUserSave() ? "/rpg_game_data/CustomMaps/" + story.getPath() : "lvl/" + story.getPath();
+        HeroProperties[] heroes = HeroProperties.load(context, path, story.isUserSave());
         for (HeroProperties hero : heroes) {
-            hero.loadImage(context, story.getPath());
+            hero.loadImage(context, path);
         }
         heroSelection = new HeroSelection(heroes, this, title, screenWidth - field.getWidth() - screenHeight/8, screenHeight - field.getHeight() - screenHeight/10);
         heroSelection.start();
