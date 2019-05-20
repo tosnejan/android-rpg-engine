@@ -5,12 +5,9 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.os.Environment;
 import android.util.Log;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.PositionInformation;

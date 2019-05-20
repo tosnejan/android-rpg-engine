@@ -14,8 +14,6 @@ import java.io.IOException;
 
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.GameView;
-import meletos.rpg_game.PositionInformation;
-import meletos.rpg_game.R;
 import meletos.rpg_game.State;
 import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.MenuButton;

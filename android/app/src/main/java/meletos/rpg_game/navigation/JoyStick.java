@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import meletos.rpg_game.Directions;
-import meletos.rpg_game.Sprite;
 
 /**
  * Works pretty well :D Also, the code is so much simpler than the one we saw :D

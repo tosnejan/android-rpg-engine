@@ -10,16 +10,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.GameView;
 import meletos.rpg_game.State;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.inventory.Inventory;
-import meletos.rpg_game.inventory.InventoryGUI;
 import meletos.rpg_game.navigation.GameButton;
-import meletos.rpg_game.navigation.MenuButton;
 
 public class BattleGUI {
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;

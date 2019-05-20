@@ -23,6 +23,7 @@ public class GameThread extends Thread {
     void setNewGameHandler(GameHandler gameHandler) {
         this.gameHandler = gameHandler;
     }
+
     /**
      * The heart of the game logic
      */

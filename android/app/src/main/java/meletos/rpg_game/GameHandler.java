@@ -16,14 +16,13 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
+
 import meletos.rpg_game.battle.Battle;
 import meletos.rpg_game.characters.Chest;
 import meletos.rpg_game.characters.FatherCharacter;
@@ -128,7 +127,6 @@ public class GameHandler {
                     new InputStreamReader(context.getAssets().open(path), StandardCharsets.UTF_8));
             String line;
             String[] split;
-            int ID = 0;
             while ((line = reader.readLine()) != null) {
                 split = line.split("[ ]+");
                 for (String num : split) {
@@ -153,9 +151,9 @@ public class GameHandler {
 
     /**
      * Draws characters and map. Called from gameview's draw
-     * @param canvas
+     * @param canvas to draw on
      */
-    public void drawGame (Canvas canvas) {
+    void drawGame(Canvas canvas) {
         int x = xShift;
         int y = yShift;
         // drawing map
@@ -180,7 +178,7 @@ public class GameHandler {
     /**
      * Main logic function. Makes every character update
      */
-    public void updateGame () {
+    void updateGame() {
         if (isGamePaused) {
             if (inBattle){
                 battle.update();
@@ -201,11 +199,11 @@ public class GameHandler {
 
     /**
      * Checks whether the position is available
-     * @param x
-     * @param y
-     * @param imgWidth
-     * @param imgHeight
-     * @return true if
+     * @param x coord
+     * @param y coord
+     * @param imgWidth for check
+     * @param imgHeight for check
+     * @return true if available
      */
     public boolean isPositionAvailable (int x, int y, int imgWidth, int imgHeight) {
         x = (x)/mapScale;
@@ -239,12 +237,12 @@ public class GameHandler {
 
     /**
      * Using to make map follow Hero in x direction
-     * @param x
-     * @param xSpeed
-     * @param imgWidth
+     * @param x coord
+     * @param xSpeed speed of change
+     * @param imgWidth of image
      * @return
      */
-    public boolean moveMapByX(int x, int xSpeed, int imgWidth) {
+    boolean moveMapByX(int x, int xSpeed, int imgWidth) {
         int newX = xShift - xSpeed;
         boolean ret = false;
         if (x + newX < (screenWidth - imgWidth)/2 && xShift == 0) {
@@ -266,12 +264,12 @@ public class GameHandler {
 
     /**
      * Using to make map follow Hero in y direction
-     * @param y
-     * @param ySpeed
-     * @param imgHeight
+     * @param y coord
+     * @param ySpeed speed to move map by
+     * @param imgHeight height of map image
      * @return
      */
-    public boolean moveMapByY(int y, int ySpeed, int imgHeight) {
+    boolean moveMapByY(int y, int ySpeed, int imgHeight) {
         int newY = yShift - ySpeed;
         boolean ret = false;
         if (y + newY < (screenHeight - imgHeight)/2 && yShift == 0) {
@@ -514,10 +512,6 @@ public class GameHandler {
 
     public GameView getGameView() {
         return gameView;
-    }
-
-    public void setChests(List<Chest> chests) {
-        this.chests = chests;
     }
 
     public List<Chest> getChests() {

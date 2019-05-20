@@ -1,6 +1,32 @@
 {
-  "lvlName": "Levl no 2",
+  "lvlName": "Levl no 3",
   "mapSource": "testing_map",
+  "transitionManager": {
+    "HEIGHT": 5,
+    "WIDTH": 5,
+    "transitionPosition": {
+      "imgHeigth": 5,
+      "imgWidth": 5,
+      "mainCoord": {
+        "x": 100,
+        "y": 510
+      },
+      "upperRightCorner": {
+        "x": 105,
+        "y": 510
+      },
+      "lowerLeftCorner": {
+        "x": 100,
+        "y": 515
+      },
+      "lowerRightCorner": {
+        "x": 105,
+        "y": 515
+      }
+    },
+    "keyID": -1,
+    "nextLevelName": "second_lvl.json"
+  },
   "characters": [
     {
       "charType": "RandomWalker",
@@ -46,6 +72,32 @@
         "MR": 40,
         "HP": 1000
       }
+    },
+    {
+      "charType": "StandingCharacter",
+      "imagesFolder": "characters/townfolk1_f/7.png",
+      "isEnemy": false,
+      "yCoord": 380,
+      "xCoord": 0,
+      "actualDialog": 0,
+      "played": false,
+      "dialogs": [
+        [
+          0,
+          1
+        ],
+        [
+          2
+        ]
+      ],
+      "dialogSwitchers": [
+        {
+          "played": true,
+          "itemsToCheck": [],
+          "itemsToDelete": [],
+          "itemsToGive": []
+        }
+      ]
     }
   ],
   "hero": {

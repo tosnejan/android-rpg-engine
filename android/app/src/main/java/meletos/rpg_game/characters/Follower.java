@@ -9,6 +9,7 @@ import meletos.rpg_game.Coordinates;
 /**
  * This character follows points in space by taking the xpath and then the y path
  * Work in progress
+ * TODO ERASE
  */
 public class Follower extends FatherCharacter {
     private Coordinates[] followCoord;

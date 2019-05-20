@@ -1,7 +1,6 @@
 package meletos.rpg_game.file_io;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 
 import com.google.gson.GsonBuilder;
@@ -13,20 +12,16 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
-import meletos.rpg_game.Coordinates;
 import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.characters.Chest;
 import meletos.rpg_game.characters.FatherCharacter;
-import meletos.rpg_game.characters.Follower;
 import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.characters.RandomWalker;
 import meletos.rpg_game.characters.StandingCharacter;
 import meletos.rpg_game.dialog.DialogSwitcher;
 import meletos.rpg_game.inventory.Inventory;
-import meletos.rpg_game.spawning.SpawnDataEntry;
 
 /**
  * Generates a level from json by reading it into level representation and

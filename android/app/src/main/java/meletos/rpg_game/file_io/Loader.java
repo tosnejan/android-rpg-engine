@@ -2,9 +2,7 @@ package meletos.rpg_game.file_io;
 
 import android.util.Log;
 
-import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.GameView;
-import meletos.rpg_game.State;
 import meletos.rpg_game.inventory.Inventory;
 
 /**

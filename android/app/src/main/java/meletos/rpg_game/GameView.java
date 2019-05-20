@@ -8,8 +8,8 @@ import android.graphics.Canvas;
 import android.os.Environment;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,7 +18,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.sql.SQLOutput;
 
 import meletos.rpg_game.battle.BattleGUI;
 import meletos.rpg_game.dialog.Dialog;
@@ -26,11 +25,11 @@ import meletos.rpg_game.file_io.FileManager;
 import meletos.rpg_game.file_io.FileScout;
 import meletos.rpg_game.inventory.InventoryGUI;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
+import meletos.rpg_game.menu.MainMenu;
+import meletos.rpg_game.menu.Menu;
 import meletos.rpg_game.menu.MenuStates;
 import meletos.rpg_game.menu.Settings;
 import meletos.rpg_game.navigation.JoyStick;
-import meletos.rpg_game.menu.MainMenu;
-import meletos.rpg_game.menu.Menu;
 import meletos.rpg_game.sound.Sound;
 import meletos.rpg_game.text.Text;
 
@@ -72,24 +71,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private long loadingCheck;
 
     private Boolean init = true; // used to recognise initiation
-    private String TAG = "GameView";
-
+    private final String TAG = "GameView";
+    private final char logSensitivity = 'E';
 
     /**
      * Starts up the game -- the main menu
-     * @param context
-     * @param text
+     * @param context of app
+     * @param text class for viewing test
      */
     public GameView(Context context, Text text) {
         super(context);
-        saveLog();
+        cleanLogs(); // clean old logs
         loading = new Loading(this);
         this.text = text;
         this.text.setGameView(this);
         fileManager = new FileManager(context, this);
         itinerary = Itinerary.load(context, text, "itinerary/items.json");
         sound = new Sound(context);
-        //sound.play(state);
         settings = new Settings(text, sound, context);
         mainMenu = new MainMenu(this, context, text, settings);
         getHolder().addCallback(this);
@@ -123,7 +121,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     /**
      * Function that draws entities
-     * @param canvas
+     * @param canvas to draw on
      */
     @Override
     public void draw(Canvas canvas) {
@@ -292,16 +290,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        saveLog(logSensitivity);
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         viewThread.canUseSurfaceHolder(true);
+        saveLog(logSensitivity);
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         viewThread.canUseSurfaceHolder(false);
+        saveLog(logSensitivity);
     }
 
     public State getState() {
@@ -314,7 +315,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     /**
      * Sets state and takes care of the logic surrounding it
-     * @param state
+     * @param state to set
      */
     public void setState(State state) {
         if (state == State.INVENTORY || state == State.MENU || state == State.DIALOG || state == State.ENDGAME) {
@@ -342,8 +343,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     /**
-     * Takes screenshot and saves it
-     * @param filename
+     * Takes screenshot and saves it. Not used at th moment
+     * @param filename to save into
      */
     public void takeScreenshot (String filename) {
         Bitmap b = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
@@ -373,6 +374,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    /**
+     * Sets game handler. Effectively starts game. Gets called
+     * from different threads, so it implements some checks
+     * @param gH gameHandler to be set
+     * @param storyPath so that it can be erased if needed
+     */
     public void setGameHandler(GameHandler gH, String storyPath) {
         if(Thread.currentThread().getId() != loadingCheck) {
             Log.i(TAG, "Deleting unused save.");
@@ -397,9 +404,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         } else {
             gameThread.setNewGameHandler(gameHandler);
         }
-        //gameHandler.resumeGame(); //Možná pak torchu pozměnit, kdyby se to využívalo i na přechod mezi mapama.
         hasGameHandler = true;
         init = false;
+        saveLog(logSensitivity);
     }
 
     public boolean hasGameHandler() {
@@ -422,18 +429,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return endgame;
     }
 
-    public void saveLog(){
+    /**
+     * Function that saves logs into file.
+     * @param sensitivity char - what to put into file
+     */
+    public void saveLog(char sensitivity) {
         String filename = Environment.getExternalStorageDirectory() + "/rpg_game_data/rpg_game.log";
-        String command = "logcat -d *:E";
+        String printCommand = "logcat -d *:" + sensitivity;
 
-        try{
-            Process process = Runtime.getRuntime().exec(command);
+        try {
+            Process process = Runtime.getRuntime().exec(printCommand);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line = null;
+            String line;
             try{
                 File file = new File(filename);
-                file.createNewFile();
                 FileWriter writer = new FileWriter(file);
                 while((line = in.readLine()) != null){
                     writer.write(line + "\n");
@@ -442,7 +452,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 writer.close();
             }
             catch(IOException e){
-                Log.e(TAG, e.getMessage());;
+                Log.e(TAG, e.getMessage());
             }
         }
         catch(IOException e){
@@ -450,6 +460,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    /**
+     * Cleans old logs.
+     */
+    private void cleanLogs () {
+        String clearCommand = "logcat -c";
+        try {
+            Runtime.getRuntime().exec(clearCommand); // clears logcat of old logs
+        } catch (IOException e) {
+            Log.e(this.getClass().getSimpleName(), e.getLocalizedMessage());
+        }
+    }
+
+    /**
+     * Sets loading check.
+     * @param loadingCheck ID of a thread that began loading
+     */
     public synchronized void setLoadingCheck(long loadingCheck) {
         this.loadingCheck = loadingCheck;
     }

@@ -14,6 +14,9 @@ import java.io.IOException;
 
 import meletos.rpg_game.navigation.MenuButton;
 
+/**
+ * GUI class of game end.
+ */
 public class Endgame {
     private GameHandler gameHandler;
     private Bitmap background;
@@ -24,11 +27,14 @@ public class Endgame {
     private int header;
     private int text;
 
-    public Endgame(GameHandler gameHandler) {
+    Endgame(GameHandler gameHandler) {
         this.gameHandler = gameHandler;
         load();
     }
 
+    /**
+     * Loads resources
+     */
     private void load(){
         AssetManager am = gameHandler.context.getAssets();
         int screenHeight = gameHandler.getScreenHeight();
@@ -51,20 +57,24 @@ public class Endgame {
         }
     }
 
+    /**
+     * Draws onto canvas.
+     * @param canvas to draw on
+     */
     public void draw(Canvas canvas){
         canvas.drawBitmap(background, 0, 0, null);
         button.draw(canvas);
         drawText(canvas);
     }
 
-    public void touchDown(int x, int y) {
+    void touchDown(int x, int y) {
         if (button.isTouched(x, y)) {
             button.changeImage(true, 10);
             buttonClicked = true;
         }
     }
 
-    public void touchUp(int x, int y) {
+    void touchUp(int x, int y) {
         if (buttonClicked && button.isTouched(x, y)) {
             gameHandler.getGameView().exitLevel();
         }
@@ -72,6 +82,9 @@ public class Endgame {
         buttonClicked = false;
     }
 
+    /**
+     * Draws text onto canvas
+     */
     private void drawText(Canvas canvas){
         Rect bounds = new Rect();
         paint.setTextSize(textSize);

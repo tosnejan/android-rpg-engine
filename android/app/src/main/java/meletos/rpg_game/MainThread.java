@@ -14,7 +14,7 @@ public class MainThread extends Thread {
     public static Canvas canvas;
     private boolean canUseSurfaceHolder;
 
-    public MainThread (SurfaceHolder surfaceHolder, GameView gameView) {
+    MainThread(SurfaceHolder surfaceHolder, GameView gameView) {
         super();
         this.surfaceHolder = surfaceHolder;
         this.gameView = gameView;
@@ -22,18 +22,18 @@ public class MainThread extends Thread {
 
     /**
      * Can stop the thread
-     * @param isRunning
+     * @param isRunning boolean - if false, thread stops
      */
-    public void setRunning(boolean isRunning) {
+    void setRunning(boolean isRunning) {
         running = isRunning;
     }
 
     /**
      * This fixes the error we experienced -- is called from GameView's methods
      * onSurfaceCreated onSurfaceDestroyed
-     * @param canUseSurfaceHolder
+     * @param canUseSurfaceHolder boolean to set
      */
-    public void canUseSurfaceHolder (boolean canUseSurfaceHolder) {
+    void canUseSurfaceHolder(boolean canUseSurfaceHolder) {
         this.canUseSurfaceHolder = canUseSurfaceHolder;
     }
 

@@ -14,7 +14,7 @@ public class Coordinates {
         this.y = y;
     }
 
-    public void updateCoordinates ( int x, int y) {
+    void updateCoordinates(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -31,13 +31,5 @@ public class Coordinates {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
-    }
-
-    @Override
-    public String toString() {
-        return "Coordinates{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
     }
 }

@@ -4,14 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 
-import meletos.rpg_game.GameView;
 import meletos.rpg_game.R;
 import meletos.rpg_game.State;
-import meletos.rpg_game.menu.MainMenuStates;
-import meletos.rpg_game.menu.MenuStates;
 
-import static android.view.MotionEvent.ACTION_DOWN;
-import static android.view.MotionEvent.ACTION_UP;
 import static meletos.rpg_game.State.BATTLE;
 import static meletos.rpg_game.State.ENDGAME;
 import static meletos.rpg_game.State.MAIN_MENU;

@@ -12,7 +12,6 @@ import java.io.IOException;
 
 import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.MenuButton;
-import meletos.rpg_game.navigation.Slider;
 import meletos.rpg_game.navigation.xSlider;
 import meletos.rpg_game.sound.Sound;
 import meletos.rpg_game.text.Language;

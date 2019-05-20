@@ -26,8 +26,8 @@ public abstract class Sprite {
 
     /**
      * Used for father character class and its descendants
-     * @param x
-     * @param y
+     * @param x position
+     * @param y position
      */
     public Sprite (int x, int y) {
         this.x = x;
@@ -53,7 +53,7 @@ public abstract class Sprite {
 
     /**
      * Method that draws sprite onto screen
-     * @param canvas
+     * @param canvas to draw on
      */
     public void draw(Canvas canvas) {
         if(image != null){

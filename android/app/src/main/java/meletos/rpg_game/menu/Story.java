@@ -4,8 +4,6 @@ import android.graphics.Bitmap;
 
 import com.google.gson.GsonBuilder;
 
-import meletos.rpg_game.inventory.Inventory;
-
 /**
  * Used for Json representing
  */

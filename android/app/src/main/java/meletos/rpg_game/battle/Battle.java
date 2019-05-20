@@ -1,7 +1,5 @@
 package meletos.rpg_game.battle;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

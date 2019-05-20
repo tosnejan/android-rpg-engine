@@ -13,6 +13,9 @@ import android.util.Log;
 
 import java.io.IOException;
 
+/**
+ * Loading screen.
+ */
 public class Loading {
     private int animationStage = 0; // used for animating
     private int animationSteps = 0;
@@ -20,14 +23,17 @@ public class Loading {
     private Bitmap background;
     private Paint paint;
     private int textSize;
-    private String text = "Loading";
+    private String text = "Loading"; // text that gets painted
     private String textToDraw;
 
-    public Loading(GameView gameView) {
+    Loading(GameView gameView) {
         this.gameView = gameView;
         load();
     }
 
+    /**
+     * Loads needed resources from assets
+     */
     private void load() {
         AssetManager am = gameView.getContext().getAssets();
         int screenHeight = gameView.getScreenHeight();
@@ -45,6 +51,10 @@ public class Loading {
         }
     }
 
+    /**
+     * Draws onto screen
+     * @param canvas to draw on
+     */
     public void draw(Canvas canvas){
         textToDraw = text;
         for (int i = 0; i < animationStage; i++) {
@@ -64,6 +74,10 @@ public class Loading {
         drawText(canvas);
     }
 
+    /**
+     * Helper function to draw text.
+     * @param canvas to draw on
+     */
     private void drawText(Canvas canvas){
         Rect bounds = new Rect();
         paint.setTextSize(textSize);
