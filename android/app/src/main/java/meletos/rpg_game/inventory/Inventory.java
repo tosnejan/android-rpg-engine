@@ -3,10 +3,12 @@ package meletos.rpg_game.inventory;
 import java.util.HashMap;
 
 import meletos.rpg_game.GameHandler;
-import meletos.rpg_game.inventory.itinerary.Item;
 import meletos.rpg_game.inventory.itinerary.ItemType;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
 
+/**
+ * Holds inventory and configure him.
+ */
 public class Inventory {
     private int[][] inventory;
     private HashMap<ItemType,Integer> equipped;
@@ -63,8 +65,7 @@ public class Inventory {
 
     /**
      * @param gameHandler actual gameHandler.
-     * @return <code>HashMap</code> with sums of equipped items and hero base stats;
-     *          <code>false</code> otherwise
+     * @return <code>HashMap</code> with sums of equipped items and hero base stats
      */
     public HashMap<String, Integer> getStats(GameHandler gameHandler){
         HashMap<String, Integer> playerStats = new HashMap<>();
@@ -118,6 +119,7 @@ public class Inventory {
     }
 
     /**
+     * Deletes item with <b>id</b> if is in inventory.
      * @param id ID of item
      * @return <code>true</code> if item was in inventory; <code>false</code> otherwise
      */
@@ -133,6 +135,10 @@ public class Inventory {
         return false;
     }
 
+    /**
+     * Sums all equipped items stats and returns it.
+     * @return <code>HashMap</code> with sums of equipped items
+     */
     public HashMap<String, Integer> getItemsStats(){
         HashMap<String, Integer> itemsStats = new HashMap<>();
         for (Integer ID:equipped.values()) {

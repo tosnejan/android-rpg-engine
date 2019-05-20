@@ -29,6 +29,12 @@ public class Item {
         this.type = type;
     }
 
+    /**
+     * Draw item icon.
+     * @param x coordination where to draw
+     * @param y coordination where to draw
+     * @param canvas canvas to draw
+     */
     public void draw(int x, int y, Canvas canvas){
         if(image != null){
             canvas.drawBitmap(image, x, y, null);

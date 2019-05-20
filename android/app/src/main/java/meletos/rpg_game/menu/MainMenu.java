@@ -24,6 +24,9 @@ import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.MenuButton;
 import meletos.rpg_game.text.Text;
 
+/**
+ * Main menu GUI and logic class.
+ */
 public class MainMenu {
     private int screenWidth;
     private int screenHeight;
@@ -66,6 +69,9 @@ public class MainMenu {
         createButtons();
     }
 
+    /**
+     * Loads images.
+     */
     private void loadImages(){
         AssetManager am = context.getAssets();
         try {
@@ -90,14 +96,10 @@ public class MainMenu {
             field = BitmapFactory.decodeStream(am.open("menu/field.png"));
             field = Bitmap.createScaledBitmap(field, (int)(screenHeight/1.75), (int)(screenHeight/3.25), true);
             up = BitmapFactory.decodeStream(am.open("menu/slider_up.png"));
-            up = Bitmap.createScaledBitmap(up, (int)(screenWidth/15), (int)(frameHeight/6.7), true);
+            up = Bitmap.createScaledBitmap(up, screenWidth/15, (int)(frameHeight/6.7), true);
             down = BitmapFactory.decodeStream(am.open("menu/slider_down.png"));
-            down = Bitmap.createScaledBitmap(down, (int)(screenWidth/15), (int)(frameHeight/6.7), true);
-            //Bitmap icon = BitmapFactory.decodeStream(am.open("lvl/icon.png"));
-            //icon = Bitmap.createScaledBitmap(icon, (int)(frameHeight/10.7), (int)(frameHeight/10.7), true);
-
-            //stories.add(new Story(icon, "#Faigled", "lvl", false));
-            stories = new ArrayList<Story>(Arrays.asList(FileScout.getStories(context)));
+            down = Bitmap.createScaledBitmap(down, screenWidth/15, (int)(frameHeight/6.7), true);
+            stories = new ArrayList<>(Arrays.asList(FileScout.getStories(context)));
             for (Story story : stories) {
                 story.setImage(
                     Bitmap.createScaledBitmap(
@@ -112,6 +114,11 @@ public class MainMenu {
         }
     }
 
+    /**
+     * Draw main menu GUI on canvas.
+     * @param canvas canvas to draw
+     * @see Canvas
+     */
     public void draw(Canvas canvas){
         canvas.drawBitmap(background, 0, 0, null);
         switch (state) {
@@ -140,6 +147,11 @@ public class MainMenu {
         }
     }
 
+    /**
+     * Checking if buttons was clicked.
+     * @param x coordination where click was detected
+     * @param y coordination where click was detected
+     */
     public void touchDown(int x, int y) {
         switch (state) {
             case MAIN:
@@ -181,6 +193,11 @@ public class MainMenu {
         }
     }
 
+    /**
+     * Checking if same button was clicked and do what it should do.
+     * @param x coordination where click was detected
+     * @param y coordination where click was detected
+     */
     public void touchUp(int x, int y) {
         switch (state) {
             case MAIN:
@@ -209,12 +226,8 @@ public class MainMenu {
                                 Log.e(this.getClass().getSimpleName(), e.getMessage());
                             }
                         }
-                        //heroSelection.kys();
-                        //gameView.getGameHandler().setHero(hero);
-                        //gameInitialiser.saveHeroProperties(hero);
                         gameView.getGameHandler().setHero(gameView.getFileManager().loadHeroProperties());
                         gameView.setState(State.MAP);
-                        //gameView.sound.play(State.MAP);
                         state = MainMenuStates.MAIN;
                         gameView.getGameHandler().startGame();
 
@@ -246,7 +259,6 @@ public class MainMenu {
                         gameInitialiser = new GameInitialiser(lvls[shift], context);
                         gameInitialiser.initialiseNewSave(); // makes new save
                         gameInitialiser.startGameLoading(gameView.getFileManager());
-                        //gameView.loadLevel(stories.get(shift).getPath() + "/second_lvl.json", stories.get(shift).isUserSave());
                         loadHeroes(stories.get(shift));
                         state = MainMenuStates.HERO_SELECTION;
                         break;
@@ -254,7 +266,6 @@ public class MainMenu {
                         gameInitialiser = new GameInitialiser(lvls[shift + 1], context);
                         gameInitialiser.initialiseNewSave(); // makes new save
                         gameInitialiser.startGameLoading(gameView.getFileManager());
-                        //gameView.loadLevel(stories.get(shift).getPath() + "/second_lvl.json", stories.get(shift).isUserSave());
                         loadHeroes(stories.get(shift + 1));
                         state = MainMenuStates.HERO_SELECTION;
                         break;
@@ -289,6 +300,9 @@ public class MainMenu {
         }
     }
 
+    /**
+     * Creates buttons.
+     */
     private void createButtons() {
         int buttonX = (screenWidth - buttonImage.getWidth())/2;
         int buttonY = (y + frameHeight/9);
@@ -307,7 +321,7 @@ public class MainMenu {
     }
 
     /**
-     * Starts the game level
+     * Starts the game level if allowed.
      * @param hero chosen role
      */
     void heroSelected(final HeroProperties hero){
@@ -321,12 +335,17 @@ public class MainMenu {
                         new Thread() {
                             public void run() {
                                 if (!gameView.hasGameHandler()) gameView.setState(meletos.rpg_game.State.LOADING);
-                                while (!gameView.hasGameHandler());
+                                while (!gameView.hasGameHandler()) {
+                                    try {
+                                        sleep(5);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
                                 heroSelection.kys();
                                 gameView.getGameHandler().setHero(hero);
                                 gameInitialiser.saveHeroProperties(hero);
                                 gameView.setState(meletos.rpg_game.State.MAP);
-                                //gameView.sound.play(meletos.rpg_game.State.MAP);
                                 state = MainMenuStates.MAIN;
                                 gameView.getGameHandler().startGame();
                             }
@@ -338,12 +357,11 @@ public class MainMenu {
                 .show();
     }
 
+    /**
+     * Loads custom maps.
+     */
     private void getCustomMaps(){
         File sdCard = Environment.getExternalStorageDirectory();
-        /*File ourFile = new File(sdCard, "rpg_game_data");
-        if (!ourFile.exists()) {
-            ourFile.mkdirs();
-        }*/
         File mapsDir = new File(sdCard, "rpg_game_data/CustomMaps");
         if (!mapsDir.exists()) {
             if (!mapsDir.mkdirs()){
@@ -360,6 +378,10 @@ public class MainMenu {
         }
     }
 
+    /**
+     * Draw stories GUI.
+     * @param canvas canvas to draw.
+     */
     private void drawStories(Canvas canvas){
         for (int i = 0; i < 3 && i < stories.size(); i++) {
             Story story = stories.get(i + shift);
@@ -370,6 +392,10 @@ public class MainMenu {
         if (shift < stories.size() - 3) storyButtons[5].draw(canvas);
     }
 
+    /**
+     * Loads Heroes what story uses.
+     * @param story chosen story
+     */
     private void loadHeroes(Story story){
         HeroProperties[] heroes = HeroProperties.load(context, story.getPath(), story.isUserSave());
         for (HeroProperties hero : heroes) {
