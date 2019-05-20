@@ -108,15 +108,10 @@ public class LevelGenerator {
         DialogSwitcher[] dialogSwitchers = characterInfo.dialogSwitchers;
         try {
             switch (characterInfo.charType) {
-                case "Hero"://TODO teoreticky lze úplně odendat, protože se to pak stejně mění
-                    if (userSave){
-                        Hero hero = new Hero(x, y, context, enemy);
-                        hero.getImages(imagesFolder, false, battleImage);
-                        return hero;
-                    } else return new Hero(x, y, imagesFolder, context, enemy);
+                case "Hero":
+                    return new Hero(x, y, context, enemy);
                 case "RandomWalker":
                     if (userSave){
-                        //RandomWalker(int x, int y, Context context, boolean enemy, HashMap<String,Integer> stats)
                         RandomWalker walker = new RandomWalker(x, y, context, enemy, stats);
                         walker.getImages(imagesFolder, false, battleImage);
                         return walker;
