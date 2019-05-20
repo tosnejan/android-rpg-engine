@@ -48,7 +48,7 @@ public class Sound {
     /**
      * Sets volume, volume is in range from 0 to 10. It then gets translated
      * by logarithmic scale into float 0 - 1
-     * @param volume
+     * @param volume in range 0 - 10
      */
     public void setVolume(int volume){
         this.volume = volume;

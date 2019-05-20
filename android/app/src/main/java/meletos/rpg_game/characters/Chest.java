@@ -16,6 +16,10 @@ import meletos.rpg_game.PositionInformation;
 import meletos.rpg_game.Sprite;
 import meletos.rpg_game.inventory.Inventory;
 
+/**
+ * Static chest that has items. When hero comes it gives
+ * all these items to him and disappears.
+ */
 public class Chest extends Sprite {
     private int[] items;
     private int keyID;
@@ -28,6 +32,11 @@ public class Chest extends Sprite {
         this.keyID = keyID;
     }
 
+    /**
+     * Loads image.
+     * @param context mainactivity context -- needed for assets
+     * @see Context
+     */
     public void loadImage(Context context) {
         AssetManager am = context.getAssets();
         try {
@@ -43,6 +52,10 @@ public class Chest extends Sprite {
         this.gameHandler = gh;
     }
 
+    /**
+     * Opens chest -- makes it disappear and all items get copied to inventory.
+     * @param inventory inventory where items get copied
+     */
     public void open (Inventory inventory) {
         System.out.println("OPENING");
         if (!heroVisited && (inventory.hasItem(keyID) || keyID == -1)) {
@@ -55,6 +68,12 @@ public class Chest extends Sprite {
             }
     }
 
+    /**
+     * Draws chest.
+     * @param canvas canvas to draw on
+     * @param x coordinate of upper left corner
+     * @param y coordinate of upper left corner
+     */
     public void draw(Canvas canvas, int x, int y) {
         if (!heroVisited) {
             canvas.drawBitmap(image, positionInformation.mainCoord.x + x,
@@ -63,6 +82,9 @@ public class Chest extends Sprite {
         }
     }
 
+    /**
+     * Makes chest disappear.
+     */
     private void disappear() {
         x = -100;
         y = -100;

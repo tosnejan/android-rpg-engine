@@ -24,9 +24,7 @@ import meletos.rpg_game.dialog.DialogSwitcher;
 import meletos.rpg_game.file_io.CharacterRepresentation;
 
 /**
- * This character should be the father of all the other characters.
- * This should allow us to group them into an array of type FatherCharacter[]
- * -- all of them will have function update - implementing their own strategy
+ * This character is the father of all the other characters.
  */
 public abstract class FatherCharacter extends Sprite {
     // will be used for enemy spawning
@@ -58,27 +56,19 @@ public abstract class FatherCharacter extends Sprite {
 
     protected transient GameHandler gameHandler; // the boss
     protected Context context;
-    protected String imagePath;
+    private String imagePath;
 
     // dialogs
-    protected int[][] dialogs;
-    protected int actualDialog;
-    protected boolean played;
-    protected DialogSwitcher[] dialogSwitchers;
+    int[][] dialogs;
+    int actualDialog;
+    boolean played;
+    DialogSwitcher[] dialogSwitchers;
 
     public FatherCharacter(int x, int y, Bitmap image) {
         super(x, y, image);
         this.direction = Directions.UP;
     }
 
-    /**
-     * The constructor for animated character
-     * @param x
-     * @param y
-     * @param assetsFolder
-     * @param context
-     * @param stats
-     */
     public FatherCharacter(int x, int y, String assetsFolder, Context context, boolean enemy, String imagePath, HashMap<String, Integer> stats) {
         super(x, y);
         this.stats = stats;
@@ -105,11 +95,6 @@ public abstract class FatherCharacter extends Sprite {
         this.context = context;
         this.enemy = enemy;
         animation = false;
-    }
-
-    public FatherCharacter(int x, int y) {
-        super(x, y);
-        animation = true;
     }
 
     /**
@@ -173,6 +158,12 @@ public abstract class FatherCharacter extends Sprite {
         positionInformation = new PositionInformation(x, y, image.getHeight(), image.getWidth());
     }
 
+    /**
+     * Draws character.
+     * @param canvas to draw on
+     * @param x coord
+     * @param y coord
+     */
     public void draw (Canvas canvas, int x, int y) {
         if (animation && !gameHandler.isGamePaused() && spawned) {
             if (animationSpeed == ANIM_SPEED) {
@@ -225,11 +216,10 @@ public abstract class FatherCharacter extends Sprite {
     /**
      * Lets the character know the gamehandler
      * Is boolean, because it is used by the hero to let the game handler know it is hero
-     * @param gameHandler
+     * @param gameHandler to know
      */
-    public boolean setGameHandler(GameHandler gameHandler) {
+    public void setGameHandler(GameHandler gameHandler) {
         this.gameHandler = gameHandler;
-        return false;
     }
 
     /**
@@ -241,9 +231,9 @@ public abstract class FatherCharacter extends Sprite {
 
     /**
      * When direction is updated, the xSpeed and ySpeed are updated with it
-     * @param newDirection
+     * @param newDirection to update
      */
-    public void updateDirectionSpeed (Directions newDirection) {
+    void updateDirectionSpeed(Directions newDirection) {
         direction = newDirection;
         switch (direction) {
             case LEFT:
@@ -286,7 +276,7 @@ public abstract class FatherCharacter extends Sprite {
     }
 
     /**
-     * Method for updating x and y
+     * Method for updating x and y.
      */
     protected void updateXY () {
         positionInformation.addSpeed(xSpeed, ySpeed, gameHandler);
@@ -312,10 +302,6 @@ public abstract class FatherCharacter extends Sprite {
         this.y = y;
     }
 
-    public String getAssetsFolder () {
-        return assetsFolder;
-    }
-
     public Bitmap getCharacterImage() {
         return characterImage;
     }
@@ -324,6 +310,10 @@ public abstract class FatherCharacter extends Sprite {
         return stats;
     }
 
+    /**
+     * Used for JSON serialisation
+     * @return CharacterRepresentation to be saved into JSON
+     */
     public CharacterRepresentation putMyselfIntoCharRepresentation() {
         return new CharacterRepresentation(
             this.getClass().getSimpleName(), assetsFolder, imagePath,
