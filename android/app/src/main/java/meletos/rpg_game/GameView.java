@@ -18,7 +18,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 import meletos.rpg_game.battle.BattleGUI;
 import meletos.rpg_game.dialog.Dialog;
@@ -27,7 +26,6 @@ import meletos.rpg_game.inventory.InventoryGUI;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
 import meletos.rpg_game.menu.MenuStates;
 import meletos.rpg_game.menu.Settings;
-import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.JoyStick;
 import meletos.rpg_game.menu.MainMenu;
 import meletos.rpg_game.menu.Menu;
@@ -183,14 +181,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 break;
             case MAP:
                 if (event.getAction() == ACTION_DOWN) {
-                    if (!inventory.buttonTouchedDown((int)event.getX(), (int)event.getY())) {
+                    if (!inventory.touchDown((int)event.getX(), (int)event.getY())) {
                         js.setUsed(true);
                         js.setBase(event.getX(), event.getY());
                     }
                 }
                 if (event.getAction() == ACTION_UP) {
                     js.setUsed(false);
-                    inventory.buttonTouchedUp((int)event.getX(), (int)event.getY());
+                    inventory.touchUp((int)event.getX(), (int)event.getY());
                     //gameHandler.resumeGame();
                 }
                 if (js.used) {
@@ -215,10 +213,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 break;
             case INVENTORY:
                 if (event.getAction() == ACTION_DOWN) {
-                    inventory.buttonTouchedDown((int)event.getX(), (int)event.getY());
+                    inventory.touchDown((int)event.getX(), (int)event.getY());
                 }
                 if (event.getAction() == ACTION_UP) {
-                    inventory.buttonTouchedUp((int)event.getX(), (int)event.getY());
+                    inventory.touchUp((int)event.getX(), (int)event.getY());
                 }
                 break;
             case ENDGAME:

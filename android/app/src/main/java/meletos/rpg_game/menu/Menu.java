@@ -21,8 +21,11 @@ import meletos.rpg_game.navigation.Button;
 import meletos.rpg_game.navigation.MenuButton;
 import meletos.rpg_game.text.Text;
 
+/**
+ * Menu GUI and logic.
+ */
 public class Menu {
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
+    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private Bitmap frame;
     private Bitmap buttonImage;
@@ -32,7 +35,6 @@ public class Menu {
     private int frameWidth;
     private int frameHeight;
     private Settings settings;
-    private PositionInformation positionInformation;
     private GameView gameView;
     private Context context;
     private MenuStates state = MenuStates.MAIN;
@@ -53,9 +55,11 @@ public class Menu {
         this.settings = settings;
         loadImages();
         createButtons();
-        positionInformation = new PositionInformation(x, y, frameHeight,frameWidth);
     }
 
+    /**
+     * Loads images.
+     */
     private void loadImages(){
         AssetManager am = context.getAssets();
         try {
@@ -78,6 +82,10 @@ public class Menu {
         }
     }
 
+    /**
+     * Draw menu GUI.
+     * @param canvas canvas to draw
+     */
     public void draw(Canvas canvas){
         switch (state) {
             case MAIN:
@@ -191,6 +199,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Creates buttons.
+     */
     private void createButtons() {
         int buttonX = (screenWidth - buttonImage.getWidth())/2;
         int buttonY = (y + frameHeight/11);
@@ -229,6 +240,9 @@ public class Menu {
                 .show();
     }
 
+    /**
+     * Popup window -- when user attempts to go to main menu.
+     */
     private void alertLeavingToMenu(){
         new AlertDialog.Builder(context)
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -239,7 +253,6 @@ public class Menu {
                     public void onClick(DialogInterface dialog, int which) {
                         gameView.exitLevel();
                         gameView.setState(State.MAIN_MENU);
-                        //gameView.sound.play(State.MAIN_MENU);
                     }
                 })
                 .setNegativeButton(text.getText(0), null)

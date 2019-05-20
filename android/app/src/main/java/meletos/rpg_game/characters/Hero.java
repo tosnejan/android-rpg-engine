@@ -10,7 +10,7 @@ import meletos.rpg_game.navigation.JoyStick;
 
 
 /**
- * This will be the hero class -- so far it does nothing
+ * This is the hero class.
  */
 public class Hero extends FatherCharacter {
 

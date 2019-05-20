@@ -59,7 +59,7 @@ public class MainMenu {
     private int y;
 
     public MainMenu(GameView gameView, Context context, Text text, Settings settings) {
-        screenWidth = gameView.getScreenWidth(); // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
+        screenWidth = gameView.getScreenWidth();
         screenHeight = gameView.getScreenHeight();
         this.gameView = gameView;
         this.context = context;
@@ -339,7 +339,7 @@ public class MainMenu {
                                     try {
                                         sleep(5);
                                     } catch (InterruptedException e) {
-                                        e.printStackTrace();
+                                        Log.e(this.getClass().getSimpleName(), e.getMessage());
                                     }
                                 }
                                 heroSelection.kys();

@@ -1,8 +1,6 @@
 package meletos.rpg_game.inventory;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -24,9 +22,8 @@ import meletos.rpg_game.inventory.itinerary.ItemType;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
 import meletos.rpg_game.navigation.MenuButton;
 import meletos.rpg_game.text.Text;
-//TODO nahradit screenHeight / 135 proměnnou
 public class InventoryGUI {
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
+    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private Bitmap background;
     private Bitmap frame;
@@ -78,6 +75,9 @@ public class InventoryGUI {
         this.inventory = inventory;
     }
 
+    /**
+     * Loads things what it needs.
+     */
     private void load(){
         AssetManager am = context.getAssets();
         try {
@@ -92,8 +92,8 @@ public class InventoryGUI {
             grid = Bitmap.createScaledBitmap(grid, 143*screenHeight/135, 79*screenHeight/135, true);
             frame = BitmapFactory.decodeStream(am.open("inventory/select.png"));
             frame = Bitmap.createScaledBitmap(frame, (int)(screenHeight/67.5 + screenHeight/9), (int)(screenHeight/67.5 + screenHeight/9), true);
-            backgroundX = 0;     //(screenWidth - frameWidth)/2;
-            backgroundY = 0;     //(screenHeight - frameHeight)/2;
+            backgroundX = 0;
+            backgroundY = 0;
             gridX = screenHeight / 9;
             gridY = screenHeight / 9;
             equX = screenWidth - equipped.getWidth() + screenHeight / 135;
@@ -120,6 +120,10 @@ public class InventoryGUI {
         }
     }
 
+    /**
+     * Draw inventory GUI.
+     * @param canvas canvas to draw
+     */
     public void draw(Canvas canvas){
         if (gameView.getState() == State.MAP){
             button.draw(canvas);
@@ -135,7 +139,7 @@ public class InventoryGUI {
             if (selectedY != -1 && selectedX != -1){
                 int ID = inventory.getInventoryItem(selectedY, selectedX);
                 if (ID != -1) {
-                    canvas.drawBitmap(frame, (gridX - screenHeight / 135) + (((screenHeight / 9) + (screenHeight / 135)) * selectedX), gridY - screenHeight / 135 + (screenHeight / 9 + screenHeight / 135) * selectedY, null);
+                    canvas.drawBitmap(frame, (gridX - screenHeight / 135f) + (((screenHeight / 9f) + (screenHeight / 135f)) * selectedX), gridY - screenHeight / 135f + (screenHeight / 9f + screenHeight / 135f) * selectedY, null);
                 }
                 if (ID != -1) {
                     if (itinerary.getItem(ID).getType() != ItemType.OTHER) {
@@ -156,7 +160,15 @@ public class InventoryGUI {
         }
     }
 
-    public boolean buttonTouchedDown(int x, int y){
+    /**
+     * Checking if buttons was clicked.
+     * @param x coordination where click was detected
+     * @param y coordination where click was detected
+     * @return <code>true</code> if button touched and {@link GameView} {@link State}
+     *          is <code>MAP</code>; <code>false</code> if {@link GameView} {@link State}
+     *          is not <code>MAP</code>
+     */
+    public boolean touchDown(int x, int y){
         if (button.isTouched(x, y) && gameView.getState() == State.MAP){
             buttonTouched = true;
             return true;
@@ -178,7 +190,12 @@ public class InventoryGUI {
         return false;
     }
 
-    public void buttonTouchedUp(int x, int y){
+    /**
+     * Checking if same button was clicked and do what it should do.
+     * @param x coordination where click was detected
+     * @param y coordination where click was detected
+     */
+    public void touchUp(int x, int y){
         if (buttonTouched && gameView.getState() == State.MAP && button.isTouched(x, y)){
             gameView.setState(State.INVENTORY);
             inventory = gameHandler.getInventory();
@@ -233,6 +250,11 @@ public class InventoryGUI {
         buttonTouched = false;
     }
 
+    /**
+     * Checking if item was selected.
+     * @param x coordination where click was detected
+     * @param y coordination where click was detected
+     */
     private void itemsTouchedDown(int x, int y) {
         for (int row = 0; row < 4; row++) {
             int up = (gridY + (screenHeight / 9 + screenHeight / 135) * row);
@@ -260,6 +282,11 @@ public class InventoryGUI {
         }
     }
 
+    /**
+     * Checking if item was selected.
+     * @param x coordination where click was detected
+     * @param y coordination where click was detected
+     */
     private boolean itemsTouchedUp(int x, int y) {
         for (int row = 0; row < 4; row++) {
             int up = (gridY + (screenHeight / 9 + screenHeight / 135) * row);
@@ -280,6 +307,11 @@ public class InventoryGUI {
         return false;
     }
 
+    /**
+     * Checking if equipped item was selected.
+     * @param x coordination where click was detected
+     * @param y coordination where click was detected
+     */
     private void equippedTouchedDown(int x, int y) {
         if (equX + screenHeight / 9 + screenHeight / 135 < x && x < equX + 2*screenHeight / 9 + screenHeight / 135){
             if (equY + (screenHeight / 9 + screenHeight / 135) * 3 < y && y < equY + (screenHeight / 9 + screenHeight / 135) * 3 + screenHeight / 9){
@@ -314,6 +346,11 @@ public class InventoryGUI {
         }
     }
 
+    /**
+     * Checking if equipped item was selected.
+     * @param x coordination where click was detected
+     * @param y coordination where click was detected
+     */
     private boolean equippedTouchedUp(int x, int y) {
         if (newEquSelected != null){
             switch (newEquSelected) {
@@ -378,6 +415,10 @@ public class InventoryGUI {
         return false;
     }
 
+    /**
+     * Draw items in inventory.
+     * @param canvas canvas to draw
+     */
     private void drawInventory(Canvas canvas){
         int ID;
         for (int row = 0; row < 4; row++) {
@@ -389,6 +430,10 @@ public class InventoryGUI {
         }
     }
 
+    /**
+     * Draws equipped items.
+     * @param canvas canvas to draw
+     */
     private void drawEquipped(Canvas canvas){
         for (ItemType type:ItemType.values()) {
             int ID = inventory.getEquipedItem(type);
@@ -429,7 +474,11 @@ public class InventoryGUI {
         }
     }
 
-    private void drawEquippedFrame(Canvas canvas){  //TODO Přepočítat všechny ty výpočty. Občas lze "+ screenHeight / 135 - screenHeight / 135" smazat
+    /**
+     * Draws equipped items frame.
+     * @param canvas canvas to draw
+     */
+    private void drawEquippedFrame(Canvas canvas){
         int ID = inventory.getEquipedItem(equSelected);
         if (ID != -1){
             switch (equSelected) {
@@ -437,36 +486,42 @@ public class InventoryGUI {
                     canvas.drawBitmap(frame, equX - (int)(screenHeight / 135.0), equY - (int)(screenHeight / 135.0), null);
                     break;
                 case ARMOR:
-                    canvas.drawBitmap(frame, equX - screenHeight / 135, equY + screenHeight / 9 + screenHeight / 135 - screenHeight / 135, null);
+                    canvas.drawBitmap(frame, equX - screenHeight / 135f, equY + screenHeight / 9f , null);
                     break;
                 case PANTS:
-                    canvas.drawBitmap(frame, equX - screenHeight / 135, equY + (screenHeight / 9 + screenHeight / 135) * 2 - screenHeight / 135, null);
+                    canvas.drawBitmap(frame, equX - screenHeight / 135f, equY + (screenHeight / 9f + screenHeight / 135f) * 2 - screenHeight / 135f, null);
                     break;
                 case SHOES:
-                    canvas.drawBitmap(frame, equX - screenHeight / 135, equY + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135, null);
+                    canvas.drawBitmap(frame, equX - screenHeight / 135f, equY + (screenHeight / 9f + screenHeight / 135f) * 3 - screenHeight / 135f, null);
                     break;
                 case WEAPON:
-                    canvas.drawBitmap(frame, equX + screenHeight / 9 + screenHeight / 135 - screenHeight / 135,  equY + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135, null);
+                    canvas.drawBitmap(frame, equX + screenHeight / 9f + screenHeight / 135f - screenHeight / 135f,  equY + (screenHeight / 9f + screenHeight / 135f) * 3 - screenHeight / 135f, null);
                     break;
                 case SHIELD:
-                    canvas.drawBitmap(frame, equX + (screenHeight / 9 + screenHeight / 135) * 2 - screenHeight / 135,  equY + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135, null);
+                    canvas.drawBitmap(frame, equX + (screenHeight / 9f + screenHeight / 135f) * 2 - screenHeight / 135f,  equY + (screenHeight / 9f + screenHeight / 135f) * 3 - screenHeight / 135f, null);
                     break;
                 case NECKLACE:
-                    canvas.drawBitmap(frame, equX + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135,  equY - screenHeight / 135, null);
+                    canvas.drawBitmap(frame, equX + (screenHeight / 9f + screenHeight / 135f) * 3 - screenHeight / 135f,  equY - screenHeight / 135f, null);
                     break;
                 case GLOVES:
-                    canvas.drawBitmap(frame, equX + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135,  equY + screenHeight / 9 + screenHeight / 135 - screenHeight / 135, null);
+                    canvas.drawBitmap(frame, equX + (screenHeight / 9f + screenHeight / 135f) * 3 - screenHeight / 135f,  equY + screenHeight / 9f, null);
                     break;
                 case RING:
-                    canvas.drawBitmap(frame, equX + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135,  equY + (screenHeight / 9 + screenHeight / 135) * 2 - screenHeight / 135, null);
+                    canvas.drawBitmap(frame, equX + (screenHeight / 9f + screenHeight / 135f) * 3 - screenHeight / 135f,  equY + (screenHeight / 9f + screenHeight / 135f) * 2 - screenHeight / 135f, null);
                     break;
                 case BELT:
-                    canvas.drawBitmap(frame, equX + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135,  equY + (screenHeight / 9 + screenHeight / 135) * 3 - screenHeight / 135, null);
+                    canvas.drawBitmap(frame, equX + (screenHeight / 9f + screenHeight / 135f) * 3 - screenHeight / 135f,  equY + (screenHeight / 9f + screenHeight / 135f) * 3 - screenHeight / 135f, null);
                     break;
             }
         }
     }
 
+    /**
+     * Writes item description.
+     * @param canvas canvas to write
+     * @param ID ID of item
+     * @param itemType type of item
+     */
     private void writeDescription(Canvas canvas, int ID, ItemType itemType){
         String string = text.getItemName(ID);
         paint.setTextSize(nameSize);
@@ -521,6 +576,10 @@ public class InventoryGUI {
         }
     }
 
+    /**
+     * Writes player
+     * @param canvas
+     */
     private void writePlayerStats(Canvas canvas){
         HashMap<String,Integer> stats = inventory.getStats(gameHandler);
         int y = equipped.getHeight() + 5,x;

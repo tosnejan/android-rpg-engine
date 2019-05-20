@@ -22,7 +22,7 @@ import meletos.rpg_game.navigation.GameButton;
 import meletos.rpg_game.navigation.MenuButton;
 
 public class BattleGUI {
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
+    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private GameHandler gameHandler;
     private GameView gameView;

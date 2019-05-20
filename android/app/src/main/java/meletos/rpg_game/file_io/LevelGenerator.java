@@ -109,7 +109,11 @@ public class LevelGenerator {
         try {
             switch (characterInfo.charType) {
                 case "Hero":
-                    return new Hero(x, y, context, enemy);
+                    if (userSave){
+                        Hero hero = new Hero(x, y, context, enemy);
+                        hero.getImages(imagesFolder, false, battleImage);
+                        return hero;
+                    } else return new Hero(x, y, imagesFolder, context, enemy);
                 case "RandomWalker":
                     if (userSave){
                         RandomWalker walker = new RandomWalker(x, y, context, enemy, stats);
