@@ -23,8 +23,8 @@ import meletos.rpg_game.inventory.itinerary.Itinerary;
 import meletos.rpg_game.navigation.MenuButton;
 import meletos.rpg_game.text.Text;
 public class InventoryGUI {
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private Bitmap background;
     private Bitmap frame;
     private Bitmap grid;
@@ -51,15 +51,15 @@ public class InventoryGUI {
     private Paint paint;
     private int nameSize;
     private int textSize;
-    private Rect bounds = new Rect();
-    private Text text;
+    private final Rect bounds = new Rect();
+    private final Text text;
     private MenuButton button;
     private MenuButton xButton;
     private MenuButton equButton;
-    private GameView gameView;
-    private Context context;
-    private GameHandler gameHandler;
-    private Itinerary itinerary;
+    private final GameView gameView;
+    private final Context context;
+    private final GameHandler gameHandler;
+    private final Itinerary itinerary;
     private Inventory inventory;
 
     public InventoryGUI(GameView gameView, Context context, GameHandler gameHandler, Text text, Itinerary itinerary) {

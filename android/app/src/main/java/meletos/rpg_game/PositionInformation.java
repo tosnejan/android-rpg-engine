@@ -7,11 +7,12 @@ import java.util.Objects;
  * Is used in collision detection.
  */
 public class PositionInformation {
-    public int imgHeigth, imgWidth;
-    public Coordinates mainCoord; // upper left corner
-    Coordinates upperRightCorner;
-    private Coordinates lowerLeftCorner;
-    Coordinates lowerRightCorner;
+    private final int imgHeigth;
+    private final int imgWidth;
+    public final Coordinates mainCoord; // upper left corner
+    final Coordinates upperRightCorner;
+    private final Coordinates lowerLeftCorner;
+    final Coordinates lowerRightCorner;
 
     public PositionInformation(int x, int y, int imgHeigth, int imgWidth) {
         this.imgHeigth = imgHeigth;

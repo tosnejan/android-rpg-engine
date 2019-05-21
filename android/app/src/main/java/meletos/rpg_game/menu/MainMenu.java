@@ -28,8 +28,8 @@ import meletos.rpg_game.text.Text;
  * Main menu GUI and logic class.
  */
 public class MainMenu {
-    private int screenWidth;
-    private int screenHeight;
+    private final int screenWidth;
+    private final int screenHeight;
     private Bitmap frame;
     private Bitmap background;
     private Bitmap buttonImage;
@@ -40,17 +40,17 @@ public class MainMenu {
     private Bitmap down;
     private Bitmap title;
     private Bitmap field;
-    private Settings settings;
+    private final Settings settings;
     private int frameHeight;
     private int shift = 0;
     private ArrayList<Story> stories = new ArrayList<>();
-    private GameView gameView;
-    private Context context;
+    private final GameView gameView;
+    private final Context context;
     private MainMenuStates state = MainMenuStates.MAIN;
-    private MenuButton[] buttons = new MenuButton[4];
-    private MenuButton[] storyButtons = new MenuButton[6];
+    private final MenuButton[] buttons = new MenuButton[4];
+    private final MenuButton[] storyButtons = new MenuButton[6];
     private MenuButton backButton;
-    private Text text;
+    private final Text text;
     private HeroSelection heroSelection;
     private GameInitialiser gameInitialiser;
 

@@ -19,8 +19,8 @@ import meletos.rpg_game.inventory.Inventory;
  * all these items to him and disappears.
  */
 public class Chest extends Sprite {
-    private int[] items;
-    private int keyID;
+    private final int[] items;
+    private final int keyID;
     private boolean heroVisited = false;
     private transient GameHandler gameHandler;
 

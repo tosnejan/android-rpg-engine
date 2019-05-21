@@ -8,12 +8,12 @@ import meletos.rpg_game.inventory.Inventory;
 /**
  * Thread for loading.
  */
-public class Loader extends Thread {
-    private GameView gameView;
-    private String filePath;
-    private boolean userSave;
-    private String lvlName;
-    private Inventory inventory;
+class Loader extends Thread {
+    private final GameView gameView;
+    private final String filePath;
+    private final boolean userSave;
+    private final String lvlName;
+    private final Inventory inventory;
 
     public Loader (GameView gameView, String filePath, boolean userSave, String lvlName, Inventory inventory) {
         super();

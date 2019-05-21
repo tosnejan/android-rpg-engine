@@ -6,7 +6,8 @@ import meletos.rpg_game.Coordinates;
 import meletos.rpg_game.Sprite;
 
 public class Button extends Sprite {
-    protected int otherX, otherY;
+    private final int otherX;
+    private final int otherY;
 
     public Button(int x, int y, Bitmap image) {
         super(x, y, image);

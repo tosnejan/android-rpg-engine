@@ -61,7 +61,7 @@ public class Hero extends FatherCharacter {
     }
 
     @Override
-    public void updateXY() {
+    protected void updateXY() {
         positionInformation.heroAddSpeed(xSpeed, ySpeed, gameHandler);
     }
 

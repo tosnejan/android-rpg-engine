@@ -15,7 +15,7 @@ public abstract class Sprite {
     protected transient Bitmap image;
 
 
-    public Sprite(int x, int y, Bitmap image) {
+    protected Sprite(int x, int y, Bitmap image) {
         this.image = image;
         this.x = x;
         this.y = y;
@@ -29,7 +29,7 @@ public abstract class Sprite {
      * @param x position
      * @param y position
      */
-    public Sprite (int x, int y) {
+    protected Sprite(int x, int y) {
         this.x = x;
         this.y = y;
     }

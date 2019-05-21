@@ -19,9 +19,9 @@ import meletos.rpg_game.menu.Story;
  * Class that is used to find all files. It can also delete folders.
  */
 public final class FileScout {
-    private static String storyLocation = "lvl"; // in assets
+    private static final String storyLocation = "lvl"; // in assets
 
-    private static String saveLocation = "/rpg_game_data/save"; // in sdcard
+    private static final String saveLocation = "/rpg_game_data/save"; // in sdcard
 
     private FileScout() { // no instances allowed
     }

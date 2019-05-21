@@ -9,7 +9,7 @@ import meletos.rpg_game.inventory.itinerary.ItemType;
 import static org.junit.Assert.*;
 
 public class InventoryTest {
-    private Inventory i = new Inventory(new int[10][10], new HashMap<ItemType, Integer>());
+    private final Inventory i = new Inventory(new int[10][10], new HashMap<ItemType, Integer>());
 
     @Test
     public void getEquipped() {

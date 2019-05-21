@@ -14,7 +14,7 @@ public class CollisionTest {
     public void collisionCheck1() {
         PositionInformation firstPos = new PositionInformation(0,0, 4, 4);
         PositionInformation secondPos = new PositionInformation(1,1, 4, 4);
-        assertEquals(true, firstPos.collisionCheck(secondPos));
+        assertTrue(firstPos.collisionCheck(secondPos));
     }
 
     @Test

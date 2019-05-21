@@ -12,11 +12,11 @@ import meletos.rpg_game.inventory.Inventory;
  * Implements lock.
  */
 public class TransitionManager {
-    private int height;
-    private int width; //  setting the senstitivity
-    private PositionInformation transitionPosition; // position where hero gets checked
-    private int keyID; // the key that hero has to have -- if -1 it means free pass
-    private String nextLevelName; // saves the name of the next level
+    private final int height;
+    private final int width; //  setting the senstitivity
+    private final PositionInformation transitionPosition; // position where hero gets checked
+    private final int keyID; // the key that hero has to have -- if -1 it means free pass
+    private final String nextLevelName; // saves the name of the next level
     private boolean heroVisited = false;
 
     TransitionManager(int keyID, int x, int y, String nextLevelName, int height, int width) {

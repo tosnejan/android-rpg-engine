@@ -6,12 +6,12 @@ import android.graphics.Canvas;
 import meletos.rpg_game.Coordinates;
 
 public abstract class Slider extends Button{
-    protected Bitmap slider;
-    protected int scale;
-    protected int sliderWidth;
-    protected int sliderHeight;
+    final Bitmap slider;
+    final int scale;
+    final int sliderWidth;
+    final int sliderHeight;
 
-    public Slider(int x, int y, Bitmap image, Bitmap slider, int scale) {
+    Slider(int x, int y, Bitmap image, Bitmap slider, int scale) {
         super(x, y, image);
         this.slider = slider;
         this.scale = scale;
@@ -34,5 +34,5 @@ public abstract class Slider extends Button{
         super.draw(canvas);
     }
 
-    public abstract void onTouch(int x, int y);
+    protected abstract void onTouch(int x, int y);
 }

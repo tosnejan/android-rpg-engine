@@ -13,32 +13,32 @@ import java.util.HashMap;
 
 import meletos.rpg_game.navigation.Button;
 
-public class HeroSelection extends Thread {
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private MainMenu mainMenu;
-    private HeroProperties[] heroes;
-    private Button[] buttons = new Button[4];
-    private Bitmap title;
-    private Paint paint;
+class HeroSelection extends Thread {
+    private final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private final MainMenu mainMenu;
+    private final HeroProperties[] heroes;
+    private final Button[] buttons = new Button[4];
+    private final Bitmap title;
+    private final Paint paint;
     private Paint paintDesc;
-    private Rect bounds = new Rect();
+    private final Rect bounds = new Rect();
     private boolean moveLeft;
     private boolean moveRight;
     private boolean moving;
     private boolean isAlive = true;
     private int selected = -1;
     private int theOne = 0;
-    private int baseWidth;
-    private int baseHeight = screenHeight/4;
-    private int baseX = screenWidth/4;
-    private int baseY = screenHeight/3;
-    private int titleWidth;
-    private int titleHeight;
+    private final int baseWidth;
+    private final int baseHeight = screenHeight/4;
+    private final int baseX = screenWidth/4;
+    private final int baseY = screenHeight/3;
+    private final int titleWidth;
+    private final int titleHeight;
     private int textSize;
     private float descSize = (float)(screenHeight/16.25);
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public HeroSelection(HeroProperties[] heroes, MainMenu mainMenu, Bitmap title, int x, int y) {
         this.heroes = heroes;

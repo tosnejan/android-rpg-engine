@@ -14,7 +14,7 @@ import meletos.rpg_game.State;
 import meletos.rpg_game.characters.FatherCharacter;
 
 public class Battle {
-    private GameHandler gameHandler;
+    private final GameHandler gameHandler;
     private boolean playersRound = true;
     private int heroShield;
     private int enemyShield;
@@ -190,7 +190,7 @@ public class Battle {
     /**
      * Attack as enemy. Calculate damage and does it.
      */
-    public void attacked() {
+    private void attacked() {
         int hp = heroStats.get("HP");
         int mr = heroStats.get("MR") + (itemsStats.containsKey("MR") ? itemsStats.get("MR") : 0);
         int arm = heroStats.get("ARM") + (itemsStats.containsKey("ARM") ? itemsStats.get("ARM") : 0);

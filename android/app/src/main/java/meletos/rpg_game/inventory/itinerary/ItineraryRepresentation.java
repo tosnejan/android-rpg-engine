@@ -15,8 +15,8 @@ import java.util.Locale;
 
 import meletos.rpg_game.text.Text;
 
-public class ItineraryRepresentation implements Serializable {
-    private ArrayList<HashMap> items;
+class ItineraryRepresentation implements Serializable {
+    private final ArrayList<HashMap> items;
 
     public ItineraryRepresentation() {
         items = new ArrayList<>();

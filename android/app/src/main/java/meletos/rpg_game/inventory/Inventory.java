@@ -10,8 +10,8 @@ import meletos.rpg_game.inventory.itinerary.Itinerary;
  * Holds inventory and configure him.
  */
 public class Inventory {
-    private int[][] inventory;
-    private HashMap<ItemType,Integer> equipped;
+    private final int[][] inventory;
+    private final HashMap<ItemType,Integer> equipped;
     private transient Itinerary itinerary;
 
     public Inventory(int[][] inventory, HashMap<ItemType,Integer> equipped) {

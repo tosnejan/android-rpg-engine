@@ -20,8 +20,8 @@ import meletos.rpg_game.menu.HeroProperties;
 public class FileManager {
     private String rootDirPath;
     private String currentLevel;
-    private Context context;
-    private GameView gameview;
+    private final Context context;
+    private final GameView gameview;
 
     public FileManager(Context context, GameView gameview) {
         this.gameview = gameview;

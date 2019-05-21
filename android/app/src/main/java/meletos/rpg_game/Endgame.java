@@ -18,7 +18,7 @@ import meletos.rpg_game.navigation.MenuButton;
  * GUI class of game end.
  */
 public class Endgame {
-    private GameHandler gameHandler;
+    private final GameHandler gameHandler;
     private Bitmap background;
     private MenuButton button;
     private Paint paint;

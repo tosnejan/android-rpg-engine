@@ -27,10 +27,10 @@ import meletos.rpg_game.file_io.CharacterRepresentation;
  */
 public abstract class FatherCharacter extends Sprite {
     // will be used for enemy spawning
-    private boolean spawned = true;
+    private final boolean spawned = true;
 
     boolean enemy;
-    public HashMap<String,Integer> stats;
+    HashMap<String,Integer> stats;
 
     // animations
     transient ArrayList<Bitmap> images;
@@ -50,11 +50,11 @@ public abstract class FatherCharacter extends Sprite {
     String assetsFolder;
 
     // screen info
-    protected int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    protected int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
-    protected transient GameHandler gameHandler; // the boss
-    protected Context context;
+    transient GameHandler gameHandler; // the boss
+    Context context;
     private String imagePath;
 
     // dialogs
@@ -63,12 +63,12 @@ public abstract class FatherCharacter extends Sprite {
     boolean played;
     DialogSwitcher[] dialogSwitchers;
 
-    public FatherCharacter(int x, int y, Bitmap image) {
+    FatherCharacter(int x, int y, Bitmap image) {
         super(x, y, image);
         this.direction = Directions.UP;
     }
 
-    public FatherCharacter(int x, int y, String assetsFolder, Context context, boolean enemy, String imagePath, HashMap<String, Integer> stats) {
+    FatherCharacter(int x, int y, String assetsFolder, Context context, boolean enemy, String imagePath, HashMap<String, Integer> stats) {
         super(x, y);
         this.stats = stats;
         this.direction = Directions.UP;
@@ -80,7 +80,7 @@ public abstract class FatherCharacter extends Sprite {
         animation = true;
     }
 
-    public FatherCharacter(int x, int y, Context context, boolean enemy, HashMap<String, Integer> stats) {
+    FatherCharacter(int x, int y, Context context, boolean enemy, HashMap<String, Integer> stats) {
         super(x, y);
         this.stats = stats;
         this.direction = Directions.UP;
@@ -89,7 +89,7 @@ public abstract class FatherCharacter extends Sprite {
         animation = true;
     }
 
-    public FatherCharacter(int x, int y, Context context, boolean enemy) {
+    FatherCharacter(int x, int y, Context context, boolean enemy) {
         super(x, y);
         this.context = context;
         this.enemy = enemy;
@@ -277,7 +277,7 @@ public abstract class FatherCharacter extends Sprite {
     /**
      * Method for updating x and y.
      */
-    protected void updateXY () {
+    void updateXY() {
         positionInformation.addSpeed(xSpeed, ySpeed, gameHandler);
     }
 

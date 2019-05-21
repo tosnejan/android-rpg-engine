@@ -13,8 +13,8 @@ import meletos.rpg_game.characters.FatherCharacter;
  * NOT USED ATM
  */
 class TimedSpawn extends TimerTask {
-    private GameHandler gh;
-    private List<FatherCharacter> characters;
+    private final GameHandler gh;
+    private final List<FatherCharacter> characters;
 
     TimedSpawn(GameHandler gh, List<FatherCharacter> characters) {
         this.gh = gh;
@@ -34,10 +34,10 @@ class TimedSpawn extends TimerTask {
  * This class is used for spawning characters during the game -- after some time
  * NOT USED ATM
  */
-public class SpawnHandler {
+class SpawnHandler {
     private Timer timer;
-    private GameHandler gh;
-    private  List<SpawnDataEntry> spawnInstructions;
+    private final GameHandler gh;
+    private final List<SpawnDataEntry> spawnInstructions;
 
     public SpawnHandler(List<SpawnDataEntry> spawnInstructions, GameHandler gh) {
         this.gh = gh;

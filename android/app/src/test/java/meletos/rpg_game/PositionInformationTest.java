@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class PositionInformationTest {
-    private PositionInformation pos = new PositionInformation(0, 0, 100, 100);
+    private final PositionInformation pos = new PositionInformation(0, 0, 100, 100);
 
     @Test
     public void isCoordinateInside1() {

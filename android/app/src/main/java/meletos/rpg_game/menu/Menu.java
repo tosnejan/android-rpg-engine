@@ -23,8 +23,8 @@ import meletos.rpg_game.text.Text;
  * Menu GUI and logic.
  */
 public class Menu {
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private Bitmap frame;
     private Bitmap buttonImage;
     private Bitmap buttonImageClicked;
@@ -32,15 +32,15 @@ public class Menu {
     private Bitmap xbuttonImageClicked;
     private int frameWidth;
     private int frameHeight;
-    private Settings settings;
-    private GameView gameView;
-    private Context context;
+    private final Settings settings;
+    private final GameView gameView;
+    private final Context context;
     private MenuStates state = MenuStates.MAIN;
-    private MenuButton[] buttons = new MenuButton[5];
+    private final MenuButton[] buttons = new MenuButton[5];
     private MenuButton xButton;
     private boolean xButtonClicked = false;
-    private Text text;
-    private GameHandler gameHandler;
+    private final Text text;
+    private final GameHandler gameHandler;
     private int clickedButton = -1;
     private int x;
     private int y;

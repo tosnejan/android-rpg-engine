@@ -14,9 +14,9 @@ import meletos.rpg_game.text.Text;
 
 
 public class Itinerary {
-    private SparseArray<Item> items;
+    private final SparseArray<Item> items;
 
-    public Itinerary( SparseArray<Item> items) {
+    private Itinerary(SparseArray<Item> items) {
         this.items = items;
     }
 

@@ -28,9 +28,9 @@ import meletos.rpg_game.inventory.Inventory;
  * then building characters, inventory etc.
  */
 public class LevelGenerator {
-    private String filePath;
-    private String lvlName;
-    private Context context;
+    private final String filePath;
+    private final String lvlName;
+    private final Context context;
     private LevelRepresentation levelRepresentation;
     private String json;
     private boolean userSave;

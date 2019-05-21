@@ -39,9 +39,9 @@ import meletos.rpg_game.text.Text;
  */
 public class GameHandler {
     //characters
-    private Hero hero;
-    private List<FatherCharacter> characters;
-    private List<Chest> chests;
+    private final Hero hero;
+    private final List<FatherCharacter> characters;
+    private final List<Chest> chests;
     private HeroProperties heroProperties;
     //private FatherCharacter toRemove = null;
     private FatherCharacter fighting = null;
@@ -55,22 +55,22 @@ public class GameHandler {
     private final int notAvailable = 1; // constant defining whether a pixel is available
     private int xShift = 0;
     private int yShift = 0;
-    private int mapScale = 5;
+    private final int mapScale = 5;
 
     // screen info
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
 
     private boolean isGamePaused = false;
     private boolean inBattle = false;
-    public Context context;
+    public final Context context;
     private GameView gameView;
     private Battle battle;
 
-    private String lvlName;
+    private final String lvlName;
     private Inventory inventory;
-    private TransitionManager transitionManager;
+    private final TransitionManager transitionManager;
     private Text text;
 
     public GameHandler (List<FatherCharacter> characters, Hero hero, final Context context, String lvlName, TransitionManager transitionManager, List<Chest> chests) {

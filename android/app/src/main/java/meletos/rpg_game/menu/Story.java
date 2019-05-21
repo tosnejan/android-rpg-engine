@@ -21,7 +21,7 @@ public class Story {
     private Bitmap image;
     private String name;
     private String path;
-    private boolean userSave;
+    private final boolean userSave;
 
     public Story(Bitmap image, String name, String path, boolean userSave) {
         this.image = image;

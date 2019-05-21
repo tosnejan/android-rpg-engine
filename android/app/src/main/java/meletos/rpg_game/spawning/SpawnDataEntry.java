@@ -8,9 +8,9 @@ import meletos.rpg_game.characters.FatherCharacter;
  * Simple wrapper for spawn data -- describes what should spawn at what time
  * NOT IN USE ATM
  */
-public class SpawnDataEntry {
-    List<FatherCharacter> fatherCharacters;
-    double time;
+class SpawnDataEntry {
+    final List<FatherCharacter> fatherCharacters;
+    final double time;
 
     public SpawnDataEntry(List<FatherCharacter> fatherCharacters, double time) {
         this.fatherCharacters = fatherCharacters;

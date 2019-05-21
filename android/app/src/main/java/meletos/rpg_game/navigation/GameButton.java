@@ -7,8 +7,8 @@ import android.graphics.Rect;
 import meletos.rpg_game.Coordinates;
 
 public class GameButton extends Button {
-    private Bitmap imageClicked;
-    private Bitmap imageUnclicked;
+    private final Bitmap imageClicked;
+    private final Bitmap imageUnclicked;
     private Bitmap icon;
     private Rect bounds = new Rect();
     private int textSize;

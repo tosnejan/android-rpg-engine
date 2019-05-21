@@ -10,10 +10,11 @@ import meletos.rpg_game.Directions;
  */
 public class JoyStick {
 
-    private int radius;
+    private final int radius;
     private float x, y, baseX, baseY;
-    private Bitmap circle, ring;
-    private int ringRadius;
+    private final Bitmap circle;
+    private final Bitmap ring;
+    private final int ringRadius;
     public boolean used = false;
     private double angle;
 

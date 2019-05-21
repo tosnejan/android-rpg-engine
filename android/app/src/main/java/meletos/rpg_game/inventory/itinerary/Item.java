@@ -8,10 +8,10 @@ import java.util.HashMap;
 import meletos.rpg_game.text.Text;
 
 public class Item {
-    private Text text;
-    private Bitmap image;
-    private int ID;
-    private ItemType type;
+    private final Text text;
+    private final Bitmap image;
+    private final int ID;
+    private final ItemType type;
     private HashMap<String, Integer> stats;
 
     public Item(Bitmap image, Text text, int ID, ItemType type, HashMap<String, Integer> stats) {

@@ -7,8 +7,8 @@ import android.graphics.Bitmap;
  * One of first characters -- only bounces from edge to edge
  */
 public class BouncingCharacter extends FatherCharacter {
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
+    private final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private boolean isGoingRight = true;
     private boolean isGoingDown = false;
 

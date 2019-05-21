@@ -10,17 +10,17 @@ import meletos.rpg_game.dialog.DialogSwitcher;
  * Class that represents character in JSON
  */
 public class CharacterRepresentation {
-    String charType;
-    public String imagesFolder;
-    public String image;
-    boolean isEnemy;
-    int yCoord;
-    int xCoord;
-    public HashMap<String,Integer> stats;
-    int[][] dialogs;
-    int actualDialog;
-    boolean played;
-    DialogSwitcher[] dialogSwitchers;
+    final String charType;
+    public final String imagesFolder;
+    public final String image;
+    final boolean isEnemy;
+    final int yCoord;
+    final int xCoord;
+    public final HashMap<String,Integer> stats;
+    final int[][] dialogs;
+    final int actualDialog;
+    final boolean played;
+    final DialogSwitcher[] dialogSwitchers;
 
     public CharacterRepresentation(String charType, String imagesFolder, String image,
                                    boolean isEnemy, int yCoord, int xCoord, HashMap<String, Integer> stats,

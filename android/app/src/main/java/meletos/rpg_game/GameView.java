@@ -43,32 +43,32 @@ import static android.view.MotionEvent.ACTION_UP;
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     //screen size
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
     private GameHandler gameHandler;
-    private Settings settings;
+    private final Settings settings;
     private MainThread viewThread;
-    public GameThread gameThread;
-    private JoyStick js = new JoyStick(BitmapFactory.decodeResource(getResources(),R.drawable.circle),
+    private GameThread gameThread;
+    private final JoyStick js = new JoyStick(BitmapFactory.decodeResource(getResources(),R.drawable.circle),
             BitmapFactory.decodeResource(getResources(),R.drawable.ring));
 
     // states used to tell apart different stages of game
     private State state = State.MAIN_MENU;
     private State prevState = State.MENU;
 
-    private MainMenu mainMenu;
+    private final MainMenu mainMenu;
     private Menu menu;
-    private Text text;
-    public Sound sound;
+    private final Text text;
+    private final Sound sound;
     private InventoryGUI inventory;
     private BattleGUI battle;
     private Dialog dialog;
     private Endgame endgame;
-    private Loading loading;
+    private final Loading loading;
     private boolean hasGameHandler = false;
-    private Itinerary itinerary;
-    private FileManager fileManager;
+    private final Itinerary itinerary;
+    private final FileManager fileManager;
     private long loadingCheck;
 
     private Boolean init = true; // used to recognise initiation
@@ -434,7 +434,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * Function that saves logs into file.
      * @param sensitivity char - what to put into file
      */
-    public void saveLog(char sensitivity) {
+    private void saveLog(char sensitivity) {
         String filename = Environment.getExternalStorageDirectory() + "/rpg_game_data/rpg_game.log";
         String printCommand = "logcat -d *:" + sensitivity;
 

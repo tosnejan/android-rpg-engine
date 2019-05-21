@@ -16,14 +16,14 @@ import java.io.IOException;
 /**
  * Loading screen.
  */
-public class Loading {
+class Loading {
     private int animationStage = 0; // used for animating
     private int animationSteps = 0;
-    private GameView gameView;
+    private final GameView gameView;
     private Bitmap background;
     private Paint paint;
     private int textSize;
-    private String text = "Loading"; // text that gets painted
+    private final String text = "Loading"; // text that gets painted
     private String textToDraw;
 
     Loading(GameView gameView) {

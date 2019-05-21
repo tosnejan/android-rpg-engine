@@ -19,16 +19,16 @@ import meletos.rpg_game.inventory.Inventory;
 import meletos.rpg_game.navigation.GameButton;
 
 public class BattleGUI {
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private GameHandler gameHandler;
-    private GameView gameView;
+    private final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private final GameHandler gameHandler;
+    private final GameView gameView;
     private FatherCharacter enemy;
     private Bitmap background;
     private Bitmap enemyImage;
-    private Context context;
-    private Inventory inventory;
-    private GameButton[] buttons = new GameButton[4];
+    private final Context context;
+    private final Inventory inventory;
+    private final GameButton[] buttons = new GameButton[4];
     private int clickedButton = -1;
 
     public BattleGUI(GameHandler gameHandler, GameView gameView, Context context) {

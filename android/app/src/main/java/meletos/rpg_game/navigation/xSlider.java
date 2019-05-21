@@ -6,11 +6,11 @@ import android.graphics.Canvas;
 import meletos.rpg_game.text.Text;
 
 public class xSlider extends Slider {
-    private int jump;
+    private final int jump;
     private int value = 0;
-    private int ID;
-    private Text text;
-    private int yShift;
+    private final int ID;
+    private final Text text;
+    private final int yShift;
 
     public xSlider(int x, int y, Bitmap image, Bitmap slider, Text text, int ID, int scale) {
         super(x, y, image, slider, scale);

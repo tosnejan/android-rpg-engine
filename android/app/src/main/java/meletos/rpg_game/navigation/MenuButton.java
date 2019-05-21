@@ -12,11 +12,11 @@ import meletos.rpg_game.text.Text;
 
 public class MenuButton extends Button {
     private int ID;
-    private Paint paint;
-    private Text text;
-    private Bitmap imageClicked;
-    private Bitmap imageUnclicked;
-    private Rect bounds = new Rect();
+    private final Paint paint;
+    private final Text text;
+    private final Bitmap imageClicked;
+    private final Bitmap imageUnclicked;
+    private final Rect bounds = new Rect();
     private int textSize;
     private int yClick = 0;
 

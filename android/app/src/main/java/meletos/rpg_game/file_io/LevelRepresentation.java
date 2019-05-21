@@ -15,7 +15,7 @@ import meletos.rpg_game.characters.Chest;
 public class LevelRepresentation {
     private String lvlName;
     private String mapSource;
-    private ArrayList<CharacterRepresentation> characters;
+    private final ArrayList<CharacterRepresentation> characters;
     private CharacterRepresentation hero;
     private String lvlText;
     private TransitionManager transitionManager;
@@ -25,7 +25,7 @@ public class LevelRepresentation {
     *hashmap with double keys representing time, list of character
     *hashmaps representing characters to be spawned at any given time
      */
-    private HashMap<String, List<HashMap>> spawnStructure = null;
+    private final HashMap<String, List<HashMap>> spawnStructure = null;
 
 
     public LevelRepresentation () {

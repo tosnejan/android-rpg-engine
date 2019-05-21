@@ -12,7 +12,7 @@ import meletos.rpg_game.Coordinates;
  * TODO ERASE
  */
 public class Follower extends FatherCharacter {
-    private Coordinates[] followCoord;
+    private final Coordinates[] followCoord;
     private int idx = 0; // used to choose points to follow
     private double[] followVector = new double[2];
     private Coordinates followedPoint;

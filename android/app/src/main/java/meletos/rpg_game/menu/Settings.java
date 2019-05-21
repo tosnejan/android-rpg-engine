@@ -18,12 +18,12 @@ import meletos.rpg_game.text.Language;
 import meletos.rpg_game.text.Text;
 
 public class Settings {
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private Text text;
-    private Sound sound;
-    private Context context;
-    private SharedPreferences settings;
+    private final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
+    private final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private final Text text;
+    private final Sound sound;
+    private final Context context;
+    private final SharedPreferences settings;
     private Bitmap frame;
     private Bitmap buttonImage;
     private Bitmap buttonImageClicked;
@@ -34,7 +34,7 @@ public class Settings {
     private int frameHeight;
     private int x;
     private int y;
-    private MenuButton[] buttons = new MenuButton[3];
+    private final MenuButton[] buttons = new MenuButton[3];
     private int clickedButton;
 
 
@@ -49,7 +49,7 @@ public class Settings {
         slider.setValue(sound.getVolume());
     }
 
-    public void load() {
+    private void load() {
         text.setLang(Language.getLanguage(settings.getInt("language", 0)));
         sound.setVolume(settings.getInt("volume", 5));
     }

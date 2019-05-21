@@ -26,7 +26,7 @@ public class GameInitialiser {
     private final String SAVEFOLDER = "/rpg_game_data/save/"; // here the levels are saved
     private final String storyName;
     private File dir;
-    private Context context;
+    private final Context context;
 
     public GameInitialiser(String storyName, Context context) {
         this.storyName = storyName;

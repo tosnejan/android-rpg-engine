@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
      * Checks if the app is permitted to use the devices storage.
      * Upon result is triggered the onRequestPermissionsResult
      */
-    public void checkPermissions () {
+    private void checkPermissions() {
         if (
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED

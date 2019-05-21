@@ -18,11 +18,11 @@ public class Sound {
     private MediaPlayer mediaPlayer;
     private int volume; // got from UI
     private float mediaVolume; // actual volume for media player
-    private Context context;
-    private int menu_theme = R.raw.intro_theme;
-    private int game_theme = R.raw.game_theme;
-    private int endgame_theme = R.raw.endgame_theme;
-    private int battle_theme = R.raw.battle_theme;
+    private final Context context;
+    private final int menu_theme = R.raw.intro_theme;
+    private final int game_theme = R.raw.game_theme;
+    private final int endgame_theme = R.raw.endgame_theme;
+    private final int battle_theme = R.raw.battle_theme;
     private State prevState = State.MENU;
 
     public Sound(Context context) {

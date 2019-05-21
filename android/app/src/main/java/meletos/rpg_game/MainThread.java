@@ -7,11 +7,11 @@ import android.view.SurfaceHolder;
 /**
  * Class that creates the thread for the GUI to run on
  */
-public class MainThread extends Thread {
-    private SurfaceHolder surfaceHolder;
-    private GameView gameView;
+class MainThread extends Thread {
+    private final SurfaceHolder surfaceHolder;
+    private final GameView gameView;
     private boolean running;
-    public static Canvas canvas;
+    private static Canvas canvas;
     private boolean canUseSurfaceHolder;
 
     MainThread(SurfaceHolder surfaceHolder, GameView gameView) {

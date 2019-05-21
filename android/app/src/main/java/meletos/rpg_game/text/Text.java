@@ -18,11 +18,11 @@ import meletos.rpg_game.GameView;
 public class Text {
 
     private Language lang;
-    private SparseArray<String> text = new SparseArray<>();
-    private SparseArray<String> itemNames = new SparseArray<>();
-    private SparseArray<String> itemDescription = new SparseArray<>();
-    private SparseArray<String> dialogs = new SparseArray<>();
-    private Context context;
+    private final SparseArray<String> text = new SparseArray<>();
+    private final SparseArray<String> itemNames = new SparseArray<>();
+    private final SparseArray<String> itemDescription = new SparseArray<>();
+    private final SparseArray<String> dialogs = new SparseArray<>();
+    private final Context context;
     private GameView gameView;
 
     public Text(Context context) {

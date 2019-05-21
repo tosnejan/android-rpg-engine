@@ -18,10 +18,10 @@ import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.text.Text;
 
 public class Dialog {
-    private GameHandler gameHandler;
-    private GameView gameView;
+    private final GameHandler gameHandler;
+    private final GameView gameView;
     private Bitmap background;
-    private Text text;
+    private final Text text;
     private Paint paint;
     private int actualSentece;
     private int[] dialog;

@@ -16,7 +16,7 @@ public enum Directions {
             Collections.unmodifiableList(Arrays.asList(values()));
     private static final int SIZE = VALUES.size();
     private static final Random RANDOM = new Random();
-    public final int ID;
+    private final int ID;
 
     Directions(int ID) {
         this.ID = ID;
