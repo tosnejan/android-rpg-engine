@@ -240,7 +240,7 @@ public class GameHandler {
      * @param x coord
      * @param xSpeed speed of change
      * @param imgWidth of image
-     * @return
+     * @return <code>true</code> if possible; <code>false</code> otherwise
      */
     boolean moveMapByX(int x, int xSpeed, int imgWidth) {
         int newX = xShift - xSpeed;
@@ -267,7 +267,7 @@ public class GameHandler {
      * @param y coord
      * @param ySpeed speed to move map by
      * @param imgHeight height of map image
-     * @return
+     * @return <code>true</code> if possible; <code>false</code> otherwise
      */
     boolean moveMapByY(int y, int ySpeed, int imgHeight) {
         int newY = yShift - ySpeed;

@@ -131,7 +131,7 @@ public class PositionInformation {
      * Enables sliding.
      * @param xSpeed to add
      * @param ySpeed to add
-     * @param gh gamehandler
+     * @param gh gameHandler
      */
     public void heroAddSpeed (int xSpeed, int ySpeed, GameHandler gh) {
         if (gh.isPositionAvailable(mainCoord.x + xSpeed,mainCoord.y + ySpeed,imgWidth,imgHeigth)){
