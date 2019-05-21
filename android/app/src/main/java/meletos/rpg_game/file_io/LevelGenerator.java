@@ -27,7 +27,7 @@ import meletos.rpg_game.inventory.Inventory;
  * Generates a level from json by reading it into level representation and
  * then building characters, inventory etc.
  */
-class LevelGenerator {
+public class LevelGenerator {
     private String filePath;
     private String lvlName;
     private Context context;
@@ -156,7 +156,7 @@ class LevelGenerator {
      * @param context of Activity
      * @return file data in a String
      */
-    static String loadFile(boolean userSave, String filePath, Context context) {
+    public static String loadFile(boolean userSave, String filePath, Context context) {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
         try {

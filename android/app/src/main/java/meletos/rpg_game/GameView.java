@@ -23,6 +23,7 @@ import meletos.rpg_game.battle.BattleGUI;
 import meletos.rpg_game.dialog.Dialog;
 import meletos.rpg_game.file_io.FileManager;
 import meletos.rpg_game.file_io.FileScout;
+import meletos.rpg_game.file_io.LevelGenerator;
 import meletos.rpg_game.inventory.InventoryGUI;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
 import meletos.rpg_game.menu.MainMenu;
@@ -72,7 +73,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private Boolean init = true; // used to recognise initiation
     private final String TAG = "GameView";
-    private final char logSensitivity = 'E';
+    private final char logSensitivity;
 
     /**
      * Starts up the game -- the main menu
@@ -81,7 +82,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     public GameView(Context context, Text text) {
         super(context);
-        cleanLogs(); // clean old logs
+        logSensitivity = getLogSensitivity();
         loading = new Loading(this);
         this.text = text;
         this.text.setGameView(this);
@@ -444,6 +445,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             String line;
             try{
                 File file = new File(filename);
+                if (file.getTotalSpace() > 1000000) cleanLogs(); // clean old logs
                 FileWriter writer = new FileWriter(file);
                 while((line = in.readLine()) != null){
                     writer.write(line + "\n");
@@ -470,6 +472,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         } catch (IOException e) {
             Log.e(this.getClass().getSimpleName(), e.getLocalizedMessage());
         }
+    }
+
+    /**
+     * Gets log sensitivity from a file.
+     * @return char sensitivity to set
+     */
+    private char getLogSensitivity() {
+        String sensitivityPath = Environment.getExternalStorageDirectory().toString() + "/rpg_game_data/sensitivity.txt";
+        File file = new File(sensitivityPath);
+        try {
+            if (file.createNewFile()) {
+                FileManager.saveFile(sensitivityPath, "E");
+            }
+        } catch (IOException e) {
+            Log.e(this.getClass().getSimpleName(), e.getLocalizedMessage());
+        }
+        String data = LevelGenerator.loadFile(false, sensitivityPath, getContext());
+        char[] array = data.toCharArray();
+        return array[0];
     }
 
     /**
