@@ -6,9 +6,13 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import meletos.rpg_game.GameView;
 import meletos.rpg_game.inventory.Inventory;
@@ -36,9 +40,8 @@ public class FileManager {
     public void setJob (String rootDirPath) {
         this.rootDirPath = rootDirPath;
         currentLevel = new GsonBuilder().create().fromJson(
-                LevelGenerator.loadFile(
-                        false, rootDirPath + "/currLevel.json",
-                        context
+                loadFile(
+                        rootDirPath + "/currLevel.json"
                 ),
                 String.class
         );
@@ -66,7 +69,7 @@ public class FileManager {
      * @return HeroProperties leaded from file
      */
     public HeroProperties loadHeroProperties() {
-        String heroJson = LevelGenerator.loadFile(false, rootDirPath + "/heroProperties.json", context);
+        String heroJson = loadFile(rootDirPath + "/heroProperties.json");
         return new GsonBuilder().create().fromJson(heroJson, HeroProperties.class);
     }
 
@@ -104,6 +107,41 @@ public class FileManager {
                 Log.e("FileManager", e.getMessage());
             }
         }
+    }
+
+    /**
+     * Helper function -- loads file. Static and so used by multiple other classes
+     * @param filePath full SD card path to file
+     * @return file data in a String
+     */
+    public static String loadFile(String filePath) {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(
+                    new InputStreamReader(
+                            new FileInputStream(
+                                    filePath
+                            ),
+                            StandardCharsets.UTF_8
+                    )
+            );
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (IOException e) {
+            Log.e("LevelGenerator", e.getMessage());
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    Log.e("LevelGenerator", e.getMessage());
+                }
+            }
+        }
+        return sb.toString();
     }
 
 

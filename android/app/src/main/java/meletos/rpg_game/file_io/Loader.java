@@ -15,7 +15,7 @@ class Loader extends Thread {
     private final String lvlName;
     private final Inventory inventory;
 
-    public Loader (GameView gameView, String filePath, boolean userSave, String lvlName, Inventory inventory) {
+    Loader(GameView gameView, String filePath, boolean userSave, String lvlName, Inventory inventory) {
         super();
         this.inventory = inventory;
         this.gameView = gameView;
@@ -25,11 +25,7 @@ class Loader extends Thread {
     }
 
     public synchronized void run() {
-        try {
-            LevelGenerator lvlGenerator = new LevelGenerator(gameView.getContext(), filePath, lvlName, inventory);
-            gameView.setGameHandler(lvlGenerator.buildLevel(userSave), filePath);
-        } catch (UnsupportedTypeException e) {
-            Log.e(this.getClass().getSimpleName(), e.getMessage());
-        }
+        LevelGenerator lvlGenerator = new LevelGenerator(gameView.getContext(), filePath, lvlName, inventory);
+        gameView.setGameHandler(lvlGenerator.buildLevel(userSave), filePath);
     }
 }

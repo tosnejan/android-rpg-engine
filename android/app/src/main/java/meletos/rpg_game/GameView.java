@@ -488,7 +488,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         } catch (IOException e) {
             Log.e(this.getClass().getSimpleName(), e.getLocalizedMessage());
         }
-        String data = LevelGenerator.loadFile(false, sensitivityPath, getContext());
+        String data = FileManager.loadFile(sensitivityPath);
         char[] array = data.toCharArray();
         return array[0];
     }

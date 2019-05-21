@@ -10,7 +10,7 @@ import meletos.rpg_game.dialog.DialogSwitcher;
  * Class that represents character in JSON
  */
 public class CharacterRepresentation {
-    final String charType;
+    String charType;
     public final String imagesFolder;
     public final String image;
     final boolean isEnemy;

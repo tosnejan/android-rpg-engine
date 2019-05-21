@@ -49,9 +49,8 @@ public class LevelGenerator {
      * Main function, builds level
      * @param userSave whether uses custom pictures
      * @return GameHandler
-     * @throws UnsupportedTypeException if wrong character types
      */
-    GameHandler buildLevel(boolean userSave) throws UnsupportedTypeException {
+    GameHandler buildLevel(boolean userSave) {
         if (inventory == null) {
             inventory = loadInventory();
         }
@@ -88,9 +87,8 @@ public class LevelGenerator {
      * Function that constructs a character from characterHash.
      * @param characterInfo characterRepresentation
      * @return FatherCharacter generated character
-     * @throws UnsupportedTypeException if wrong types in json
      */
-    private FatherCharacter buildCharacter (CharacterRepresentation characterInfo) throws UnsupportedTypeException {
+    private FatherCharacter buildCharacter (CharacterRepresentation characterInfo) {
         boolean enemy = characterInfo.isEnemy;
         int x = characterInfo.xCoord;
         int y = characterInfo.yCoord;
@@ -131,59 +129,21 @@ public class LevelGenerator {
                             return standing;
                         } else return new StandingCharacter(x, y, context, imagesFolder, dialogs, actualDialog, played, dialogSwitchers);
                     }
-                default:
-                    throw new UnsupportedTypeException("This character doesnt exist yet.");
             }
         } catch (NullPointerException e) {
             Log.e(this.getClass().getSimpleName(), e.getMessage());
         }
-        return null;
-
+        Log.e(this.getClass().getSimpleName(), "Error building character: This character doesn't exist. Building RandomWalker instead.");
+        characterInfo.charType = "RandomWalker";
+        return buildCharacter(characterInfo); // tries to build random walker instead
     }
 
     /**
      * Converts loaded file from json into LevelRepresentation
      */
     private void extractLevelRepresentation() {
-        json = loadFile(userSave, filePath + "/" + lvlName, context);
+        json = FileManager.loadFile(filePath + "/" + lvlName);
         levelRepresentation = new GsonBuilder().create().fromJson(json, LevelRepresentation.class);
-    }
-
-    /**
-     * Helper function -- loads file. Static and so used by multiple other classes
-     * @param userSave boolean whether custom
-     * @param filePath full SD card path to file
-     * @param context of Activity
-     * @return file data in a String
-     */
-    public static String loadFile(boolean userSave, String filePath, Context context) {
-        StringBuilder sb = new StringBuilder();
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(
-                    new InputStreamReader(
-                            new FileInputStream(
-                                    filePath
-                            ),
-                            StandardCharsets.UTF_8
-                    )
-            );
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (IOException e) {
-            Log.e("LevelGenerator", e.getMessage());
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    Log.e("LevelGenerator", e.getMessage());
-                }
-            }
-        }
-        return sb.toString();
     }
 
     /**
@@ -192,7 +152,7 @@ public class LevelGenerator {
      */
     private Inventory loadInventory() {
         Log.i(this.getClass().getSimpleName(), "Filepath " + filePath);
-        String json = loadFile(userSave,  filePath + "/inventory.json", context);
+        String json = FileManager.loadFile(filePath + "/inventory.json");
         return new GsonBuilder().create().fromJson(json, Inventory.class);
     }
 }

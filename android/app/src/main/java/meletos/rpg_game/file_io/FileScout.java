@@ -128,7 +128,7 @@ public final class FileScout {
         String readFile;
         int i = 0;
         for (String directory : directories) {
-            readFile = LevelGenerator.loadFile(false, fullSavePath + "/" + directory + "/story.json", context);
+            readFile = FileManager.loadFile(fullSavePath + "/" + directory + "/story.json");
             try {
                 Story story = new Story(
                         readFile,
