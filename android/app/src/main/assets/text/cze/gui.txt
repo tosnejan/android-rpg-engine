@@ -72,3 +72,6 @@ Vyhrál jsi!
 
 ID: 24
 Hlasitost
+
+ID: 25
+Načítání
