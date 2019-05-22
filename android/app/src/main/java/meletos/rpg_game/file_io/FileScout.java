@@ -121,7 +121,7 @@ public final class FileScout {
         String fullSavePath = storagePath + saveLocation;
         File rootDir = new File(fullSavePath);
         File[] directories = rootDir.listFiles();
-        sortFilesByDate(directories);
+        directories = sortFilesByDate(directories);
         stories = new Story[directories.length];
         Log.i("LoadingStories", "Length of directories: " + directories.length);
         String readFile;
@@ -154,7 +154,7 @@ public final class FileScout {
     private static File[] sortFilesByDate (File[] files) {
         Arrays.sort(files, new Comparator<File>(){
             public int compare(File f1, File f2) {
-                return Long.compare(f1.lastModified(), f2.lastModified());
+                return Long.compare(f2.lastModified(), f1.lastModified());
             } });
         return files;
     }
