@@ -358,7 +358,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         try {
             File imageFile = new File(path);
             out = new FileOutputStream(imageFile);
-            b= Bitmap.createScaledBitmap(b, getWidth()/2, getHeight()/2, false);
+            double ratio = (double)getHeight()/getWidth();
+            double imgHeight = screenHeight/12.305; // z toho ratio -- vynasobit scrrenwidth
+            double imgWidth = ratio*imgHeight;
+            b = Bitmap.createScaledBitmap(b, (int)imgHeight, (int)imgWidth, false);
             b.compress(Bitmap.CompressFormat.JPEG, 90, out);
             Log.i("TakeScreenshot", "Saved screenshot to: " + path);
             out.flush();
