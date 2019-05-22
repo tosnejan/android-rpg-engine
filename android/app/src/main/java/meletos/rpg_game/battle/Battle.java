@@ -117,6 +117,7 @@ public class Battle {
                 gameHandler.setGameViewState(State.MAP);
             } else if (heroStats.get("HP") <= 0){
                 gameHandler.getGameView().getEndgame().setMessage(20, 21);
+                gameHandler.getGameView().getSound().play(State.LOST);
                 gameHandler.setGameViewState(State.ENDGAME);
             }
             if (heroShield != 0){

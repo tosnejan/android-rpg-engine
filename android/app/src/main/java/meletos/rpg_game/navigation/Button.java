@@ -5,6 +5,9 @@ import android.graphics.Bitmap;
 import meletos.rpg_game.Coordinates;
 import meletos.rpg_game.Sprite;
 
+/**
+ * Our own light button class.
+ */
 public class Button extends Sprite {
     private final int otherX;
     private final int otherY;

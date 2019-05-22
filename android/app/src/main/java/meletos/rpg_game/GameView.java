@@ -430,6 +430,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return endgame;
     }
 
+    public Sound getSound() {
+        return sound;
+    }
+
     /**
      * Function that saves logs into file.
      * @param sensitivity char - what to put into file

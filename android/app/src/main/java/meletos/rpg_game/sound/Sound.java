@@ -9,6 +9,7 @@ import meletos.rpg_game.State;
 
 import static meletos.rpg_game.State.BATTLE;
 import static meletos.rpg_game.State.ENDGAME;
+import static meletos.rpg_game.State.LOST;
 import static meletos.rpg_game.State.MAIN_MENU;
 
 /**
@@ -23,6 +24,7 @@ public class Sound {
     private final int game_theme = R.raw.game_theme;
     private final int endgame_theme = R.raw.endgame_theme;
     private final int battle_theme = R.raw.battle_theme;
+    private final int lost_theme = R.raw.lost_theme;
     private State prevState = State.MENU;
 
     public Sound(Context context) {
@@ -65,15 +67,20 @@ public class Sound {
      * @param state -- state of the game
      */
     public void play (State state) {
+        if (prevState == LOST && state != MAIN_MENU) return;
         switch (state) {
             case MAIN_MENU:
                 if (mediaPlayer.isPlaying())
-                    mediaPlayer.stop();
+                    killSounds();
                 mediaPlayer = MediaPlayer.create(context, menu_theme);
                 break;
             case ENDGAME:
                 if (mediaPlayer.isPlaying()) killSounds();
                 mediaPlayer = MediaPlayer.create(context, endgame_theme);
+                break;
+            case LOST:
+                if (mediaPlayer.isPlaying()) killSounds();
+                mediaPlayer = MediaPlayer.create(context, lost_theme);
                 break;
             case BATTLE:
                 if (mediaPlayer.isPlaying())

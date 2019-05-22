@@ -17,6 +17,9 @@ import meletos.rpg_game.sound.Sound;
 import meletos.rpg_game.text.Language;
 import meletos.rpg_game.text.Text;
 
+/**
+ * Represents setting screen.
+ */
 public class Settings {
     private final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels; // tyhle veci by pak nemel potrebovat -- jsou v gameHandlerovi
     private final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -98,7 +101,7 @@ public class Settings {
         slider.draw(canvas);
     }
 
-    public void touchDown(int x, int y) {
+    void touchDown(int x, int y) {
         for (int i = 0; i < buttons.length; i++) {
             if (buttons[i].isTouched(x, y)) {
                 clickedButton = i;
@@ -108,7 +111,7 @@ public class Settings {
         if (slider.isTouched(x,y)) sound.setVolume(slider.getValue());
     }
 
-    public boolean touchUp(int x, int y) {
+    boolean touchUp(int x, int y) {
         boolean ret = false;
         if (clickedButton != -1) {
             buttons[2].changeImage(false, 10);

@@ -23,7 +23,7 @@ public class Story {
     private String path;
     private final boolean userSave;
 
-    public Story(Bitmap image, String name, String path, boolean userSave) {
+    Story(Bitmap image, String name, String path, boolean userSave) {
         this.image = image;
         this.name = name;
         this.path = path;
