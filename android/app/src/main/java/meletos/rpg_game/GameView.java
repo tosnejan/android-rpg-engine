@@ -1,5 +1,6 @@
 package meletos.rpg_game;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -503,6 +504,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
         } catch (IOException e) {
             Log.e(this.getClass().getSimpleName(), e.getLocalizedMessage());
+        }
+        if (!file.exists()) {
+            return 'E';
         }
         String data = FileManager.loadFile(sensitivityPath);
         char[] array = data.toCharArray();
