@@ -66,6 +66,8 @@ public class LevelGenerator {
         for (CharacterRepresentation characterI: characterInfo) {
             characters.add(buildCharacter(characterI));
         }
+        int xShift = levelRepresentation.getxShift();
+        int yShift = levelRepresentation.getyShift();
         HashMap<String, List<HashMap>> spawnStructure = levelRepresentation.getSpawnStructure();
         Hero hero = (Hero)buildCharacter(levelRepresentation.getHero());
         List<Chest> chests = levelRepresentation.getChests();
@@ -82,6 +84,7 @@ public class LevelGenerator {
                     levelRepresentation.getTransitionManager(),
                     levelRepresentation.getChests()
             );
+        gh.setShifts(xShift, yShift);
 
 
         gh.loadMap(levelRepresentation.getMapSource());

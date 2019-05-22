@@ -435,6 +435,7 @@ public class GameHandler {
                 lr.setLvlName(lvlName);
                 lr.setTransitionManager(transitionManager);
                 lr.setChests(chests);
+                lr.setShifts(xShift, yShift);
 
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 gsonBuilder.registerTypeAdapter(Double.class, new JsonSerializer<Double>() {
@@ -532,6 +533,11 @@ public class GameHandler {
 
     public List<Chest> getChests() {
         return chests;
+    }
+
+    public void setShifts(int xShift, int yShift) {
+        this.yShift = yShift;
+        this.xShift = xShift;
     }
 
     void recycleBitmaps() {
