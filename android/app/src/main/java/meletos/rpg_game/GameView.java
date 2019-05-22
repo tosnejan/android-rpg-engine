@@ -114,6 +114,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
             retry = false;
         }
+        gameHandler.recycleBitmaps();
         hasGameHandler = false;
         gameThread = null;
         init = true;

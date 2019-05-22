@@ -13,12 +13,14 @@ import meletos.rpg_game.PositionInformation;
  */
 public class RandomWalker extends FatherCharacter {
     private int steps;
+    private PositionInformation wantedPosition;
 
     public RandomWalker(int x, int y, String assetsFolder, Context context, boolean enemy, String battleImageFolder, HashMap<String, Integer> stats) {
         super(x, y, assetsFolder, context, enemy, battleImageFolder, stats);
         steps = 0;
         xSpeedConstant = 5;
         ySpeedConstant = 5;
+        wantedPosition = new PositionInformation(x, y, imgHeigth, imgWidth);
     }
 
     public RandomWalker(int x, int y, Context context, boolean enemy, HashMap<String,Integer> stats) {
@@ -39,12 +41,9 @@ public class RandomWalker extends FatherCharacter {
             steps = 0;
         }
 
+        wantedPosition.updatePositionInformation(positionInformation.mainCoord.x + xSpeed, positionInformation.mainCoord.y + ySpeed);
         Directions suggestedDirection = gameHandler.collisionDetector(
-                this, new PositionInformation(
-                        positionInformation.mainCoord.x + xSpeed,
-                        positionInformation.mainCoord.y + ySpeed,
-                        imgHeigth, imgWidth
-                )
+                this, wantedPosition
         );
 
         if (suggestedDirection != Directions.NONE) {

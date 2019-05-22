@@ -108,12 +108,16 @@ public class GameHandler {
         mapHeight = 0;
         try {
             map = BitmapFactory.decodeStream(am.open(path));
+            Log.i("1 MAP BEFORE RESIZE", map.getAllocationByteCount() + "");
             mapWidth = map.getWidth() * mapScale;
             mapHeight = map.getHeight() * mapScale;
             map = Bitmap.createScaledBitmap(map, mapWidth, mapHeight, false);
+            Log.i("1 MAP AFTER", map.getAllocationByteCount() + "");
             path = String.format("maps/%s2.png", fileName);
             map2 = BitmapFactory.decodeStream(am.open(path));
+            Log.i("2 MAP BEFORE RESIZE", map2.getAllocationByteCount() + "");
             map2 = Bitmap.createScaledBitmap(map2, mapWidth, mapHeight, false);
+            Log.i("2 MAP AFTER", map2.getAllocationByteCount() + "");
         } catch (IOException e) {
             Log.e(this.getClass().getSimpleName(), e.getMessage());
         }
@@ -521,6 +525,24 @@ public class GameHandler {
 
     public List<Chest> getChests() {
         return chests;
+    }
+
+    void recycleBitmaps() {
+        new Thread() {
+            public void run() {
+                Log.i(this.getClass().getSimpleName(), "Releasing bitmaps.");
+                map.recycle();
+                map2.recycle();
+                for (FatherCharacter character : characters) {
+                    character.recycleBitmaps();
+                }
+                if (chests != null)
+                    for (Chest chest : chests) {
+                        chest.recycleBitmaps();
+                    }
+                Log.i("RecycleBitmaps", "Recycled old bitmaps.");
+            }
+        }.start();
     }
 
 }

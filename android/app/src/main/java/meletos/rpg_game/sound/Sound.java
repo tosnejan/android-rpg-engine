@@ -70,30 +70,22 @@ public class Sound {
         if (prevState == LOST && state != MAIN_MENU) return;
         switch (state) {
             case MAIN_MENU:
-                if (mediaPlayer.isPlaying())
-                    killSounds();
-                mediaPlayer = MediaPlayer.create(context, menu_theme);
+                swapSongs(menu_theme);
                 break;
             case ENDGAME:
-                if (mediaPlayer.isPlaying()) killSounds();
-                mediaPlayer = MediaPlayer.create(context, endgame_theme);
+                swapSongs(endgame_theme);
                 break;
             case LOST:
-                if (mediaPlayer.isPlaying()) killSounds();
-                mediaPlayer = MediaPlayer.create(context, lost_theme);
+                swapSongs(lost_theme);
                 break;
             case BATTLE:
-                if (mediaPlayer.isPlaying())
-                    killSounds();
-                mediaPlayer = MediaPlayer.create(context, battle_theme);
+                swapSongs(battle_theme);
                 break;
             default:
                 if (prevState != ENDGAME && prevState!= MAIN_MENU && prevState != BATTLE) {
                     return;
                 }
-                if (mediaPlayer.isPlaying())
-                    killSounds();
-                mediaPlayer = MediaPlayer.create(context, game_theme);
+                swapSongs(game_theme);
                 break;
         }
         prevState = state;
@@ -101,6 +93,16 @@ public class Sound {
         else mediaPlayer.setVolume(mediaVolume, mediaVolume);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
+    }
+
+    /**
+     * Swaps two songs when moving between game states
+     * @param songID of song to be played
+     */
+    private void swapSongs(int songID) {
+        if (mediaPlayer.isPlaying())
+            killSounds();
+        mediaPlayer = MediaPlayer.create(context, songID);
     }
 
     /**

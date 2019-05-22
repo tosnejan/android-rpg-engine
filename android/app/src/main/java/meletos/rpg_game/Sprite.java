@@ -62,6 +62,10 @@ public abstract class Sprite {
         }
     }
 
+    public void recycleBitmaps() {
+        image.recycle();
+    }
+
     public int getX() {
         return x;
     }

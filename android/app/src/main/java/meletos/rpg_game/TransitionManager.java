@@ -44,6 +44,7 @@ public class TransitionManager {
                 }
                 heroVisited = true;
                 // start new level
+                gameView.getGameHandler().recycleBitmaps();
                 gameView.setHasGameHandler(false);
                 gameView.setState(State.LOADING);
                 gameView.getFileManager().loadLevels(nextLevelName, inventory);

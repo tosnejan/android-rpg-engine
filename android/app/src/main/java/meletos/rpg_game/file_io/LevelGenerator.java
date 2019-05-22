@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import meletos.rpg_game.GameHandler;
+import meletos.rpg_game.GameThread;
 import meletos.rpg_game.characters.Chest;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Hero;
@@ -74,13 +75,15 @@ public class LevelGenerator {
             }
 
         GameHandler gh = new GameHandler(
-                characters,
-                hero,
-                context,
-                levelRepresentation.getLvlName(),
-                levelRepresentation.getTransitionManager(),
-                levelRepresentation.getChests()
-        );
+                    characters,
+                    hero,
+                    context,
+                    levelRepresentation.getLvlName(),
+                    levelRepresentation.getTransitionManager(),
+                    levelRepresentation.getChests()
+            );
+
+
         gh.loadMap(levelRepresentation.getMapSource());
         gh.setInventory(inventory);
         Log.i("LevelGenerator", "Returning new game handler.");

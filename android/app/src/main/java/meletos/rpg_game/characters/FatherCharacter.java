@@ -332,4 +332,11 @@ public abstract class FatherCharacter extends Sprite {
     public boolean isPlayed() {
         return played;
     }
+
+    @Override
+    public void recycleBitmaps() {
+        if (images != null)
+            for (Bitmap image : images) image.recycle();
+        if (image != null) image.recycle();
+    }
 }

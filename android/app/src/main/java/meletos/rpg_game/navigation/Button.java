@@ -11,6 +11,7 @@ import meletos.rpg_game.Sprite;
 public class Button extends Sprite {
     private final int otherX;
     private final int otherY;
+    private Coordinates touchCoord = new Coordinates(0,0);
 
     public Button(int x, int y, Bitmap image) {
         super(x, y, image);
@@ -18,17 +19,19 @@ public class Button extends Sprite {
         otherY = y + imgHeigth;
     }
 
+    /**
+     * Function that determines if the coordinate of touch is inside.
+     * @param x coord
+     * @param y coord
+     * @return true if is touched
+     * false otherwise
+     */
     public boolean isTouched(int x, int y) {
-        Coordinates touchCoord = new Coordinates(x, y);
+        touchCoord.x = x;
+        touchCoord.y = y;
         if (positionInformation.isCoordinateInside(touchCoord)) {
-            onTouch();
             return true;
         }
         return false;
     }
-
-    private void onTouch () {
-        // Implement in individual buttons -- should be more for effects
-    }
-
 }

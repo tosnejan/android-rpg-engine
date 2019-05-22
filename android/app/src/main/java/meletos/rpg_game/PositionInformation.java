@@ -28,7 +28,7 @@ public class PositionInformation {
      * @param x coord
      * @param y coord
      */
-    private void updatePositionInformation(int x, int y) {
+    public void updatePositionInformation(int x, int y) {
         mainCoord.updateCoordinates(x, y);
         upperRightCorner.updateCoordinates(x + imgWidth, y);
         lowerLeftCorner.updateCoordinates(x, y + imgHeigth);
