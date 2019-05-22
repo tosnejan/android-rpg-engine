@@ -253,17 +253,18 @@ public class Menu {
         int buttonX = (screenWidth - buttonImage.getWidth())/2;
         int buttonY = (y + frameHeight/11);
         int Yspace = (buttonImage.getHeight() + frameHeight/25);
+        int YspaceLoad = (buttonImage.getHeight() + frameHeight/12);
         buttons[0] = new MenuButton(buttonX, buttonY, buttonImage, buttonImageClicked, text, 8);
         buttons[1] = new MenuButton(buttonX, buttonY + Yspace, buttonImage, buttonImageClicked, text, 5);
         buttons[2] = new MenuButton(buttonX, buttonY + Yspace*2, buttonImage, buttonImageClicked, text, 6);
         buttons[3] = new MenuButton(buttonX, buttonY + Yspace*3, buttonImage, buttonImageClicked, text, 9);
         buttons[4] = new MenuButton(buttonX, buttonY + Yspace*4, buttonImage, buttonImageClicked, text, 7);
         storyButtons[0] = new MenuButton(buttonX, buttonY, storyButtonImage, storyButtonImageClicked, text, -1);
-        storyButtons[1] = new MenuButton(buttonX, buttonY + Yspace, storyButtonImage, storyButtonImageClicked, text, -1);
-        storyButtons[2] = new MenuButton(buttonX, buttonY + Yspace*2, storyButtonImage, storyButtonImageClicked, text, -1);
-        storyButtons[3] = new MenuButton(buttonX, buttonY + Yspace*3, buttonImage, buttonImageClicked, text, 12);
+        storyButtons[1] = new MenuButton(buttonX, buttonY + YspaceLoad, storyButtonImage, storyButtonImageClicked, text, -1);
+        storyButtons[2] = new MenuButton(buttonX, buttonY + YspaceLoad*2, storyButtonImage, storyButtonImageClicked, text, -1);
+        storyButtons[3] = new MenuButton(buttonX, buttonY + YspaceLoad*3, buttonImage, buttonImageClicked, text, 12);
         storyButtons[4] = new MenuButton(2*screenWidth/3, buttonY, up, up, text, -1);
-        storyButtons[5] = new MenuButton(2*screenWidth/3, buttonY + Yspace*2, down, down, text, -1);
+        storyButtons[5] = new MenuButton(2*screenWidth/3, buttonY + YspaceLoad*2, down, down, text, -1);
         xButton = new MenuButton(x + frameWidth - 2*xButtonImage.getWidth()/3, y - xButtonImage.getHeight()/3, xButtonImage, xButtonImageClicked, text, -1);
     }
 
