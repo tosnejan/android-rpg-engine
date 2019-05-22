@@ -18,6 +18,9 @@ import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.inventory.Inventory;
 import meletos.rpg_game.navigation.GameButton;
 
+/**
+ * User interface of Battle.
+ */
 public class BattleGUI {
     private final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;

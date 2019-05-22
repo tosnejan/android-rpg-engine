@@ -24,6 +24,10 @@ import meletos.rpg_game.dialog.DialogSwitcher;
 import meletos.rpg_game.inventory.Inventory;
 
 /**
+ * TODO -- predelat na statickou
+ */
+
+/**
  * Generates a level from json by reading it into level representation and
  * then building characters, inventory etc.
  */
@@ -56,7 +60,7 @@ public class LevelGenerator {
         }
         this.userSave = userSave;
         ArrayList<FatherCharacter> characters = new ArrayList<>();
-        extractLevelRepresentation();
+        levelRepresentation = extractLevelRepresentation();
         ArrayList<CharacterRepresentation> characterInfo = levelRepresentation.getCharacters();
         for (CharacterRepresentation characterI: characterInfo) {
             characters.add(buildCharacter(characterI));
@@ -141,9 +145,9 @@ public class LevelGenerator {
     /**
      * Converts loaded file from json into LevelRepresentation
      */
-    private void extractLevelRepresentation() {
+    private LevelRepresentation extractLevelRepresentation() {
         json = FileManager.loadFile(filePath + "/" + lvlName);
-        levelRepresentation = new GsonBuilder().create().fromJson(json, LevelRepresentation.class);
+        return new GsonBuilder().create().fromJson(json, LevelRepresentation.class);
     }
 
     /**

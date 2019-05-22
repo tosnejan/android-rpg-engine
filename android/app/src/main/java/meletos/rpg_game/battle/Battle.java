@@ -13,6 +13,9 @@ import meletos.rpg_game.GameHandler;
 import meletos.rpg_game.State;
 import meletos.rpg_game.characters.FatherCharacter;
 
+/**
+ * Class representing the battle.
+ */
 public class Battle {
     private final GameHandler gameHandler;
     private boolean playersRound = true;
@@ -165,7 +168,7 @@ public class Battle {
     /**
      * Attack as player. Calculate damage and does it.
      */
-    public void attack() {
+    void attack() {
         if (playersRound && animationDone) {
             int hp = enemyStats.get("HP");
             int mr = enemyStats.get("MR");
@@ -211,7 +214,7 @@ public class Battle {
     /**
      * Heal player by 100.
      */
-    public void healChar() {
+    void healChar() {
         HashMap<String,Integer> stats = gameHandler.getHeroStats();
         int hp = stats.get("HP");
         stats.put("HP", hp + 100);

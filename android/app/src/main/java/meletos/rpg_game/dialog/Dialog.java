@@ -17,6 +17,9 @@ import meletos.rpg_game.State;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.text.Text;
 
+/**
+ * Class representing dialogues.
+ */
 public class Dialog {
     private final GameHandler gameHandler;
     private final GameView gameView;
@@ -35,6 +38,9 @@ public class Dialog {
         load();
     }
 
+    /**
+     * Loads resources.
+     */
     private void load() {
         AssetManager am = gameHandler.context.getAssets();
         try {
@@ -57,6 +63,11 @@ public class Dialog {
         canvas.drawText(text.getDialog(dialog[actualSentece]), (gameHandler.getScreenWidth() - bounds.width())/2f, 9*gameHandler.getScreenHeight()/10f + bounds.height()/2f, paint);
     }
 
+    /**
+     * Reacts to touch. Used to scroll through dialogue.
+     * @param x coord of touch
+     * @param y coord of touch
+     */
     public void touchDown(int x, int y) {
         if(x <= gameHandler.getScreenWidth()/2){
             side = 0;
@@ -74,7 +85,6 @@ public class Dialog {
                 if (dialog[actualSentece] == -1){
                     gameView.getEndgame().setMessage(22, 23);
                     gameView.setState(State.ENDGAME);
-                    //gameView.sound.play(State.ENDGAME);
                 }
             } else {
                 character.setPlayed(true);
@@ -91,7 +101,6 @@ public class Dialog {
         if (dialog[0] == -1){
             gameView.getEndgame().setMessage(22, 23);
             gameView.setState(State.ENDGAME);
-            //gameView.sound.play(State.ENDGAME);
         }
     }
 }

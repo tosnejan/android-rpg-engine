@@ -27,6 +27,13 @@ public class Inventory {
         return equipped;
     }
 
+    /**
+     * Gets inventory item on certain position.
+     * Used for GUI.
+     * @param row of item
+     * @param column of item
+     * @return ID of the item located on the row and column
+     */
     public int getInventoryItem(int row, int column){
         return inventory[row][column];
     }
@@ -39,6 +46,11 @@ public class Inventory {
         return equipped.get(type) != null ? equipped.get(type) : -1;
     }
 
+    /**
+     * Equips an item.
+     * @param type ItemType - Belt, Helmet etc
+     * @param ID of item
+     */
     public void setEquipedItem(ItemType type, int ID){
         equipped.put(type, ID);
     }

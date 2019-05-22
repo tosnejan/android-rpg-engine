@@ -351,7 +351,7 @@ public class GameHandler {
                         gameView.getDialog().init(character);
                         gameView.setState(State.DIALOG);
                     }
-                    return result;
+                    //return result;
                 }
             }
         }
@@ -471,6 +471,11 @@ public class GameHandler {
     }
 
     public void startGame () {
+        try {
+            GameThread.sleep(200);
+        } catch (InterruptedException e) {
+            Log.e(this.getClass().getSimpleName(), e.getMessage());
+        }
         isGamePaused = false;
     }
 

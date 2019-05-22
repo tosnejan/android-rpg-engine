@@ -12,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import meletos.rpg_game.menu.Story;
 
@@ -118,25 +120,22 @@ public final class FileScout {
         String storagePath = Environment.getExternalStorageDirectory().toString();
         String fullSavePath = storagePath + saveLocation;
         File rootDir = new File(fullSavePath);
-        String[] directories = rootDir.list();
+        File[] directories = rootDir.listFiles();
+        sortFilesByDate(directories);
         stories = new Story[directories.length];
-        System.out.println("DIRECTORIES:");
-        for (String directory1 : directories) {
-            System.out.println(directory1);
-        }
-        System.out.println("Length of directories: " + directories.length);
+        Log.i("LoadingStories", "Length of directories: " + directories.length);
         String readFile;
         int i = 0;
-        for (String directory : directories) {
-            readFile = FileManager.loadFile(fullSavePath + "/" + directory + "/story.json");
+        for (File directory : directories) {
+            readFile = FileManager.loadFile(fullSavePath + "/" + directory.getName() + "/story.json");
             try {
                 Story story = new Story(
                         readFile,
-                        BitmapFactory.decodeStream(new FileInputStream(fullSavePath + "/" + directory + "/icon.png")
+                        BitmapFactory.decodeStream(new FileInputStream(fullSavePath + "/" + directory.getName() + "/icon.png")
                         )
                 );
                 story.setName(story.getName() + " " + (i + 1));
-                story.setPath(fullSavePath + "/" + directory);
+                story.setPath(fullSavePath + "/" + directory.getName());
                 stories[i] = story;
                 ++i;
             } catch (IOException e) {
@@ -145,6 +144,19 @@ public final class FileScout {
         }
         return stories;
 
+    }
+
+    /**
+     * Sorts files by date of edit. Helper function.
+     * @param files to be sorted
+     * @return sorted array
+     */
+    private static File[] sortFilesByDate (File[] files) {
+        Arrays.sort(files, new Comparator<File>(){
+            public int compare(File f1, File f2) {
+                return Long.compare(f1.lastModified(), f2.lastModified());
+            } });
+        return files;
     }
 
     /**

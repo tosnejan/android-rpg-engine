@@ -14,6 +14,9 @@ import java.util.HashMap;
 import meletos.rpg_game.PositionInformation;
 import meletos.rpg_game.dialog.DialogSwitcher;
 
+/**
+ * Character that doesn't move around the map. Can be used as NPC to talk to.
+ */
 public class StandingCharacter extends FatherCharacter {
 
     public StandingCharacter(int x, int y, Context context, String imagePath, int[][] dialogs, int actualDialog, boolean played, DialogSwitcher[] dialogSwitchers) {
@@ -42,6 +45,11 @@ public class StandingCharacter extends FatherCharacter {
         super(x, y, context, true, stats);
     }
 
+    /**
+     * Loads image
+     * @param imagePath of image
+     * @param assets if it is located in assets or not
+     */
     public void loadImage(String imagePath, boolean assets) {
         if (assets) {
             AssetManager am = context.getAssets();
@@ -61,6 +69,12 @@ public class StandingCharacter extends FatherCharacter {
         positionInformation = new PositionInformation(x, y, image.getHeight(), image.getWidth());
     }
 
+    /**
+     * Version for character that can fight.
+     * @param imagePath of image representing character on the map
+     * @param assets bool whether it is located in assets or custom
+     * @param battleImagePath to image representation in battle
+     */
     public void loadImage(String imagePath, boolean assets, String battleImagePath) {
         if (assets) {
             AssetManager am = context.getAssets();
@@ -107,6 +121,9 @@ public class StandingCharacter extends FatherCharacter {
         positionInformation = new PositionInformation(x, y, image.getHeight(), image.getWidth());
     }
 
+    /**
+     * Here only checks for dialogue.
+     */
     @Override
     public void update() {
         if (enemy){
