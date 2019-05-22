@@ -412,6 +412,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         hasGameHandler = true;
         init = false;
         saveLog(logSensitivity);
+        while(gameHandler.isGamePaused()) {
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                Log.e(this.getClass().getSimpleName(), e.getMessage());
+            }
+        }
+        takeScreenshot(storyPath + "/icon.png");
     }
 
     public boolean hasGameHandler() {
