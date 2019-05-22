@@ -5,17 +5,11 @@ import android.util.Log;
 
 import com.google.gson.GsonBuilder;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import meletos.rpg_game.GameHandler;
-import meletos.rpg_game.GameThread;
 import meletos.rpg_game.characters.Chest;
 import meletos.rpg_game.characters.FatherCharacter;
 import meletos.rpg_game.characters.Hero;
@@ -23,10 +17,6 @@ import meletos.rpg_game.characters.RandomWalker;
 import meletos.rpg_game.characters.StandingCharacter;
 import meletos.rpg_game.dialog.DialogSwitcher;
 import meletos.rpg_game.inventory.Inventory;
-
-/**
- * TODO -- predelat na statickou
- */
 
 /**
  * Generates a level from json by reading it into level representation and

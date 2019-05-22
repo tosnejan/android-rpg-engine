@@ -1,11 +1,29 @@
 ID: 0
-Anna: Ahoj. Jak se máš?
+Anna: Hrdino! Potřebuji tvou pomoc!
 
 ID: 1
-Ty: Mám se dobře!
+Ty: Co se stalo?
 
 ID: 2
-Anna: Už jsme si povídali...
+Anna: Přišla sem nějaká banda lidí a...
 
 ID: 3
-Mistránek69: Ty jsi mě zachránil!
+Anna: zamknuli mého manžela uvnitř!
+
+ID: 4
+Anna: Klíč si vzali s sebou...
+
+ID: 5
+Anna: Mohl by jsi mi ten klíč přinést?
+
+ID: 6
+Ty: Samozřejmě!
+
+ID: 7
+Bob: Zachránil jsi mě!
+
+ID: 8
+Anna: Už máš ten klíč?
+
+ID: 9
+Anna: Jestli ano, tak jdi dovnitř.

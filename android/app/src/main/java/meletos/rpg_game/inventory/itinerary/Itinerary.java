@@ -22,6 +22,14 @@ public class Itinerary {
         this.items = items;
     }
 
+    /**
+     * @param context context of application
+     * @param text text with loaded texts
+     * @param path path to inventory
+     * @return Itinerary with items
+     * @see Context
+     * @see Text
+     */
     public static Itinerary load(Context context, Text text, String path) {
         String json = loadFile(context, path);
         ItineraryRepresentation itinRepre = new GsonBuilder().create().fromJson(json, ItineraryRepresentation.class);

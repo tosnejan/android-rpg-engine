@@ -52,11 +52,17 @@ public class Settings {
         slider.setValue(sound.getVolume());
     }
 
+    /**
+     * Loads language and volume from shared preferences.
+     */
     private void load() {
         text.setLang(Language.getLanguage(settings.getInt("language", 0)));
         sound.setVolume(settings.getInt("volume", 5));
     }
 
+    /**
+     * Loads images.
+     */
     private void loadImages() {
         AssetManager am = context.getAssets();
         try {
@@ -79,6 +85,9 @@ public class Settings {
         }
     }
 
+    /**
+     * Creates buttons.
+     */
     private void createButtons(){
         int buttonX = (screenWidth - buttonImage.getWidth())/2;
         int buttonY = (y + frameHeight/9);
@@ -94,6 +103,11 @@ public class Settings {
         slider = new xSlider(x + 2*frameWidth/10,buttonY + Yspace,sliderImage,slider_thing,text,24,10);
     }
 
+    /**
+     * Draw Settings GUI.
+     * @param canvas canvas to draw
+     * @see Canvas
+     */
     public void draw(Canvas canvas) {
         for (Button button:buttons) {
             button.draw(canvas);
@@ -101,6 +115,11 @@ public class Settings {
         slider.draw(canvas);
     }
 
+    /**
+     * Checking if buttons was clicked.
+     * @param x coordination where click was detected
+     * @param y coordination where click was detected
+     */
     void touchDown(int x, int y) {
         for (int i = 0; i < buttons.length; i++) {
             if (buttons[i].isTouched(x, y)) {
@@ -111,6 +130,11 @@ public class Settings {
         if (slider.isTouched(x,y)) sound.setVolume(slider.getValue());
     }
 
+    /**
+     * Checking if same button was clicked and do what it should do.
+     * @param x coordination where click was detected
+     * @param y coordination where click was detected
+     */
     boolean touchUp(int x, int y) {
         boolean ret = false;
         if (clickedButton != -1) {

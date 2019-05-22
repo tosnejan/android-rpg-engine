@@ -9,7 +9,6 @@ import android.util.Log;
 import android.util.SparseArray;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -27,7 +26,7 @@ class ItineraryRepresentation {
     }
 
     /**
-     * Returns array of items
+     * Returns array of items.
      * @param context of app
      * @param text Text of game
      * @return SparseArray of Items

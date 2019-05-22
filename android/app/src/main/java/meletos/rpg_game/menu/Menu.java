@@ -287,7 +287,6 @@ public class Menu {
      */
     private void loadSave(int shift) {
         gameView.getFileManager().setJob(saves[shift].getPath());
-        // extract this into a function
         gameView.setState(State.LOADING);
         gameView.setHasGameHandler(false);
         while (!gameView.hasGameHandler()) {

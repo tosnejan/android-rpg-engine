@@ -129,6 +129,19 @@
       "type": "OTHER",
       "ID": 22,
       "path": "itinerary/images/keys/key1.png"
+    },
+    {
+      "type": "WEAPON",
+      "ID": 23,
+      "path": "itinerary/images/weapons/staff.png",
+      "INT": 75
+    },
+    {
+      "type": "WEAPON",
+      "ID": 24,
+      "path": "itinerary/images/weapons/dagger.png",
+      "INT": 30,
+      "DMG": 30
     }
   ]
 }
