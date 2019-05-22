@@ -82,7 +82,7 @@ public class Settings {
     private void createButtons(){
         int buttonX = (screenWidth - buttonImage.getWidth())/2;
         int buttonY = (y + frameHeight/9);
-        int Yspace = (buttonImage.getHeight() + frameHeight/12);
+        int Yspace = (buttonImage.getHeight() + frameHeight/10);
         buttons[2] = new MenuButton(buttonX, buttonY + Yspace*3, buttonImage, buttonImageClicked, text, 12);
         buttonImage = Bitmap.createScaledBitmap(buttonImage, (int)(frameWidth/3), (int)(frameHeight/7.6), true);
         buttonImageClicked = Bitmap.createScaledBitmap(buttonImageClicked, (int)(frameWidth/3), (int)(frameHeight/7.6), true);
@@ -91,7 +91,7 @@ public class Settings {
         if (text.getLang() == Language.ENG){
             buttons[0].changeImage(true, 0);
         } else { buttons[1].changeImage(true, 0); }
-        slider = new xSlider(x + 2*frameWidth/10,buttonY + Yspace,sliderImage,slider_thing,text,13,10);
+        slider = new xSlider(x + 2*frameWidth/10,buttonY + Yspace,sliderImage,slider_thing,text,24,10);
     }
 
     public void draw(Canvas canvas) {

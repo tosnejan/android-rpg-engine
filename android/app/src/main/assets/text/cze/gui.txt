@@ -69,3 +69,6 @@ Gratuluji!
 
 ID: 23
 Vyhrál jsi!
+
+ID: 24
+Hlasitost

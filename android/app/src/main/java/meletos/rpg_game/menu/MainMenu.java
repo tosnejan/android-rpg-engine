@@ -44,6 +44,7 @@ public class MainMenu {
     private int frameHeight;
     private int shift = 0;
     private ArrayList<Story> stories = new ArrayList<>();
+    private Story[] saves;
     private final GameView gameView;
     private final Context context;
     private MainMenuStates state = MainMenuStates.MAIN;
@@ -134,6 +135,7 @@ public class MainMenu {
                 break;
             case LOAD:
                 canvas.drawBitmap(frame, x, y, null);
+                drawSaves(canvas);
                 break;
             case STORY_SELECTION:
                 canvas.drawBitmap(frame, x, y, null);
@@ -166,6 +168,16 @@ public class MainMenu {
                 settings.touchDown(x, y);
                 break;
             case LOAD:
+                for (int i = 0; i < storyButtons.length; i++) {
+
+                    if ((i < 3 && i < saves.length)||i > 2) {
+                        if (storyButtons[i].isTouched(x, y)) {
+                            clickedButton = i;
+                            storyButtons[i].changeImage(true, 10);
+                            break;
+                        }
+                    }
+                }
                 break;
             case STORY_SELECTION:
                 for (int i = 0; i < storyButtons.length; i++) {
@@ -178,10 +190,6 @@ public class MainMenu {
                         }
                     }
                 }
-                /*if (storyButtons[storyButtons.length-1].isTouched(x, y)){
-                    clickedButton = storyButtons.length-1;
-                    storyButtons[storyButtons.length-1].changeImage(true, 10);
-                }*/
                 break;
             case HERO_SELECTION:
                 if (heroSelection.isNotMoving()) heroSelection.touchDown(x, y);
@@ -206,32 +214,13 @@ public class MainMenu {
                 if (!buttons[clickedButton].isTouched(x, y)) clickedButton = -1;
                 switch (clickedButton){
                     case 0://New Game
+                        shift = 0;
                         state = MainMenuStates.STORY_SELECTION;
                         break;
                     case 1://Load Game
-                        // view load options
-                        // EXPERIMENT -- DOES WORK ONLY FOR A SPECIFIC SAVE :DD
-                        // uz to umit najit vsechny savy a vyvolat jeden z nich :D
-                        // potrebovali bychom, aby sel save smazat -- tlacitko v GUI
-                        Story[] saves = FileScout.getSaves(context);
-                        System.out.println("Number of stories" + saves.length);
-
-                        gameView.getFileManager().setJob(saves[0].getPath());
-                        // extract this into a function
-                        gameView.setState(State.LOADING);
-                        while (!gameView.hasGameHandler()) {
-                            try {
-                                Thread.sleep(5);
-                            } catch (InterruptedException e) {
-                                Log.e(this.getClass().getSimpleName(), e.getMessage());
-                            }
-                        }
-                        gameView.getGameHandler().setHero(gameView.getFileManager().loadHeroProperties());
-                        gameView.setState(State.MAP);
-                        state = MainMenuStates.MAIN;
-                        gameView.getGameHandler().startGame();
-
-                        //----END OF EXPERIMENT
+                        saves = FileScout.getSaves(context);
+                        shift = 0;
+                        state = MainMenuStates.LOAD;
                         break;
                     case 2://Settings
                         state = MainMenuStates.SETTINGS;
@@ -248,33 +237,43 @@ public class MainMenu {
                 }
                 break;
             case LOAD:
+                if (clickedButton == -1) break;
+                storyButtons[clickedButton].changeImage(false, 0);
+                if (!storyButtons[clickedButton].isTouched(x, y)) clickedButton = -1;
+                switch (clickedButton) {
+                    case 0://First save
+                        loadSave(shift);
+                        break;
+                    case 1://Second save
+                        loadSave(shift+1);
+                        break;
+                    case 2://Third save
+                        loadSave(shift+2);
+                        break;
+                    case 3://Back
+                        state = MainMenuStates.MAIN;
+                        break;
+                    case 4://UP
+                        if (shift != 0) shift--;
+                        break;
+                    case 5://DOWN
+                        if (shift < saves.length - 3) shift++;
+                        break;
+                }
                 break;
             case STORY_SELECTION:
                 if (clickedButton == -1) break;
                 storyButtons[clickedButton].changeImage(false, 0);
                 if (!storyButtons[clickedButton].isTouched(x, y)) clickedButton = -1;
-                //String[] lvls = FileScout.getAllStoryLocations(context); // finds all the level folders
                 switch (clickedButton) {
                     case 0://First story
-                        gameInitialiser = new GameInitialiser(stories.get(shift).getPath(), context);
-                        gameInitialiser.initialiseNewSave(stories.get(shift).isUserSave()); // makes new save
-                        gameInitialiser.startGameLoading(gameView.getFileManager());
-                        loadHeroes(stories.get(shift));
-                        state = MainMenuStates.HERO_SELECTION;
+                        loadStory(shift);
                         break;
                     case 1://Second story
-                        gameInitialiser = new GameInitialiser(stories.get(shift + 1).getPath(), context);
-                        gameInitialiser.initialiseNewSave(stories.get(shift + 1).isUserSave()); // makes new save
-                        gameInitialiser.startGameLoading(gameView.getFileManager());
-                        loadHeroes(stories.get(shift + 1));
-                        state = MainMenuStates.HERO_SELECTION;
+                        loadStory(shift + 1);
                         break;
                     case 2://Third story
-                        gameInitialiser = new GameInitialiser(stories.get(shift + 2).getPath(), context);
-                        gameInitialiser.initialiseNewSave(stories.get(shift + 2).isUserSave()); // makes new save
-                        gameInitialiser.startGameLoading(gameView.getFileManager());
-                        loadHeroes(stories.get(shift + 2));
-                        state = MainMenuStates.HERO_SELECTION;
+                        loadStory(shift + 2);
                         break;
                     case 3://Back
                         state = MainMenuStates.MAIN;
@@ -299,6 +298,39 @@ public class MainMenu {
                 clickedButton = -1;
                 break;
         }
+    }
+
+    /**
+     * Loads selected story.
+     * @param shift what story
+     */
+    private void loadStory(int shift) {
+        gameInitialiser = new GameInitialiser(stories.get(shift).getPath(), context);
+        gameInitialiser.initialiseNewSave(stories.get(shift).isUserSave()); // makes new save
+        gameInitialiser.startGameLoading(gameView.getFileManager());
+        loadHeroes(stories.get(shift));
+        state = MainMenuStates.HERO_SELECTION;
+    }
+
+    /**
+     * Loads story from file rpg_game_data/save.
+     * @param shift what save
+     */
+    private void loadSave(int shift) {
+        gameView.getFileManager().setJob(saves[shift].getPath());
+        // extract this into a function
+        gameView.setState(State.LOADING);
+        while (!gameView.hasGameHandler()) {
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                Log.e(this.getClass().getSimpleName(), e.getMessage());
+            }
+        }
+        gameView.getGameHandler().setHero(gameView.getFileManager().loadHeroProperties());
+        gameView.setState(State.MAP);
+        state = MainMenuStates.MAIN;
+        gameView.getGameHandler().startGame();
     }
 
     /**
@@ -366,7 +398,7 @@ public class MainMenu {
         File mapsDir = new File(sdCard, "rpg_game_data/CustomMaps");
         if (!mapsDir.exists()) {
             if (!mapsDir.mkdirs()){
-                System.out.println("File directory wasn't created!");
+                Log.e(this.getClass().getSimpleName(), "File directory wasn't created!");
             }
         } else if (mapsDir.list() != null) {
             for (File f : mapsDir.listFiles()) {
@@ -391,6 +423,19 @@ public class MainMenu {
         storyButtons[3].draw(canvas);
         if (shift != 0) storyButtons[4].draw(canvas);
         if (shift < stories.size() - 3) storyButtons[5].draw(canvas);
+    }
+
+    /**
+     * Draw load GUI.
+     * @param canvas canvas to draw.
+     */
+    private void drawSaves(Canvas canvas){
+        for (int i = 0; i < 3 && i < saves.length; i++) {
+            storyButtons[i].draw(canvas, saves[i+shift].getImage(), saves[i+shift].getName());
+        }
+        storyButtons[3].draw(canvas);
+        if (shift != 0) storyButtons[4].draw(canvas);
+        if (shift < saves.length - 3) storyButtons[5].draw(canvas);
     }
 
     /**

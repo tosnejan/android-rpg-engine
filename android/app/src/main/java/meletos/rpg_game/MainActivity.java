@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); // this makes the app go fullscreen
-        text = new Text(this);// change this for default language
+        text = new Text(this); // change this for default language
         gameView = new GameView(this, text);
         setContentView(gameView); // this starts the game canvas
         gameView.onCreate();

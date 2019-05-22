@@ -50,10 +50,10 @@ public class MenuButton extends Button {
                     positionInformation.mainCoord.x, positionInformation.mainCoord.y + yClick, null);
         }
         if (ID != -1) {
+            textSize = (int) (imgHeigth / 1.5);
+            paint.setTextSize(textSize);
             paint.getTextBounds(text.getText(ID), 0, text.getText(ID).length(), bounds);
-            if (bounds.width() > 9 * imgWidth / 10 || bounds.height() > 8 * imgHeigth / 10) {
-                setOptimalTextSize();
-            }
+            setOptimalTextSize();
             canvas.drawText(text.getText(ID),
                     (x + imgWidth / 2f) - bounds.width() / 2f - bounds.left,
                     (y + yClick + imgHeigth / 2f) + bounds.height() / 2f - bounds.bottom, paint);
@@ -67,11 +67,11 @@ public class MenuButton extends Button {
             canvas.drawBitmap(icon,
                     positionInformation.mainCoord.x + imgWidth/25f , positionInformation.mainCoord.y + yClick + (imgHeigth - icon.getHeight())/2, null);
         }
+        textSize = (int) (imgHeigth / 1.5);
+        paint.setTextSize(textSize);
         paint.getTextBounds(text, 0, text.length(), bounds);
-        if (bounds.width() > imgWidth - 50 - icon.getWidth() || bounds.height() > 8 * imgHeigth / 10) {
-            setOptimalTextSizeIcon(icon.getWidth(), text);
-        }
-        canvas.drawText(text,x + icon.getWidth() + 20,
+        setOptimalTextSizeIcon(icon.getWidth(), text);
+        canvas.drawText(text,x + icon.getWidth() + 40,
                 (y + yClick + imgHeigth / 2f) + bounds.height() / 2f - bounds.bottom, paint);
     }
 

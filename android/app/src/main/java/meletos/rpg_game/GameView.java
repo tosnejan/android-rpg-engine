@@ -367,7 +367,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             out.flush();
             b.recycle();
         } catch (IOException e) {
-            Log.e(TAG, e.getMessage());;
+            Log.e(TAG, e.getMessage());
         } finally {
             try {
                 if (out != null) {
