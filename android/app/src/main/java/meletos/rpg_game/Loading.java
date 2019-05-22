@@ -13,6 +13,8 @@ import android.util.Log;
 
 import java.io.IOException;
 
+import meletos.rpg_game.text.Language;
+
 /**
  * Loading screen.
  */
@@ -23,11 +25,12 @@ class Loading {
     private Bitmap background;
     private Paint paint;
     private int textSize;
-    private final String text = "Loading"; // text that gets painted
+    private final int textConst = 25; // text that gets painted
     private String textToDraw;
 
     Loading(GameView gameView) {
         this.gameView = gameView;
+
         load();
     }
 
@@ -56,7 +59,7 @@ class Loading {
      * @param canvas to draw on
      */
     public void draw(Canvas canvas){
-        textToDraw = text;
+        textToDraw = gameView.getText().getText(textConst);
         for (int i = 0; i < animationStage; i++) {
             textToDraw += ".";
         }

@@ -1,11 +1,32 @@
 ID: 0
-Anna: Hello. How are you?
+Anna: Hero! I need your help!
 
 ID: 1
-You: I'm fine!
+You: What happened?
 
 ID: 2
-Anna: We already talked...
+Anna: These people came here...
 
 ID: 3
-Noobmaster69: You saved me!
+Anna: locked my man in this house!
+
+ID: 4
+Anna: They took the key with them...
+
+ID: 5
+Anna: Could you bring me this key?
+
+ID: 6
+You: Of course, no worries!
+
+ID: 7
+Anna: Here you have some armor.
+
+ID: 8
+Anna: You've got the key already?
+
+ID: 9
+Anna: If yes, you can go inside.
+
+ID: 10
+Bob: Oh, you saved me!

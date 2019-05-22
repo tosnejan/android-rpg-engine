@@ -313,6 +313,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return state;
     }
 
+    public Text getText () {
+        return text;
+    }
+
     public FileManager getFileManager() {
         return fileManager;
     }
