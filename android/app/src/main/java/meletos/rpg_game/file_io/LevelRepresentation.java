@@ -20,6 +20,8 @@ public class LevelRepresentation {
     private String lvlText;
     private TransitionManager transitionManager;
     private List<Chest> chests;
+    private int yShift; // of map
+    private int xShift;
 
     /**
     *hashmap with double keys representing time, list of character
@@ -53,6 +55,19 @@ public class LevelRepresentation {
 
     public void setChests(List<Chest> chests) {
         this.chests = chests;
+    }
+
+    public void setShifts(int xShift, int yShift) {
+        this.xShift = xShift;
+        this.yShift = yShift;
+    }
+
+    public int getyShift() {
+        return yShift;
+    }
+
+    public int getxShift() {
+        return xShift;
     }
 
     List<Chest> getChests() {
