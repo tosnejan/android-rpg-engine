@@ -355,7 +355,7 @@ public class GameHandler {
                         gameView.getDialog().init(character);
                         gameView.setState(State.DIALOG);
                     }
-                    //return result;
+                    return result;
                 }
             }
         }
@@ -381,7 +381,7 @@ public class GameHandler {
                 if (currPosition.equals(hero.getPositionInformation()) && result != Directions.NONE) {
                     chest.open(inventory);
                 }
-                return result;
+                //return result;
             }
         return Directions.NONE;
     }
@@ -418,6 +418,8 @@ public class GameHandler {
                 // put this code into level representation
                 LevelRepresentation lr = new LevelRepresentation();
                 String currPath = gameView.getFileManager().getCurrPath();
+                gameView.takeScreenshot(currPath + "/icon.png");
+
                 String currLevel =  currPath + "/" + gameView.getFileManager().getCurrLvl();
                 for (FatherCharacter character : characters) {
                     lr.addCharacter(character.putMyselfIntoCharRepresentation());
@@ -441,7 +443,6 @@ public class GameHandler {
                 String lvljson = gs.toJson(lr);
                 Log.i(this.getClass().getSimpleName(), "Saving.");
                 FileManager.saveFile(currLevel, lvljson);
-
                 String inventoryjson = new Gson().toJson(inventory);
                 FileManager.saveFile(currPath + "/inventory.json", inventoryjson);
             }

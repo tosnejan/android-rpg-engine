@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -87,6 +88,7 @@ public class Dialog {
                     gameView.setState(State.ENDGAME);
                 }
             } else {
+                Log.i(this.getClass().getSimpleName(), "Returning from dialogue.");
                 character.setPlayed(true);
                 gameView.setState(State.MAP);
             }

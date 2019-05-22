@@ -346,22 +346,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     /**
      * Takes screenshot and saves it. Not used at th moment
-     * @param filename to save into
+     * @param path to save into
      */
-    public void takeScreenshot (String filename) {
+    public void takeScreenshot (String path) {
         Bitmap b = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         Canvas screenShot = new Canvas(b);
         draw(screenShot);
-
-        String path = Environment.getExternalStorageDirectory().toString() + "/rpg_game_data/" + filename;
         OutputStream out = null;
         try {
             File imageFile = new File(path);
-            if (!imageFile.exists()) {
-                imageFile.getParentFile().mkdirs();
-            }
             out = new FileOutputStream(imageFile);
             b.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            Log.i("TakeScreenshot", "Saved screenshot to: " + path);
             out.flush();
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());;
@@ -371,7 +367,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     out.close();
                 }
             } catch (Exception e) {
-                Log.e(TAG, e.getMessage());;
+                Log.e(TAG, e.getMessage());
             }
         }
     }
