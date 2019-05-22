@@ -423,9 +423,10 @@ public class GameHandler {
                 // put this code into level representation
                 LevelRepresentation lr = new LevelRepresentation();
                 String currPath = gameView.getFileManager().getCurrPath();
+                String currLvl = gameView.getFileManager().getCurrLvl();
                 gameView.takeScreenshot(currPath + "/icon.png");
 
-                String currLevel =  currPath + "/" + gameView.getFileManager().getCurrLvl();
+                String currLevel =  currPath + "/" + currLvl;
                 for (FatherCharacter character : characters) {
                     lr.addCharacter(character.putMyselfIntoCharRepresentation());
                 }

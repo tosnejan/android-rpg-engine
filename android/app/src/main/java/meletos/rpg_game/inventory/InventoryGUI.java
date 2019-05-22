@@ -22,6 +22,10 @@ import meletos.rpg_game.inventory.itinerary.ItemType;
 import meletos.rpg_game.inventory.itinerary.Itinerary;
 import meletos.rpg_game.navigation.MenuButton;
 import meletos.rpg_game.text.Text;
+
+/**
+ * Class that represents the GUI of inventory.
+ */
 public class InventoryGUI {
     private final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;

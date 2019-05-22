@@ -12,7 +12,9 @@ import java.nio.charset.StandardCharsets;
 
 import meletos.rpg_game.text.Text;
 
-
+/**
+ * HoldsSparseArray of items.
+ */
 public class Itinerary {
     private final SparseArray<Item> items;
 

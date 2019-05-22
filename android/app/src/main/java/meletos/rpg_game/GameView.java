@@ -74,6 +74,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Boolean init = true; // used to recognise initiation
     private final String TAG = "GameView";
     private final char logSensitivity;
+    public boolean screenshotTaken = false;
 
     /**
      * Starts up the game -- the main menu
@@ -352,6 +353,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         Bitmap b = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         Canvas screenShot = new Canvas(b);
         draw(screenShot);
+        screenshotTaken = true;
         OutputStream out = null;
         try {
             File imageFile = new File(path);

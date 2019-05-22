@@ -6,6 +6,9 @@ import android.graphics.Rect;
 
 import meletos.rpg_game.Coordinates;
 
+/**
+ * Game button. Implements change of image upon click.
+ */
 public class GameButton extends Button {
     private final Bitmap imageClicked;
     private final Bitmap imageUnclicked;
@@ -18,12 +21,6 @@ public class GameButton extends Button {
         super(x,y,imageUnclicked);
         this.imageUnclicked = imageUnclicked;
         this.imageClicked = imageClicked;
-    }
-
-    @Override
-    public boolean isTouched(int x, int y) {
-        Coordinates touchCoord = new Coordinates(x, y);
-        return positionInformation.isCoordinateInside(touchCoord);
     }
 
     @Override

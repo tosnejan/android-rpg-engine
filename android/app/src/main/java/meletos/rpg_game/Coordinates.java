@@ -3,7 +3,7 @@ package meletos.rpg_game;
 import java.util.Objects;
 
 /**
- * Helper class used to hold coordinates in game
+ * Helper class used to hold coordinates in game.
  */
 public class Coordinates {
     public int x;
@@ -14,6 +14,11 @@ public class Coordinates {
         this.y = y;
     }
 
+    /**
+     * Updates coordinates.
+     * @param x new xcoord
+     * @param y new ycoord
+     */
     void updateCoordinates(int x, int y) {
         this.x = x;
         this.y = y;

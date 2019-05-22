@@ -8,7 +8,7 @@ import meletos.rpg_game.characters.Hero;
 import meletos.rpg_game.inventory.Inventory;
 
 /**
- * It will handles transitions from one level to another
+ * It handles transitions from one level to another
  * Implements lock.
  */
 public class TransitionManager {
@@ -36,17 +36,19 @@ public class TransitionManager {
     void checkForHero(Hero hero, Inventory inventory, GameView gameView) {
         if (transitionPosition.collisionCheck(hero.positionInformation)) {
             if ((inventory.hasItem(keyID) || keyID == -1) && !heroVisited) {
-                gameView.getGameHandler().saveGameState();
-                try {
-                    Thread.sleep(5);
-                } catch (InterruptedException e) {
-                    Log.e(this.getClass().getSimpleName(), e.getMessage());
-                }
                 heroVisited = true;
-                // start new level
-                gameView.getGameHandler().recycleBitmaps();
-                gameView.setHasGameHandler(false);
+                gameView.screenshotTaken = false;
+                gameView.getGameHandler().saveGameState();
+                gameView.getGameHandler().pauseGame();
+                while(!gameView.screenshotTaken) {
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException e) {
+                        Log.e(this.getClass().getSimpleName(), e.getMessage());
+                    }
+                }
                 gameView.setState(State.LOADING);
+                gameView.setHasGameHandler(false);
                 gameView.getFileManager().loadLevels(nextLevelName, inventory);
 
                 while (!gameView.hasGameHandler()) { // waiting for loading

@@ -26,6 +26,9 @@ class HeroPropertiesJson {
     public boolean custom;
 }
 
+/**
+ * Properties of hero.
+ */
 public class HeroProperties {
     private String name;
     private String imagesFolder;
@@ -55,6 +58,13 @@ public class HeroProperties {
         return stats;
     }
 
+    /**
+     * Loads hero properties.
+     * @param context of app
+     * @param path of file
+     * @param userSave whether it is custom
+     * @return array of HeroProperties
+     */
     public static HeroProperties[] load(Context context, String path, boolean userSave) {
         Reader json = loadFile(context, path, userSave);
         if (json != null) {
@@ -62,6 +72,13 @@ public class HeroProperties {
         } else return new HeroProperties[0];
     }
 
+    /**
+     * Loads hero properties file into Reader.
+     * @param context of app
+     * @param path of properties
+     * @param userSave whether it is
+     * @return Reader
+     */
     private static Reader loadFile (Context context, String path, boolean userSave) {
         try {
             if (userSave){
@@ -84,7 +101,12 @@ public class HeroProperties {
         return null;
     }
 
-    public void loadImage(Context context, String path){
+    /**
+     * Loads image.
+     * @param context of app
+     * @param path of image
+     */
+    void loadImage(Context context, String path){
         try {
             if (custom){
                 File file = Environment.getExternalStorageDirectory();

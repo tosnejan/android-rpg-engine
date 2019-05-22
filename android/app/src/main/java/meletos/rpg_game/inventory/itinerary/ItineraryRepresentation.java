@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.util.SparseArray;
 
 import java.io.IOException;
@@ -15,15 +16,23 @@ import java.util.Locale;
 
 import meletos.rpg_game.text.Text;
 
-class ItineraryRepresentation implements Serializable {
+/**
+ * Represents itinerary in JSON.
+ */
+class ItineraryRepresentation {
     private final ArrayList<HashMap> items;
 
     public ItineraryRepresentation() {
         items = new ArrayList<>();
     }
 
-
-    public SparseArray<Item> getArray(Context context, Text text) {
+    /**
+     * Returns array of items
+     * @param context of app
+     * @param text Text of game
+     * @return SparseArray of Items
+     */
+    SparseArray<Item> getArray(Context context, Text text) {
         SparseArray<Item> items = new SparseArray<>();
         for (HashMap hashItem: this.items) {
             Item item = buildItem(hashItem, context, text);
@@ -34,6 +43,13 @@ class ItineraryRepresentation implements Serializable {
         return items;
     }
 
+    /**
+     * Builds item from file.
+     * @param hashItem hash of item
+     * @param context of app
+     * @param text that comes with itm
+     * @return Item that is built
+     */
     private Item buildItem(HashMap hashItem, Context context, Text text){
         //int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -53,10 +69,10 @@ class ItineraryRepresentation implements Serializable {
             try {
                 image = BitmapFactory.decodeStream(am.open("itinerary/images/noImageFound.png"));
             } catch (IOException ex) {
-                ex.printStackTrace();
+                Log.e(this.getClass().getSimpleName(), ex.getLocalizedMessage());
                 return null;
             }
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getLocalizedMessage());
         }
         image = Bitmap.createScaledBitmap(image, screenHeight / 9, screenHeight/9, true);
         HashMap<String,Integer> stats = new HashMap<>();

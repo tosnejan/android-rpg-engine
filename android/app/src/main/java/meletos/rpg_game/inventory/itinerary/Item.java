@@ -7,6 +7,9 @@ import java.util.HashMap;
 
 import meletos.rpg_game.text.Text;
 
+/**
+ * Class that holds information about item in inventory.
+ */
 public class Item {
     private final Text text;
     private final Bitmap image;
@@ -14,7 +17,7 @@ public class Item {
     private final ItemType type;
     private HashMap<String, Integer> stats;
 
-    public Item(Bitmap image, Text text, int ID, ItemType type, HashMap<String, Integer> stats) {
+    Item(Bitmap image, Text text, int ID, ItemType type, HashMap<String, Integer> stats) {
         this.image = image;
         this.text = text;
         this.ID = ID;

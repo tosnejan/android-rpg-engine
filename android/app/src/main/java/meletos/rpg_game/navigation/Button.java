@@ -29,9 +29,6 @@ public class Button extends Sprite {
     public boolean isTouched(int x, int y) {
         touchCoord.x = x;
         touchCoord.y = y;
-        if (positionInformation.isCoordinateInside(touchCoord)) {
-            return true;
-        }
-        return false;
+        return positionInformation.isCoordinateInside(touchCoord);
     }
 }

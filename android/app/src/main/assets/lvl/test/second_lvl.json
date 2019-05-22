@@ -34,8 +34,8 @@
         22
       ],
       "keyID": -1,
-      "x": 100,
-      "y": 700
+      "x": 2361,
+      "y": 1137
     }
   ],
   "characters": [
@@ -88,8 +88,8 @@
       "charType": "StandingCharacter",
       "imagesFolder": "characters/townfolk1_f/8.png",
       "isEnemy": false,
-      "yCoord": 380,
-      "xCoord": 0,
+      "yCoord": 315,
+      "xCoord": 331,
       "actualDialog": 0,
       "played": false,
       "dialogs": [

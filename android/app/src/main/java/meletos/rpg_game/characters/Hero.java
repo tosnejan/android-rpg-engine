@@ -3,6 +3,7 @@ package meletos.rpg_game.characters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import meletos.rpg_game.Directions;
 import meletos.rpg_game.PositionInformation;
@@ -53,6 +54,10 @@ public class Hero extends FatherCharacter {
     @Override
     public void update(){
         heroicMove(js.getDirection());
+        //DEBUG PURPOSES
+        /*Log.i("Hero", "Coordinates - x: " + positionInformation.mainCoord.x +
+                " y: " + positionInformation.mainCoord.y
+                );*/
     }
 
     @Override

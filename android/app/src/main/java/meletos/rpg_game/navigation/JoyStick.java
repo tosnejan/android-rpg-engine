@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import meletos.rpg_game.Directions;
 
 /**
- * Works pretty well :D Also, the code is so much simpler than the one we saw :D
+ * Class representing the joystick that is able to move hero on the map.
  */
 public class JoyStick {
 
@@ -85,6 +85,10 @@ public class JoyStick {
         return 0;
     }
 
+    /**
+     * Draws JoyStick to canvas.
+     * @param canvas to draw on
+     */
     public void draw(Canvas canvas) {
         if (used) {
             canvas.drawBitmap(circle, baseX - radius, baseY - radius, null);
