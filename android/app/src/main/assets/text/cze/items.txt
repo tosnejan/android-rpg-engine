@@ -3,48 +3,80 @@ NAME: Vrahomlat
 DESCRIPTION: Nosil ho Gandalf Šedý.
 
 ID: 2
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Meč
+DESCRIPTION: Je celkem ostrý.
 
 ID: 3
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Helma
+DESCRIPTION: Chrání hlavu.
 
 ID: 4
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Brnění
+DESCRIPTION: Snad něco vydrží.
 
 ID: 5
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Kalhoty
+DESCRIPTION: Nejsou moc slušivé, ale lepší než být bez nohy.
 
 ID: 6
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Boty
+DESCRIPTION: Přece by jsi nechodil bos.
 
 ID: 7
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Rukavice
+DESCRIPTION: Chrání i před omrzlinama.
 
 ID: 8
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Pásek
+DESCRIPTION: S ním ti kalhoty nespadnou.
 
 ID: 9
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Náhrdelník
+DESCRIPTION: Alespoň něco vypadá dobře.
 
 ID: 10
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Prsten
+DESCRIPTION: Snubní asi vypadá jinak.
 
 ID: 11
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Štít
+DESCRIPTION: Neptej se k čemu ho má čaroděj a ninja...
 
 ID: 12
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Helma
+DESCRIPTION: Chrání hlavu.
+
+ID: 13
+NAME: Brnění
+DESCRIPTION: Snad něco vydrží.
+
+ID: 14
+NAME: Kalhoty
+DESCRIPTION: Nejsou moc slušivé, ale lepší než být bez nohy.
+
+ID: 15
+NAME: Boty
+DESCRIPTION: Přece by jsi nechodil bos.
+
+ID: 16
+NAME: Rukavice
+DESCRIPTION: Chrání i před omrzlinama.
+
+ID: 17
+NAME: Pásek
+DESCRIPTION: S ním ti kalhoty nespadnou.
+
+ID: 18
+NAME: Náhrdelník
+DESCRIPTION: Alespoň něco vypadá dobře.
+
+ID: 19
+NAME: Prsten
+DESCRIPTION: Snubní asi vypadá jinak.
+
+ID: 20
+NAME: Štít
+DESCRIPTION: Neptej se k čemu ho má čaroděj a ninja...
 
 ID: 21
 NAME: Lektvar života
@@ -53,3 +85,11 @@ DESCRIPTION: Lze v boji použít na doplnění 100 životů.
 ID: 22
 NAME: Klíč
 DESCRIPTION: Klíč od chatky.
+
+ID: 23
+NAME: Čarodějova hůl
+DESCRIPTION: Ta není jen na cirkusové triky.
+
+ID: 24
+NAME: Dýka
+DESCRIPTION: Dá se výborně schovat mezi půlky. Vaše i nepřátel.

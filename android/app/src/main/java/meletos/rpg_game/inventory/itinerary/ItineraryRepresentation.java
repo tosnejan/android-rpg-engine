@@ -77,6 +77,8 @@ class ItineraryRepresentation {
         HashMap<String,Integer> stats = new HashMap<>();
         if (hashItem.containsKey("DMG")) stats.put("DMG",(int)(double)hashItem.get("DMG"));
         if (hashItem.containsKey("ARM")) stats.put("ARM",(int)(double)hashItem.get("ARM"));
+        if (hashItem.containsKey("INT")) stats.put("INT",(int)(double)hashItem.get("INT"));
+        if (hashItem.containsKey("MR")) stats.put("MR",(int)(double)hashItem.get("MR"));
         return new Item(image, text, ID, type, stats);
     }
 }

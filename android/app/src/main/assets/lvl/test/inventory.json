@@ -42,15 +42,15 @@
     ]
   ],
   "equipped": {
-    "HELMET": 3,
-    "ARMOR": 4,
-    "PANTS": 5,
-    "SHOES": 6,
-    "WEAPON": 1,
-    "SHIELD": 11,
-    "NECKLACE": 9,
-    "GLOVES": 7,
-    "RING": 10,
-    "BELT": 8
+    "HELMET": -1,
+    "ARMOR": -1,
+    "PANTS": -1,
+    "SHOES": -1,
+    "WEAPON": -1,
+    "SHIELD": -1,
+    "NECKLACE": -1,
+    "GLOVES": -1,
+    "RING": -1,
+    "BELT": -1
   }
 }
