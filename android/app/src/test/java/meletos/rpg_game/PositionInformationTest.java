@@ -8,6 +8,13 @@ public class PositionInformationTest {
     private final PositionInformation pos = new PositionInformation(0, 0, 100, 100);
 
     @Test
+    public void collisionCheck1() {
+        PositionInformation firstPos = new PositionInformation(0,0, 4, 4);
+        PositionInformation secondPos = new PositionInformation(1,1, 4, 4);
+        assertTrue(firstPos.collisionCheck(secondPos));
+    }
+
+    @Test
     public void isCoordinateInside1() {
         Coordinates coordinate = new Coordinates(1, 1);
         assertTrue(pos.isCoordinateInside(coordinate));

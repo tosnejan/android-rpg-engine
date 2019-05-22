@@ -73,7 +73,11 @@ public class GameHandler {
     private final TransitionManager transitionManager;
     private Text text;
 
-    public GameHandler (List<FatherCharacter> characters, Hero hero, final Context context, String lvlName, TransitionManager transitionManager, List<Chest> chests) {
+    public GameHandler (
+            List<FatherCharacter> characters, Hero hero,
+            final Context context, String lvlName,
+            TransitionManager transitionManager, List<Chest> chests
+    ) {
         this.characters = characters;
         this.context = context;
         this.lvlName = lvlName;
@@ -198,7 +202,8 @@ public class GameHandler {
         for (FatherCharacter character: characters) {
             character.update();
         }
-        transitionManager.checkForHero(hero, inventory, gameView);
+        if (transitionManager != null)
+            transitionManager.checkForHero(hero, inventory, gameView);
     }
 
     /**

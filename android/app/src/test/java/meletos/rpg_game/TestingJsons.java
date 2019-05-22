@@ -20,7 +20,6 @@ public class TestingJsons {
     public void checkJsonsTransitionManager1() {
         TransitionManager transitionManager1 = new TransitionManager(-1, 130, 375, "house.json", 5, 100);
         String json = new Gson().toJson(transitionManager1);
-        String house = new Gson().toJson(new TransitionManager(-1, 885, 845, "second_lvl.json", 5, 150));
         TransitionManager tm2 = new GsonBuilder().create().fromJson(json, TransitionManager.class);
         assertEquals(transitionManager1, tm2);
     }
