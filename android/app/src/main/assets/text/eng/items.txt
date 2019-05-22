@@ -1,50 +1,82 @@
 ﻿ID: 1
 NAME: Glamdring
-DESCRIPTION: Was worn by Gandalf Gray. Something like that.
+DESCRIPTION: Was worn by Gandalf Gray.
 
 ID: 2
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Sword
+DESCRIPTION: Is pretty sharp.
 
 ID: 3
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Helmet
+DESCRIPTION: Protects your brains.
 
 ID: 4
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Armor
+DESCRIPTION: Hopefully it can last.
 
 ID: 5
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Trousers
+DESCRIPTION: Not too fancy but better than having no leg.
 
 ID: 6
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Shoes
+DESCRIPTION: You wouldn't walk barefoot, right?!
 
 ID: 7
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Gloves
+DESCRIPTION: Protection from all elements.
 
 ID: 8
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Belt
+DESCRIPTION: No more falling trousers with this guy.
 
 ID: 9
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Necklace
+DESCRIPTION: At least something looks good.
 
 ID: 10
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Ring
+DESCRIPTION: Not a wedding one.
 
 ID: 11
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Shield
+DESCRIPTION: Don't ask why ninja and wizard have it...
 
 ID: 12
-NAME: NoName
-DESCRIPTION: NoDescription
+NAME: Helmet
+DESCRIPTION: Protects your brains.
+
+ID: 13
+NAME: Armor
+DESCRIPTION: Hopefully it can last.
+
+ID: 14
+NAME: Trousers
+DESCRIPTION: Not too fancy but better than having no leg.
+
+ID: 15
+NAME: Shoes
+DESCRIPTION: You wouldn't walk barefoot, right?!
+
+ID: 16
+NAME: Gloves
+DESCRIPTION: Protection from all elements.
+
+ID: 17
+NAME: Belt
+DESCRIPTION: No more falling trousers with this guy.
+
+ID: 18
+NAME: Necklace
+DESCRIPTION: At least something looks good.
+
+ID: 19
+NAME: Ring
+DESCRIPTION: Not a wedding one.
+
+ID: 20
+NAME: Shield
+DESCRIPTION: Don't ask why ninja and wizard have it...
 
 ID: 21
 NAME: Health potion
@@ -53,3 +85,11 @@ DESCRIPTION: Can be used in battle to give you 100 health.
 ID: 22
 NAME: Key
 DESCRIPTION: Hut key.
+
+ID: 23
+NAME: Wizard's wand
+DESCRIPTION: Can do more than cheap tricks.
+
+ID: 24
+NAME: Dagger
+DESCRIPTION: Fits perfectly anywhere. No matter where.
