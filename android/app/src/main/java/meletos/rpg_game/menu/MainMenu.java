@@ -305,6 +305,8 @@ public class MainMenu {
      * @param shift what story
      */
     private void loadStory(int shift) {
+        Log.i("SHIFT", shift+"");
+        Log.i("LOADING", stories.get(shift).getPath());
         gameInitialiser = new GameInitialiser(stories.get(shift).getPath(), context);
         gameInitialiser.initialiseNewSave(stories.get(shift).isUserSave()); // makes new save
         gameInitialiser.startGameLoading(gameView.getFileManager());

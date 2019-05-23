@@ -1,6 +1,7 @@
 package meletos.rpg_game.menu;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.google.gson.GsonBuilder;
 
@@ -35,6 +36,7 @@ public class Story {
         this.name = sr.name;
         this.image = image;
         this.path = sr.path;
+        Log.i("Story", "This story has name: " + name);
         this.userSave = sr.userSave;
     }
 
